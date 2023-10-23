@@ -15,7 +15,7 @@ public class RandomResultService extends AbstractResultService{
     public double getPts(int pos, int prts, String idClasse) {
         BigDecimal myRounded = new BigDecimal(Math.random()*200).setScale(2, BigDecimal.ROUND_HALF_UP);
         double pts = myRounded.doubleValue();
-        Log.i("tag", "valeur : " + pts);
+        System.out.println("points : " + pts);
         return pts;
     }
 }
