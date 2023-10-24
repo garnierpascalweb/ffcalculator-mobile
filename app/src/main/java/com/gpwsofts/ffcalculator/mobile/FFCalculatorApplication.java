@@ -36,8 +36,12 @@ public class FFCalculatorApplication extends Application {
 
     @Override
     public void onLowMemory() {
-        //TODO 1.0.0 repondre a ce tuc
         super.onLowMemory();
+        if (null != servicesManager) {
+            servicesManager.unbindAndDie();
+            servicesManager=null;
+            servicesManagerAlreadyExist=false;
+        }
     }
 
     public boolean isServicesManagerAlreadyExist() {
