@@ -7,10 +7,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.card.MaterialCardView;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentDashboardBinding;
+import com.gpwsofts.ffcalculator.mobile.model.IResult;
+
+
+import androidx.lifecycle.Observer;
 
 public class DashboardFragment extends Fragment {
 
@@ -24,8 +30,19 @@ public class DashboardFragment extends Fragment {
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textDashboard;
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        // Create the observer which updates the UI.
+        final Observer<IResult> resultObserver = new Observer<IResult>() {
+            @Override
+            public void onChanged(IResult iResult) {
+
+            }
+        };
+
+
+        final MaterialCardView cardView = binding.card;
+
+        dashboardViewModel.getResult().observe(getViewLifecycleOwner(), resultObserver);
+
         return root;
     }
 

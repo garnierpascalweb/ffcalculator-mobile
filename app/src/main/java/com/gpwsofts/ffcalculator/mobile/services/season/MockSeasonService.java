@@ -6,6 +6,10 @@ import com.gpwsofts.ffcalculator.mobile.model.Result;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Mock pour le service Season
+ * @since 1.0.0
+ */
 public class MockSeasonService extends AbstractSeasonService {
     private static final int NUMBER_OF_RESULTS = 7;
     @Override

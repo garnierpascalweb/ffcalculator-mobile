@@ -3,4 +3,8 @@
     <string name="title_home">Résultat</string>
     <string name="title_dashboard">Saison</string>
     <string name="title_notifications">Synthèse</string>
+    <string name="test_idclasse">1.24.2</string>
+    <string name="test_libelle">Open 2/3</string>
+    <string name="test_modifier">Modifier</string>
+    <string name="test_supprimer">Supprimer</string>
 </resources>
