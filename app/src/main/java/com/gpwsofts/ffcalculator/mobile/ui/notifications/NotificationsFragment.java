@@ -1,6 +1,7 @@
 package com.gpwsofts.ffcalculator.mobile.ui.notifications;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.anychart.chart.common.dataentry.DataEntry;
 import com.anychart.chart.common.dataentry.ValueDataEntry;
 import com.anychart.charts.Pyramid;
 import com.anychart.enums.Align;
+import com.anychart.palettes.RangeColors;
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentNotificationsBinding;
 
@@ -37,21 +39,32 @@ public class NotificationsFragment extends Fragment {
         View root = binding.getRoot();
 
         //PG chart
+        final String[] colors = new String[] {"#F5B7B1", "#3498DB", "#85C1E9", "#AED6F1"};
         AnyChartView anyChartView = binding.anyChartView;
         Pyramid pyramid = AnyChart.pyramid();
         List<DataEntry> data = new ArrayList<>();
-        data.add(new ValueDataEntry("TV promotion", 6371664));
-        data.add(new ValueDataEntry("Radio promotion", 7216301));
-        data.add(new ValueDataEntry("Advertising leaflets", 1486621));
-        data.add(new ValueDataEntry("Before advertising started", 1386622));
+
+        // On part de la base dez la pyramide
+        data.add(new ValueDataEntry(getString(R.string.label_open3), 45));
+        data.add(new ValueDataEntry(getString(R.string.label_open2), 30));
+        data.add(new ValueDataEntry(getString(R.string.label_open1), 20));
+        data.add(new ValueDataEntry(getString(R.string.label_elite), 5));
+
+
+
         pyramid.data(data);
+
         Legend legend = pyramid.legend();
         legend.enabled(true);
         legend.position("outside-right");
         legend.itemsLayout(LegendLayout.VERTICAL);
-        legend.align(Align.TOP);
+        legend.align(Align.BOTTOM);
+
         pyramid.labels(false);
+        //pyramid.fill(colors);
         anyChartView.setChart(pyramid);
+        RangeColors rc = pyramid.palette();
+        Log.i("TGERGE", "js base " + rc.getJsBase());
 
         final TextView textView = binding.textNotifications;
         notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
