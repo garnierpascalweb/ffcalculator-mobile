@@ -58,13 +58,12 @@ public class NotificationsFragment extends Fragment {
         legend.enabled(true);
         legend.position("outside-right");
         legend.itemsLayout(LegendLayout.VERTICAL);
-        legend.align(Align.BOTTOM);
+        legend.align(Align.TOP);
 
         pyramid.labels(false);
         //pyramid.fill(colors);
         anyChartView.setChart(pyramid);
-        RangeColors rc = pyramid.palette();
-        Log.i("TGERGE", "js base " + rc.getJsBase());
+
 
         final TextView textView = binding.textNotifications;
         notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
