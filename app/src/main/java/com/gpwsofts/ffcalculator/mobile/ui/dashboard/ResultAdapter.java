@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.model.IResult;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ResultViewHolder> {
@@ -39,10 +38,12 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ResultView
     @Override
     public void onBindViewHolder(@NonNull ResultViewHolder holder, int position) {
         // to set data to textview and imageview of each card layout
-        IResult model = resultsList.getValue().get(position);
-        holder.courseNameTV.setText(model.getLibelle());
-        holder.courseRatingTV.setText("" + model.getIdClasse());
-        holder.courseIV.setImageResource(R.drawable.ic_stat_open_2_3);
+        IResult result = resultsList.getValue().get(position);
+        holder.idIVResultImage.setImageResource(R.drawable.ic_action_open_2_3);
+        holder.idTVResultPlace.setText(result.getPlace());
+        holder.idTVResultLibelle.setText(result.getLibelle());
+        holder.idTVResultPosPrts.setText(new StringBuilder().append(result.getPos()).append("e sur ").append(result.getPrts()).toString());
+        holder.idTVResultPts.setText(String.valueOf(result.getPts()));
     }
 
 
@@ -54,15 +55,19 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ResultView
 
     // View holder class for initializing of your views such as TextView and Imageview
     public static class ResultViewHolder extends RecyclerView.ViewHolder {
-        private final ImageView courseIV;
-        private final TextView courseNameTV;
-        private final TextView courseRatingTV;
+        private final ImageView idIVResultImage;
+        private final TextView idTVResultPlace;
+        private final TextView idTVResultLibelle;
+        private final TextView idTVResultPosPrts;
+        private final TextView idTVResultPts;
 
         public ResultViewHolder(@NonNull View itemView) {
             super(itemView);
-            courseIV = itemView.findViewById(R.id.idIVCourseImage);
-            courseNameTV = itemView.findViewById(R.id.idTVCourseName);
-            courseRatingTV = itemView.findViewById(R.id.idTVCourseRating);
+            idIVResultImage = itemView.findViewById(R.id.idIVResultImage);
+            idTVResultPlace = itemView.findViewById(R.id.idTVResultPlace);
+            idTVResultLibelle = itemView.findViewById(R.id.idTVResultLibelle);
+            idTVResultPosPrts = itemView.findViewById(R.id.idTVResultPosPrts);
+            idTVResultPts = itemView.findViewById(R.id.idTVResultPts);
         }
     }
 }
