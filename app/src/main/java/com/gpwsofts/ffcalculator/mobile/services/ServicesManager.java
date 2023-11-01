@@ -1,7 +1,11 @@
 package com.gpwsofts.ffcalculator.mobile.services;
+import android.util.Log;
+
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.services.result.IResultService;
 import com.gpwsofts.ffcalculator.mobile.services.result.MockResultService;
+import com.gpwsofts.ffcalculator.mobile.services.season.ISeasonService;
+import com.gpwsofts.ffcalculator.mobile.services.season.MockSeasonService;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -13,6 +17,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class ServicesManager {
 
+    private static final String TAG_NAME = "ServicesManager";
+
     /**
      * Pool de Thread keepAlive
      * @since 1.0.0
@@ -22,7 +28,13 @@ public class ServicesManager {
      * Service Resultat
      * @since 1.0.0
      */
-    IResultService resultService = null;
+    private IResultService resultService = null;
+
+    /**
+     * Service Season
+     */
+    private ISeasonService seasonService = null;
+
     /**
      * Constructeur de ServiceManager
      * @param application
@@ -33,11 +45,34 @@ public class ServicesManager {
         }
     }
 
+    /**
+     *
+     * @return l'instance du ResultService
+     */
     public final IResultService getResultService() {
         if (null == resultService) {
             resultService = new MockResultService();
+            Log.i(TAG_NAME,"creation dune nouvelle instance de MockResultService");
+            //TODO 1.0.0 instancier un parametre avec des saveurs
+        } else {
+            Log.d(TAG_NAME,"recuperation dune instance existante de IResultService");
         }
         return resultService;
+    }
+
+    /**
+     *
+     * @return l'instance du SeasonService
+     */
+    public final ISeasonService getSeasonService(){
+        if (null == seasonService){
+            seasonService = new MockSeasonService();
+            Log.i(TAG_NAME,"creation dune nouvelle instance de MockSeasonService");
+            //TODO 1.0.0 instancier en parametre avec des saveurs
+        } else {
+            Log.d(TAG_NAME,"recuperation dune instance existante de ISeasonService");
+        }
+        return seasonService;
     }
 
     /**
@@ -58,6 +93,7 @@ public class ServicesManager {
      */
     public void unbindAndDie() {
         resultService = null;
+        seasonService = null;
         if (keepAliveThreadsExecutor != null) {
             killKeepAliveThreadExecutor();
         }

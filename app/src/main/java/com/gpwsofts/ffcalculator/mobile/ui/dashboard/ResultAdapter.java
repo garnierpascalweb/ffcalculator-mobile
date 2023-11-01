@@ -17,8 +17,9 @@ import com.gpwsofts.ffcalculator.mobile.model.IResult;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder> {
+public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ResultViewHolder> {
 
+    private static final String TAG_NAME = "ResultAdapter";
     private final Context context;
     private final LiveData<List<IResult>> resultsList;
 
@@ -30,13 +31,13 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
 
     @NonNull
     @Override
-    public ResultAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ResultViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_result_layout, parent, false);
-        return new ViewHolder(view);
+        return new ResultViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ResultViewHolder holder, int position) {
         // to set data to textview and imageview of each card layout
         IResult model = resultsList.getValue().get(position);
         holder.courseNameTV.setText(model.getLibelle());
@@ -52,12 +53,12 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
     }
 
     // View holder class for initializing of your views such as TextView and Imageview
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ResultViewHolder extends RecyclerView.ViewHolder {
         private final ImageView courseIV;
         private final TextView courseNameTV;
         private final TextView courseRatingTV;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ResultViewHolder(@NonNull View itemView) {
             super(itemView);
             courseIV = itemView.findViewById(R.id.idIVCourseImage);
             courseNameTV = itemView.findViewById(R.id.idTVCourseName);

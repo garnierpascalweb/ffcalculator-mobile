@@ -9,5 +9,9 @@ import java.util.List;
  * @since 1.0.0
  */
 public interface ISeasonService {
+    /**
+     * @since 1.0.0
+     * @return la liste des resultats de la saison
+     */
     public List<IResult> getResults();
 }

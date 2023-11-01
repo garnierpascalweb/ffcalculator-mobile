@@ -4,8 +4,16 @@ import android.app.Application;
 
 import com.gpwsofts.ffcalculator.mobile.services.ServicesManager;
 
+/**
+ * Classe Application
+ * @since 1.0.0
+ */
 public class FFCalculatorApplication extends Application {
 
+    /**
+     * Singleton application
+     * @since 1.0.0
+     */
     public static FFCalculatorApplication instance;
 
     /**
@@ -20,9 +28,10 @@ public class FFCalculatorApplication extends Application {
      */
     private boolean servicesManagerAlreadyExist = false;
 
-    public FFCalculatorApplication() {
+    public FFCalculatorApplication(){
 
     }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -34,7 +43,12 @@ public class FFCalculatorApplication extends Application {
         super.onTerminate();
     }
 
+
     @Override
+    /**
+     * On reagit au callback onLowMemory
+     * @since 1.0.0
+     */
     public void onLowMemory() {
         super.onLowMemory();
         if (null != servicesManager) {
