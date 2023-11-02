@@ -1,6 +1,9 @@
 package com.gpwsofts.ffcalculator.mobile.ui.dashboard;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,11 +42,16 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ResultView
     public void onBindViewHolder(@NonNull ResultViewHolder holder, int position) {
         // to set data to textview and imageview of each card layout
         IResult result = resultsList.getValue().get(position);
-        holder.idIVResultImage.setImageResource(R.drawable.ic_action_open_2_3);
+        // holder.idIVResultImage.setImageResource(R.drawable.ic_action_open_2_3);
+        // R.
         holder.idTVResultPlace.setText(result.getPlace());
         holder.idTVResultLibelle.setText(result.getLibelle());
+        //ColorFilter cf = ColorFilter.
+        //TODO 1.0.0 changer dynamiquement la couleur du cercle en fonction de la caté
+        // holder.idTVResultLibelle.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
         holder.idTVResultPosPrts.setText(new StringBuilder().append(result.getPos()).append("e sur ").append(result.getPrts()).toString());
-        holder.idTVResultPts.setText(String.valueOf(result.getPts()));
+        //TODO pts a variabiliser
+        holder.idTVResultPts.setText(new StringBuilder().append(String.valueOf(result.getPts())).append(" pts"));
     }
 
 
@@ -55,7 +63,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ResultView
 
     // View holder class for initializing of your views such as TextView and Imageview
     public static class ResultViewHolder extends RecyclerView.ViewHolder {
-        private final ImageView idIVResultImage;
+        // private final ImageView idIVResultImage;
         private final TextView idTVResultPlace;
         private final TextView idTVResultLibelle;
         private final TextView idTVResultPosPrts;
@@ -63,7 +71,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ResultView
 
         public ResultViewHolder(@NonNull View itemView) {
             super(itemView);
-            idIVResultImage = itemView.findViewById(R.id.idIVResultImage);
+            // idIVResultImage = itemView.findViewById(R.id.idIVResultImage);
             idTVResultPlace = itemView.findViewById(R.id.idTVResultPlace);
             idTVResultLibelle = itemView.findViewById(R.id.idTVResultLibelle);
             idTVResultPosPrts = itemView.findViewById(R.id.idTVResultPosPrts);
