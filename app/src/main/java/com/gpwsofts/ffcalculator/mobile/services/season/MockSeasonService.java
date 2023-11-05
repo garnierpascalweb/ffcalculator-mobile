@@ -12,14 +12,14 @@ import java.util.List;
  */
 public class MockSeasonService extends AbstractSeasonService {
     private static final int NUMBER_OF_RESULTS = 7;
-    @Override
-    public List<IResult> getResults() {
-       return getMockedResults();
+
+    public MockSeasonService(){
+        super();
+        getMyResults();
     }
 
-    protected List<IResult> getMockedResults(){
-        List<IResult> listResult = null;
-        listResult = new ArrayList<IResult>(15);
+
+    protected void getMockedResults(){
         IResult mockResult1 = new Result();
         mockResult1.setPlace("St Romain de Popey");
         mockResult1.setPts(10.29);
@@ -68,6 +68,24 @@ public class MockSeasonService extends AbstractSeasonService {
         mockResult6.setLibelle("Open 3");
         mockResult6.setIdClasse("1.25.1");
         listResult.add(mockResult6);
-        return listResult;
+    }
+
+    protected void getMyResults(){
+        IResult mockResult1 = new Result();
+        mockResult1.setPlace("Marcigny (71)");
+        mockResult1.setPts(3.36);
+        mockResult1.setPrts(48);
+        mockResult1.setPos(16);
+        mockResult1.setLibelle("Open 2/3");
+        mockResult1.setIdClasse("1.25.0");
+        IResult mockResult2 = new Result();
+        mockResult2.setPlace("Voiron - TPV (38)");
+        mockResult2.setPts(10.92);
+        mockResult2.setPrts(78);
+        mockResult2.setPos(14);
+        mockResult2.setLibelle("Open 3");
+        mockResult2.setIdClasse("2.25.1G");
+        listResult.add(mockResult1);
+        listResult.add(mockResult2);
     }
 }

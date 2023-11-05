@@ -5,12 +5,12 @@ package com.gpwsofts.ffcalculator.mobile.model;
  * @since 1.0.0
  */
 public class Result implements IResult {
-    private String place;
-    private int pos;
-    private int prts;
-    private double pts;
-    private String idClasse;
-    private String libelle;
+    protected String place;
+    protected int pos;
+    protected int prts;
+    protected double pts;
+    protected String idClasse;
+    protected String libelle;
 
     public Result() {
     }

@@ -46,6 +46,12 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ResultView
         // R.
         holder.idTVResultPlace.setText(result.getPlace());
         holder.idTVResultLibelle.setText(result.getLibelle());
+        //TODO 1.0.0 just for demo screenshot
+        if (result.getPlace().contains("arcigny")) {
+            holder.idTVResultLibelleComplet.setText("Open 2/3-Access (1.25.0)");
+        } else if (result.getPlace().contains("oiron")){
+            holder.idTVResultLibelleComplet.setText("Open 3-Access (2.25.1G)");
+        }
         //ColorFilter cf = ColorFilter.
         //TODO 1.0.0 changer dynamiquement la couleur du cercle en fonction de la caté
         // holder.idTVResultLibelle.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
@@ -66,6 +72,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ResultView
         // private final ImageView idIVResultImage;
         private final TextView idTVResultPlace;
         private final TextView idTVResultLibelle;
+        private final TextView idTVResultLibelleComplet;
         private final TextView idTVResultPosPrts;
         private final TextView idTVResultPts;
 
@@ -74,6 +81,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ResultView
             // idIVResultImage = itemView.findViewById(R.id.idIVResultImage);
             idTVResultPlace = itemView.findViewById(R.id.idTVResultPlace);
             idTVResultLibelle = itemView.findViewById(R.id.idTVResultLibelle);
+            idTVResultLibelleComplet = itemView.findViewById(R.id.idTVLibelleComplet);
             idTVResultPosPrts = itemView.findViewById(R.id.idTVResultPosPrts);
             idTVResultPts = itemView.findViewById(R.id.idTVResultPts);
         }

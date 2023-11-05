@@ -71,6 +71,14 @@
                 android:text="St Rambert Albon"/>
 
             <TextView
+                android:id="@+id/idTVLibelleComplet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Open 2/3 Access (1.25.0)" />
+
+            <TextView
                 android:id="@+id/idTVResultPosPrts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
