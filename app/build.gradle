@@ -32,7 +32,12 @@ android {
 }
 
 dependencies {
-
+	// ajot de room 2.5.0 https://developer.android.com/training/data-storage/room?hl=fr
+	implementation "androidx.room:room-runtime:2.5.0"
+    annotationProcessor "androidx.room:room-compiler:2.5.0"
+    implementation "androidx.room:room-rxjava2:2.5.0"
+    implementation "androidx.room:room-rxjava3:2.5.0"
+	
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.10.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
