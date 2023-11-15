@@ -1,6 +1,8 @@
 package com.gpwsofts.ffcalculator.mobile.ui.dashboard;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,14 +44,61 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ResultView
         // R.
         holder.idTVResultPlace.setText(result.getPlace());
         holder.idTVResultLibelle.setText(result.getLibelle());
-        //ColorFilter cf = ColorFilter.
-        //TODO 1.0.0 changer dynamiquement la couleur du cercle en fonction de la caté
-        // holder.idTVResultLibelle.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+        holder.idTVResultLogo.setText(result.getLogo());
+        int color = this.getLogoColor(result.getLogo());
+        holder.idTVResultLibelle.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         holder.idTVResultPosPrts.setText(new StringBuilder().append(result.getPos()).append("e sur ").append(result.getPrts()).toString());
         //TODO pts a variabiliser
         holder.idTVResultPts.setText(new StringBuilder().append(String.valueOf(result.getPts())).append(" pts"));
     }
 
+    /**
+     * calcule la couleur du cercle en fonction de la valeur du logo
+     * @param logo
+     * @return la couleur de la pastille
+     */
+    //TOTO 1.0.0 a ne pas mettre ici
+    protected int getLogoColor(String logo){
+        int color;
+        switch (logo){
+            case "Elite" : {
+                color = Color.rgb(245, 183, 177);
+                break;
+            }
+            case "Open 1/2/3" : {
+                color = Color.rgb(52, 152, 219);
+                break;
+            }
+            case "Open 1/2" : {
+                color = Color.rgb(52, 152, 219);
+                break;
+            }
+            case "Open 2/3" : {
+                color = Color.rgb(133, 193, 233);
+                break;
+            }
+            case "Open 3" : {
+                color = Color.rgb(174, 214, 241);
+                break;
+            }
+            case "U23" : {
+                color = Color.rgb(153, 255, 102);
+                break;
+            }
+            case "U19" : {
+                color = Color.rgb(204, 255, 102);
+                break;
+            }
+            case "U17" : {
+                color = Color.rgb(255, 255, 102);
+                break;
+            }
+            default : {
+                color = Color.rgb(255, 255, 255);
+            }
+        }
+        return color;
+    }
 
     @Override
     public int getItemCount() {
