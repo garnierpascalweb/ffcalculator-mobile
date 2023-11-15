@@ -20,6 +20,7 @@ public class MockSeasonService extends AbstractSeasonService {
 
 
     protected void getMockedResults(){
+        // Open 2/3
         IResult mockResult1 = new Result();
         mockResult1.setPlace("St Romain de Popey");
         mockResult1.setLogo("Open 2/3");
@@ -73,15 +74,37 @@ public class MockSeasonService extends AbstractSeasonService {
         mockResult6.setPos(14);
         mockResult6.setLibelle("Open 3 Access");
         mockResult6.setIdClasse("1.25.1");
+        listResult.add(mockResult6);
+        // Cadet
         IResult mockResult7 = new Result();
         mockResult7.setPlace("St Amand Montrond");
-        mockResult7.setLogo("Open 3");
-        mockResult7.setPts(8);
-        mockResult7.setPrts(80);
-        mockResult7.setPos(14);
-        mockResult7.setLibelle("Open 3 Access");
-        mockResult7.setIdClasse("1.25.1");
-        listResult.add(mockResult6);
+        mockResult7.setLogo("U17");
+        mockResult7.setPts(39.15);
+        mockResult7.setPrts(87);
+        mockResult7.setPos(2);
+        mockResult7.setLibelle("U17 - Cadet");
+        mockResult7.setIdClasse("1.31");
+        listResult.add(mockResult7);
+        // elite
+        IResult mockResult8 = new Result();
+        mockResult8.setPlace("Hyeres");
+        mockResult8.setLogo("Elite");
+        mockResult8.setPts(5.76);
+        mockResult8.setPrts(48);
+        mockResult8.setPos(19);
+        mockResult8.setLibelle("Elite Open 1/2/3");
+        mockResult8.setIdClasse("1.12.6");
+        listResult.add(mockResult8);
+        // Federale juniors
+        IResult mockResult9 = new Result();
+        mockResult9.setPlace("St Jean de Védas");
+        mockResult9.setLogo("U19");
+        mockResult9.setPts(140.3);
+        mockResult9.setPrts(122);
+        mockResult9.setPos(3);
+        mockResult9.setLibelle("Federale U19");
+        mockResult9.setIdClasse("1.14");
+        listResult.add(mockResult9);
     }
 
     protected void getMyResults(){
