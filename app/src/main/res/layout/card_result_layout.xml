@@ -24,35 +24,22 @@
         android:orientation="horizontal"
         >
 
-        <!--
-        <ImageView
-            android:id="@+id/idIVResultImage"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:contentDescription="@string/app_name"
-            android:padding="5dp"
-            android:src="@drawable/ic_stat_open_2_3" />
-            -->
         <TextView
             android:id="@+id/idTVResultLogo"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/circular_bg"
             android:padding="8dp"
             android:gravity="center"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:text="@string/label_open2"
             />
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_weight="2"
@@ -64,10 +51,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="2dp"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                android:maxLines="1"
                 android:text="St Rambert Albon"/>
 
             <TextView
@@ -75,7 +63,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="2dp"
+                android:maxLines="1"
                 android:text="Open 2/3 Access (1.25.0)" />
 
             <TextView
@@ -83,22 +72,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="2dp"
+                android:maxLines="1"
                 android:layout_gravity="left"
                 android:text="14eme sur 144"/>
-
-            <TextView
-                android:id="@+id/idTVResultPts"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="right"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:text="123.27 pts"/>
-
                 />
         </LinearLayout>
+        <TextView
+            android:id="@+id/idTVResultPts"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="right"
+            android:maxLines="1"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="123.27 pts"
+            />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

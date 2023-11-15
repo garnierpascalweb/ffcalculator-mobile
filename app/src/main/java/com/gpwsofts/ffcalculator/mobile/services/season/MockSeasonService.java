@@ -73,6 +73,14 @@ public class MockSeasonService extends AbstractSeasonService {
         mockResult6.setPos(14);
         mockResult6.setLibelle("Open 3 Access");
         mockResult6.setIdClasse("1.25.1");
+        IResult mockResult7 = new Result();
+        mockResult7.setPlace("St Amand Montrond");
+        mockResult7.setLogo("Open 3");
+        mockResult7.setPts(8);
+        mockResult7.setPrts(80);
+        mockResult7.setPos(14);
+        mockResult7.setLibelle("Open 3 Access");
+        mockResult7.setIdClasse("1.25.1");
         listResult.add(mockResult6);
     }
 

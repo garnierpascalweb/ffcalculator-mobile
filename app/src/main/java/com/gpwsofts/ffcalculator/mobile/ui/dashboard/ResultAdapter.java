@@ -38,15 +38,12 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ResultView
 
     @Override
     public void onBindViewHolder(@NonNull ResultViewHolder holder, int position) {
-        // to set data to textview and imageview of each card layout
         IResult result = resultsList.getValue().get(position);
-        // holder.idIVResultImage.setImageResource(R.drawable.ic_action_open_2_3);
-        // R.
         holder.idTVResultPlace.setText(result.getPlace());
-        holder.idTVResultLibelle.setText(result.getLibelle());
+        holder.idTVResultLibelle.setText(new StringBuilder().append(result.getLibelle()).append(" - (").append(result.getIdClasse()).append(")").toString());
         holder.idTVResultLogo.setText(result.getLogo());
         int color = this.getLogoColor(result.getLogo());
-        holder.idTVResultLibelle.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        holder.idTVResultLogo.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         holder.idTVResultPosPrts.setText(new StringBuilder().append(result.getPos()).append("e sur ").append(result.getPrts()).toString());
         //TODO pts a variabiliser
         holder.idTVResultPts.setText(new StringBuilder().append(String.valueOf(result.getPts())).append(" pts"));
@@ -60,25 +57,26 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ResultView
     //TOTO 1.0.0 a ne pas mettre ici
     protected int getLogoColor(String logo){
         int color;
+        // couleurs principales
         switch (logo){
             case "Elite" : {
-                color = Color.rgb(245, 183, 177);
+                color = Color.rgb(255, 51, 0);
                 break;
             }
             case "Open 1/2/3" : {
-                color = Color.rgb(52, 152, 219);
+                color = Color.rgb(0, 0, 255);
                 break;
             }
             case "Open 1/2" : {
-                color = Color.rgb(52, 152, 219);
+                color = Color.rgb(0, 0, 255);
                 break;
             }
             case "Open 2/3" : {
-                color = Color.rgb(133, 193, 233);
+                color = Color.rgb(0, 102, 255);
                 break;
             }
             case "Open 3" : {
-                color = Color.rgb(174, 214, 241);
+                color = Color.rgb(51, 153, 255);
                 break;
             }
             case "U23" : {
