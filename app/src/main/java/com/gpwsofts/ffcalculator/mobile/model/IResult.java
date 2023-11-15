@@ -8,7 +8,8 @@ public interface IResult {
     public String getPlace();
 
     public void setPlace(String place) ;
-
+    public String getLogo() ;
+    public void setLogo(String logo);
     public int getPos() ;
 
     public void setPos(int pos) ;

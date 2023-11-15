@@ -38,7 +38,7 @@
             android:src="@drawable/ic_stat_open_2_3" />
             -->
         <TextView
-            android:id="@+id/idTVResultLibelle"
+            android:id="@+id/idTVResultLogo"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginTop="8dp"
@@ -71,7 +71,7 @@
                 android:text="St Rambert Albon"/>
 
             <TextView
-                android:id="@+id/idTVLibelleComplet"
+                android:id="@+id/idTVLibelle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"

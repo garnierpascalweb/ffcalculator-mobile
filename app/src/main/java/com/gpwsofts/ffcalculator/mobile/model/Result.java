@@ -6,6 +6,8 @@ package com.gpwsofts.ffcalculator.mobile.model;
  */
 public class Result implements IResult {
     protected String place;
+
+    protected String logo;
     protected int pos;
     protected int prts;
     protected double pts;
@@ -21,6 +23,14 @@ public class Result implements IResult {
 
     public void setPlace(String place) {
         this.place = place;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
     }
 
     public int getPos() {
