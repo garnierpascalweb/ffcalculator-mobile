@@ -27,10 +27,15 @@ public class HomeViewModel extends ViewModel {
         mResult.setValue(mockResult);
         mText = new MutableLiveData<>();
         mText.setValue("This is home fragment");
+
     }
 
     public LiveData<String> getText() {
         return mText;
+    }
+
+    public void setText(String value ){
+        mText.setValue(value);
     }
 
     public LiveData<IResult> getResult() {

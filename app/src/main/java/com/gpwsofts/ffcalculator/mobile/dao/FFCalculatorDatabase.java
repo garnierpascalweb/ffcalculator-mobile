@@ -27,6 +27,7 @@ public abstract class FFCalculatorDatabase extends RoomDatabase {
                     // pas compris (Part 4)
                     .fallbackToDestructiveMigration()
                     // add callback pour faire quelque chose a la creation de la base de donnees (Part 4)
+                    // la creation de la base de donnees cest vraiemnt a l'install de l'application
                     .addCallback(roomCallback)
                     .build();
         }
@@ -37,6 +38,7 @@ public abstract class FFCalculatorDatabase extends RoomDatabase {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
+           new PopulateDbAsyncTask(instance).execute();
         }
     };
 
