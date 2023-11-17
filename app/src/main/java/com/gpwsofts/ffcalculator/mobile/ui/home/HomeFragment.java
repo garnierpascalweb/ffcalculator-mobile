@@ -1,6 +1,7 @@
 package com.gpwsofts.ffcalculator.mobile.ui.home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,23 +23,38 @@ import com.gpwsofts.ffcalculator.mobile.viewmodel.ResultViewModel;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
+    private static final String TAG_NAME = "HomeFragment";
     private ResultViewModel resultViewModel;
     private FragmentHomeBinding binding;
+
+    TextInputEditText textInputEditTextPlace;
+    TextInputLayout textInputLayoutSpinnerClasses;
+    TextInputLayout textInputLayoutSpinnerPos;
+    TextInputLayout textInputLayoutSpinnerPrts;
+    Button buttonAjouter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         HomeViewModel homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
-
+        resultViewModel = new ViewModelProvider(requireActivity()).get(ResultViewModel.class);
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextInputEditText textInputEditTextPlace = binding.idTIETPlace;
-        final TextInputLayout textInputLayoutSpinnerClasses = binding.idTISPClasses;
-        final TextInputLayout textInputLayoutSpinnerPos = binding.idTISPPos;
-        final TextInputLayout textInputLayoutSpinnerPrts = binding.idTISPPrts;
-        final Button buttonAjouter = binding.idBTAjouter;
+        textInputEditTextPlace = binding.idTIETPlace;
+        textInputLayoutSpinnerClasses = binding.idTISPClasses;
+        textInputLayoutSpinnerPos = binding.idTISPPos;
+        //textInputLayoutSpinnerPos
+        textInputLayoutSpinnerPrts = binding.idTISPPrts;
+        buttonAjouter = binding.idBTAjouter;
+
+        buttonAjouter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveResult();
+            }
+        });
 
         // selon https://stackoverflow.com/questions/63548323/how-to-use-viewmodel-in-a-fragment
         /*
@@ -53,6 +69,23 @@ public class HomeFragment extends Fragment {
                 );
          */
         return root;
+    }
+
+    private void saveResult() {
+        String place = String.valueOf(this.textInputEditTextPlace.getText());
+        //String classe = String.valueOf(this.textInputLayoutSpinnerClasses.getEditText().getText());
+        String classe = "1.25.1";
+        Log.i(TAG_NAME, "ajout de la course " + place);
+        Result result = new Result();
+        result.setPlace("Trigance");
+        result.setLogo("Open 1/2/3");
+        result.setPts(10.29);
+        result.setPrts(147);
+        result.setPos(16);
+        result.setLibelle("Open 1/2/3 Access");
+        result.setIdClasse("1.24.0");
+        resultViewModel.insert(result);
+        Toast.makeText(this.getContext(), "Result Save", Toast.LENGTH_SHORT).show();
     }
 
     @Override

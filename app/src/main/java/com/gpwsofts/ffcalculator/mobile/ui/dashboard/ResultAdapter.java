@@ -13,21 +13,22 @@ import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gpwsofts.ffcalculator.mobile.R;
+import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.model.IResult;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ResultViewHolder> {
 
     private static final String TAG_NAME = "ResultAdapter";
-    private final Context context;
-    private final LiveData<List<IResult>> resultsList;
+
+    //private final LiveData<List<Result>> resultsList;
+    // cf. Part 6, 09:40
+    private List<Result> results = new ArrayList<Result>();
 
     // Constructor
-    public ResultAdapter(Context context, LiveData<List<IResult>> courseModelArrayList) {
-        this.context = context;
-        this.resultsList = courseModelArrayList;
-    }
+
 
     @NonNull
     @Override
@@ -38,15 +39,14 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ResultView
 
     @Override
     public void onBindViewHolder(@NonNull ResultViewHolder holder, int position) {
-        IResult result = resultsList.getValue().get(position);
-        holder.idTVResultPlace.setText(result.getPlace());
-        holder.idTVResultLibelle.setText(new StringBuilder().append(result.getLibelle()).append(" - (").append(result.getIdClasse()).append(")").toString());
-        holder.idTVResultLogo.setText(result.getLogo());
-        int color = this.getLogoColor(result.getLogo());
+        Result currentResult = results.get(position);
+        holder.idTVResultPlace.setText(currentResult.getPlace());
+        holder.idTVResultLibelle.setText(new StringBuilder().append(currentResult.getLibelle()).append(" - (").append(currentResult.getIdClasse()).append(")").toString());
+        holder.idTVResultLogo.setText(currentResult.getLogo());
+        int color = this.getLogoColor(currentResult.getLogo());
         holder.idTVResultLogo.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        holder.idTVResultPosPrts.setText(new StringBuilder().append(result.getPos()).append("e sur ").append(result.getPrts()).toString());
-        //TODO pts a variabiliser
-        holder.idTVResultPts.setText(new StringBuilder().append(String.valueOf(result.getPts())).append(" pts"));
+        holder.idTVResultPosPrts.setText(new StringBuilder().append(currentResult.getPos()).append("e sur ").append(currentResult.getPrts()).toString());
+        holder.idTVResultPts.setText(new StringBuilder().append(String.valueOf(currentResult.getPts())).append(" pts"));
     }
 
     /**
@@ -100,8 +100,14 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ResultView
 
     @Override
     public int getItemCount() {
-        // this method is used for showing number of card items in recycler view
-        return resultsList.getValue().size();
+        return results.size();
+    }
+
+    public void setResults(List<Result> results){
+        this.results = results;
+        //TODO 1.0.0 moi pas comprendre mais notifyDataSetChanged ne doit pas etre utilisée ici
+        // PART 6 13:45
+        notifyDataSetChanged();
     }
 
     // View holder class for initializing of your views such as TextView and Imageview
