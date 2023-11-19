@@ -1,4 +1,3 @@
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -17,74 +16,87 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
             android:hint="Lieu de la Course">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/idTIETPlace"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:maxLength="30"
+                android:inputType="text"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
 
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:id="@+id/idTISPClasses"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:focusableInTouchMode="false"
             android:hint="Classe"
-            android:clickable = "true"
-            android:focusable = "true"
-            android:focusableInTouchMode = "false"
-            android:inputType = "none"
-            app:helperTextEnabled="true"
-            app:helperText="La classe de course" />
+            android:inputType="none"
+
+            app:helperText="La classe de course"
+            app:helperTextEnabled="true">
+
+            <AutoCompleteTextView
+                android:id="@+id/idTVAutoClasses"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:minHeight="48dp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:id="@+id/idTISPPos"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:focusableInTouchMode="false"
             android:hint="Classe"
-            android:clickable = "true"
-            android:focusable = "true"
-            android:focusableInTouchMode = "false"
-            android:inputType = "none"
+            android:inputType="none"
+            app:helperText="Place Obtenue"
             app:helperTextEnabled="true"
-            app:helperText="Place Obtenue" />
+            
+            />
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:id="@+id/idTISPPrts"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:focusableInTouchMode="false"
             android:hint="Classe"
-            android:clickable = "true"
-            android:focusable = "true"
-            android:focusableInTouchMode = "false"
-            android:inputType = "none"
-            app:helperTextEnabled="true"
-            app:helperText="Participants" />
+            android:inputType="none"
+            app:helperText="Participants"
+            app:helperTextEnabled="true" />
 
         <Button
             android:id="@+id/idBTAjouter"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ajouter le résultat"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            />
+            android:text="Ajouter le résultat" />
 
 
     </LinearLayout>

@@ -1,10 +1,14 @@
 package com.gpwsofts.ffcalculator.mobile.ui.home;
 
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +20,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentHomeBinding;
 import com.gpwsofts.ffcalculator.mobile.viewmodel.ResultViewModel;
@@ -31,6 +36,8 @@ public class HomeFragment extends Fragment {
     TextInputLayout textInputLayoutSpinnerClasses;
     TextInputLayout textInputLayoutSpinnerPos;
     TextInputLayout textInputLayoutSpinnerPrts;
+
+    AutoCompleteTextView autoCompleteTextViewClasses;
     Button buttonAjouter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -41,11 +48,28 @@ public class HomeFragment extends Fragment {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
+        String android_device_id = Settings.Secure.getString(this.requireActivity().getContentResolver(), Settings.Secure.ANDROID_ID);
+        Log.i(TAG_NAME, "device id " + android_device_id);
         textInputEditTextPlace = binding.idTIETPlace;
         textInputLayoutSpinnerClasses = binding.idTISPClasses;
         textInputLayoutSpinnerPos = binding.idTISPPos;
-        //textInputLayoutSpinnerPos
+        autoCompleteTextViewClasses = binding.idTVAutoClasses;
+        ArrayAdapter arrayAdapter = new ArrayAdapter<>(this.getContext(),  android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.planets_array) );
+        //arrayAdapter.setDropDownViewResource(R.array.planets_array);
+        autoCompleteTextViewClasses.setAdapter(arrayAdapter);
+        autoCompleteTextViewClasses.setOnItemSelectedListener(
+                new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        Log.i(TAG_NAME, "nouvel item selectionne " + android_device_id);
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                }
+        );
         textInputLayoutSpinnerPrts = binding.idTISPPrts;
         buttonAjouter = binding.idBTAjouter;
 
