@@ -22,6 +22,7 @@ import com.anychart.enums.Align;
 import com.anychart.palettes.RangeColors;
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentNotificationsBinding;
+import com.gpwsofts.ffcalculator.mobile.viewmodel.SharedPrefsViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,7 @@ public class NotificationsFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         NotificationsViewModel notificationsViewModel =
                 new ViewModelProvider(this).get(NotificationsViewModel.class);
-
+        SharedPrefsViewModel sharedPrefsViewModel = new ViewModelProvider(this).get(SharedPrefsViewModel.class);
         binding = FragmentNotificationsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         /*
@@ -67,7 +68,8 @@ public class NotificationsFragment extends Fragment {
 
 
         final TextView textView = binding.textNotifications;
-        notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        // notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        sharedPrefsViewModel.getVue().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

@@ -39,4 +39,9 @@ public class SharedPrefsViewModel extends AndroidViewModel {
     public void update(String inVue){
         repository.updateVue(inVue);
     }
+
+    public SharedPreferencesStringLiveData getVue() {
+        return vue;
+    }
+
 }
