@@ -37,6 +37,7 @@ public class SharedPrefsViewModel extends AndroidViewModel {
         Log.i(TAG_NAME, "vue en sharedPreferences = <" + vue.getValue() + ">");
     }
     public void update(String inVue){
+        Log.i(TAG_NAME, "demande de mise a jour du repository vers vue " + inVue);
         repository.updateVue(inVue);
     }
 

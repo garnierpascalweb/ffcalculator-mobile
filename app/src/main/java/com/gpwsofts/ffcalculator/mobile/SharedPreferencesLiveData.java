@@ -1,6 +1,7 @@
 package com.gpwsofts.ffcalculator.mobile;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -11,11 +12,14 @@ import androidx.lifecycle.LiveData;
  * @param <T>
  */
 public abstract class SharedPreferencesLiveData<T> extends LiveData<T> {
+    private static final String TAG_NAME = "SharedPreferencesLiveData";
     SharedPreferences sharedPrefs;
+    SharedPreferences.Editor sharedPrefsEditor;
     String key;
     public T defValue;
     public SharedPreferencesLiveData(SharedPreferences prefs, String key, T defValue) {
         this.sharedPrefs = prefs;
+        this.sharedPrefsEditor = this.sharedPrefs.edit();
         this.key = key;
         this.defValue = defValue;
     }
@@ -23,7 +27,10 @@ public abstract class SharedPreferencesLiveData<T> extends LiveData<T> {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             if (SharedPreferencesLiveData.this.key.equals(key)) {
+                Log.i(TAG_NAME, "onSharedPreferenceChanged pour la cle <" + key + ">");
                 setValue(getValueFromPreferences(key, defValue));
+            } else {
+                Log.i(TAG_NAME, "onSharedPreferenceChanged pour la cle <" + key + ">");
             }
         }
     };

@@ -42,8 +42,12 @@ public class SharedPrefsRepository {
     }
 
     public void updateVue(String inVue){
-        Log.i(TAG_NAME, "Lancement de Async Task UpdateVueAsyncTask");
-        new SharedPrefsRepository.UpdateVueAsyncTask(sharedPrefsEditor).execute(inVue);
+        // Log.i(TAG_NAME, "Lancement de Async Task UpdateVueAsyncTask");
+        //new SharedPrefsRepository.UpdateVueAsyncTask(sharedPrefsEditor).execute(inVue);
+        Log.i(TAG_NAME, "Envoi de la valeur <" + inVue + "> dans sharedPrefsEditor");
+        sharedPrefsEditor.putString(SHARED_PREFS_KEY_VUE, inVue);
+        sharedPrefsEditor.commit();
+        //TODO 1.0.0 faire de l'asynchrone, bien faire le commit
     }
 
     private static class UpdateVueAsyncTask extends AsyncTask<String, Void, Void> {
@@ -54,6 +58,7 @@ public class SharedPrefsRepository {
         }
         @Override
         protected Void doInBackground(String... vue) {
+            Log.i(TAG_NAME, "SharedPrefsEditor : put dans " + SHARED_PREFS_KEY_VUE + " de va valeur " + vue[0]);
             sharedPrefsEditor.putString(SHARED_PREFS_KEY_VUE, vue[0]);
             return null;
         }

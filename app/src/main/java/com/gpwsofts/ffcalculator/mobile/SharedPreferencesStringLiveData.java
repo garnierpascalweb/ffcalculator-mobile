@@ -1,6 +1,7 @@
 package com.gpwsofts.ffcalculator.mobile;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
 /**
  * Implementation LiveData de Shared Preferences
@@ -8,11 +9,16 @@ import android.content.SharedPreferences;
  * @since 1.0.0
  */
 public class SharedPreferencesStringLiveData extends SharedPreferencesLiveData<String>{
+
+    private static final String TAG_NAME = "SharedPreferencesStringLiveData";
     public SharedPreferencesStringLiveData(SharedPreferences prefs, String key, String defValue) {
         super(prefs, key, defValue);
     }
     @Override
     String getValueFromPreferences(String key, String defValue) {
-        return sharedPrefs.getString(key, defValue);
+        Log.i(TAG_NAME, "recuperation dans les shard prefs de key = <" + key + "> et defvalue = <" + defValue + ">");
+        String valueFromPreferences = sharedPrefs.getString(key, defValue);
+        Log.i(TAG_NAME, "lecture depuis les sharedPrefs = <" + valueFromPreferences + ">");
+        return valueFromPreferences;
     }
 }

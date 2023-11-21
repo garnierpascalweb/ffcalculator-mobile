@@ -6,6 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".ui.notifications.NotificationsFragment">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
     <TextView
         android:id="@+id/text_notifications"
         android:layout_width="match_parent"
@@ -19,6 +24,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+        android:id="@+id/idBTVue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/idTILVue"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/idTIEVue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="hint" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 
     <!--
     <com.anychart.AnyChartView
