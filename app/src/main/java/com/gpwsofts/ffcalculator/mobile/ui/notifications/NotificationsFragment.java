@@ -37,7 +37,7 @@ public class NotificationsFragment extends Fragment {
 
         binding = FragmentNotificationsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
+        /*
         //PG chart
         final String[] colors = new String[] {"#F5B7B1", "#3498DB", "#85C1E9", "#AED6F1"};
         AnyChartView anyChartView = binding.anyChartView;
@@ -63,6 +63,7 @@ public class NotificationsFragment extends Fragment {
         pyramid.labels(false);
         //pyramid.fill(colors);
         anyChartView.setChart(pyramid);
+         */
 
 
         final TextView textView = binding.textNotifications;
