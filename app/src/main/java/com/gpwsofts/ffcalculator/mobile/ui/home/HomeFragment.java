@@ -24,12 +24,14 @@ import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentHomeBinding;
 import com.gpwsofts.ffcalculator.mobile.viewmodel.ResultViewModel;
+import com.gpwsofts.ffcalculator.mobile.viewmodel.SharedPrefsViewModel;
 
 import java.util.List;
 
 public class HomeFragment extends Fragment {
     private static final String TAG_NAME = "HomeFragment";
     private ResultViewModel resultViewModel;
+    private SharedPrefsViewModel sharedPrefsViewModel;
     private FragmentHomeBinding binding;
 
     TextInputEditText textInputEditTextPlace;
@@ -45,6 +47,7 @@ public class HomeFragment extends Fragment {
         HomeViewModel homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
         resultViewModel = new ViewModelProvider(requireActivity()).get(ResultViewModel.class);
+        sharedPrefsViewModel = new ViewModelProvider(requireActivity()).get(SharedPrefsViewModel.class);
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -79,6 +82,8 @@ public class HomeFragment extends Fragment {
                 saveResult();
             }
         });
+
+
 
         // selon https://stackoverflow.com/questions/63548323/how-to-use-viewmodel-in-a-fragment
         /*
