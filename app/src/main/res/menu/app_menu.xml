@@ -1,46 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="all">
-        <item android:id="@+id/item1"
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/idMenuItemOpen3"
             android:titleCondensed="@string/label_open3"
             android:title="@string/label_open3"
             android:icon="@android:drawable/ic_menu_preferences">
         </item>
-        <item android:id="@+id/item2"
+        <item android:id="@+id/idMenuItemOpen2"
             android:titleCondensed="@string/label_open2"
             android:title="@string/label_open2"
             android:icon="@android:drawable/ic_menu_preferences"
-            android:checkable="true">
+            >
         </item>
-        <item android:id="@+id/item3"
+        <item android:id="@+id/idMenuItemOpen1"
             android:titleCondensed="@string/label_open1"
             android:title="@string/label_open1"
             android:icon="@android:drawable/ic_menu_preferences"
-            android:checkable="true">
+            >
         </item>
-        <item android:id="@+id/item4"
+        <item android:id="@+id/idMenuItemElite"
             android:titleCondensed="@string/label_elite"
             android:title="@string/label_elite"
             android:icon="@android:drawable/ic_menu_preferences"
-            android:checkable="true">
+            >
         </item>
-        <item android:id="@+id/item5"
+        <item android:id="@+id/idMenuItemU19"
             android:titleCondensed="@string/label_u19"
             android:title="@string/label_u19"
             android:icon="@android:drawable/ic_menu_preferences"
-            android:checkable="true">
+            >
         </item>
-        <item android:id="@+id/item6"
+        <item android:id="@+id/idMenuItemU17"
             android:titleCondensed="@string/label_u17"
             android:title="@string/label_u17"
             android:icon="@android:drawable/ic_menu_preferences"
-            android:checkable="true">
+            >
         </item>
-        <item android:id="@+id/item7"
+        <item android:id="@+id/idMenuItemAccess"
             android:titleCondensed="@string/label_access"
             android:title="@string/label_access"
             android:icon="@android:drawable/ic_menu_preferences"
-            android:checkable="true">
+            >
         </item>
     </group>
 </menu>

@@ -1,19 +1,27 @@
 package com.gpwsofts.ffcalculator.mobile;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.gpwsofts.ffcalculator.mobile.databinding.ActivityMainBinding;
+import com.gpwsofts.ffcalculator.mobile.viewmodel.SharedPrefsViewModel;
 
 public class MainActivity extends AppCompatActivity {
-
+    private static final String TAG_NAME = "MainActivity";
+    private SharedPrefsViewModel sharedPrefsViewModel;
     private ActivityMainBinding binding;
 
 
@@ -23,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        sharedPrefsViewModel = new ViewModelProvider(this).get(SharedPrefsViewModel.class);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -35,4 +43,61 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = this.getMenuInflater();
+        menuInflater.inflate(R.menu.app_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+        boolean boolReturn = false;
+        if (itemId == R.id.idMenuItemElite){
+            Log.i(TAG_NAME, "switch en vue Elite");
+            sharedPrefsViewModel.update("Elite");
+            boolReturn = true;
+        } else if (itemId == R.id.idMenuItemOpen1){
+            Log.i(TAG_NAME, "switch en vue Open1");
+            sharedPrefsViewModel.update("O1");
+            boolReturn = true;
+        }else if (itemId == R.id.idMenuItemOpen2){
+            Log.i(TAG_NAME, "switch en vue Open2");
+            sharedPrefsViewModel.update("O2");
+            boolReturn = true;
+        }else if (itemId == R.id.idMenuItemOpen3){
+            Log.i(TAG_NAME, "switch en vue Open3");
+            sharedPrefsViewModel.update("O3");
+            boolReturn = true;
+        }else if (itemId == R.id.idMenuItemAccess){
+            Log.i(TAG_NAME, "switch en vue Access");
+            sharedPrefsViewModel.update("A");
+            boolReturn = true;
+        }else if (itemId == R.id.idMenuItemU19){
+            Log.i(TAG_NAME, "switch en vue U19");
+            sharedPrefsViewModel.update("U19");
+            boolReturn = true;
+        }else if (itemId == R.id.idMenuItemU17){
+            Log.i(TAG_NAME, "switch en vue U17");
+            sharedPrefsViewModel.update("U17");
+            boolReturn = true;
+        } else {
+            Log.w(TAG_NAME, "selection dune vue non geree");
+            sharedPrefsViewModel.update("G");
+            boolReturn = super.onOptionsItemSelected(item);
+        }
+        return boolReturn;
+
+
+    }
+
+    /**
+     * Methode permettant de switcher vers la vue donnée
+     * @since 1.0.0
+     * @param vue
+     */
+    private void switchVue(String vue){
+        Log.i(TAG_NAME, "switchons en vue " + vue);
+    }
 }
