@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="all">
+        <item android:id="@+id/item1"
+            android:titleCondensed="@string/label_open3"
+            android:title="@string/label_open3"
+            android:icon="@android:drawable/ic_menu_preferences">
+        </item>
+        <item android:id="@+id/item2"
+            android:titleCondensed="@string/label_open2"
+            android:title="@string/label_open2"
+            android:icon="@android:drawable/ic_menu_preferences"
+            android:checkable="true">
+        </item>
+        <item android:id="@+id/item3"
+            android:titleCondensed="@string/label_open1"
+            android:title="@string/label_open1"
+            android:icon="@android:drawable/ic_menu_preferences"
+            android:checkable="true">
+        </item>
+        <item android:id="@+id/item4"
+            android:titleCondensed="@string/label_elite"
+            android:title="@string/label_elite"
+            android:icon="@android:drawable/ic_menu_preferences"
+            android:checkable="true">
+        </item>
+        <item android:id="@+id/item5"
+            android:titleCondensed="@string/label_u19"
+            android:title="@string/label_u19"
+            android:icon="@android:drawable/ic_menu_preferences"
+            android:checkable="true">
+        </item>
+        <item android:id="@+id/item6"
+            android:titleCondensed="@string/label_u17"
+            android:title="@string/label_u17"
+            android:icon="@android:drawable/ic_menu_preferences"
+            android:checkable="true">
+        </item>
+        <item android:id="@+id/item7"
+            android:titleCondensed="@string/label_access"
+            android:title="@string/label_access"
+            android:icon="@android:drawable/ic_menu_preferences"
+            android:checkable="true">
+        </item>
+    </group>
+</menu>
+

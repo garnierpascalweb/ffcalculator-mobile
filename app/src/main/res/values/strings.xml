@@ -11,6 +11,8 @@
     <string name="label_open1">Open 1</string>
     <string name="label_open2">Open 2</string>
     <string name="label_open3">Open 3</string>
+    <string name="label_u19">U19</string>
+    <string name="label_u17">U17</string>
     <string name="label_access">Access</string>
     <string-array name="planets_array">
         <item>1.12.1</item>
