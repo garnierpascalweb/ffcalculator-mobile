@@ -14,6 +14,13 @@
     <string name="label_u19">U19</string>
     <string name="label_u17">U17</string>
     <string name="label_access">Access</string>
+    <string name="vue_elite">E</string>
+    <string name="vue_open1">O1</string>
+    <string name="vue_open2">O2</string>
+    <string name="vue_open3">O3</string>
+    <string name="vue_u19">U19</string>
+    <string name="vue_u17">U17</string>
+    <string name="vue_access">A</string>
     <string-array name="planets_array">
         <item>1.12.1</item>
         <item>1.13</item>
