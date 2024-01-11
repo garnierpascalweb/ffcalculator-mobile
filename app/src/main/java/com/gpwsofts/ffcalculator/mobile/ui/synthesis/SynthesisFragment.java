@@ -1,4 +1,4 @@
-package com.gpwsofts.ffcalculator.mobile.ui.notifications;
+package com.gpwsofts.ffcalculator.mobile.ui.synthesis;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -13,32 +13,18 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.anychart.AnyChart;
-import com.anychart.AnyChartView;
-import com.anychart.core.ui.Legend;
-import com.anychart.enums.LegendLayout;
-import com.anychart.chart.common.dataentry.DataEntry;
-import com.anychart.chart.common.dataentry.ValueDataEntry;
-import com.anychart.charts.Pyramid;
-import com.anychart.enums.Align;
-import com.anychart.palettes.RangeColors;
 import com.google.android.material.textfield.TextInputEditText;
-import com.gpwsofts.ffcalculator.mobile.R;
-import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentNotificationsBinding;
-import com.gpwsofts.ffcalculator.mobile.viewmodel.ResultViewModel;
+import com.gpwsofts.ffcalculator.mobile.ui.result.ResultViewModel;
 import com.gpwsofts.ffcalculator.mobile.viewmodel.SharedPrefsViewModel;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class NotificationsFragment extends Fragment {
+public class SynthesisFragment extends Fragment {
     private static final String TAG_NAME = "NotificationsFragment";
     private FragmentNotificationsBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        NotificationsViewModel notificationsViewModel = new ViewModelProvider(this).get(NotificationsViewModel.class);
+        SynthesisViewModel notificationsViewModel = new ViewModelProvider(this).get(SynthesisViewModel.class);
         SharedPrefsViewModel sharedPrefsViewModel = new ViewModelProvider(getActivity()).get(SharedPrefsViewModel.class);
         ResultViewModel resultViewModel = new ViewModelProvider(getActivity()).get(ResultViewModel.class);
         binding = FragmentNotificationsBinding.inflate(inflater, container, false);

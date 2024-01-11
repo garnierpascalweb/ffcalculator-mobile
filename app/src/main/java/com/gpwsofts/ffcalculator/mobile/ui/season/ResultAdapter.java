@@ -1,6 +1,5 @@
-package com.gpwsofts.ffcalculator.mobile.ui.dashboard;
+package com.gpwsofts.ffcalculator.mobile.ui.season;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
@@ -9,12 +8,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
-import com.gpwsofts.ffcalculator.mobile.model.IResult;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.gpwsofts.ffcalculator.mobile.ui.home;
+package com.gpwsofts.ffcalculator.mobile.ui.result;
 
 import android.os.Bundle;
 import android.provider.Settings;
@@ -10,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,14 +22,12 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentHomeBinding;
-import com.gpwsofts.ffcalculator.mobile.viewmodel.ResultViewModel;
 import com.gpwsofts.ffcalculator.mobile.viewmodel.SharedPrefsViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
-public class HomeFragment extends Fragment {
+public class ResultFragment extends Fragment {
     private static final String TAG_NAME = "HomeFragment";
     private ResultViewModel resultViewModel;
     private SharedPrefsViewModel sharedPrefsViewModel;
@@ -46,8 +43,7 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+
         resultViewModel = new ViewModelProvider(requireActivity()).get(ResultViewModel.class);
         sharedPrefsViewModel = new ViewModelProvider(requireActivity()).get(SharedPrefsViewModel.class);
 
