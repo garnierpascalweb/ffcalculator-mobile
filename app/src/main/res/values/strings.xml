@@ -28,6 +28,7 @@
     <string-array name="classes_for_elite">
         <item>classe Elite 1</item>
         <item>classe Elite 2</item>
+        <item>classe Elite 3</item>
     </string-array>
     <string-array name="classes_for_open1">
         <item>Classe Open1 </item>

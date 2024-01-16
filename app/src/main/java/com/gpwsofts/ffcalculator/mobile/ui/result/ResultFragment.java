@@ -1,5 +1,7 @@
 package com.gpwsofts.ffcalculator.mobile.ui.result;
 
+
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -19,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentHomeBinding;
@@ -59,16 +62,17 @@ public class ResultFragment extends Fragment {
         // https://stackoverflow.com/questions/18685898/android-clear-in-costom-arrayadapter-java-lang-unsupportedoperationexception
         //ArrayList<String> defaultClasses = new ArrayList<>();
         //defaultClasses.addAll(Arrays.asList(getResources().getStringArray(R.array.classes_for_elite)));
-        ArrayAdapter arrayAdapter = new ArrayAdapter<>(this.getContext(),  android.R.layout.simple_spinner_item, new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.classes_for_gen))));
-
+        ArrayAdapter arrayAdapter = new ArrayAdapter<>(getContext(),  android.R.layout.simple_spinner_item, new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.classes_for_gen))));
+        //arrayAdapter.setDropDownViewResource();
         //arrayAdapter.setDropDownViewResource(R.array.planets_array);
         autoCompleteTextViewClasses.setAdapter(arrayAdapter);
         //autoCompleteTextViewClasses.get
+
         autoCompleteTextViewClasses.setOnItemSelectedListener(
                 new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        Log.i(TAG_NAME, "nouvel item selectionne " + android_device_id);
+                        Log.i(TAG_NAME, "nouvel item selectionne ");
                     }
 
                     @Override
@@ -88,59 +92,25 @@ public class ResultFragment extends Fragment {
         });
        // this.getString(R.string.vue_elite);
         this.sharedPrefsViewModel.getVue().observe(getViewLifecycleOwner(), new Observer<String>() {
+                    @SuppressLint("ResourceType")
                     @Override
                     public void onChanged(String vue) {
                         Log.i(TAG_NAME, "mise a jour de la liste deroulante des classes de course en fonction de la vue " + vue);
+                        Log.d(TAG_NAME, "clear des eventuels choix deja sectiones");
+                        autoCompleteTextViewClasses.clearListSelection();
+                        Log.d(TAG_NAME, "clear du arrayAdapter");
                         arrayAdapter.clear();
-                        //TODO 1.0.0 exporter tout ca dans un service dédié 
-                        switch (vue){
-                            case "E" : {
-                                Log.d(TAG_NAME, "chargement dans la liste deroulante des classes eligibles a la vue E");
-                                arrayAdapter.addAll(new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.classes_for_elite))));
-                                break;
-                            }
-                            case "O1" : {
-                                Log.d(TAG_NAME, "chargement dans la liste deroulante des classes eligibles a la vue O1");
-                                arrayAdapter.addAll(new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.classes_for_open1))));
-
-                                break;
-                            }
-                            case "O2" : {
-                                Log.d(TAG_NAME, "chargement dans la liste deroulante des classes eligibles a la vue O2");
-                                arrayAdapter.addAll(new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.classes_for_open2))));
-                                break;
-                            }
-                            case "O3" : {
-                                Log.d(TAG_NAME, "chargement dans la liste deroulante des classes eligibles a la vue O3");
-                                arrayAdapter.addAll(new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.classes_for_open3))));
-                                break;
-                            }
-                            case "A" : {
-                                Log.d(TAG_NAME, "chargement dans la liste deroulante des classes eligibles a la vue A");
-                                arrayAdapter.addAll(new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.classes_for_access))));
-                                break;
-                            }
-                            case "U19" : {
-                                Log.d(TAG_NAME, "chargement dans la liste deroulante des classes eligibles a la vue U19");
-                                arrayAdapter.addAll(new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.classes_for_u19))));
-                                break;
-                            }
-                            case "U17" : {
-                                Log.d(TAG_NAME, "chargement dans la liste deroulante des classes eligibles a la vue U17");
-                                arrayAdapter.addAll(new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.classes_for_u17))));
-                                break;
-                            }
-                            default : {
-                                Log.d(TAG_NAME, "chargement dans la liste deroulante des classes eligibles a la vue G defauklt");
-                                arrayAdapter.addAll(new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.classes_for_gen))));
-                                break;
-                            }
-                        }
-                        Log.d(TAG_NAME, "notification que arrayAdapter a changé");
+                        Log.d(TAG_NAME, "appel du service VueService pour recuperer les classes associees a la vue " + vue);
+                        ArrayList<String> listOfClasses = FFCalculatorApplication.instance.getServicesManager().getVueService(getResources()).getComboboxClassesForVue(vue);
+                        Log.d(TAG_NAME, "addAll " + listOfClasses.size() + " nouvelles classes");
+                        listOfClasses.stream().forEach(classe -> Log.v(TAG_NAME, classe.toString()));
+                        arrayAdapter.addAll(listOfClasses);
+                        Log.d(TAG_NAME, "notification que arrayAdapter a été réalimenté");
                         //TODO 1.0.0 verifier si ce notify est vraiment necessiare, depuis qu'on amis en place le getFilter()
                         arrayAdapter.notifyDataSetChanged();
                         Log.d(TAG_NAME, "filter sur autoCompleteTextViewClasses");
                         arrayAdapter.getFilter().filter(autoCompleteTextViewClasses.getText(), null);
+                        //autoCompleteTextViewClasses.showDropDown();
                     }
                 });
 

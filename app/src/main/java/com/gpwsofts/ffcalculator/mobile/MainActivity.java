@@ -17,6 +17,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.gpwsofts.ffcalculator.mobile.databinding.ActivityMainBinding;
+import com.gpwsofts.ffcalculator.mobile.services.vues.IVueService;
 import com.gpwsofts.ffcalculator.mobile.viewmodel.SharedPrefsViewModel;
 
 public class MainActivity extends AppCompatActivity {
@@ -56,35 +57,35 @@ public class MainActivity extends AppCompatActivity {
         boolean boolReturn = false;
         if (itemId == R.id.idMenuItemElite){
             Log.i(TAG_NAME, "switch en vue Elite");
-            sharedPrefsViewModel.update("Elite");
+            sharedPrefsViewModel.update(IVueService.ELITE);
             boolReturn = true;
         } else if (itemId == R.id.idMenuItemOpen1){
             Log.i(TAG_NAME, "switch en vue Open1");
-            sharedPrefsViewModel.update("O1");
+            sharedPrefsViewModel.update(IVueService.OPEN_1);
             boolReturn = true;
         }else if (itemId == R.id.idMenuItemOpen2){
             Log.i(TAG_NAME, "switch en vue Open2");
-            sharedPrefsViewModel.update("O2");
+            sharedPrefsViewModel.update(IVueService.OPEN_2);
             boolReturn = true;
         }else if (itemId == R.id.idMenuItemOpen3){
             Log.i(TAG_NAME, "switch en vue Open3");
-            sharedPrefsViewModel.update("O3");
+            sharedPrefsViewModel.update(IVueService.OPEN_3);
             boolReturn = true;
         }else if (itemId == R.id.idMenuItemAccess){
             Log.i(TAG_NAME, "switch en vue Access");
-            sharedPrefsViewModel.update("A");
+            sharedPrefsViewModel.update(IVueService.ACCESS);
             boolReturn = true;
         }else if (itemId == R.id.idMenuItemU19){
             Log.i(TAG_NAME, "switch en vue U19");
-            sharedPrefsViewModel.update("U19");
+            sharedPrefsViewModel.update(IVueService.U19);
             boolReturn = true;
         }else if (itemId == R.id.idMenuItemU17){
             Log.i(TAG_NAME, "switch en vue U17");
-            sharedPrefsViewModel.update("U17");
+            sharedPrefsViewModel.update(IVueService.U17);
             boolReturn = true;
         } else {
-            Log.w(TAG_NAME, "selection dune vue non geree");
-            sharedPrefsViewModel.update("G");
+            Log.w(TAG_NAME, "selection dune vue non geree, vue generale");
+            sharedPrefsViewModel.update(IVueService.GENERALE);
             boolReturn = super.onOptionsItemSelected(item);
         }
         return boolReturn;

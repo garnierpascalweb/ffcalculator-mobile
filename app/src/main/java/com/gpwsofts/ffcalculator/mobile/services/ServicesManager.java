@@ -1,4 +1,5 @@
 package com.gpwsofts.ffcalculator.mobile.services;
+import android.content.res.Resources;
 import android.util.Log;
 
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
@@ -6,6 +7,8 @@ import com.gpwsofts.ffcalculator.mobile.services.result.IResultService;
 import com.gpwsofts.ffcalculator.mobile.services.result.MockResultService;
 import com.gpwsofts.ffcalculator.mobile.services.season.ISeasonService;
 import com.gpwsofts.ffcalculator.mobile.services.season.MockSeasonService;
+import com.gpwsofts.ffcalculator.mobile.services.vues.IVueService;
+import com.gpwsofts.ffcalculator.mobile.services.vues.SimpleVueService;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -36,6 +39,11 @@ public class ServicesManager {
     private ISeasonService seasonService = null;
 
     /**
+     * Service des vues
+     */
+    private IVueService vueService = null;
+
+    /**
      * Constructeur de ServiceManager
      * @param application
      */
@@ -52,7 +60,7 @@ public class ServicesManager {
     public final IResultService getResultService() {
         if (null == resultService) {
             resultService = new MockResultService();
-            Log.i(TAG_NAME,"creation dune nouvelle instance de MockResultService");
+            Log.i(TAG_NAME,"creation dune nouvelle instance de IResultService");
             //TODO 1.0.0 instancier un parametre avec des saveurs
         } else {
             Log.d(TAG_NAME,"recuperation dune instance existante de IResultService");
@@ -67,12 +75,22 @@ public class ServicesManager {
     public final ISeasonService getSeasonService(){
         if (null == seasonService){
             seasonService = new MockSeasonService();
-            Log.i(TAG_NAME,"creation dune nouvelle instance de MockSeasonService");
+            Log.i(TAG_NAME,"creation dune nouvelle instance de ISeasonService");
             //TODO 1.0.0 instancier en parametre avec des saveurs
         } else {
             Log.d(TAG_NAME,"recuperation dune instance existante de ISeasonService");
         }
         return seasonService;
+    }
+
+    public final IVueService getVueService(Resources res){
+        if (null == vueService){
+            Log.i(TAG_NAME,"creation dune nouvelle instance de IVueService");
+            vueService = new SimpleVueService(res);
+        } else {
+            Log.d(TAG_NAME,"recuperation dune instance existante de IVueService");
+        }
+        return vueService;
     }
 
     /**
