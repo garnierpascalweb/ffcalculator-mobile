@@ -1,4 +1,4 @@
-package com.gpwsofts.ffcalculator.mobile.viewmodel;
+package com.gpwsofts.ffcalculator.mobile.ui.result;
 
 import android.app.Application;
 import android.util.Log;

@@ -1,5 +1,7 @@
-package com.gpwsofts.ffcalculator.mobile.ui.home;
+package com.gpwsofts.ffcalculator.mobile.ui.result;
 
+
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -10,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,16 +21,19 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentHomeBinding;
-import com.gpwsofts.ffcalculator.mobile.viewmodel.ResultViewModel;
+import com.gpwsofts.ffcalculator.mobile.viewmodel.SharedPrefsViewModel;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-public class HomeFragment extends Fragment {
+public class ResultFragment extends Fragment {
     private static final String TAG_NAME = "HomeFragment";
     private ResultViewModel resultViewModel;
+    private SharedPrefsViewModel sharedPrefsViewModel;
     private FragmentHomeBinding binding;
 
     TextInputEditText textInputEditTextPlace;
@@ -42,26 +46,33 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+
         resultViewModel = new ViewModelProvider(requireActivity()).get(ResultViewModel.class);
+        sharedPrefsViewModel = new ViewModelProvider(requireActivity()).get(SharedPrefsViewModel.class);
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        //TODO 1.0.0 recuperation de UUID a mettre autre part que la
         String android_device_id = Settings.Secure.getString(this.requireActivity().getContentResolver(), Settings.Secure.ANDROID_ID);
         Log.i(TAG_NAME, "device id " + android_device_id);
         textInputEditTextPlace = binding.idTIETPlace;
         textInputLayoutSpinnerClasses = binding.idTISPClasses;
         textInputLayoutSpinnerPos = binding.idTISPPos;
         autoCompleteTextViewClasses = binding.idTVAutoClasses;
-        ArrayAdapter arrayAdapter = new ArrayAdapter<>(this.getContext(),  android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.planets_array) );
+        // https://stackoverflow.com/questions/18685898/android-clear-in-costom-arrayadapter-java-lang-unsupportedoperationexception
+        //ArrayList<String> defaultClasses = new ArrayList<>();
+        //defaultClasses.addAll(Arrays.asList(getResources().getStringArray(R.array.classes_for_elite)));
+        ArrayAdapter arrayAdapter = new ArrayAdapter<>(getContext(),  android.R.layout.simple_spinner_item, new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.classes_for_gen))));
+        //arrayAdapter.setDropDownViewResource();
         //arrayAdapter.setDropDownViewResource(R.array.planets_array);
         autoCompleteTextViewClasses.setAdapter(arrayAdapter);
+        //autoCompleteTextViewClasses.get
+
         autoCompleteTextViewClasses.setOnItemSelectedListener(
                 new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        Log.i(TAG_NAME, "nouvel item selectionne " + android_device_id);
+                        Log.i(TAG_NAME, "nouvel item selectionne ");
                     }
 
                     @Override
@@ -79,6 +90,30 @@ public class HomeFragment extends Fragment {
                 saveResult();
             }
         });
+       // this.getString(R.string.vue_elite);
+        this.sharedPrefsViewModel.getVue().observe(getViewLifecycleOwner(), new Observer<String>() {
+                    @SuppressLint("ResourceType")
+                    @Override
+                    public void onChanged(String vue) {
+                        Log.i(TAG_NAME, "mise a jour de la liste deroulante des classes de course en fonction de la vue " + vue);
+                        Log.d(TAG_NAME, "clear des eventuels choix deja sectiones");
+                        autoCompleteTextViewClasses.clearListSelection();
+                        Log.d(TAG_NAME, "clear du arrayAdapter");
+                        arrayAdapter.clear();
+                        Log.d(TAG_NAME, "appel du service VueService pour recuperer les classes associees a la vue " + vue);
+                        ArrayList<String> listOfClasses = FFCalculatorApplication.instance.getServicesManager().getVueService(getResources()).getComboboxClassesForVue(vue);
+                        Log.d(TAG_NAME, "addAll " + listOfClasses.size() + " nouvelles classes");
+                        listOfClasses.stream().forEach(classe -> Log.v(TAG_NAME, classe.toString()));
+                        arrayAdapter.addAll(listOfClasses);
+                        Log.d(TAG_NAME, "notification que arrayAdapter a été réalimenté");
+                        //TODO 1.0.0 verifier si ce notify est vraiment necessiare, depuis qu'on amis en place le getFilter()
+                        arrayAdapter.notifyDataSetChanged();
+                        Log.d(TAG_NAME, "filter sur autoCompleteTextViewClasses");
+                        arrayAdapter.getFilter().filter(autoCompleteTextViewClasses.getText(), null);
+                        //autoCompleteTextViewClasses.showDropDown();
+                    }
+                });
+
 
         // selon https://stackoverflow.com/questions/63548323/how-to-use-viewmodel-in-a-fragment
         /*

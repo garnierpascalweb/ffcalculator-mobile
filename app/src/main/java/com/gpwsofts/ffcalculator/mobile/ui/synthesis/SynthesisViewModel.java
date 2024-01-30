@@ -1,14 +1,14 @@
-package com.gpwsofts.ffcalculator.mobile.ui.notifications;
+package com.gpwsofts.ffcalculator.mobile.ui.synthesis;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class NotificationsViewModel extends ViewModel {
+public class SynthesisViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public NotificationsViewModel() {
+    public SynthesisViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is notifications fragment");
     }

@@ -11,91 +11,47 @@
     <string name="label_open1">Open 1</string>
     <string name="label_open2">Open 2</string>
     <string name="label_open3">Open 3</string>
+    <string name="label_u19">U19</string>
+    <string name="label_u17">U17</string>
     <string name="label_access">Access</string>
-    <string-array name="planets_array">
-        <item>1.12.1</item>
-        <item>1.13</item>
-        <item>1.40</item>
-        <item>1.14</item>
-        <item>3.48.1</item>
-        <item>3.54</item>
-        <item>3.55</item>
-        <item>3.57</item>
-        <item>2.12.1E</item>
-        <item>2.12.1G</item>
-        <item>2.13E</item>
-        <item>2.13G</item>
-        <item>2.14E</item>
-        <item>2.14G</item>
-        <item>3.56E</item>
-        <item>3.56G</item>
-        <item>3.58E</item>
-        <item>3.58G</item>
-        <item>1.12.4</item>
-        <item>1.12.5</item>
-        <item>1.12.6</item>
-        <item>1.12.7</item>
-        <item>1.24.0</item>
-        <item>1.24.1</item>
-        <item>1.24.2</item>
-        <item>1.28</item>
-        <item>1.25.0</item>
-        <item>1.25.1</item>
-        <item>1.32.0</item>
-        <item>1.31</item>
-        <item>2.12.4E</item>
-        <item>2.12.5E</item>
-        <item>2.12.6E</item>
-        <item>2.12.7E</item>
-        <item>2.12.4G</item>
-        <item>2.12.5G</item>
-        <item>2.12.6G</item>
-        <item>2.12.7G</item>
-        <item>2.24.0E</item>
-        <item>2.24.1E</item>
-        <item>2.24.2E</item>
-        <item>2.28E</item>
-        <item>2.24.0G</item>
-        <item>2.24.1G</item>
-        <item>2.24.2G</item>
-        <item>2.28G</item>
-        <item>2.25.0E</item>
-        <item>2.25.0G</item>
-        <item>2.25.1E</item>
-        <item>2.32E</item>
-        <item>2.25.1G</item>
-        <item>2.32G</item>
-        <item>3.41</item>
-        <item>3.49</item>
-        <item>3.42</item>
-        <item>3.43</item>
-        <item>3.45</item>
-        <item>3.46</item>
-        <item>3.48</item>
-        <item>3.20</item>
-        <item>3.27</item>
-        <item>3.21</item>
-        <item>3.22</item>
-        <item>3.23</item>
-        <item>3.24</item>
-        <item>3.00</item>
-        <item>3.05</item>
-        <item>3.01</item>
-        <item>3.06</item>
-        <item>3.02</item>
-        <item>3.03</item>
-        <item>ME1.1</item>
-        <item>ME1.PRO</item>
-        <item>ME1.2</item>
-        <item>MU1.2</item>
-        <item>MJ1.1</item>
-        <item>ME2.1E</item>
-        <item>ME2.1G</item>
-        <item>ME2.2E</item>
-        <item>MU2.2E</item>
-        <item>ME2.2G</item>
-        <item>MU2.2G</item>
-        <item>MJ2.1E</item>
-        <item>MJ2.1G</item>
+    <string name="vue_elite">E</string>
+    <string name="vue_open1">O1</string>
+    <string name="vue_open2">O2</string>
+    <string name="vue_open3">O3</string>
+    <string name="vue_u19">U19</string>
+    <string name="vue_u17">U17</string>
+    <string name="vue_access">A</string>
+    <string-array name="classes_for_gen">
+        <item>classe generela 1</item>
+        <item>classe generale 2</item>
+    </string-array>
+    <string-array name="classes_for_elite">
+        <item>classe Elite 1</item>
+        <item>classe Elite 2</item>
+        <item>classe Elite 3</item>
+    </string-array>
+    <string-array name="classes_for_open1">
+        <item>Classe Open1 </item>
+        <item>classe Open 2</item>
+    </string-array>
+    <string-array name="classes_for_open2">
+        <item>Classe Open2</item>
+        <item>classe Open2bis</item>
+    </string-array>
+    <string-array name="classes_for_open3">
+        <item>Classe Open3</item>
+        <item>classe Open3bis</item>
+    </string-array>
+    <string-array name="classes_for_access">
+        <item>Classe access1 </item>
+        <item>classe access2</item>
+    </string-array>
+    <string-array name="classes_for_u19">
+        <item>Classe U19 </item>
+        <item>classe U19</item>
+    </string-array>
+    <string-array name="classes_for_u17">
+        <item>Classe U17 </item>
+        <item>classe U17</item>
     </string-array>
 </resources>
