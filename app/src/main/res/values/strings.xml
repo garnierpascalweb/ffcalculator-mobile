@@ -21,40 +21,6 @@
     <string name="vue_u19">U19</string>
     <string name="vue_u17">U17</string>
     <string name="vue_access">A</string>
-    <string-array name="classes_for_gen">
-        <item>classe generela 1</item>
-        <item>classe generale 2</item>
-    </string-array>
-    <string-array name="classes_for_elite">
-        <item>classe Elite 1</item>
-        <item>classe Elite 2</item>
-        <item>classe Elite 3</item>
-    </string-array>
-    <string-array name="classes_for_open1">
-        <item>Classe Open1 </item>
-        <item>classe Open 2</item>
-    </string-array>
-    <string-array name="classes_for_open2">
-        <item>Classe Open2</item>
-        <item>classe Open2bis</item>
-    </string-array>
-    <string-array name="classes_for_open3">
-        <item>Classe Open3</item>
-        <item>classe Open3bis</item>
-    </string-array>
-    <string-array name="classes_for_access">
-        <item>Classe access1 </item>
-        <item>classe access2</item>
-    </string-array>
-    <string-array name="classes_for_u19">
-        <item>Classe U19 </item>
-        <item>classe U19</item>
-    </string-array>
-    <string-array name="classes_for_u17">
-        <item>Classe U17 </item>
-        <item>classe U17</item>
-    </string-array>
-
 
     <!-- Definition des libelles pour les classes de course dans la combo -->
     <string name="label_combo_classe_1_12_1">Elite Nationale (1.12.1)</string>
