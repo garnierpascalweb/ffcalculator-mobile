@@ -21,45 +21,46 @@ public class SimpleVueService implements IVueService {
         switch (vue){
             case ELITE : {
                 Log.d(TAG_NAME, "chargement dans la liste deroulante des classes eligibles a la vue " + vue);
-                listClasses.addAll(new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.classes_for_elite))));
+                listClasses.addAll(new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.classes_for_E))));
                 break;
             }
             case OPEN_1 : {
                 Log.d(TAG_NAME, "chargement dans la liste deroulante des classes eligibles a la vue " + vue);
-                listClasses.addAll(new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.classes_for_open1))));
+                listClasses.addAll(new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.classes_for_O1))));
                 break;
             }
             case OPEN_2 : {
                 Log.d(TAG_NAME, "chargement dans la liste deroulante des classes eligibles a la vue " + vue);
-                listClasses.addAll(new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.classes_for_open2))));
+                listClasses.addAll(new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.classes_for_O2))));
                 break;
             }
             case OPEN_3 : {
                 Log.d(TAG_NAME, "chargement dans la liste deroulante des classes eligibles a la vue " + vue);
-                listClasses.addAll(new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.classes_for_open3))));
+                listClasses.addAll(new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.classes_for_O3))));
                 break;
             }
             case ACCESS : {
                 Log.d(TAG_NAME, "chargement dans la liste deroulante des classes eligibles a la vue " + vue);
-                listClasses.addAll(new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.classes_for_access))));
+                listClasses.addAll(new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.classes_for_A))));
                 break;
             }
             case U19 : {
                 Log.d(TAG_NAME, "chargement dans la liste deroulante des classes eligibles a la vue " + vue);
-                listClasses.addAll(new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.classes_for_u19))));
+                listClasses.addAll(new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.classes_for_U19))));
                 break;
             }
             case U17 : {
                 Log.d(TAG_NAME, "chargement dans la liste deroulante des classes eligibles a la vue " + vue);
-                listClasses.addAll(new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.classes_for_u17))));
+                listClasses.addAll(new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.classes_for_U17))));
                 break;
             }
             default : {
                 Log.d(TAG_NAME, "chargement dans la liste deroulante des classes eligibles a la vue G car " + vue);
-                listClasses.addAll(new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.classes_for_gen))));
+                listClasses.addAll(new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.classes_for_G))));
                 break;
             }
         }
+        //TODO 1.0.0 vue U23 ?
         return listClasses;
     }
 }

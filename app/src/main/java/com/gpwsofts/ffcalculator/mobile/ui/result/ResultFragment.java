@@ -62,7 +62,7 @@ public class ResultFragment extends Fragment {
         // https://stackoverflow.com/questions/18685898/android-clear-in-costom-arrayadapter-java-lang-unsupportedoperationexception
         //ArrayList<String> defaultClasses = new ArrayList<>();
         //defaultClasses.addAll(Arrays.asList(getResources().getStringArray(R.array.classes_for_elite)));
-        ArrayAdapter arrayAdapter = new ArrayAdapter<>(getContext(),  android.R.layout.simple_spinner_item, new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.classes_for_gen))));
+        ArrayAdapter arrayAdapter = new ArrayAdapter<>(getContext(),  android.R.layout.simple_spinner_item, new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.classes_for_G))));
         //arrayAdapter.setDropDownViewResource();
         //arrayAdapter.setDropDownViewResource(R.array.planets_array);
         autoCompleteTextViewClasses.setAdapter(arrayAdapter);
