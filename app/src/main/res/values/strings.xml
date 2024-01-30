@@ -54,4 +54,890 @@
         <item>Classe U17 </item>
         <item>classe U17</item>
     </string-array>
+
+
+    <!-- Definition des libelles pour les classes de course dans la combo -->
+    <string name="label_combo_classe_1_12_1">Elite Nationale (1.12.1)</string>
+    <string name="label_combo_classe_1_13">Federale U23 (1.13)</string>
+    <string name="label_combo_classe_1_40">Circuit Ferme (1.40)</string>
+    <string name="label_combo_classe_1_14">Federale U19 (1.14)</string>
+    <string name="label_combo_classe_3_48_1">Coupe de France U17 (3.48.1)</string>
+    <string name="label_combo_classe_3_54">Coupe de France N1 (3.54)</string>
+    <string name="label_combo_classe_3_55">Coupe de France N2 (3.55)</string>
+    <string name="label_combo_classe_3_57">Coupe de France N3 (3.57)</string>
+    <string name="label_combo_classe_2_12_1E">Elite Nationale Etape (2.12.1E)</string>
+    <string name="label_combo_classe_2_12_1G">Elite Nationale General (2.12.1G)</string>
+    <string name="label_combo_classe_2_13E">Federale U23 Etape (2.13E)</string>
+    <string name="label_combo_classe_2_13G">Federale U23 General (2.13G)</string>
+    <string name="label_combo_classe_2_14E">Federale U19 Etape (2.14E)</string>
+    <string name="label_combo_classe_2_14G">Federale U19 General (2.14G)</string>
+    <string name="label_combo_classe_3_56E">Coupe de France N1 Etape (3.56E)</string>
+    <string name="label_combo_classe_3_56G">Coupe de France N1 General (3.56G)</string>
+    <string name="label_combo_classe_3_58E">Coupe de France N2 Etape (3.58E)</string>
+    <string name="label_combo_classe_3_58G">Coupe de France N2 General (3.58G)</string>
+    <string name="label_combo_classe_1_12_4">Elite Open 1 (1.12.4)</string>
+    <string name="label_combo_classe_1_12_5">Elite Open 1/2 (1.12.5)</string>
+    <string name="label_combo_classe_1_12_6">Elite Open 1/2/3 (1.12.6)</string>
+    <string name="label_combo_classe_1_12_7">Elite Open 1/2/3 Access (1.12.7)</string>
+    <string name="label_combo_classe_1_24_0">Open 1/2 (1.24.0)</string>
+    <string name="label_combo_classe_1_24_1">Open 1/2/3 (1.24.1)</string>
+    <string name="label_combo_classe_1_24_2">Open 1/2/3/Access (1.24.2)</string>
+    <string name="label_combo_classe_1_28">U23 (1.28)</string>
+    <string name="label_combo_classe_1_25_0">Open 2/3 Access (1.25.0)</string>
+    <string name="label_combo_classe_1_25_1">Open 3 Access (1.25.1)</string>
+    <string name="label_combo_classe_1_32_0">U19 (1.32.0)</string>
+    <string name="label_combo_classe_1_31">U17 (1.31)</string>
+    <string name="label_combo_classe_2_12_4E">Elite Open 1 (2.12.4E)</string>
+    <string name="label_combo_classe_2_12_5E">Elite Open 1/2 (2.12.5E)</string>
+    <string name="label_combo_classe_2_12_6E">Elite Open 1/2/3 (2.12.6E)</string>
+    <string name="label_combo_classe_2_12_7E">Elite Open 1/2/3 Access (2.12.7E)</string>
+    <string name="label_combo_classe_2_12_4G">Elite Open 1 (2.12.4G)</string>
+    <string name="label_combo_classe_2_12_5G">Elite Open 1/2 (2.12.5G)</string>
+    <string name="label_combo_classe_2_12_6G">Elite Open 1/2/3 (2.12.6G)</string>
+    <string name="label_combo_classe_2_12_7G">Elite Open 1/2/3 Access (2.12.7G)</string>
+    <string name="label_combo_classe_2_24_0E">Open 1/2 (2.24.0E)</string>
+    <string name="label_combo_classe_2_24_1E">Open 1/2/3 (2.24.1E)</string>
+    <string name="label_combo_classe_2_24_2E">Open 1/2/3/Access (2.24.2E)</string>
+    <string name="label_combo_classe_2_28E">U23 (2.28E)</string>
+    <string name="label_combo_classe_2_24_0G">Open 1/2 (2.24.0G)</string>
+    <string name="label_combo_classe_2_24_1G">Open 1/2/3 (2.24.1G)</string>
+    <string name="label_combo_classe_2_24_2G">Open 1/2/3/Access (2.24.2G)</string>
+    <string name="label_combo_classe_2_28G">U23 (2.28G)</string>
+    <string name="label_combo_classe_2_25_0E">Open 2/3 Access (2.25.0E)</string>
+    <string name="label_combo_classe_2_25_0G">Open 2/3 Access (2.25.0G)</string>
+    <string name="label_combo_classe_2_25_1E">Open 3 Access (2.25.1E)</string>
+    <string name="label_combo_classe_2_32E">U19 (2.32E)</string>
+    <string name="label_combo_classe_2_25_1G">Open 3 Access (2.25.1G)</string>
+    <string name="label_combo_classe_2_32G">U19 (2.32G)</string>
+    <string name="label_combo_classe_3_41">Championnat de France Amateur Elite CLM (3.41)</string>
+    <string name="label_combo_classe_3_49">Championnat de France Amateur (3.49)</string>
+    <string name="label_combo_classe_3_42">Championnat de France U23 (3.42)</string>
+    <string name="label_combo_classe_3_43">Championnat de France U23 CLM (3.43)</string>
+    <string name="label_combo_classe_3_45">Championnat de France U19 (3.45)</string>
+    <string name="label_combo_classe_3_46">Championnat de France U19 CLM (3.46)</string>
+    <string name="label_combo_classe_3_48">Championnat de France U17 (3.48)</string>
+    <string name="label_combo_classe_3_20">Championnat Regional Elite (3.20)</string>
+    <string name="label_combo_classe_3_27">Championnat Regional Open 1 (3.27)</string>
+    <string name="label_combo_classe_3_21">Championnat Regional U23 (3.21)</string>
+    <string name="label_combo_classe_3_22">Championnat Regional Open 2/3 (3.22)</string>
+    <string name="label_combo_classe_3_23">Championnat Regional U19 (3.23)</string>
+    <string name="label_combo_classe_3_24">Championnat Regional U17 (3.24)</string>
+    <string name="label_combo_classe_3_00">Championnat Departemental Elite (3.00)</string>
+    <string name="label_combo_classe_3_05">Championnat Departemental Open1 (3.05)</string>
+    <string name="label_combo_classe_3_01">Championnat Departemental U23 (3.01)</string>
+    <string name="label_combo_classe_3_06">Championnat Departemental Open 2/3 (3.06)</string>
+    <string name="label_combo_classe_3_02">Championnat Departemental U19 (3.02)</string>
+    <string name="label_combo_classe_3_03">Championnat Departemental U17 (3.03)</string>
+    <string name="label_combo_classe_ME1_1">Elite Classe 1 (ME1.1)</string>
+    <string name="label_combo_classe_ME1_PRO">Elite UCI ProSeries (ME1.PRO)</string>
+    <string name="label_combo_classe_ME1_2">Elite Classe 2 (ME1.2)</string>
+    <string name="label_combo_classe_MU1_2">U23 Classe 2 (MU1.2)</string>
+    <string name="label_combo_classe_MJ1_1">Junior Classe 1 (MJ1.1)</string>
+    <string name="label_combo_classe_ME2_1E">Elite Classe 1 (ME2.1E)</string>
+    <string name="label_combo_classe_ME2_1G">Elite Classe 1 (ME2.1G)</string>
+    <string name="label_combo_classe_ME2_2E">Elite Classe 2 (ME2.2E)</string>
+    <string name="label_combo_classe_MU2_2E">U23 Classe 2 (MU2.2E)</string>
+    <string name="label_combo_classe_ME2_2G">Elite Classe 2 (ME2.2G)</string>
+    <string name="label_combo_classe_MU2_2G">U23 Classe 2 (MU2.2G)</string>
+    <string name="label_combo_classe_MJ2_1E">Junior Classe 1 (MJ2.1E)</string>
+    <string name="label_combo_classe_MJ2_1G">Junior Classe 1 (MJ2.1G)</string>
+
+    <!-- Array Elite classes_for_E -->
+    <string-array name="classes_for_E">
+        <item>@string/label_combo_classe_1_12_1</item>
+        <item>@string/label_combo_classe_1_13</item>
+        <item>@string/label_combo_classe_1_40</item>
+        <item>@string/label_combo_classe_3_54</item>
+        <item>@string/label_combo_classe_3_55</item>
+        <item>@string/label_combo_classe_3_57</item>
+        <item>@string/label_combo_classe_2_12_1E</item>
+        <item>@string/label_combo_classe_2_12_1G</item>
+        <item>@string/label_combo_classe_3_56E</item>
+        <item>@string/label_combo_classe_3_56G</item>
+        <item>@string/label_combo_classe_3_58E</item>
+        <item>@string/label_combo_classe_3_58G</item>
+        <item>@string/label_combo_classe_1_12_4</item>
+        <item>@string/label_combo_classe_1_12_5</item>
+        <item>@string/label_combo_classe_1_12_6</item>
+        <item>@string/label_combo_classe_1_12_7</item>
+        <item>@string/label_combo_classe_2_12_4E</item>
+        <item>@string/label_combo_classe_2_12_5E</item>
+        <item>@string/label_combo_classe_2_12_6E</item>
+        <item>@string/label_combo_classe_2_12_7E</item>
+        <item>@string/label_combo_classe_2_12_4G</item>
+        <item>@string/label_combo_classe_2_12_5G</item>
+        <item>@string/label_combo_classe_2_12_6G</item>
+        <item>@string/label_combo_classe_2_12_7G</item>
+        <item>@string/label_combo_classe_3_41</item>
+        <item>@string/label_combo_classe_3_49</item>
+        <item>@string/label_combo_classe_3_20</item>
+        <item>@string/label_combo_classe_3_00</item>
+        <item>@string/label_combo_classe_ME1_1</item>
+        <item>@string/label_combo_classe_ME1_PRO</item>
+        <item>@string/label_combo_classe_ME1_2</item>
+        <item>@string/label_combo_classe_ME2_1E</item>
+        <item>@string/label_combo_classe_ME2_1G</item>
+        <item>@string/label_combo_classe_ME2_2E</item>
+        <item>@string/label_combo_classe_ME2_2G</item>
+    </string-array>
+    <!-- Array Open1 classes_for_O1 -->
+    <string-array name="classes_for_O1">
+        <item>@string/label_combo_classe_1_13</item>
+        <item>@string/label_combo_classe_1_40</item>
+        <item>@string/label_combo_classe_3_54</item>
+        <item>@string/label_combo_classe_3_55</item>
+        <item>@string/label_combo_classe_3_57</item>
+        <item>@string/label_combo_classe_2_12_1E</item>
+        <item>@string/label_combo_classe_2_12_1G</item>
+        <item>@string/label_combo_classe_3_56E</item>
+        <item>@string/label_combo_classe_3_56G</item>
+        <item>@string/label_combo_classe_3_58E</item>
+        <item>@string/label_combo_classe_3_58G</item>
+        <item>@string/label_combo_classe_1_12_4</item>
+        <item>@string/label_combo_classe_1_12_5</item>
+        <item>@string/label_combo_classe_1_12_6</item>
+        <item>@string/label_combo_classe_1_12_7</item>
+        <item>@string/label_combo_classe_1_24_0</item>
+        <item>@string/label_combo_classe_1_24_1</item>
+        <item>@string/label_combo_classe_1_24_2</item>
+        <item>@string/label_combo_classe_2_12_4E</item>
+        <item>@string/label_combo_classe_2_12_5E</item>
+        <item>@string/label_combo_classe_2_12_6E</item>
+        <item>@string/label_combo_classe_2_12_7E</item>
+        <item>@string/label_combo_classe_2_12_4G</item>
+        <item>@string/label_combo_classe_2_12_5G</item>
+        <item>@string/label_combo_classe_2_12_6G</item>
+        <item>@string/label_combo_classe_2_12_7G</item>
+        <item>@string/label_combo_classe_2_24_0E</item>
+        <item>@string/label_combo_classe_2_24_1E</item>
+        <item>@string/label_combo_classe_2_24_2E</item>
+        <item>@string/label_combo_classe_2_24_0G</item>
+        <item>@string/label_combo_classe_2_24_1G</item>
+        <item>@string/label_combo_classe_2_24_2G</item>
+        <item>@string/label_combo_classe_3_20</item>
+        <item>@string/label_combo_classe_3_27</item>
+        <item>@string/label_combo_classe_3_00</item>
+        <item>@string/label_combo_classe_3_05</item>
+    </string-array>
+    <!-- Array Open2 classes_for_O2 -->
+    <string-array name="classes_for_O2">
+        <item>@string/label_combo_classe_3_57</item>
+        <item>@string/label_combo_classe_1_12_5</item>
+        <item>@string/label_combo_classe_1_12_6</item>
+        <item>@string/label_combo_classe_1_12_7</item>
+        <item>@string/label_combo_classe_1_24_0</item>
+        <item>@string/label_combo_classe_1_24_1</item>
+        <item>@string/label_combo_classe_1_24_2</item>
+        <item>@string/label_combo_classe_1_25_0</item>
+        <item>@string/label_combo_classe_2_12_5E</item>
+        <item>@string/label_combo_classe_2_12_6E</item>
+        <item>@string/label_combo_classe_2_12_7E</item>
+        <item>@string/label_combo_classe_2_12_5G</item>
+        <item>@string/label_combo_classe_2_12_6G</item>
+        <item>@string/label_combo_classe_2_12_7G</item>
+        <item>@string/label_combo_classe_2_24_0E</item>
+        <item>@string/label_combo_classe_2_24_1E</item>
+        <item>@string/label_combo_classe_2_24_2E</item>
+        <item>@string/label_combo_classe_2_24_0G</item>
+        <item>@string/label_combo_classe_2_24_1G</item>
+        <item>@string/label_combo_classe_2_24_2G</item>
+        <item>@string/label_combo_classe_2_25_0E</item>
+        <item>@string/label_combo_classe_2_25_0G</item>
+        <item>@string/label_combo_classe_3_20</item>
+        <item>@string/label_combo_classe_3_27</item>
+        <item>@string/label_combo_classe_3_22</item>
+        <item>@string/label_combo_classe_3_00</item>
+        <item>@string/label_combo_classe_3_05</item>
+        <item>@string/label_combo_classe_3_06</item>
+    </string-array>
+    <!-- Array Open3 classes_for_O3 -->
+    <string-array name="classes_for_O3">
+        <item>@string/label_combo_classe_1_12_6</item>
+        <item>@string/label_combo_classe_1_12_7</item>
+        <item>@string/label_combo_classe_1_24_1</item>
+        <item>@string/label_combo_classe_1_24_2</item>
+        <item>@string/label_combo_classe_1_25_0</item>
+        <item>@string/label_combo_classe_1_25_1</item>
+        <item>@string/label_combo_classe_2_12_6E</item>
+        <item>@string/label_combo_classe_2_12_7E</item>
+        <item>@string/label_combo_classe_2_12_6G</item>
+        <item>@string/label_combo_classe_2_12_7G</item>
+        <item>@string/label_combo_classe_2_24_1E</item>
+        <item>@string/label_combo_classe_2_24_2E</item>
+        <item>@string/label_combo_classe_2_24_1G</item>
+        <item>@string/label_combo_classe_2_24_2G</item>
+        <item>@string/label_combo_classe_2_25_0E</item>
+        <item>@string/label_combo_classe_2_25_0G</item>
+        <item>@string/label_combo_classe_2_25_1E</item>
+        <item>@string/label_combo_classe_2_25_1G</item>
+        <item>@string/label_combo_classe_3_20</item>
+        <item>@string/label_combo_classe_3_27</item>
+        <item>@string/label_combo_classe_3_22</item>
+        <item>@string/label_combo_classe_3_00</item>
+        <item>@string/label_combo_classe_3_05</item>
+        <item>@string/label_combo_classe_3_06</item>
+    </string-array>
+    <!-- Array Access classes_for_A -->
+    <string-array name="classes_for_A">
+        <item>@string/label_combo_classe_1_12_7</item>
+        <item>@string/label_combo_classe_1_24_2</item>
+        <item>@string/label_combo_classe_1_25_0</item>
+        <item>@string/label_combo_classe_1_25_1</item>
+        <item>@string/label_combo_classe_2_12_7E</item>
+        <item>@string/label_combo_classe_2_12_7G</item>
+        <item>@string/label_combo_classe_2_24_2E</item>
+        <item>@string/label_combo_classe_2_24_2G</item>
+        <item>@string/label_combo_classe_2_25_0E</item>
+        <item>@string/label_combo_classe_2_25_0G</item>
+        <item>@string/label_combo_classe_2_25_1E</item>
+    </string-array>
+    <!-- Array U23 classes_for_U23 -->
+    <string-array name="classes_for_U23">
+        <item>@string/label_combo_classe_2_13E</item>
+        <item>@string/label_combo_classe_2_13G</item>
+        <item>@string/label_combo_classe_1_28</item>
+        <item>@string/label_combo_classe_2_28E</item>
+        <item>@string/label_combo_classe_2_28G</item>
+        <item>@string/label_combo_classe_3_42</item>
+        <item>@string/label_combo_classe_3_43</item>
+        <item>@string/label_combo_classe_3_21</item>
+        <item>@string/label_combo_classe_3_01</item>
+        <item>@string/label_combo_classe_MU1_2</item>
+        <item>@string/label_combo_classe_MU2_2E</item>
+        <item>@string/label_combo_classe_MU2_2G</item>
+    </string-array>
+    <!-- Array U19 classes_for_U19 -->
+    <string-array name="classes_for_U19">
+        <item>@string/label_combo_classe_1_14</item>
+        <item>@string/label_combo_classe_2_14E</item>
+        <item>@string/label_combo_classe_2_14G</item>
+        <item>@string/label_combo_classe_1_32_0</item>
+        <item>@string/label_combo_classe_2_32E</item>
+        <item>@string/label_combo_classe_2_32G</item>
+        <item>@string/label_combo_classe_3_45</item>
+        <item>@string/label_combo_classe_3_46</item>
+        <item>@string/label_combo_classe_3_23</item>
+        <item>@string/label_combo_classe_3_02</item>
+        <item>@string/label_combo_classe_MJ1_1</item>
+        <item>@string/label_combo_classe_MJ2_1E</item>
+        <item>@string/label_combo_classe_MJ2_1G</item>
+    </string-array>
+    <!-- Array U17 classes_for_U17 -->
+    <string-array name="classes_for_U17">
+        <item>@string/label_combo_classe_3_48_1</item>
+        <item>@string/label_combo_classe_1_31</item>
+        <item>@string/label_combo_classe_3_48</item>
+        <item>@string/label_combo_classe_3_24</item>
+        <item>@string/label_combo_classe_3_03</item>
+    </string-array>
+    <!-- Array G  classes_for_G -->
+    <string-array name="classes_for_G">
+        <item>@string/label_combo_classe_1_12_1</item>
+        <item>@string/label_combo_classe_1_13</item>
+        <item>@string/label_combo_classe_1_40</item>
+        <item>@string/label_combo_classe_1_14</item>
+        <item>@string/label_combo_classe_3_48_1</item>
+        <item>@string/label_combo_classe_3_54</item>
+        <item>@string/label_combo_classe_3_55</item>
+        <item>@string/label_combo_classe_3_57</item>
+        <item>@string/label_combo_classe_2_12_1E</item>
+        <item>@string/label_combo_classe_2_12_1G</item>
+        <item>@string/label_combo_classe_2_13E</item>
+        <item>@string/label_combo_classe_2_13G</item>
+        <item>@string/label_combo_classe_2_14E</item>
+        <item>@string/label_combo_classe_2_14G</item>
+        <item>@string/label_combo_classe_3_56E</item>
+        <item>@string/label_combo_classe_3_56G</item>
+        <item>@string/label_combo_classe_3_58E</item>
+        <item>@string/label_combo_classe_3_58G</item>
+        <item>@string/label_combo_classe_1_12_4</item>
+        <item>@string/label_combo_classe_1_12_5</item>
+        <item>@string/label_combo_classe_1_12_6</item>
+        <item>@string/label_combo_classe_1_12_7</item>
+        <item>@string/label_combo_classe_1_24_0</item>
+        <item>@string/label_combo_classe_1_24_1</item>
+        <item>@string/label_combo_classe_1_24_2</item>
+        <item>@string/label_combo_classe_1_28</item>
+        <item>@string/label_combo_classe_1_25_0</item>
+        <item>@string/label_combo_classe_1_25_1</item>
+        <item>@string/label_combo_classe_1_32_0</item>
+        <item>@string/label_combo_classe_1_31</item>
+        <item>@string/label_combo_classe_2_12_4E</item>
+        <item>@string/label_combo_classe_2_12_5E</item>
+        <item>@string/label_combo_classe_2_12_6E</item>
+        <item>@string/label_combo_classe_2_12_7E</item>
+        <item>@string/label_combo_classe_2_12_4G</item>
+        <item>@string/label_combo_classe_2_12_5G</item>
+        <item>@string/label_combo_classe_2_12_6G</item>
+        <item>@string/label_combo_classe_2_12_7G</item>
+        <item>@string/label_combo_classe_2_24_0E</item>
+        <item>@string/label_combo_classe_2_24_1E</item>
+        <item>@string/label_combo_classe_2_24_2E</item>
+        <item>@string/label_combo_classe_2_28E</item>
+        <item>@string/label_combo_classe_2_24_0G</item>
+        <item>@string/label_combo_classe_2_24_1G</item>
+        <item>@string/label_combo_classe_2_24_2G</item>
+        <item>@string/label_combo_classe_2_28G</item>
+        <item>@string/label_combo_classe_2_25_0E</item>
+        <item>@string/label_combo_classe_2_25_0G</item>
+        <item>@string/label_combo_classe_2_25_1E</item>
+        <item>@string/label_combo_classe_2_32E</item>
+        <item>@string/label_combo_classe_2_25_1G</item>
+        <item>@string/label_combo_classe_2_32G</item>
+        <item>@string/label_combo_classe_3_41</item>
+        <item>@string/label_combo_classe_3_49</item>
+        <item>@string/label_combo_classe_3_42</item>
+        <item>@string/label_combo_classe_3_43</item>
+        <item>@string/label_combo_classe_3_45</item>
+        <item>@string/label_combo_classe_3_46</item>
+        <item>@string/label_combo_classe_3_48</item>
+        <item>@string/label_combo_classe_3_20</item>
+        <item>@string/label_combo_classe_3_27</item>
+        <item>@string/label_combo_classe_3_21</item>
+        <item>@string/label_combo_classe_3_22</item>
+        <item>@string/label_combo_classe_3_23</item>
+        <item>@string/label_combo_classe_3_24</item>
+        <item>@string/label_combo_classe_3_00</item>
+        <item>@string/label_combo_classe_3_05</item>
+        <item>@string/label_combo_classe_3_01</item>
+        <item>@string/label_combo_classe_3_06</item>
+        <item>@string/label_combo_classe_3_02</item>
+        <item>@string/label_combo_classe_3_03</item>
+        <item>@string/label_combo_classe_ME1_1</item>
+        <item>@string/label_combo_classe_ME1_PRO</item>
+        <item>@string/label_combo_classe_ME1_2</item>
+        <item>@string/label_combo_classe_MU1_2</item>
+        <item>@string/label_combo_classe_MJ1_1</item>
+        <item>@string/label_combo_classe_ME2_1E</item>
+        <item>@string/label_combo_classe_ME2_1G</item>
+        <item>@string/label_combo_classe_ME2_2E</item>
+        <item>@string/label_combo_classe_MU2_2E</item>
+        <item>@string/label_combo_classe_ME2_2G</item>
+        <item>@string/label_combo_classe_MU2_2G</item>
+        <item>@string/label_combo_classe_MJ2_1E</item>
+        <item>@string/label_combo_classe_MJ2_1G</item>
+    </string-array>
+
+    <!-- String pour les prts -->
+    <string name="label_combo_prts_1">1</string>
+    <string name="label_combo_prts_2">2</string>
+    <string name="label_combo_prts_3">3</string>
+    <string name="label_combo_prts_4">4</string>
+    <string name="label_combo_prts_5">5</string>
+    <string name="label_combo_prts_6">6</string>
+    <string name="label_combo_prts_7">7</string>
+    <string name="label_combo_prts_8">8</string>
+    <string name="label_combo_prts_9">9</string>
+    <string name="label_combo_prts_10">10</string>
+    <string name="label_combo_prts_11">11</string>
+    <string name="label_combo_prts_12">12</string>
+    <string name="label_combo_prts_13">13</string>
+    <string name="label_combo_prts_14">14</string>
+    <string name="label_combo_prts_15">15</string>
+    <string name="label_combo_prts_16">16</string>
+    <string name="label_combo_prts_17">17</string>
+    <string name="label_combo_prts_18">18</string>
+    <string name="label_combo_prts_19">19</string>
+    <string name="label_combo_prts_20">20</string>
+    <string name="label_combo_prts_21">21</string>
+    <string name="label_combo_prts_22">22</string>
+    <string name="label_combo_prts_23">23</string>
+    <string name="label_combo_prts_24">24</string>
+    <string name="label_combo_prts_25">25</string>
+    <string name="label_combo_prts_26">26</string>
+    <string name="label_combo_prts_27">27</string>
+    <string name="label_combo_prts_28">28</string>
+    <string name="label_combo_prts_29">29</string>
+    <string name="label_combo_prts_30">30</string>
+    <string name="label_combo_prts_31">31</string>
+    <string name="label_combo_prts_32">32</string>
+    <string name="label_combo_prts_33">33</string>
+    <string name="label_combo_prts_34">34</string>
+    <string name="label_combo_prts_35">35</string>
+    <string name="label_combo_prts_36">36</string>
+    <string name="label_combo_prts_37">37</string>
+    <string name="label_combo_prts_38">38</string>
+    <string name="label_combo_prts_39">39</string>
+    <string name="label_combo_prts_40">40</string>
+    <string name="label_combo_prts_41">41</string>
+    <string name="label_combo_prts_42">42</string>
+    <string name="label_combo_prts_43">43</string>
+    <string name="label_combo_prts_44">44</string>
+    <string name="label_combo_prts_45">45</string>
+    <string name="label_combo_prts_46">46</string>
+    <string name="label_combo_prts_47">47</string>
+    <string name="label_combo_prts_48">48</string>
+    <string name="label_combo_prts_49">49</string>
+    <string name="label_combo_prts_50">50</string>
+    <string name="label_combo_prts_51">51</string>
+    <string name="label_combo_prts_52">52</string>
+    <string name="label_combo_prts_53">53</string>
+    <string name="label_combo_prts_54">54</string>
+    <string name="label_combo_prts_55">55</string>
+    <string name="label_combo_prts_56">56</string>
+    <string name="label_combo_prts_57">57</string>
+    <string name="label_combo_prts_58">58</string>
+    <string name="label_combo_prts_59">59</string>
+    <string name="label_combo_prts_60">60</string>
+    <string name="label_combo_prts_61">61</string>
+    <string name="label_combo_prts_62">62</string>
+    <string name="label_combo_prts_63">63</string>
+    <string name="label_combo_prts_64">64</string>
+    <string name="label_combo_prts_65">65</string>
+    <string name="label_combo_prts_66">66</string>
+    <string name="label_combo_prts_67">67</string>
+    <string name="label_combo_prts_68">68</string>
+    <string name="label_combo_prts_69">69</string>
+    <string name="label_combo_prts_70">70</string>
+    <string name="label_combo_prts_71">71</string>
+    <string name="label_combo_prts_72">72</string>
+    <string name="label_combo_prts_73">73</string>
+    <string name="label_combo_prts_74">74</string>
+    <string name="label_combo_prts_75">75</string>
+    <string name="label_combo_prts_76">76</string>
+    <string name="label_combo_prts_77">77</string>
+    <string name="label_combo_prts_78">78</string>
+    <string name="label_combo_prts_79">79</string>
+    <string name="label_combo_prts_80">80</string>
+    <string name="label_combo_prts_81">81</string>
+    <string name="label_combo_prts_82">82</string>
+    <string name="label_combo_prts_83">83</string>
+    <string name="label_combo_prts_84">84</string>
+    <string name="label_combo_prts_85">85</string>
+    <string name="label_combo_prts_86">86</string>
+    <string name="label_combo_prts_87">87</string>
+    <string name="label_combo_prts_88">88</string>
+    <string name="label_combo_prts_89">89</string>
+    <string name="label_combo_prts_90">90</string>
+    <string name="label_combo_prts_91">91</string>
+    <string name="label_combo_prts_92">92</string>
+    <string name="label_combo_prts_93">93</string>
+    <string name="label_combo_prts_94">94</string>
+    <string name="label_combo_prts_95">95</string>
+    <string name="label_combo_prts_96">96</string>
+    <string name="label_combo_prts_97">97</string>
+    <string name="label_combo_prts_98">98</string>
+    <string name="label_combo_prts_99">99</string>
+    <string name="label_combo_prts_100">100</string>
+    <string name="label_combo_prts_101">101</string>
+    <string name="label_combo_prts_102">102</string>
+    <string name="label_combo_prts_103">103</string>
+    <string name="label_combo_prts_104">104</string>
+    <string name="label_combo_prts_105">105</string>
+    <string name="label_combo_prts_106">106</string>
+    <string name="label_combo_prts_107">107</string>
+    <string name="label_combo_prts_108">108</string>
+    <string name="label_combo_prts_109">109</string>
+    <string name="label_combo_prts_110">110</string>
+    <string name="label_combo_prts_111">111</string>
+    <string name="label_combo_prts_112">112</string>
+    <string name="label_combo_prts_113">113</string>
+    <string name="label_combo_prts_114">114</string>
+    <string name="label_combo_prts_115">115</string>
+    <string name="label_combo_prts_116">116</string>
+    <string name="label_combo_prts_117">117</string>
+    <string name="label_combo_prts_118">118</string>
+    <string name="label_combo_prts_119">119</string>
+    <string name="label_combo_prts_120">120</string>
+    <string name="label_combo_prts_121">121</string>
+    <string name="label_combo_prts_122">122</string>
+    <string name="label_combo_prts_123">123</string>
+    <string name="label_combo_prts_124">124</string>
+    <string name="label_combo_prts_125">125</string>
+    <string name="label_combo_prts_126">126</string>
+    <string name="label_combo_prts_127">127</string>
+    <string name="label_combo_prts_128">128</string>
+    <string name="label_combo_prts_129">129</string>
+    <string name="label_combo_prts_130">130</string>
+    <string name="label_combo_prts_131">131</string>
+    <string name="label_combo_prts_132">132</string>
+    <string name="label_combo_prts_133">133</string>
+    <string name="label_combo_prts_134">134</string>
+    <string name="label_combo_prts_135">135</string>
+    <string name="label_combo_prts_136">136</string>
+    <string name="label_combo_prts_137">137</string>
+    <string name="label_combo_prts_138">138</string>
+    <string name="label_combo_prts_139">139</string>
+    <string name="label_combo_prts_140">140</string>
+    <string name="label_combo_prts_141">141</string>
+    <string name="label_combo_prts_142">142</string>
+    <string name="label_combo_prts_143">143</string>
+    <string name="label_combo_prts_144">144</string>
+    <string name="label_combo_prts_145">145</string>
+    <string name="label_combo_prts_146">146</string>
+    <string name="label_combo_prts_147">147</string>
+    <string name="label_combo_prts_148">148</string>
+    <string name="label_combo_prts_149">149</string>
+    <string name="label_combo_prts_150">150</string>
+    <string name="label_combo_prts_151">151</string>
+    <string name="label_combo_prts_152">152</string>
+    <string name="label_combo_prts_153">153</string>
+    <string name="label_combo_prts_154">154</string>
+    <string name="label_combo_prts_155">155</string>
+    <string name="label_combo_prts_156">156</string>
+    <string name="label_combo_prts_157">157</string>
+    <string name="label_combo_prts_158">158</string>
+    <string name="label_combo_prts_159">159</string>
+    <string name="label_combo_prts_160">160</string>
+    <string name="label_combo_prts_161">161</string>
+    <string name="label_combo_prts_162">162</string>
+    <string name="label_combo_prts_163">163</string>
+    <string name="label_combo_prts_164">164</string>
+    <string name="label_combo_prts_165">165</string>
+    <string name="label_combo_prts_166">166</string>
+    <string name="label_combo_prts_167">167</string>
+    <string name="label_combo_prts_168">168</string>
+    <string name="label_combo_prts_169">169</string>
+    <string name="label_combo_prts_170">170</string>
+    <string name="label_combo_prts_171">171</string>
+    <string name="label_combo_prts_172">172</string>
+    <string name="label_combo_prts_173">173</string>
+    <string name="label_combo_prts_174">174</string>
+    <string name="label_combo_prts_175">175</string>
+    <string name="label_combo_prts_176">176</string>
+    <string name="label_combo_prts_177">177</string>
+    <string name="label_combo_prts_178">178</string>
+    <string name="label_combo_prts_179">179</string>
+    <string name="label_combo_prts_180">180</string>
+    <string name="label_combo_prts_181">181</string>
+    <string name="label_combo_prts_182">182</string>
+    <string name="label_combo_prts_183">183</string>
+    <string name="label_combo_prts_184">184</string>
+    <string name="label_combo_prts_185">185</string>
+    <string name="label_combo_prts_186">186</string>
+    <string name="label_combo_prts_187">187</string>
+    <string name="label_combo_prts_188">188</string>
+    <string name="label_combo_prts_189">189</string>
+    <string name="label_combo_prts_190">190</string>
+    <string name="label_combo_prts_191">191</string>
+    <string name="label_combo_prts_192">192</string>
+    <string name="label_combo_prts_193">193</string>
+    <string name="label_combo_prts_194">194</string>
+    <string name="label_combo_prts_195">195</string>
+    <string name="label_combo_prts_196">196</string>
+    <string name="label_combo_prts_197">197</string>
+    <string name="label_combo_prts_198">198</string>
+    <string name="label_combo_prts_199">199</string>
+    <string name="label_combo_prts_200">200</string>
+
+    <!-- Array pour les prts prts_for_200 -->
+    <string-array name="prts_for_200">
+        <item>@string/label_combo_prts_1</item>
+        <item>@string/label_combo_prts_2</item>
+        <item>@string/label_combo_prts_3</item>
+        <item>@string/label_combo_prts_4</item>
+        <item>@string/label_combo_prts_5</item>
+        <item>@string/label_combo_prts_6</item>
+        <item>@string/label_combo_prts_7</item>
+        <item>@string/label_combo_prts_8</item>
+        <item>@string/label_combo_prts_9</item>
+        <item>@string/label_combo_prts_10</item>
+        <item>@string/label_combo_prts_11</item>
+        <item>@string/label_combo_prts_12</item>
+        <item>@string/label_combo_prts_13</item>
+        <item>@string/label_combo_prts_14</item>
+        <item>@string/label_combo_prts_15</item>
+        <item>@string/label_combo_prts_16</item>
+        <item>@string/label_combo_prts_17</item>
+        <item>@string/label_combo_prts_18</item>
+        <item>@string/label_combo_prts_19</item>
+        <item>@string/label_combo_prts_20</item>
+        <item>@string/label_combo_prts_21</item>
+        <item>@string/label_combo_prts_22</item>
+        <item>@string/label_combo_prts_23</item>
+        <item>@string/label_combo_prts_24</item>
+        <item>@string/label_combo_prts_25</item>
+        <item>@string/label_combo_prts_26</item>
+        <item>@string/label_combo_prts_27</item>
+        <item>@string/label_combo_prts_28</item>
+        <item>@string/label_combo_prts_29</item>
+        <item>@string/label_combo_prts_30</item>
+        <item>@string/label_combo_prts_31</item>
+        <item>@string/label_combo_prts_32</item>
+        <item>@string/label_combo_prts_33</item>
+        <item>@string/label_combo_prts_34</item>
+        <item>@string/label_combo_prts_35</item>
+        <item>@string/label_combo_prts_36</item>
+        <item>@string/label_combo_prts_37</item>
+        <item>@string/label_combo_prts_38</item>
+        <item>@string/label_combo_prts_39</item>
+        <item>@string/label_combo_prts_40</item>
+        <item>@string/label_combo_prts_41</item>
+        <item>@string/label_combo_prts_42</item>
+        <item>@string/label_combo_prts_43</item>
+        <item>@string/label_combo_prts_44</item>
+        <item>@string/label_combo_prts_45</item>
+        <item>@string/label_combo_prts_46</item>
+        <item>@string/label_combo_prts_47</item>
+        <item>@string/label_combo_prts_48</item>
+        <item>@string/label_combo_prts_49</item>
+        <item>@string/label_combo_prts_50</item>
+        <item>@string/label_combo_prts_51</item>
+        <item>@string/label_combo_prts_52</item>
+        <item>@string/label_combo_prts_53</item>
+        <item>@string/label_combo_prts_54</item>
+        <item>@string/label_combo_prts_55</item>
+        <item>@string/label_combo_prts_56</item>
+        <item>@string/label_combo_prts_57</item>
+        <item>@string/label_combo_prts_58</item>
+        <item>@string/label_combo_prts_59</item>
+        <item>@string/label_combo_prts_60</item>
+        <item>@string/label_combo_prts_61</item>
+        <item>@string/label_combo_prts_62</item>
+        <item>@string/label_combo_prts_63</item>
+        <item>@string/label_combo_prts_64</item>
+        <item>@string/label_combo_prts_65</item>
+        <item>@string/label_combo_prts_66</item>
+        <item>@string/label_combo_prts_67</item>
+        <item>@string/label_combo_prts_68</item>
+        <item>@string/label_combo_prts_69</item>
+        <item>@string/label_combo_prts_70</item>
+        <item>@string/label_combo_prts_71</item>
+        <item>@string/label_combo_prts_72</item>
+        <item>@string/label_combo_prts_73</item>
+        <item>@string/label_combo_prts_74</item>
+        <item>@string/label_combo_prts_75</item>
+        <item>@string/label_combo_prts_76</item>
+        <item>@string/label_combo_prts_77</item>
+        <item>@string/label_combo_prts_78</item>
+        <item>@string/label_combo_prts_79</item>
+        <item>@string/label_combo_prts_80</item>
+        <item>@string/label_combo_prts_81</item>
+        <item>@string/label_combo_prts_82</item>
+        <item>@string/label_combo_prts_83</item>
+        <item>@string/label_combo_prts_84</item>
+        <item>@string/label_combo_prts_85</item>
+        <item>@string/label_combo_prts_86</item>
+        <item>@string/label_combo_prts_87</item>
+        <item>@string/label_combo_prts_88</item>
+        <item>@string/label_combo_prts_89</item>
+        <item>@string/label_combo_prts_90</item>
+        <item>@string/label_combo_prts_91</item>
+        <item>@string/label_combo_prts_92</item>
+        <item>@string/label_combo_prts_93</item>
+        <item>@string/label_combo_prts_94</item>
+        <item>@string/label_combo_prts_95</item>
+        <item>@string/label_combo_prts_96</item>
+        <item>@string/label_combo_prts_97</item>
+        <item>@string/label_combo_prts_98</item>
+        <item>@string/label_combo_prts_99</item>
+        <item>@string/label_combo_prts_100</item>
+        <item>@string/label_combo_prts_101</item>
+        <item>@string/label_combo_prts_102</item>
+        <item>@string/label_combo_prts_103</item>
+        <item>@string/label_combo_prts_104</item>
+        <item>@string/label_combo_prts_105</item>
+        <item>@string/label_combo_prts_106</item>
+        <item>@string/label_combo_prts_107</item>
+        <item>@string/label_combo_prts_108</item>
+        <item>@string/label_combo_prts_109</item>
+        <item>@string/label_combo_prts_110</item>
+        <item>@string/label_combo_prts_111</item>
+        <item>@string/label_combo_prts_112</item>
+        <item>@string/label_combo_prts_113</item>
+        <item>@string/label_combo_prts_114</item>
+        <item>@string/label_combo_prts_115</item>
+        <item>@string/label_combo_prts_116</item>
+        <item>@string/label_combo_prts_117</item>
+        <item>@string/label_combo_prts_118</item>
+        <item>@string/label_combo_prts_119</item>
+        <item>@string/label_combo_prts_120</item>
+        <item>@string/label_combo_prts_121</item>
+        <item>@string/label_combo_prts_122</item>
+        <item>@string/label_combo_prts_123</item>
+        <item>@string/label_combo_prts_124</item>
+        <item>@string/label_combo_prts_125</item>
+        <item>@string/label_combo_prts_126</item>
+        <item>@string/label_combo_prts_127</item>
+        <item>@string/label_combo_prts_128</item>
+        <item>@string/label_combo_prts_129</item>
+        <item>@string/label_combo_prts_130</item>
+        <item>@string/label_combo_prts_131</item>
+        <item>@string/label_combo_prts_132</item>
+        <item>@string/label_combo_prts_133</item>
+        <item>@string/label_combo_prts_134</item>
+        <item>@string/label_combo_prts_135</item>
+        <item>@string/label_combo_prts_136</item>
+        <item>@string/label_combo_prts_137</item>
+        <item>@string/label_combo_prts_138</item>
+        <item>@string/label_combo_prts_139</item>
+        <item>@string/label_combo_prts_140</item>
+        <item>@string/label_combo_prts_141</item>
+        <item>@string/label_combo_prts_142</item>
+        <item>@string/label_combo_prts_143</item>
+        <item>@string/label_combo_prts_144</item>
+        <item>@string/label_combo_prts_145</item>
+        <item>@string/label_combo_prts_146</item>
+        <item>@string/label_combo_prts_147</item>
+        <item>@string/label_combo_prts_148</item>
+        <item>@string/label_combo_prts_149</item>
+        <item>@string/label_combo_prts_150</item>
+        <item>@string/label_combo_prts_151</item>
+        <item>@string/label_combo_prts_152</item>
+        <item>@string/label_combo_prts_153</item>
+        <item>@string/label_combo_prts_154</item>
+        <item>@string/label_combo_prts_155</item>
+        <item>@string/label_combo_prts_156</item>
+        <item>@string/label_combo_prts_157</item>
+        <item>@string/label_combo_prts_158</item>
+        <item>@string/label_combo_prts_159</item>
+        <item>@string/label_combo_prts_160</item>
+        <item>@string/label_combo_prts_161</item>
+        <item>@string/label_combo_prts_162</item>
+        <item>@string/label_combo_prts_163</item>
+        <item>@string/label_combo_prts_164</item>
+        <item>@string/label_combo_prts_165</item>
+        <item>@string/label_combo_prts_166</item>
+        <item>@string/label_combo_prts_167</item>
+        <item>@string/label_combo_prts_168</item>
+        <item>@string/label_combo_prts_169</item>
+        <item>@string/label_combo_prts_170</item>
+        <item>@string/label_combo_prts_171</item>
+        <item>@string/label_combo_prts_172</item>
+        <item>@string/label_combo_prts_173</item>
+        <item>@string/label_combo_prts_174</item>
+        <item>@string/label_combo_prts_175</item>
+        <item>@string/label_combo_prts_176</item>
+        <item>@string/label_combo_prts_177</item>
+        <item>@string/label_combo_prts_178</item>
+        <item>@string/label_combo_prts_179</item>
+        <item>@string/label_combo_prts_180</item>
+        <item>@string/label_combo_prts_181</item>
+        <item>@string/label_combo_prts_182</item>
+        <item>@string/label_combo_prts_183</item>
+        <item>@string/label_combo_prts_184</item>
+        <item>@string/label_combo_prts_185</item>
+        <item>@string/label_combo_prts_186</item>
+        <item>@string/label_combo_prts_187</item>
+        <item>@string/label_combo_prts_188</item>
+        <item>@string/label_combo_prts_189</item>
+        <item>@string/label_combo_prts_190</item>
+        <item>@string/label_combo_prts_191</item>
+        <item>@string/label_combo_prts_192</item>
+        <item>@string/label_combo_prts_193</item>
+        <item>@string/label_combo_prts_194</item>
+        <item>@string/label_combo_prts_195</item>
+        <item>@string/label_combo_prts_196</item>
+        <item>@string/label_combo_prts_197</item>
+        <item>@string/label_combo_prts_198</item>
+        <item>@string/label_combo_prts_199</item>
+        <item>@string/label_combo_prts_200</item>
+    </string-array>
+    <!-- Array pour les positions sur 5 -->
+    <string-array name="pos_for_5">
+        <item>@string/label_combo_prts_1</item>
+        <item>@string/label_combo_prts_2</item>
+        <item>@string/label_combo_prts_3</item>
+        <item>@string/label_combo_prts_4</item>
+        <item>@string/label_combo_prts_5</item>
+    </string-array>
+    <!-- Array pour les positions sur 10 -->
+    <string-array name="pos_for_10">
+        <item>@string/label_combo_prts_1</item>
+        <item>@string/label_combo_prts_2</item>
+        <item>@string/label_combo_prts_3</item>
+        <item>@string/label_combo_prts_4</item>
+        <item>@string/label_combo_prts_5</item>
+        <item>@string/label_combo_prts_6</item>
+        <item>@string/label_combo_prts_7</item>
+        <item>@string/label_combo_prts_8</item>
+        <item>@string/label_combo_prts_9</item>
+        <item>@string/label_combo_prts_10</item>
+    </string-array>
+    <!-- Array pour les positions sur 15 -->
+    <string-array name="pos_for_15">
+        <item>@string/label_combo_prts_1</item>
+        <item>@string/label_combo_prts_2</item>
+        <item>@string/label_combo_prts_3</item>
+        <item>@string/label_combo_prts_4</item>
+        <item>@string/label_combo_prts_5</item>
+        <item>@string/label_combo_prts_6</item>
+        <item>@string/label_combo_prts_7</item>
+        <item>@string/label_combo_prts_8</item>
+        <item>@string/label_combo_prts_9</item>
+        <item>@string/label_combo_prts_10</item>
+        <item>@string/label_combo_prts_11</item>
+        <item>@string/label_combo_prts_12</item>
+        <item>@string/label_combo_prts_13</item>
+        <item>@string/label_combo_prts_14</item>
+        <item>@string/label_combo_prts_15</item>
+    </string-array>
+    <!-- Array pour les positions sur 20 -->
+    <string-array name="pos_for_20">
+        <item>@string/label_combo_prts_1</item>
+        <item>@string/label_combo_prts_2</item>
+        <item>@string/label_combo_prts_3</item>
+        <item>@string/label_combo_prts_4</item>
+        <item>@string/label_combo_prts_5</item>
+        <item>@string/label_combo_prts_6</item>
+        <item>@string/label_combo_prts_7</item>
+        <item>@string/label_combo_prts_8</item>
+        <item>@string/label_combo_prts_9</item>
+        <item>@string/label_combo_prts_10</item>
+        <item>@string/label_combo_prts_11</item>
+        <item>@string/label_combo_prts_12</item>
+        <item>@string/label_combo_prts_13</item>
+        <item>@string/label_combo_prts_14</item>
+        <item>@string/label_combo_prts_15</item>
+        <item>@string/label_combo_prts_16</item>
+        <item>@string/label_combo_prts_17</item>
+        <item>@string/label_combo_prts_18</item>
+        <item>@string/label_combo_prts_19</item>
+        <item>@string/label_combo_prts_20</item>
+    </string-array>
+    <!-- Array pour les positions sur 50 -->
+    <string-array name="pos_for_50">
+        <item>@string/label_combo_prts_1</item>
+        <item>@string/label_combo_prts_2</item>
+        <item>@string/label_combo_prts_3</item>
+        <item>@string/label_combo_prts_4</item>
+        <item>@string/label_combo_prts_5</item>
+        <item>@string/label_combo_prts_6</item>
+        <item>@string/label_combo_prts_7</item>
+        <item>@string/label_combo_prts_8</item>
+        <item>@string/label_combo_prts_9</item>
+        <item>@string/label_combo_prts_10</item>
+        <item>@string/label_combo_prts_11</item>
+        <item>@string/label_combo_prts_12</item>
+        <item>@string/label_combo_prts_13</item>
+        <item>@string/label_combo_prts_14</item>
+        <item>@string/label_combo_prts_15</item>
+        <item>@string/label_combo_prts_16</item>
+        <item>@string/label_combo_prts_17</item>
+        <item>@string/label_combo_prts_18</item>
+        <item>@string/label_combo_prts_19</item>
+        <item>@string/label_combo_prts_20</item>
+        <item>@string/label_combo_prts_21</item>
+        <item>@string/label_combo_prts_22</item>
+        <item>@string/label_combo_prts_23</item>
+        <item>@string/label_combo_prts_24</item>
+        <item>@string/label_combo_prts_25</item>
+        <item>@string/label_combo_prts_26</item>
+        <item>@string/label_combo_prts_27</item>
+        <item>@string/label_combo_prts_28</item>
+        <item>@string/label_combo_prts_29</item>
+        <item>@string/label_combo_prts_30</item>
+        <item>@string/label_combo_prts_31</item>
+        <item>@string/label_combo_prts_32</item>
+        <item>@string/label_combo_prts_33</item>
+        <item>@string/label_combo_prts_34</item>
+        <item>@string/label_combo_prts_35</item>
+        <item>@string/label_combo_prts_36</item>
+        <item>@string/label_combo_prts_37</item>
+        <item>@string/label_combo_prts_38</item>
+        <item>@string/label_combo_prts_39</item>
+        <item>@string/label_combo_prts_40</item>
+        <item>@string/label_combo_prts_41</item>
+        <item>@string/label_combo_prts_42</item>
+        <item>@string/label_combo_prts_43</item>
+        <item>@string/label_combo_prts_44</item>
+        <item>@string/label_combo_prts_45</item>
+        <item>@string/label_combo_prts_46</item>
+        <item>@string/label_combo_prts_47</item>
+        <item>@string/label_combo_prts_48</item>
+        <item>@string/label_combo_prts_49</item>
+        <item>@string/label_combo_prts_50</item>
+    </string-array>
+
+
 </resources>
