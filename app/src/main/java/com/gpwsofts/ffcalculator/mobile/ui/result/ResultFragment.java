@@ -38,9 +38,8 @@ public class ResultFragment extends Fragment {
 
     TextInputEditText textInputEditTextPlace;
     TextInputLayout textInputLayoutSpinnerClasses;
-    TextInputLayout textInputLayoutSpinnerPos;
-    TextInputLayout textInputLayoutSpinnerPrts;
-
+    AutoCompleteTextView autoCompleteTextViewPos;
+    AutoCompleteTextView autoCompleteTextViewPrts;
     AutoCompleteTextView autoCompleteTextViewClasses;
     Button buttonAjouter;
 
@@ -56,16 +55,23 @@ public class ResultFragment extends Fragment {
         String android_device_id = Settings.Secure.getString(this.requireActivity().getContentResolver(), Settings.Secure.ANDROID_ID);
         Log.i(TAG_NAME, "device id " + android_device_id);
         textInputEditTextPlace = binding.idTIETPlace;
-        textInputLayoutSpinnerClasses = binding.idTISPClasses;
-        textInputLayoutSpinnerPos = binding.idTISPPos;
+        //textInputLayoutSpinnerClasses = binding.idTISPClasses;
+        //textInputLayoutSpinnerPos = binding.idTISPPos;
         autoCompleteTextViewClasses = binding.idTVAutoClasses;
+        autoCompleteTextViewPos = binding.idTVAutoPos;
+        autoCompleteTextViewPrts = binding.idTVAutoPrts;
         // https://stackoverflow.com/questions/18685898/android-clear-in-costom-arrayadapter-java-lang-unsupportedoperationexception
         //ArrayList<String> defaultClasses = new ArrayList<>();
         //defaultClasses.addAll(Arrays.asList(getResources().getStringArray(R.array.classes_for_elite)));
-        ArrayAdapter arrayAdapter = new ArrayAdapter<>(getContext(),  android.R.layout.simple_spinner_item, new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.classes_for_G))));
+        ArrayAdapter arrayAdapterForClasses = new ArrayAdapter<>(getContext(),  android.R.layout.simple_spinner_item, new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.classes_for_G))));
+        ArrayAdapter arrayAdapterForPos = new ArrayAdapter<>(getContext(),  android.R.layout.simple_spinner_item, new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.pos_for_15))));
+        ArrayAdapter arrayAdapterForPrts = new ArrayAdapter<>(getContext(),  android.R.layout.simple_spinner_item, new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.prts_for_200))));
         //arrayAdapter.setDropDownViewResource();
         //arrayAdapter.setDropDownViewResource(R.array.planets_array);
-        autoCompleteTextViewClasses.setAdapter(arrayAdapter);
+        autoCompleteTextViewClasses.setAdapter(arrayAdapterForClasses);
+        autoCompleteTextViewPos.setAdapter(arrayAdapterForPos);
+        autoCompleteTextViewPrts.setAdapter(arrayAdapterForPrts);
+
         //autoCompleteTextViewClasses.get
 
         autoCompleteTextViewClasses.setOnItemSelectedListener(
@@ -81,7 +87,7 @@ public class ResultFragment extends Fragment {
                     }
                 }
         );
-        textInputLayoutSpinnerPrts = binding.idTISPPrts;
+        //textInputLayoutSpinnerPrts = binding.idTISPPrts;
         buttonAjouter = binding.idBTAjouter;
 
         buttonAjouter.setOnClickListener(new View.OnClickListener() {
@@ -90,7 +96,8 @@ public class ResultFragment extends Fragment {
                 saveResult();
             }
         });
-       // this.getString(R.string.vue_elite);
+
+
         this.sharedPrefsViewModel.getVue().observe(getViewLifecycleOwner(), new Observer<String>() {
                     @SuppressLint("ResourceType")
                     @Override
@@ -99,17 +106,17 @@ public class ResultFragment extends Fragment {
                         Log.d(TAG_NAME, "clear des eventuels choix deja sectiones");
                         autoCompleteTextViewClasses.clearListSelection();
                         Log.d(TAG_NAME, "clear du arrayAdapter");
-                        arrayAdapter.clear();
+                        arrayAdapterForClasses.clear();
                         Log.d(TAG_NAME, "appel du service VueService pour recuperer les classes associees a la vue " + vue);
                         ArrayList<String> listOfClasses = FFCalculatorApplication.instance.getServicesManager().getVueService(getResources()).getComboboxClassesForVue(vue);
                         Log.d(TAG_NAME, "addAll " + listOfClasses.size() + " nouvelles classes");
                         listOfClasses.stream().forEach(classe -> Log.v(TAG_NAME, classe.toString()));
-                        arrayAdapter.addAll(listOfClasses);
+                        arrayAdapterForClasses.addAll(listOfClasses);
                         Log.d(TAG_NAME, "notification que arrayAdapter a été réalimenté");
                         //TODO 1.0.0 verifier si ce notify est vraiment necessiare, depuis qu'on amis en place le getFilter()
-                        arrayAdapter.notifyDataSetChanged();
+                        arrayAdapterForClasses.notifyDataSetChanged();
                         Log.d(TAG_NAME, "filter sur autoCompleteTextViewClasses");
-                        arrayAdapter.getFilter().filter(autoCompleteTextViewClasses.getText(), null);
+                        arrayAdapterForClasses.getFilter().filter(autoCompleteTextViewClasses.getText(), null);
                         //autoCompleteTextViewClasses.showDropDown();
                     }
                 });
