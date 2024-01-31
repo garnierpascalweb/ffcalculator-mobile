@@ -3,6 +3,8 @@ import android.content.res.Resources;
 import android.util.Log;
 
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
+import com.gpwsofts.ffcalculator.mobile.services.logo.ILogoService;
+import com.gpwsofts.ffcalculator.mobile.services.logo.SimpleLogoService;
 import com.gpwsofts.ffcalculator.mobile.services.result.IResultService;
 import com.gpwsofts.ffcalculator.mobile.services.result.MockResultService;
 import com.gpwsofts.ffcalculator.mobile.services.season.ISeasonService;
@@ -42,6 +44,11 @@ public class ServicesManager {
      * Service des vues
      */
     private IVueService vueService = null;
+
+    /**
+     * Service des logos
+     */
+    private ILogoService logoService = null;
 
     /**
      * Constructeur de ServiceManager
@@ -91,6 +98,16 @@ public class ServicesManager {
             Log.d(TAG_NAME,"recuperation dune instance existante de IVueService");
         }
         return vueService;
+    }
+
+    public final ILogoService getLogoService(Resources res){
+        if (null == logoService){
+            Log.i(TAG_NAME,"creation dune nouvelle instance de ILogoService");
+            logoService = new SimpleLogoService(res);
+        } else {
+            Log.d(TAG_NAME,"recuperation dune instance existante de ILogoService");
+        }
+        return logoService;
     }
 
     /**

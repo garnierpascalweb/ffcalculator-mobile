@@ -22,6 +22,17 @@
     <string name="vue_u17">U17</string>
     <string name="vue_access">A</string>
 
+    <!-- Texte des logos -->
+    <string name="logo_elite">Elite</string>
+    <string name="logo_open_1_2_3">Open 1/2/3</string>
+    <string name="logo_open_1_2">Open 1/2</string>
+    <string name="logo_open_2_3">Open 2/3</string>
+    <string name="logo_open_3">Open 3</string>
+    <string name="logo_u23">U23</string>
+    <string name="logo_u19">U19</string>
+    <string name="logo_u17">U17</string>
+
+
     <!-- Definition des libelles pour les classes de course dans la combo -->
     <string name="label_combo_classe_1_12_1">Elite Nationale (1.12.1)</string>
     <string name="label_combo_classe_1_13">Federale U23 (1.13)</string>

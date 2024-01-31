@@ -25,6 +25,7 @@ import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentHomeBinding;
+import com.gpwsofts.ffcalculator.mobile.services.vues.IVueService;
 import com.gpwsofts.ffcalculator.mobile.viewmodel.SharedPrefsViewModel;
 
 import java.util.ArrayList;
@@ -147,17 +148,18 @@ public class ResultFragment extends Fragment {
         final String libelle = String.valueOf(autoCompleteTextViewClasses.getText().toString());
         final int pos = Integer.valueOf(autoCompleteTextViewPos.getText().toString());
         final int prts = Integer.valueOf(autoCompleteTextViewPrts.getText().toString());
+        final String idClasse = libelle.substring(libelle.indexOf("(")+1, libelle.indexOf(")"));
         Log.i(TAG_NAME, "ajout de la course " + place);
         Result result = new Result();
         result.setPlace(place);
         //TODO 1.0.0 : creer un logo service pour rendr eun logo en fonction de la classe de course
-        result.setLogo("Open 1/2/3");
+        //result.setLogo(IVueService.LOGO_OPEN_3);
         result.setPts(10.29);
         result.setPrts(prts);
         result.setPos(pos);
         result.setLibelle(libelle);
-        // TODO 1.0.0 ecrire un service qui extrait le idclasse depuis le libelle
-        result.setIdClasse("1.24.0");
+        // TODO 1.0.0 ecrire un service qui extrait le idclasse depuis le libelle plutot que la merde substring ci dessus
+        result.setIdClasse(idClasse);
         resultViewModel.insert(result);
         Toast.makeText(this.getContext(), "Result Save", Toast.LENGTH_SHORT).show();
         //TODO 1.0.0 gerer les erreurs

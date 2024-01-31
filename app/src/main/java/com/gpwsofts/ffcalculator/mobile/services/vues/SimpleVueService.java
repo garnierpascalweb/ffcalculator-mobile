@@ -1,6 +1,7 @@
 package com.gpwsofts.ffcalculator.mobile.services.vues;
 
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.util.Log;
 
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;

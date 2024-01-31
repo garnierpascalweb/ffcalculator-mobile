@@ -1,5 +1,6 @@
 package com.gpwsofts.ffcalculator.mobile.ui.season;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
@@ -10,8 +11,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
+import com.gpwsofts.ffcalculator.mobile.services.logo.Logo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +27,11 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ResultView
     // cf. Part 6, 09:40
     private List<Result> results = new ArrayList<Result>();
 
+    /**
+     * Context pour recuperer les ressources
+     * https://stackoverflow.com/questions/41007837/how-to-use-getresources-on-a-adapter-java
+     */
+    private Context context;
     // Constructor
 
 
@@ -31,17 +39,19 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ResultView
     @Override
     public ResultViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_result_layout, parent, false);
+        context = parent.getContext();
         return new ResultViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ResultViewHolder holder, int position) {
-        Result currentResult = results.get(position);
+        final Result currentResult = results.get(position);
+        final String currentResultIdClasse = currentResult.getIdClasse();
         holder.idTVResultPlace.setText(currentResult.getPlace());
-        holder.idTVResultLibelle.setText(new StringBuilder().append(currentResult.getLibelle()).append(" - (").append(currentResult.getIdClasse()).append(")").toString());
-        holder.idTVResultLogo.setText(currentResult.getLogo());
-        int color = this.getLogoColor(currentResult.getLogo());
-        holder.idTVResultLogo.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        holder.idTVResultLibelle.setText(new StringBuilder().append(currentResult.getLibelle()).append(" - (").append(currentResultIdClasse).append(")").toString());
+        Logo logo = FFCalculatorApplication.instance.getServicesManager().getLogoService(context.getResources()).getLogo(currentResultIdClasse);
+        holder.idTVResultLogo.setText(logo.getText());
+        holder.idTVResultLogo.getBackground().setColorFilter(logo.getColor(), PorterDuff.Mode.SRC_ATOP);
         holder.idTVResultPosPrts.setText(new StringBuilder().append(currentResult.getPos()).append("e sur ").append(currentResult.getPrts()).toString());
         holder.idTVResultPts.setText(new StringBuilder().append(String.valueOf(currentResult.getPts())).append(" pts"));
     }
