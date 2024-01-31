@@ -49,60 +49,13 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ResultView
         final String currentResultIdClasse = currentResult.getIdClasse();
         holder.idTVResultPlace.setText(currentResult.getPlace());
         holder.idTVResultLibelle.setText(new StringBuilder().append(currentResult.getLibelle()).append(" - (").append(currentResultIdClasse).append(")").toString());
+        //TODO nul : on en devrait pas faire appel a un logo ici, ces datas devraient etre sotckees dans la base de donnees
+        // cest a la creation / modification d'un result quon calcule le logo, cest absurde de le recalculer a chauqe affichage sachant que ca sera toujours le meme
         Logo logo = FFCalculatorApplication.instance.getServicesManager().getLogoService(context.getResources()).getLogo(currentResultIdClasse);
         holder.idTVResultLogo.setText(logo.getText());
         holder.idTVResultLogo.getBackground().setColorFilter(logo.getColor(), PorterDuff.Mode.SRC_ATOP);
         holder.idTVResultPosPrts.setText(new StringBuilder().append(currentResult.getPos()).append("e sur ").append(currentResult.getPrts()).toString());
         holder.idTVResultPts.setText(new StringBuilder().append(String.valueOf(currentResult.getPts())).append(" pts"));
-    }
-
-    /**
-     * calcule la couleur du cercle en fonction de la valeur du logo
-     * @param logo
-     * @return la couleur de la pastille
-     */
-    //TOTO 1.0.0 a ne pas mettre ici
-    protected int getLogoColor(String logo){
-        int color;
-        // couleurs principales
-        switch (logo){
-            case "Elite" : {
-                color = Color.rgb(255, 51, 0);
-                break;
-            }
-            case "Open 1/2/3" : {
-                color = Color.rgb(0, 0, 255);
-                break;
-            }
-            case "Open 1/2" : {
-                color = Color.rgb(0, 0, 255);
-                break;
-            }
-            case "Open 2/3" : {
-                color = Color.rgb(0, 102, 255);
-                break;
-            }
-            case "Open 3" : {
-                color = Color.rgb(51, 153, 255);
-                break;
-            }
-            case "U23" : {
-                color = Color.rgb(153, 255, 102);
-                break;
-            }
-            case "U19" : {
-                color = Color.rgb(204, 255, 102);
-                break;
-            }
-            case "U17" : {
-                color = Color.rgb(255, 255, 102);
-                break;
-            }
-            default : {
-                color = Color.rgb(255, 255, 255);
-            }
-        }
-        return color;
     }
 
     @Override
