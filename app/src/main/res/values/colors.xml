@@ -19,7 +19,7 @@
     <color name="logo_open_1_2">#0000ff</color>
     <color name="logo_open_2_3">#0064ff</color>
     <color name="logo_open_3">#3296ff</color>
-    <color name="logo_u23">#96ff64</color>
-    <color name="logo_u19">#c8ff64</color>
-    <color name="logo_u17">#ffff64</color>
+    <color name="logo_u23">#993300</color>
+    <color name="logo_u19">#ff9933</color>
+    <color name="logo_u17">#00cc66</color>
 </resources>

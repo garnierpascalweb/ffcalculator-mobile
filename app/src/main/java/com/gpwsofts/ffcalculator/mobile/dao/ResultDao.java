@@ -21,6 +21,7 @@ public interface ResultDao {
     LiveData<List<Result>> getAllResults();
     @Query("SELECT * FROM result WHERE id IN (:resultIds)")
     List<Result> getAllByIds(int[]resultIds);
+
     @Insert
     void insert(Result result);
 

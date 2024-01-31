@@ -49,11 +49,8 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ResultView
         final String currentResultIdClasse = currentResult.getIdClasse();
         holder.idTVResultPlace.setText(currentResult.getPlace());
         holder.idTVResultLibelle.setText(new StringBuilder().append(currentResult.getLibelle()).append(" - (").append(currentResultIdClasse).append(")").toString());
-        //TODO nul : on en devrait pas faire appel a un logo ici, ces datas devraient etre sotckees dans la base de donnees
-        // cest a la creation / modification d'un result quon calcule le logo, cest absurde de le recalculer a chauqe affichage sachant que ca sera toujours le meme
-        Logo logo = FFCalculatorApplication.instance.getServicesManager().getLogoService(context.getResources()).getLogo(currentResultIdClasse);
-        holder.idTVResultLogo.setText(logo.getText());
-        holder.idTVResultLogo.getBackground().setColorFilter(logo.getColor(), PorterDuff.Mode.SRC_ATOP);
+        holder.idTVResultLogo.setText(currentResult.getLogo());
+        holder.idTVResultLogo.getBackground().setColorFilter(currentResult.getLogoColor(), PorterDuff.Mode.SRC_ATOP);
         holder.idTVResultPosPrts.setText(new StringBuilder().append(currentResult.getPos()).append("e sur ").append(currentResult.getPrts()).toString());
         holder.idTVResultPts.setText(new StringBuilder().append(String.valueOf(currentResult.getPts())).append(" pts"));
     }

@@ -23,7 +23,7 @@ import java.util.List;
 
 public class SeasonFragment extends Fragment {
 
-    private static final String TAG_NAME = "DashboardFragment";
+    private static final String TAG_NAME = "SeasonFragment";
     private FragmentDashboardBinding binding;
     private SeasonViewModel dashboardViewModel;
     private ResultViewModel resultViewModel;

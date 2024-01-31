@@ -24,6 +24,8 @@ public class ResultRepository {
     private ResultDao resultDao;
     private LiveData<List<Result>> allResults;
 
+
+
     public ResultRepository(Application application) {
         FFCalculatorDatabase database = FFCalculatorDatabase.getInstance(application);
         resultDao = database.resultDao();

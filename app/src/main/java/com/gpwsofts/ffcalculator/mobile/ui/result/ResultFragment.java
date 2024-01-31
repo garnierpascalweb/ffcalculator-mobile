@@ -25,6 +25,7 @@ import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentHomeBinding;
+import com.gpwsofts.ffcalculator.mobile.services.logo.Logo;
 import com.gpwsofts.ffcalculator.mobile.services.vues.IVueService;
 import com.gpwsofts.ffcalculator.mobile.viewmodel.SharedPrefsViewModel;
 
@@ -32,7 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ResultFragment extends Fragment {
-    private static final String TAG_NAME = "HomeFragment";
+    private static final String TAG_NAME = "ResultFragment";
     private ResultViewModel resultViewModel;
     private SharedPrefsViewModel sharedPrefsViewModel;
     private FragmentHomeBinding binding;
@@ -55,6 +56,7 @@ public class ResultFragment extends Fragment {
         //TODO 1.0.0 recuperation de UUID a mettre autre part que la
         String android_device_id = Settings.Secure.getString(this.requireActivity().getContentResolver(), Settings.Secure.ANDROID_ID);
         Log.i(TAG_NAME, "device id " + android_device_id);
+        Log.i(TAG_NAME, "nombre de pts = " + this.resultViewModel.getAllPts());
         textInputEditTextPlace = binding.idTIETPlace;
         //textInputLayoutSpinnerClasses = binding.idTISPClasses;
         //textInputLayoutSpinnerPos = binding.idTISPPos;
@@ -153,7 +155,10 @@ public class ResultFragment extends Fragment {
         Result result = new Result();
         result.setPlace(place);
         //TODO 1.0.0 : creer un logo service pour rendr eun logo en fonction de la classe de course
-        //result.setLogo(IVueService.LOGO_OPEN_3);
+        Logo logo = FFCalculatorApplication.instance.getServicesManager().getLogoService(getResources()).getLogo(idClasse);
+        result.setLogo(logo.getText());
+        result.setLogoColor(logo.getColor());
+        //TODO 1.0.0 faire un appel http pour calculer les points
         result.setPts(10.29);
         result.setPrts(prts);
         result.setPos(pos);

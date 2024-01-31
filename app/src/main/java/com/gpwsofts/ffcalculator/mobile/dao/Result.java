@@ -12,6 +12,7 @@ public class Result {
     public String idClasse;
     public String place;
     public String logo;
+    public int logoColor;
     public int pos;
     public int prts;
     public double pts;
@@ -47,6 +48,14 @@ public class Result {
 
     public void setLogo(String logo) {
         this.logo = logo;
+    }
+
+    public int getLogoColor() {
+        return logoColor;
+    }
+
+    public void setLogoColor(int logoColor) {
+        this.logoColor = logoColor;
     }
 
     public int getPos() {

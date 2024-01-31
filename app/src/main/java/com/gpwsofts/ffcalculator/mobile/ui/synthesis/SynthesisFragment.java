@@ -19,7 +19,7 @@ import com.gpwsofts.ffcalculator.mobile.ui.result.ResultViewModel;
 import com.gpwsofts.ffcalculator.mobile.viewmodel.SharedPrefsViewModel;
 
 public class SynthesisFragment extends Fragment {
-    private static final String TAG_NAME = "NotificationsFragment";
+    private static final String TAG_NAME = "SynthesisFragment";
     private FragmentNotificationsBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,

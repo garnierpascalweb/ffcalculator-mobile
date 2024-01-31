@@ -23,6 +23,8 @@ public class ResultViewModel extends AndroidViewModel {
     private ResultRepository repository;
     private LiveData<List<Result>> allResults;
 
+    private LiveData<Object> allPts;
+
     public ResultViewModel(@NonNull Application application) {
         super(application);
         Log.i(TAG_NAME, "Construction du ResultViewModel");
@@ -59,5 +61,10 @@ public class ResultViewModel extends AndroidViewModel {
         if (null == allResults)
             Log.w(TAG_NAME, "La liste des resultats est null");
         return allResults;
+    }
+
+    public LiveData<Object> getAllPts() {
+        Log.i(TAG_NAME, "Recuperation de la liste de tous les pts");
+        return allPts;
     }
 }
