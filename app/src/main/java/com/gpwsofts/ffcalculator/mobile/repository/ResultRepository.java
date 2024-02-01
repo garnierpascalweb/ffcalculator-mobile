@@ -26,12 +26,41 @@ public class ResultRepository {
     private ResultDao resultDao;
     private LiveData<List<Result>> allResults;
 
-
-
     public ResultRepository(Application application) {
+        Log.i(TAG_NAME, "Instanciation de ResultRepository");
         FFCalculatorDatabase database = FFCalculatorDatabase.getInstance(application);
         resultDao = database.resultDao();
+        //allResults = new LiveData<List<Result>>() {};
+        //select();
         allResults = resultDao.getAllResults();
+        Log.i(TAG_NAME, "Fin Instanciation de ResultRepository");
+    }
+
+    /*
+    public void select(){
+        Log.i(TAG_NAME, "Lancement Executor Select");
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+        executor.execute(() -> {
+            Log.i(TAG_NAME, "recuperation des resultats en tache de fond");
+            LiveData<List<Result>> loadedAllResults = resultDao.getAllResults();
+            Log.i(TAG_NAME, "fin recuperation des resultats en tache de fond");
+            handler.post(() -> {
+                //UI Thread work here
+                if (loadedAllResults != null) {
+                    Log.i(TAG_NAME, "post affectation des resultats consistants");
+                    allResults = loadedAllResults;
+                } else {
+                    Log.w(TAG_NAME, "post affectation des resultats null");
+                }
+            });
+        });
+    }
+    */
+
+    public LiveData<List<Result>> getAllResults() {
+        Log.i(TAG_NAME, "Recuperation de tous les resultats");
+        return allResults;
     }
 
     public void insert(Result result) {
@@ -69,12 +98,4 @@ public class ResultRepository {
             resultDao.deleteAllResults();
         });
     }
-
-    public LiveData<List<Result>> getAllResults() {
-        Log.i(TAG_NAME, "Recuperation de tous les resultats");
-        //TODO 1.0.0 A Asynchroniser
-        return allResults;
-    }
-
-
 }
