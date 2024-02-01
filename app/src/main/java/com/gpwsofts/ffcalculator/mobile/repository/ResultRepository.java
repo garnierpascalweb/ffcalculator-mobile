@@ -35,8 +35,7 @@ public class ResultRepository {
     }
 
     public void insert(Result result) {
-        Log.i(TAG_NAME, "Lancement de Async Task InsertResultAsyncTask");
-        //new InsertResultAsyncTask(resultDao).execute(result);
+        Log.i(TAG_NAME, "Lancement Executor Insert");
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(() -> {
@@ -45,8 +44,7 @@ public class ResultRepository {
     }
 
     public void update(Result result) {
-        Log.i(TAG_NAME, "Lancement de Async Task UpdateResultAsyncTask");
-        // new UpdateResultAsyncTask(resultDao).execute(result);
+        Log.i(TAG_NAME, "Lancement Executor Update");
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(() -> {
@@ -55,8 +53,7 @@ public class ResultRepository {
    }
 
     public void delete(Result result) {
-        Log.i(TAG_NAME, "Lancement de Async Task DeleteResultAsyncTask");
-        //new DeleteResultAsyncTask(resultDao).execute(result);
+        Log.i(TAG_NAME, "Lancement Executor Delete");
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(() -> {
@@ -65,8 +62,7 @@ public class ResultRepository {
     }
 
     public void deleteAll() {
-        Log.i(TAG_NAME, "Lancement de Async Task DeleteAllResultsAsyncTask");
-        //new DeleteAllResultsAsyncTask(resultDao).execute();
+        Log.i(TAG_NAME, "Lancement Executor Delete All");
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(() -> {
@@ -76,83 +72,9 @@ public class ResultRepository {
 
     public LiveData<List<Result>> getAllResults() {
         Log.i(TAG_NAME, "Recuperation de tous les resultats");
-        //TODO A Asynchroniser
+        //TODO 1.0.0 A Asynchroniser
         return allResults;
     }
 
-    /**
-     * Async Task pour l'insertion en DB
-     *
-     * @since 1.0.0
-     */
-    private static class InsertResultAsyncTask extends AsyncTask<Result, Void, Void> {
-        private ResultDao resultDao;
 
-        private InsertResultAsyncTask(ResultDao resultDao) {
-            this.resultDao = resultDao;
-        }
-
-        @Override
-        protected Void doInBackground(Result... results) {
-            resultDao.insert(results[0]);
-            return null;
-        }
-    }
-
-    /**
-     * Async Task pour l'update en DB
-     *
-     * @since 1.0.0
-     */
-    private static class UpdateResultAsyncTask extends AsyncTask<Result, Void, Void> {
-        private ResultDao resultDao;
-
-        private UpdateResultAsyncTask(ResultDao resultDao) {
-            this.resultDao = resultDao;
-        }
-
-        @Override
-        protected Void doInBackground(Result... results) {
-            resultDao.update(results[0]);
-            return null;
-        }
-    }
-
-    /**
-     * Async Task pour la suppression en DB
-     *
-     * @since 1.0.0
-     */
-    private static class DeleteResultAsyncTask extends AsyncTask<Result, Void, Void> {
-        private ResultDao resultDao;
-
-        private DeleteResultAsyncTask(ResultDao resultDao) {
-            this.resultDao = resultDao;
-        }
-
-        @Override
-        protected Void doInBackground(Result... results) {
-            resultDao.delete(results[0]);
-            return null;
-        }
-    }
-
-    /**
-     * Async Task pour la suppression massive en DB
-     *
-     * @since 1.0.0
-     */
-    private static class DeleteAllResultsAsyncTask extends AsyncTask<Void, Void, Void> {
-        private ResultDao resultDao;
-
-        private DeleteAllResultsAsyncTask(ResultDao resultDao) {
-            this.resultDao = resultDao;
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            resultDao.deleteAllResults();
-            return null;
-        }
-    }
 }
