@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_result">
 
     <fragment
-        android:id="@+id/navigation_home"
+        android:id="@+id/navigation_result"
         android:name="com.gpwsofts.ffcalculator.mobile.ui.result.ResultFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_result" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.gpwsofts.ffcalculator.mobile.ui.season.SeasonFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_season" />
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.gpwsofts.ffcalculator.mobile.ui.synthesis.SynthesisFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_synthesis" />
 </navigation>
