@@ -35,10 +35,6 @@ public class ServicesManager {
      */
     private IResultService resultService = null;
 
-    /**
-     * Service Season
-     */
-    private ISeasonService seasonService = null;
 
     /**
      * Service des vues
@@ -74,21 +70,7 @@ public class ServicesManager {
         }
         return resultService;
     }
-
-    /**
-     *
-     * @return l'instance du SeasonService
-     */
-    public final ISeasonService getSeasonService(){
-        if (null == seasonService){
-            seasonService = new MockSeasonService();
-            Log.i(TAG_NAME,"creation dune nouvelle instance de ISeasonService");
-            //TODO 1.0.0 instancier en parametre avec des saveurs
-        } else {
-            Log.d(TAG_NAME,"recuperation dune instance existante de ISeasonService");
-        }
-        return seasonService;
-    }
+    
 
     public final IVueService getVueService(Resources res){
         if (null == vueService){
