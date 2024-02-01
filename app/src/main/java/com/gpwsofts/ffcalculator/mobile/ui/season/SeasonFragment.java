@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
-import com.gpwsofts.ffcalculator.mobile.databinding.FragmentDashboardBinding;
+import com.gpwsofts.ffcalculator.mobile.databinding.FragmentSeasonBinding;
 import com.gpwsofts.ffcalculator.mobile.ui.result.ResultViewModel;
 
 import java.util.List;
@@ -22,12 +22,12 @@ import java.util.List;
 public class SeasonFragment extends Fragment {
 
     private static final String TAG_NAME = "SeasonFragment";
-    private FragmentDashboardBinding binding;
+    private FragmentSeasonBinding binding;
     private ResultViewModel resultViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // affecte le binding
-        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+        binding = FragmentSeasonBinding.inflate(inflater, container, false);
         // binding donne la vue
         View root = binding.getRoot();
         // RecyclerView

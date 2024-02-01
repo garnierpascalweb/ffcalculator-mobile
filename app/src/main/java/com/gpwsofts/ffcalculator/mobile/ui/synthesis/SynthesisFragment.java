@@ -14,20 +14,20 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.gpwsofts.ffcalculator.mobile.databinding.FragmentNotificationsBinding;
+import com.gpwsofts.ffcalculator.mobile.databinding.FragmentSynthesisBinding;
 import com.gpwsofts.ffcalculator.mobile.ui.result.ResultViewModel;
 import com.gpwsofts.ffcalculator.mobile.ui.shared.SharedPrefsViewModel;
 
 public class SynthesisFragment extends Fragment {
     private static final String TAG_NAME = "SynthesisFragment";
-    private FragmentNotificationsBinding binding;
+    private FragmentSynthesisBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         SynthesisViewModel notificationsViewModel = new ViewModelProvider(this).get(SynthesisViewModel.class);
         SharedPrefsViewModel sharedPrefsViewModel = new ViewModelProvider(getActivity()).get(SharedPrefsViewModel.class);
         ResultViewModel resultViewModel = new ViewModelProvider(getActivity()).get(ResultViewModel.class);
-        binding = FragmentNotificationsBinding.inflate(inflater, container, false);
+        binding = FragmentSynthesisBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         /*
         //PG chart

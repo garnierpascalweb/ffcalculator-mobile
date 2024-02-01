@@ -12,13 +12,13 @@
         tools:layout="@layout/fragment_result" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_season"
         android:name="com.gpwsofts.ffcalculator.mobile.ui.season.SeasonFragment"
         android:label="@string/title_saison"
         tools:layout="@layout/fragment_season" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_synthesis"
         android:name="com.gpwsofts.ffcalculator.mobile.ui.synthesis.SynthesisFragment"
         android:label="@string/title_synthese"
         tools:layout="@layout/fragment_synthesis" />

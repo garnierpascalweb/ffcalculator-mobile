@@ -24,7 +24,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
-import com.gpwsofts.ffcalculator.mobile.databinding.FragmentHomeBinding;
+import com.gpwsofts.ffcalculator.mobile.databinding.FragmentResultBinding;
 import com.gpwsofts.ffcalculator.mobile.services.logo.Logo;
 import com.gpwsofts.ffcalculator.mobile.ui.shared.SharedPrefsViewModel;
 
@@ -35,7 +35,7 @@ public class ResultFragment extends Fragment {
     private static final String TAG_NAME = "ResultFragment";
     private ResultViewModel resultViewModel;
     private SharedPrefsViewModel sharedPrefsViewModel;
-    private FragmentHomeBinding binding;
+    private FragmentResultBinding binding;
 
     TextInputEditText textInputEditTextPlace;
     TextInputLayout textInputLayoutSpinnerClasses;
@@ -49,8 +49,7 @@ public class ResultFragment extends Fragment {
 
         resultViewModel = new ViewModelProvider(requireActivity()).get(ResultViewModel.class);
         sharedPrefsViewModel = new ViewModelProvider(requireActivity()).get(SharedPrefsViewModel.class);
-
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        binding = FragmentResultBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         //TODO 1.0.0 recuperation de UUID a mettre autre part que la
         String android_device_id = Settings.Secure.getString(this.requireActivity().getContentResolver(), Settings.Secure.ANDROID_ID);
