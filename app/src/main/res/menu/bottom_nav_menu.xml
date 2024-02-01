@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item
-        android:id="@+id/navigation_home"
+        android:id="@+id/navigation_result"
         android:icon="@drawable/baseline_playlist_add_24"
-        android:title="@string/title_home" />
+        android:title="@string/title_resultat" />
 
     <item
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_season"
         android:icon="@drawable/baseline_table_rows_24"
-        android:title="@string/title_dashboard" />
+        android:title="@string/title_saison" />
 
     <item
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_synthesis"
         android:icon="@drawable/baseline_emoji_events_24"
-        android:title="@string/title_notifications" />
+        android:title="@string/title_synthese" />
 
 </menu>
