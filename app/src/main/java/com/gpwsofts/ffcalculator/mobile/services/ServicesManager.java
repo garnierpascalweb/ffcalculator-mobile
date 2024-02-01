@@ -1,4 +1,5 @@
 package com.gpwsofts.ffcalculator.mobile.services;
+
 import android.content.res.Resources;
 import android.util.Log;
 
@@ -7,8 +8,6 @@ import com.gpwsofts.ffcalculator.mobile.services.logo.ILogoService;
 import com.gpwsofts.ffcalculator.mobile.services.logo.SimpleLogoService;
 import com.gpwsofts.ffcalculator.mobile.services.result.IResultService;
 import com.gpwsofts.ffcalculator.mobile.services.result.MockResultService;
-import com.gpwsofts.ffcalculator.mobile.services.season.ISeasonService;
-import com.gpwsofts.ffcalculator.mobile.services.season.MockSeasonService;
 import com.gpwsofts.ffcalculator.mobile.services.vues.IVueService;
 import com.gpwsofts.ffcalculator.mobile.services.vues.SimpleVueService;
 
@@ -70,7 +69,7 @@ public class ServicesManager {
         }
         return resultService;
     }
-    
+
 
     public final IVueService getVueService(Resources res){
         if (null == vueService){
@@ -110,7 +109,6 @@ public class ServicesManager {
      */
     public void unbindAndDie() {
         resultService = null;
-        seasonService = null;
         if (keepAliveThreadsExecutor != null) {
             killKeepAliveThreadExecutor();
         }

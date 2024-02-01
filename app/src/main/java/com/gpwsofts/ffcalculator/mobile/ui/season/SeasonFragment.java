@@ -25,14 +25,9 @@ public class SeasonFragment extends Fragment {
 
     private static final String TAG_NAME = "SeasonFragment";
     private FragmentDashboardBinding binding;
-    private SeasonViewModel dashboardViewModel;
     private ResultViewModel resultViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        // instancie le viewModel par ViewModelProvider
-        dashboardViewModel = new ViewModelProvider(this).get(SeasonViewModel.class);
-
         // affecte le binding
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
         // binding donne la vue
@@ -55,8 +50,6 @@ public class SeasonFragment extends Fragment {
         });
         return root;
     }
-
-
 
     @Override
     public void onDestroyView() {
