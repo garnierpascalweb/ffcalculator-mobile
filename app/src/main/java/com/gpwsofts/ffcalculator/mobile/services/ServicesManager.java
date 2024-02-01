@@ -6,8 +6,6 @@ import android.util.Log;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.services.logo.ILogoService;
 import com.gpwsofts.ffcalculator.mobile.services.logo.SimpleLogoService;
-import com.gpwsofts.ffcalculator.mobile.services.result.IResultService;
-import com.gpwsofts.ffcalculator.mobile.services.result.MockResultService;
 import com.gpwsofts.ffcalculator.mobile.services.vues.IVueService;
 import com.gpwsofts.ffcalculator.mobile.services.vues.SimpleVueService;
 
@@ -29,13 +27,6 @@ public class ServicesManager {
      */
     private ExecutorService keepAliveThreadsExecutor = null;
     /**
-     * Service Resultat
-     * @since 1.0.0
-     */
-    private IResultService resultService = null;
-
-
-    /**
      * Service des vues
      */
     private IVueService vueService = null;
@@ -54,22 +45,6 @@ public class ServicesManager {
             throw new ExceptionInInitializerError("ServicesManager deja instancié pour FFCalculatorApplication");
         }
     }
-
-    /**
-     *
-     * @return l'instance du ResultService
-     */
-    public final IResultService getResultService() {
-        if (null == resultService) {
-            resultService = new MockResultService();
-            Log.i(TAG_NAME,"creation dune nouvelle instance de IResultService");
-            //TODO 1.0.0 instancier un parametre avec des saveurs
-        } else {
-            Log.d(TAG_NAME,"recuperation dune instance existante de IResultService");
-        }
-        return resultService;
-    }
-
 
     public final IVueService getVueService(Resources res){
         if (null == vueService){
@@ -108,7 +83,7 @@ public class ServicesManager {
      * @since 1.0.0
      */
     public void unbindAndDie() {
-        resultService = null;
+        //TODO 1.0.0 mettre tous les services a nill
         if (keepAliveThreadsExecutor != null) {
             killKeepAliveThreadExecutor();
         }
