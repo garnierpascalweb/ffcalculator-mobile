@@ -2,6 +2,7 @@ package com.gpwsofts.ffcalculator.mobile.ui.result;
 
 
 import android.annotation.SuppressLint;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -26,6 +27,7 @@ import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentResultBinding;
 import com.gpwsofts.ffcalculator.mobile.services.logo.Logo;
+import com.gpwsofts.ffcalculator.mobile.services.vues.IVueService;
 import com.gpwsofts.ffcalculator.mobile.ui.shared.SharedPrefsViewModel;
 
 import java.util.ArrayList;
@@ -43,6 +45,10 @@ public class ResultFragment extends Fragment {
     AutoCompleteTextView autoCompleteTextViewPrts;
     AutoCompleteTextView autoCompleteTextViewClasses;
     Button buttonAjouter;
+
+    ArrayAdapter arrayAdapterForClasses;
+    ArrayAdapter arrayAdapterForPos;
+    ArrayAdapter arrayAdapterForPrts;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -64,9 +70,9 @@ public class ResultFragment extends Fragment {
         // https://stackoverflow.com/questions/18685898/android-clear-in-costom-arrayadapter-java-lang-unsupportedoperationexception
         //ArrayList<String> defaultClasses = new ArrayList<>();
         //defaultClasses.addAll(Arrays.asList(getResources().getStringArray(R.array.classes_for_elite)));
-        ArrayAdapter arrayAdapterForClasses = new ArrayAdapter<>(getContext(),  android.R.layout.simple_spinner_item, new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.classes_for_G))));
-        ArrayAdapter arrayAdapterForPos = new ArrayAdapter<>(getContext(),  android.R.layout.simple_spinner_item, new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.pos_for_15))));
-        ArrayAdapter arrayAdapterForPrts = new ArrayAdapter<>(getContext(),  android.R.layout.simple_spinner_item, new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.prts_for_200))));
+        arrayAdapterForClasses = new ArrayAdapter<>(getContext(),  android.R.layout.simple_spinner_item, new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.classes_for_G))));
+        arrayAdapterForPos = new ArrayAdapter<>(getContext(),  android.R.layout.simple_spinner_item, new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.pos_for_15))));
+        arrayAdapterForPrts = new ArrayAdapter<>(getContext(),  android.R.layout.simple_spinner_item, new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.prts_for_200))));
         //arrayAdapter.setDropDownViewResource();
         //arrayAdapter.setDropDownViewResource(R.array.planets_array);
         autoCompleteTextViewClasses.setAdapter(arrayAdapterForClasses);
@@ -103,21 +109,7 @@ public class ResultFragment extends Fragment {
                     @SuppressLint("ResourceType")
                     @Override
                     public void onChanged(String vue) {
-                        Log.i(TAG_NAME, "mise a jour de la liste deroulante des classes de course en fonction de la vue " + vue);
-                        Log.d(TAG_NAME, "clear des eventuels choix deja sectiones");
-                        autoCompleteTextViewClasses.clearListSelection();
-                        Log.d(TAG_NAME, "clear du arrayAdapter");
-                        arrayAdapterForClasses.clear();
-                        Log.d(TAG_NAME, "appel du service VueService pour recuperer les classes associees a la vue " + vue);
-                        ArrayList<String> listOfClasses = FFCalculatorApplication.instance.getServicesManager().getVueService(getResources()).getComboboxClassesForVue(vue);
-                        Log.d(TAG_NAME, "addAll " + listOfClasses.size() + " nouvelles classes");
-                        listOfClasses.stream().forEach(classe -> Log.v(TAG_NAME, classe.toString()));
-                        arrayAdapterForClasses.addAll(listOfClasses);
-                        Log.d(TAG_NAME, "notification que arrayAdapter a été réalimenté");
-                        //TODO 1.0.0 verifier si ce notify est vraiment necessiare, depuis qu'on amis en place le getFilter()
-                        arrayAdapterForClasses.notifyDataSetChanged();
-                        Log.d(TAG_NAME, "filter sur autoCompleteTextViewClasses");
-                        arrayAdapterForClasses.getFilter().filter(autoCompleteTextViewClasses.getText(), null);
+                        loadComboBoxDatas(vue);
                         //autoCompleteTextViewClasses.showDropDown();
                     }
                 });
@@ -136,6 +128,26 @@ public class ResultFragment extends Fragment {
                 );
          */
         return root;
+    }
+
+    private void loadComboBoxDatas(String vue){
+        Log.d(TAG_NAME, "lancement LoadComboBoxAsyncTask");
+        new LoadComboBoxAsyncTask(FFCalculatorApplication.instance.getServicesManager().getVueService(getResources())).execute(vue);
+        Log.d(TAG_NAME, "fin lancement LoadComboBoxAsyncTask");
+    }
+
+    private void getComboBoxDatas(ArrayList<String> listOfClasses) {
+        Log.d(TAG_NAME, "clear des eventuels choix deja sectiones");
+        autoCompleteTextViewClasses.clearListSelection();
+        Log.d(TAG_NAME, "clear du arrayAdapter");
+        arrayAdapterForClasses.clear();
+        Log.d(TAG_NAME, "addAll " + listOfClasses.size() + " nouvelles classes");
+        arrayAdapterForClasses.addAll(listOfClasses);
+        Log.d(TAG_NAME, "notification que arrayAdapter a été réalimenté");
+        //TODO 1.0.0 verifier si ce notify est vraiment necessiare, depuis qu'on amis en place le getFilter()
+        arrayAdapterForClasses.notifyDataSetChanged();
+        Log.d(TAG_NAME, "filter sur autoCompleteTextViewClasses");
+        arrayAdapterForClasses.getFilter().filter(autoCompleteTextViewClasses.getText(), null);
     }
 
     /**
@@ -172,5 +184,26 @@ public class ResultFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private class LoadComboBoxAsyncTask extends AsyncTask<String, Void, ArrayList<String>> {
+        private IVueService vueService;
+        private LoadComboBoxAsyncTask(IVueService vueService) {
+            this.vueService = vueService;
+        }
+
+        @Override
+        protected ArrayList<String> doInBackground(String... vues) {
+            Log.d(TAG_NAME, "execution LoadComboBoxAsyncTask");
+            String vue = vues[0];
+            ArrayList<String> listVues = vueService.getComboboxClassesForVue(vue);
+            Log.d(TAG_NAME, "fin execution LoadComboBoxAsyncTask");
+            return listVues;
+        }
+        @Override
+        protected void onPostExecute(ArrayList<String> result) {
+            Log.d(TAG_NAME, "onPostExecute pour rendre le resultat");
+            getComboBoxDatas(result);
+        }
     }
 }
