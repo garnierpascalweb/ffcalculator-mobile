@@ -2,6 +2,8 @@ package com.gpwsofts.ffcalculator.mobile.repository;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -11,6 +13,8 @@ import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.dao.ResultDao;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Couche Repository
@@ -32,27 +36,47 @@ public class ResultRepository {
 
     public void insert(Result result) {
         Log.i(TAG_NAME, "Lancement de Async Task InsertResultAsyncTask");
-        new InsertResultAsyncTask(resultDao).execute(result);
+        //new InsertResultAsyncTask(resultDao).execute(result);
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+        executor.execute(() -> {
+            resultDao.insert(result);
+        });
     }
 
     public void update(Result result) {
         Log.i(TAG_NAME, "Lancement de Async Task UpdateResultAsyncTask");
-        new UpdateResultAsyncTask(resultDao).execute(result);
-//TODO 1.0.0 asynctask deprecated , use Execotors https://stackoverflow.com/questions/58767733/the-asynctask-api-is-deprecated-in-android-11-what-are-the-alternatives
-    }
+        // new UpdateResultAsyncTask(resultDao).execute(result);
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+        executor.execute(() -> {
+            resultDao.update(result);
+        });
+   }
 
     public void delete(Result result) {
         Log.i(TAG_NAME, "Lancement de Async Task DeleteResultAsyncTask");
-        new DeleteResultAsyncTask(resultDao).execute(result);
+        //new DeleteResultAsyncTask(resultDao).execute(result);
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+        executor.execute(() -> {
+            resultDao.delete(result);
+        });
     }
 
     public void deleteAll() {
         Log.i(TAG_NAME, "Lancement de Async Task DeleteAllResultsAsyncTask");
-        new DeleteAllResultsAsyncTask(resultDao).execute();
+        //new DeleteAllResultsAsyncTask(resultDao).execute();
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+        executor.execute(() -> {
+            resultDao.deleteAllResults();
+        });
     }
 
     public LiveData<List<Result>> getAllResults() {
         Log.i(TAG_NAME, "Recuperation de tous les resultats");
+        //TODO A Asynchroniser
         return allResults;
     }
 
