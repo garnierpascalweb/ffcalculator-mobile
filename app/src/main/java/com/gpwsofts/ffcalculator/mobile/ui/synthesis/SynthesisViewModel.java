@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class SynthesisViewModel extends ViewModel {
-
+    private static final String TAG_NAME = "SynthesisViewModel";
     private final MutableLiveData<String> mText;
 
     public SynthesisViewModel() {

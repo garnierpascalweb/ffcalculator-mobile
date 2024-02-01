@@ -21,15 +21,12 @@ public interface ResultDao {
     LiveData<List<Result>> getAllResults();
     @Query("SELECT * FROM result WHERE id IN (:resultIds)")
     List<Result> getAllByIds(int[]resultIds);
-
     @Insert
     void insert(Result result);
-
     @Update
     void update(Result result);
     @Delete
     void delete(Result result);
-
     @Query("DELETE FROM result")
     void deleteAllResults();
 }

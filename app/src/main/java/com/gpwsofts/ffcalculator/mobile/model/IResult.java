@@ -6,7 +6,6 @@ package com.gpwsofts.ffcalculator.mobile.model;
  */
 public interface IResult {
     public String getPlace();
-
     public void setPlace(String place) ;
     public String getLogo() ;
     public void setLogo(String logo);

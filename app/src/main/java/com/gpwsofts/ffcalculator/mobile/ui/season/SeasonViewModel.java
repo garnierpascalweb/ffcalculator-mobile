@@ -14,7 +14,7 @@ import java.util.List;
 
 public class SeasonViewModel extends ViewModel {
 
-    private static final String TAG_NAME = "DashboardViewModel";
+    private static final String TAG_NAME = "SeasonViewModel";
     private final MutableLiveData<List<IResult>> result;
     private final ISeasonService service;
 
