@@ -8,7 +8,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
-import com.gpwsofts.ffcalculator.mobile.model.IResult;
 import com.gpwsofts.ffcalculator.mobile.repository.ResultRepository;
 
 import java.util.List;

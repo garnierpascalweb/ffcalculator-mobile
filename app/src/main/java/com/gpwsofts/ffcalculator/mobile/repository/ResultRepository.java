@@ -5,12 +5,10 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.LiveDataScope;
 
 import com.gpwsofts.ffcalculator.mobile.dao.FFCalculatorDatabase;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.dao.ResultDao;
-import com.gpwsofts.ffcalculator.mobile.model.IResult;
 
 import java.util.List;
 

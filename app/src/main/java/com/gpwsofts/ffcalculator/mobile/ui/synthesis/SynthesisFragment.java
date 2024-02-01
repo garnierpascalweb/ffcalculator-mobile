@@ -16,7 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentNotificationsBinding;
 import com.gpwsofts.ffcalculator.mobile.ui.result.ResultViewModel;
-import com.gpwsofts.ffcalculator.mobile.viewmodel.SharedPrefsViewModel;
+import com.gpwsofts.ffcalculator.mobile.ui.shared.SharedPrefsViewModel;
 
 public class SynthesisFragment extends Fragment {
     private static final String TAG_NAME = "SynthesisFragment";

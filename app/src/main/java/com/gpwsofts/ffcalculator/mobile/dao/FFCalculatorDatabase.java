@@ -1,17 +1,13 @@
 package com.gpwsofts.ffcalculator.mobile.dao;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
-
-import android.os.AsyncTask;
-import android.util.Log;
-
-import com.gpwsofts.ffcalculator.mobile.model.IResult;
 
 /**
  * Base de données pour l'application

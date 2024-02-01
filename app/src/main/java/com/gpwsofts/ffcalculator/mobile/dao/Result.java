@@ -3,8 +3,6 @@ package com.gpwsofts.ffcalculator.mobile.dao;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.gpwsofts.ffcalculator.mobile.model.IResult;
-
 @Entity
 public class Result {
     @PrimaryKey(autoGenerate = true)

@@ -26,8 +26,7 @@ import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentHomeBinding;
 import com.gpwsofts.ffcalculator.mobile.services.logo.Logo;
-import com.gpwsofts.ffcalculator.mobile.services.vues.IVueService;
-import com.gpwsofts.ffcalculator.mobile.viewmodel.SharedPrefsViewModel;
+import com.gpwsofts.ffcalculator.mobile.ui.shared.SharedPrefsViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
