@@ -58,9 +58,9 @@ public class ResultFragment extends Fragment {
         binding = FragmentResultBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         //TODO 1.0.0 recuperation de UUID a mettre autre part que la
-        String android_device_id = Settings.Secure.getString(this.requireActivity().getContentResolver(), Settings.Secure.ANDROID_ID);
-        Log.i(TAG_NAME, "device id " + android_device_id);
-        Log.i(TAG_NAME, "nombre de pts = " + this.resultViewModel.getAllPts());
+        //String android_device_id = Settings.Secure.getString(this.requireActivity().getContentResolver(), Settings.Secure.ANDROID_ID);
+        //Log.i(TAG_NAME, "device id " + android_device_id);
+        //Log.i(TAG_NAME, "nombre de pts = " + this.resultViewModel.getAllPts());
         textInputEditTextPlace = binding.idTIETPlace;
         //textInputLayoutSpinnerClasses = binding.idTISPClasses;
         //textInputLayoutSpinnerPos = binding.idTISPPos;

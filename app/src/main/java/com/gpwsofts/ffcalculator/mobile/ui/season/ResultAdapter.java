@@ -43,9 +43,8 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ResultView
     @Override
     public void onBindViewHolder(@NonNull ResultViewHolder holder, int position) {
         final Result currentResult = results.get(position);
-        final String currentResultIdClasse = currentResult.getIdClasse();
         holder.idTVResultPlace.setText(currentResult.getPlace());
-        holder.idTVResultLibelle.setText(new StringBuilder().append(currentResult.getLibelle()).append(" - (").append(currentResultIdClasse).append(")").toString());
+        holder.idTVResultLibelle.setText(currentResult.getLibelle());
         holder.idTVResultLogo.setText(currentResult.getLogo());
         holder.idTVResultLogo.getBackground().setColorFilter(currentResult.getLogoColor(), PorterDuff.Mode.SRC_ATOP);
         holder.idTVResultPosPrts.setText(new StringBuilder().append(currentResult.getPos()).append("e sur ").append(currentResult.getPrts()).toString());
