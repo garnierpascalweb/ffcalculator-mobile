@@ -5,18 +5,9 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-import com.gpwsofts.ffcalculator.mobile.SharedPreferencesStringLiveData;
-import com.gpwsofts.ffcalculator.mobile.dao.Result;
-import com.gpwsofts.ffcalculator.mobile.repository.ResultRepository;
+import com.gpwsofts.ffcalculator.mobile.livedata.SharedPreferencesStringLiveData;
 import com.gpwsofts.ffcalculator.mobile.repository.SharedPrefsRepository;
-
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * Un ViewModel s'appuyant sur les Shared Preferences

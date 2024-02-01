@@ -6,9 +6,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.gpwsofts.ffcalculator.mobile.SharedPreferencesStringLiveData;
-import com.gpwsofts.ffcalculator.mobile.dao.Result;
-import com.gpwsofts.ffcalculator.mobile.dao.ResultDao;
+import com.gpwsofts.ffcalculator.mobile.livedata.SharedPreferencesStringLiveData;
 
 /**
  * Un repository pour les shard preferences

@@ -1,4 +1,4 @@
-package com.gpwsofts.ffcalculator.mobile;
+package com.gpwsofts.ffcalculator.mobile.livedata;
 
 import android.content.SharedPreferences;
 import android.util.Log;
