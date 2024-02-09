@@ -6,6 +6,8 @@ import android.util.Log;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.services.logo.ILogoService;
 import com.gpwsofts.ffcalculator.mobile.services.logo.SimpleLogoService;
+import com.gpwsofts.ffcalculator.mobile.services.network.IPtsService;
+import com.gpwsofts.ffcalculator.mobile.services.network.SimplePtsService;
 import com.gpwsofts.ffcalculator.mobile.services.vues.IVueService;
 import com.gpwsofts.ffcalculator.mobile.services.vues.SimpleVueService;
 
@@ -37,6 +39,11 @@ public class ServicesManager {
     private ILogoService logoService = null;
 
     /**
+     * Service http des points
+     */
+    private IPtsService ptsService = null;
+
+    /**
      * Constructeur de ServiceManager
      * @param application
      */
@@ -64,6 +71,16 @@ public class ServicesManager {
             Log.d(TAG_NAME,"recuperation dune instance existante de ILogoService");
         }
         return logoService;
+    }
+
+    public final IPtsService getPtsService(){
+        if (null == ptsService){
+            Log.i(TAG_NAME,"creation dune nouvelle instance de IPtsService");
+            ptsService = new SimplePtsService();
+        } else {
+            Log.d(TAG_NAME,"recuperation dune instance existante de IPtsService");
+        }
+        return ptsService;
     }
 
     /**
