@@ -12,4 +12,7 @@ public interface IApiInterface {
 
     @POST("ffcpoints.php")
     Call<FFCPointsResponse> calcPts(@Body FFCPointsRequest request);
+
+    @POST("ffcclass.php")
+    Call<FFCPosResponse> calcPos(@Body FFCPosRequest request);
 }
