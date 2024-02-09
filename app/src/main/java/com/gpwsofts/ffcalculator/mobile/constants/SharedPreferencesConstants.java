@@ -6,5 +6,9 @@ package com.gpwsofts.ffcalculator.mobile.constants;
  */
 public class SharedPreferencesConstants {
     public static final String KEY_VUE = "vue";
+    /**
+     * La clé pour la valeur contenant la position au classement national
+     */
+    public static final String KEY_POS = "pos";
     public static final String DEFAULT_VALUE_VUE = "G";
 }
