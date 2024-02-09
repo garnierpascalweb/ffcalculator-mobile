@@ -16,6 +16,7 @@ import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentSeasonBinding;
 import com.gpwsofts.ffcalculator.mobile.ui.result.ResultViewModel;
+import com.gpwsofts.ffcalculator.mobile.ui.shared.SharedPrefsViewModel;
 
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class SeasonFragment extends Fragment {
         View root = binding.getRoot();
         // RecyclerView
         RecyclerView resultRV = root.findViewById(R.id.idRVCourse);
+        SharedPrefsViewModel sharedPrefsViewModel = new ViewModelProvider(getActivity()).get(SharedPrefsViewModel.class);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(root.getContext(), LinearLayoutManager.VERTICAL, false);
         resultRV.setLayoutManager(linearLayoutManager);
         resultRV.setHasFixedSize(true);
@@ -43,7 +45,13 @@ public class SeasonFragment extends Fragment {
         resultViewModel.getAllResults().observe(getViewLifecycleOwner(), new Observer<List<Result>>(){
             @Override
             public void onChanged(List<Result> results) {
+                // mise a jour sur la UI
                 resultAdapter.setResults(results);
+                // peut etre faire ce merdier en asynchrone
+                // calculer la somme des points
+                double allPts = results.stream().mapToDouble(result -> result.getPts()).sum();
+                // la mettre en shared preferences
+                sharedPrefsViewModel.updatePts(allPts);
             }
         });
         return root;

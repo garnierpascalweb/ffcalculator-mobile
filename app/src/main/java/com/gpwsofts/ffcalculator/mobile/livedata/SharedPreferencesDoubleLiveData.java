@@ -21,5 +21,5 @@ public class SharedPreferencesDoubleLiveData extends SharedPreferencesLiveData<D
         Double valueFromPreferences = Double.valueOf(Float.valueOf(sharedPrefs.getFloat(key, 0)).doubleValue());
         Log.i(TAG_NAME, "lecture depuis les sharedPrefs = <" + valueFromPreferences + ">");
         return valueFromPreferences;
-    }{
+    }
 }

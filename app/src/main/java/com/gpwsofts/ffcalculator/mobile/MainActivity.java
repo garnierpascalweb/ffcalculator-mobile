@@ -54,35 +54,35 @@ public class MainActivity extends AppCompatActivity {
         boolean boolReturn = false;
         if (itemId == R.id.idMenuItemElite){
             Log.i(TAG_NAME, "switch en vue Elite");
-            sharedPrefsViewModel.update(IVueService.ELITE);
+            sharedPrefsViewModel.updateVue(IVueService.ELITE);
             boolReturn = true;
         } else if (itemId == R.id.idMenuItemOpen1){
             Log.i(TAG_NAME, "switch en vue Open1");
-            sharedPrefsViewModel.update(IVueService.OPEN_1);
+            sharedPrefsViewModel.updateVue(IVueService.OPEN_1);
             boolReturn = true;
         }else if (itemId == R.id.idMenuItemOpen2){
             Log.i(TAG_NAME, "switch en vue Open2");
-            sharedPrefsViewModel.update(IVueService.OPEN_2);
+            sharedPrefsViewModel.updateVue(IVueService.OPEN_2);
             boolReturn = true;
         }else if (itemId == R.id.idMenuItemOpen3){
             Log.i(TAG_NAME, "switch en vue Open3");
-            sharedPrefsViewModel.update(IVueService.OPEN_3);
+            sharedPrefsViewModel.updateVue(IVueService.OPEN_3);
             boolReturn = true;
         }else if (itemId == R.id.idMenuItemAccess){
             Log.i(TAG_NAME, "switch en vue Access");
-            sharedPrefsViewModel.update(IVueService.ACCESS);
+            sharedPrefsViewModel.updateVue(IVueService.ACCESS);
             boolReturn = true;
         }else if (itemId == R.id.idMenuItemU19){
             Log.i(TAG_NAME, "switch en vue U19");
-            sharedPrefsViewModel.update(IVueService.U19);
+            sharedPrefsViewModel.updateVue(IVueService.U19);
             boolReturn = true;
         }else if (itemId == R.id.idMenuItemU17){
             Log.i(TAG_NAME, "switch en vue U17");
-            sharedPrefsViewModel.update(IVueService.U17);
+            sharedPrefsViewModel.updateVue(IVueService.U17);
             boolReturn = true;
         } else {
             Log.w(TAG_NAME, "selection dune vue non geree, vue generale");
-            sharedPrefsViewModel.update(IVueService.GENERALE);
+            sharedPrefsViewModel.updateVue(IVueService.GENERALE);
             boolReturn = super.onOptionsItemSelected(item);
         }
         return boolReturn;

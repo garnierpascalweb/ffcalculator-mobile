@@ -66,7 +66,7 @@ public class SynthesisFragment extends Fragment {
             public void onChanged(String s) {
                 Log.i(TAG_NAME, "la vue a change et vaut desormais " + s);
                 textView.setText(s);
-                
+
             }
         });
 
@@ -78,7 +78,7 @@ public class SynthesisFragment extends Fragment {
                 // Update la vue
                 String newVue = textInput.getText().toString();
                 Log.i(TAG_NAME, "mise a jour de la vue vers " + newVue);
-                sharedPrefsViewModel.update(newVue);
+                sharedPrefsViewModel.updateVue(newVue);
             };
         });
         return root;
