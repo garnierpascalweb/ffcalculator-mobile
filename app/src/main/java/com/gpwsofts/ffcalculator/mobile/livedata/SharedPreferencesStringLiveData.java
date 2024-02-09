@@ -15,7 +15,7 @@ public class SharedPreferencesStringLiveData extends SharedPreferencesLiveData<S
         super(prefs, key, defValue);
     }
     @Override
-    String getValueFromPreferences(String key, String defValue) {
+    protected String getValueFromPreferences(String key, String defValue) {
         Log.i(TAG_NAME, "recuperation dans les shard prefs de key = <" + key + "> et defvalue = <" + defValue + ">");
         String valueFromPreferences = sharedPrefs.getString(key, defValue);
         Log.i(TAG_NAME, "lecture depuis les sharedPrefs = <" + valueFromPreferences + ">");

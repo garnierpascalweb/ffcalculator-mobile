@@ -34,7 +34,7 @@ public abstract class SharedPreferencesLiveData<T> extends LiveData<T> {
             }
         }
     };
-    abstract T getValueFromPreferences(String key, T defValue);
+    protected abstract T getValueFromPreferences(String key, T defValue);
     @Override
     protected void onActive() {
         super.onActive();

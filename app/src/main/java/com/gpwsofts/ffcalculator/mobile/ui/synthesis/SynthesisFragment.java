@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.gpwsofts.ffcalculator.mobile.constants.SharedPreferencesConstants;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentSynthesisBinding;
 import com.gpwsofts.ffcalculator.mobile.ui.result.ResultViewModel;
 import com.gpwsofts.ffcalculator.mobile.ui.shared.SharedPrefsViewModel;
@@ -60,7 +61,7 @@ public class SynthesisFragment extends Fragment {
 
         final TextView textView = binding.textNotifications;
         // notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-        sharedPrefsViewModel.getVue().getStringLiveData("vue", "G").observe(getViewLifecycleOwner(), new Observer<String>(){
+        sharedPrefsViewModel.getVue().getStringLiveData(SharedPreferencesConstants.KEY_VUE, SharedPreferencesConstants.DEFAULT_VALUE_VUE).observe(getViewLifecycleOwner(), new Observer<String>(){
             @Override
             public void onChanged(String s) {
                 Log.i(TAG_NAME, "la vue a change et vaut desormais " + s);
