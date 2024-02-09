@@ -60,6 +60,8 @@ public class SynthesisFragment extends Fragment {
 
 
         final TextView textView = binding.textNotifications;
+        final TextView textViewPts = binding.textAllpts;
+        final TextView textViewPos = binding.textMypos;
         // notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         sharedPrefsViewModel.getVue().getStringLiveData(SharedPreferencesConstants.KEY_VUE, SharedPreferencesConstants.DEFAULT_VALUE_VUE).observe(getViewLifecycleOwner(), new Observer<String>(){
             @Override
@@ -69,6 +71,23 @@ public class SynthesisFragment extends Fragment {
 
             }
         });
+
+        sharedPrefsViewModel.getPos().getIntegerLiveData(SharedPreferencesConstants.KEY_POS, Integer.MIN_VALUE).observe(getViewLifecycleOwner(), new Observer<Integer>(){
+            @Override
+            public void onChanged(Integer pos) {
+                Log.i(TAG_NAME, "les pos a change et vaut desormais " + pos);
+                textViewPos.setText(String.valueOf(pos.intValue()));
+            }
+        });
+
+        sharedPrefsViewModel.getPts().getDoubleLiveData(SharedPreferencesConstants.KEY_PTS, Double.MIN_VALUE).observe(getViewLifecycleOwner(), new Observer<Double>(){
+            @Override
+            public void onChanged(Double pts) {
+                Log.i(TAG_NAME, "les pts a change et vaut desormais " + pts);
+                textViewPts.setText(String.valueOf(pts.doubleValue()));
+            }
+        });
+
 
         final TextInputEditText textInput = binding.idTIEVue;
         final Button button = binding.idBTVue;

@@ -57,5 +57,7 @@ public class SharedPrefsViewModel extends AndroidViewModel {
     public SharedPreferencesStringLiveData getVue() {
         return vue;
     }
+    public SharedPreferencesIntLiveData getPos() {return pos;}
+    public SharedPreferencesDoubleLiveData getPts(){return pts;}
 
 }
