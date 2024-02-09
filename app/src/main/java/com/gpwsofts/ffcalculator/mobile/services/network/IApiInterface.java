@@ -10,6 +10,6 @@ import retrofit2.http.POST;
  */
 public interface IApiInterface {
 
-    @POST
+    @POST("ffcpoints.php")
     Call<FFCPointsResponse> calcPts(@Body FFCPointsRequest request);
 }

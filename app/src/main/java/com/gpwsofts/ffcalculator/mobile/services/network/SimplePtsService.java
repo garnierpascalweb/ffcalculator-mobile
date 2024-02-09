@@ -6,6 +6,10 @@ import retrofit2.Call;
 
 public class SimplePtsService extends AbstractHttpService implements IPtsService {
     private static final String TAG_NAME = "SimplePtsService";
+
+    public SimplePtsService(){
+        retrofit = getClient();
+    }
     @Override
     public Call<FFCPointsResponse> calcPts(String place, int pos, int prts, String classe) {
         // cest du retrofit !

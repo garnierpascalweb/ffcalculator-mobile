@@ -165,42 +165,45 @@ public class ResultFragment extends Fragment {
         final String libelle = String.valueOf(autoCompleteTextViewClasses.getText().toString());
         final int pos = Integer.valueOf(autoCompleteTextViewPos.getText().toString());
         final int prts = Integer.valueOf(autoCompleteTextViewPrts.getText().toString());
+        // TODO 1.0.0 ecrire un service qui extrait le idclasse depuis le libelle plutot que la merde substring ci dessus
         final String idClasse = libelle.substring(libelle.indexOf("(")+1, libelle.indexOf(")"));
-        final String[] toastMessage = {null};
+
         Log.i(TAG_NAME, "ajout de la course une fois les pointzs calcules pour " + place);
         Call<FFCPointsResponse> call = FFCalculatorApplication.instance.getServicesManager().getPtsService().calcPts(place, pos, prts, idClasse);
         call.enqueue(new Callback<FFCPointsResponse>() {
             @Override
             public void onResponse(Call<FFCPointsResponse> call, Response<FFCPointsResponse> response) {
-                final double pts = response.body().pts;
-                final String message = response.body().message;
-                Log.i(TAG_NAME, "succes lors du calcul des points valant " + pts + ", message = "  + message + " , construction de l'objet Result");
-                Result result = new Result();
-                result.setPlace(place);
-                //TODO 1.0.0 : creer un logo service pour rendr eun logo en fonction de la classe de course
-                Logo logo = FFCalculatorApplication.instance.getServicesManager().getLogoService(getResources()).getLogo(idClasse);
-                result.setLogo(logo.getText());
-                result.setLogoColor(logo.getColor());
-                //TODO 1.0.0 faire un appel http pour calculer les points
-                result.setPts(pts);
-                result.setPrts(prts);
-                result.setPos(pos);
-                result.setLibelle(libelle);
-                // TODO 1.0.0 ecrire un service qui extrait le idclasse depuis le libelle plutot que la merde substring ci dessus
-                result.setIdClasse(idClasse);
-                Log.i(TAG_NAME, "insertion du resultat en database room");
-                resultViewModel.insert(result);
-                Log.d(TAG_NAME, "preparation du message de toast en succes");
-                toastMessage[0] = "Resultat enregistré (+"+pts+" points ! )";
+                if (response.isSuccessful()) {
+                    final double pts = response.body().pts;
+                    final String message = response.body().message;
+                    Log.i(TAG_NAME, "succes lors du calcul des points valant " + pts + ", message = " + message + " , construction de l'objet Result");
+                    Result result = new Result();
+                    result.setPlace(place);
+                    //TODO 1.0.0 : creer un logo service pour rendr eun logo en fonction de la classe de course
+                    Logo logo = FFCalculatorApplication.instance.getServicesManager().getLogoService(getResources()).getLogo(idClasse);
+                    result.setLogo(logo.getText());
+                    result.setLogoColor(logo.getColor());
+                    //TODO 1.0.0 faire un appel http pour calculer les points
+                    result.setPts(pts);
+                    result.setPrts(prts);
+                    result.setPos(pos);
+                    result.setLibelle(libelle);
+
+                    result.setIdClasse(idClasse);
+                    Log.i(TAG_NAME, "insertion du resultat en database room");
+                    resultViewModel.insert(result);
+                    Log.d(TAG_NAME, "preparation du message de toast en succes");
+                } else {
+                    Log.e(TAG_NAME, "na pas pu se faire , code http " + response.code() + " messgae " + response.message());
+                }
             }
             @Override
             public void onFailure(Call<FFCPointsResponse> call, Throwable t) {
                 Log.e(TAG_NAME, "echec lors de l'appel a l'api ", t);
                 Log.d(TAG_NAME, "preparation du message de toast en echec");
-                toastMessage[0] = "Resultat non enregistré";
             }
         });;
-        Toast.makeText(this.getContext(), toastMessage[0], Toast.LENGTH_SHORT).show();
+        Toast.makeText(this.getContext(), "salope", Toast.LENGTH_SHORT).show();
         //TODO 1.0.0 gerer les erreurs
     }
 
