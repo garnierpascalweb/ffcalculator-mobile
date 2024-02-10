@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.repository.ResultRepository;
@@ -17,16 +18,15 @@ import java.util.List;
  *
  * @since 1.0.0
  */
-public class ResultViewModel extends AndroidViewModel {
+public class ResultViewModel extends ViewModel {
     private static final String TAG_NAME = "ResultViewModel";
     private ResultRepository repository;
     private LiveData<List<Result>> allResults;
 
-    public ResultViewModel(@NonNull Application application) {
-        super(application);
+    public ResultViewModel() {
         Log.i(TAG_NAME, "Construction du ResultViewModel");
         Log.i(TAG_NAME, "Instanciation du repository");
-        repository = new ResultRepository(application);
+        repository = new ResultRepository();
         Log.i(TAG_NAME, "Recuperation de tous les resultats");
         allResults = repository.getAllResults();
         if (null == allResults)

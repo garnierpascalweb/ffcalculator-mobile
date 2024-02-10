@@ -26,7 +26,7 @@ public class ResultRepository {
     private ResultDao resultDao;
     private LiveData<List<Result>> allResults;
 
-    public ResultRepository(Application application) {
+    public ResultRepository() {
         Log.i(TAG_NAME, "Instanciation de ResultRepository");
         FFCalculatorDatabase database = FFCalculatorDatabase.getInstance(application);
         resultDao = database.resultDao();

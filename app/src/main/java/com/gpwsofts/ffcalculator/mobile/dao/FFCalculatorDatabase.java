@@ -9,6 +9,9 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 /**
  * Base de données pour l'application
  * https://developer.android.com/training/data-storage/room?hl=fr
@@ -19,11 +22,13 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 public abstract class FFCalculatorDatabase extends RoomDatabase {
     private static final String TAG_NAME = "FFCalculatorDatabase";
     private static final String DATABASE_NAME = "ffcalculator_database";
-    private static FFCalculatorDatabase instance;
+    private static volatile FFCalculatorDatabase instance;
+    private static final int NUMBER_OF_THREADS = 4;
+    static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
-    public abstract ResultDao resultDao();
+    abstract ResultDao resultDao();
 
-    public static synchronized FFCalculatorDatabase getInstance(Context context) {
+    public static synchronized FFCalculatorDatabase getInstance(final Context context) {
         if (null == instance) {
             Log.i(TAG_NAME, "primo construction de la base de donnees " + DATABASE_NAME);
             instance = Room.databaseBuilder(context.getApplicationContext(), FFCalculatorDatabase.class, DATABASE_NAME)
@@ -33,7 +38,6 @@ public abstract class FFCalculatorDatabase extends RoomDatabase {
                     // la creation de la base de donnees cest vraiemnt a l'install de l'application
                     .addCallback(roomCallback)
                     .build();
-
         }
         return instance;
     }

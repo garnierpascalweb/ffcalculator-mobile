@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.ViewModel;
 
 import com.gpwsofts.ffcalculator.mobile.livedata.SharedPreferencesDoubleLiveData;
 import com.gpwsofts.ffcalculator.mobile.livedata.SharedPreferencesIntLiveData;
@@ -15,7 +16,7 @@ import com.gpwsofts.ffcalculator.mobile.repository.SharedPrefsRepository;
  * Un ViewModel s'appuyant sur les Shared Preferences
  * @since 1.0.0
  */
-public class SharedPrefsViewModel extends AndroidViewModel {
+public class SharedPrefsViewModel extends ViewModel {
     private static final String TAG_NAME = "SharedPrefsViewModel";
     private SharedPreferencesStringLiveData vue;
 
@@ -24,11 +25,10 @@ public class SharedPrefsViewModel extends AndroidViewModel {
     private SharedPreferencesIntLiveData pos;
     private SharedPrefsRepository repository;
 
-    public SharedPrefsViewModel(@NonNull Application application) {
-        super(application);
+    public SharedPrefsViewModel() {
         Log.i(TAG_NAME, "Construction du SharedPrefsViewModel");
         Log.i(TAG_NAME, "Instanciation du repository");
-        repository = new SharedPrefsRepository(application);
+        repository = new SharedPrefsRepository();
         Log.i(TAG_NAME, "Recuperation de la vue en sharedPreferences");
         vue = repository.getVue();
         Log.i(TAG_NAME, "vue en sharedPreferences = <" + vue.getValue() + ">");
