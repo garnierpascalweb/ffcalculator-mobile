@@ -6,7 +6,9 @@ import android.util.Log;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.services.logo.ILogoService;
 import com.gpwsofts.ffcalculator.mobile.services.logo.SimpleLogoService;
+import com.gpwsofts.ffcalculator.mobile.services.network.IPosService;
 import com.gpwsofts.ffcalculator.mobile.services.network.IPtsService;
+import com.gpwsofts.ffcalculator.mobile.services.network.SimplePosService;
 import com.gpwsofts.ffcalculator.mobile.services.network.SimplePtsService;
 import com.gpwsofts.ffcalculator.mobile.services.vues.IVueService;
 import com.gpwsofts.ffcalculator.mobile.services.vues.SimpleVueService;
@@ -42,6 +44,11 @@ public class ServicesManager {
      * Service http des points
      */
     private IPtsService ptsService = null;
+
+    /**
+     * Service http de classement
+     */
+    private IPosService posService = null;
 
     /**
      * Constructeur de ServiceManager
@@ -81,6 +88,16 @@ public class ServicesManager {
             Log.d(TAG_NAME,"recuperation dune instance existante de IPtsService");
         }
         return ptsService;
+    }
+
+    public final IPosService getPosService(){
+        if (null == posService){
+            Log.i(TAG_NAME, "creation dune nouvelle instance de IPosService");
+            posService = new SimplePosService();
+        } else {
+            Log.d(TAG_NAME, "recuperation d'une instance existante de IPosService");
+        }
+        return posService;
     }
 
     /**

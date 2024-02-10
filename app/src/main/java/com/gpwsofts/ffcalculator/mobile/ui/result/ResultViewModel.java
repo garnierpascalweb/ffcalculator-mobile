@@ -31,6 +31,7 @@ public class ResultViewModel extends AndroidViewModel {
         allResults = repository.getAllResults();
         if (null == allResults)
             Log.w(TAG_NAME, "La liste des resultats est null");
+        //allResults.observe();
     }
 
     public void insert(Result result) {

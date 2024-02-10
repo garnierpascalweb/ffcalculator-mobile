@@ -188,7 +188,6 @@ public class ResultFragment extends Fragment {
                     result.setPrts(prts);
                     result.setPos(pos);
                     result.setLibelle(libelle);
-
                     result.setIdClasse(idClasse);
                     Log.i(TAG_NAME, "insertion du resultat en database room");
                     resultViewModel.insert(result);
