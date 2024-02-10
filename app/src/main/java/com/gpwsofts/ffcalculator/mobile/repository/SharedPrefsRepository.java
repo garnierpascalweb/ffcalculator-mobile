@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.constants.SharedPreferencesConstants;
 import com.gpwsofts.ffcalculator.mobile.livedata.SharedPreferencesDoubleLiveData;
 import com.gpwsofts.ffcalculator.mobile.livedata.SharedPreferencesIntLiveData;
@@ -33,9 +34,9 @@ public class SharedPrefsRepository {
     private SharedPreferencesStringLiveData vue;
     private SharedPreferencesDoubleLiveData pts;
     private SharedPreferencesIntLiveData pos;
-    public SharedPrefsRepository(Application application){
+    public SharedPrefsRepository(){
         //TODO 1.0.0 sur de toi avec le context ?
-        sharedPrefs = application.getApplicationContext().getSharedPreferences(SHARED_PREFS_APP_NAME, Context.MODE_PRIVATE);
+        sharedPrefs = FFCalculatorApplication.instance.getApplicationContext().getSharedPreferences(SHARED_PREFS_APP_NAME, Context.MODE_PRIVATE);
         sharedPrefsEditor = sharedPrefs.edit();
         vue = new SharedPreferencesStringLiveData(sharedPrefs, SharedPreferencesConstants.KEY_VUE,SharedPreferencesConstants.DEFAULT_VALUE_VUE);
         //TODO 1.0.0 mettre des valeurs par defaut en constantes

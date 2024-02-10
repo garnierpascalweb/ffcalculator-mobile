@@ -8,6 +8,7 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
+import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.dao.FFCalculatorDatabase;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.dao.ResultDao;
@@ -25,9 +26,11 @@ public class ResultRepository {
     private ResultDao resultDao;
     private LiveData<List<Result>> allResults;
 
-    public ResultRepository(Application application) {
+    public ResultRepository() {
         Log.i(TAG_NAME, "Instanciation de ResultRepository");
-        FFCalculatorDatabase database = FFCalculatorDatabase.getInstance(application);
+        // FFCalculatorDatabase database = FFCalculatorDatabase.getInstance(application);
+        // https://medium.com/@imkuldeepsinghrai/a-comprehensive-guide-to-room-database-in-android-implementation-and-best-practices-f3af8c498624
+        FFCalculatorDatabase database = FFCalculatorApplication.instance.database;
         resultDao = database.resultDao();
         allResults = resultDao.getAllResults();
         Log.i(TAG_NAME, "Fin Instanciation de ResultRepository");
@@ -44,9 +47,14 @@ public class ResultRepository {
             resultDao.insert(result);
         });
     }
-
+    public void update(Result result) {
+        Log.i(TAG_NAME, "Envoi dans le pool Executor database dun ordre de update");
+        FFCalculatorDatabase.databaseWriteExecutor.execute(() -> {
+            resultDao.update(result);
+        });
+    }
     public void delete(Result result) {
-        Log.i(TAG_NAME, "Envoi dans le pool Executor database dun ordre de Delete");
+        Log.i(TAG_NAME, "Envoi dans le pool Executor database dun ordre de delete");
         FFCalculatorDatabase.databaseWriteExecutor.execute(() -> {
             resultDao.delete(result);
         });

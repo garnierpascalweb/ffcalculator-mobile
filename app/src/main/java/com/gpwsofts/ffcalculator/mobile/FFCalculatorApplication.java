@@ -2,6 +2,7 @@ package com.gpwsofts.ffcalculator.mobile;
 
 import android.app.Application;
 
+import com.gpwsofts.ffcalculator.mobile.dao.FFCalculatorDatabase;
 import com.gpwsofts.ffcalculator.mobile.services.ServicesManager;
 
 /**
@@ -15,6 +16,8 @@ public class FFCalculatorApplication extends Application {
      * @since 1.0.0
      */
     public static FFCalculatorApplication instance;
+
+    public FFCalculatorDatabase database = FFCalculatorDatabase.getInstance(this);
 
     /**
      * Le service Manager pour gérer les services
