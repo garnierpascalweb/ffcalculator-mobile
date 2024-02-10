@@ -24,9 +24,9 @@ public abstract class FFCalculatorDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "ffcalculator_database";
     private static volatile FFCalculatorDatabase instance;
     private static final int NUMBER_OF_THREADS = 4;
-    static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+    public static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
-    abstract ResultDao resultDao();
+    public abstract ResultDao resultDao();
 
     public static synchronized FFCalculatorDatabase getInstance(final Context context) {
         if (null == instance) {
