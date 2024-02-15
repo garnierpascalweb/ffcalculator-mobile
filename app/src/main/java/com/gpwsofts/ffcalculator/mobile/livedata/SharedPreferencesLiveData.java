@@ -49,12 +49,4 @@ public abstract class SharedPreferencesLiveData<T> extends LiveData<T> {
     public SharedPreferencesLiveData<String> getStringLiveData(String key, String defaultValue) {
         return new SharedPreferencesStringLiveData(sharedPrefs,key, defaultValue);
     }
-
-    public SharedPreferencesLiveData<Integer> getIntegerLiveData(String key, int defaultValue) {
-        return new SharedPreferencesIntLiveData(sharedPrefs,key,defaultValue);
-    }
-
-    public SharedPreferencesLiveData<Double> getDoubleLiveData(String key, double defaultValue) {
-        return new SharedPreferencesDoubleLiveData(sharedPrefs,key, defaultValue);
-    }
 }

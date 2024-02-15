@@ -31,20 +31,15 @@ import retrofit2.Response;
 public class SynthesisFragment extends Fragment {
     private static final String TAG_NAME = "SynthesisFragment";
     private FragmentSynthesisBinding binding;
-
     private ResultViewModel resultViewModel;
-    private SharedPrefsViewModel sharedPrefsViewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         resultViewModel = new ViewModelProvider(this).get(ResultViewModel.class);
-        sharedPrefsViewModel = new ViewModelProvider(this).get(SharedPrefsViewModel.class);
     }
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        SynthesisViewModel notificationsViewModel = new ViewModelProvider(this).get(SynthesisViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentSynthesisBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         final TextView textView = binding.textNotifications;
@@ -73,31 +68,6 @@ public class SynthesisFragment extends Fragment {
                 }
             });
         });
-        sharedPrefsViewModel.getVue().getStringLiveData(SharedPreferencesConstants.KEY_VUE, SharedPreferencesConstants.DEFAULT_VALUE_VUE).observe(getViewLifecycleOwner(), new Observer<String>(){
-            @Override
-            public void onChanged(String s) {
-                Log.i(TAG_NAME, "la vue a change et vaut desormais " + s);
-                textView.setText(s);
-
-            }
-        });
-
-        sharedPrefsViewModel.getPos().getIntegerLiveData(SharedPreferencesConstants.KEY_POS, Integer.MIN_VALUE).observe(getViewLifecycleOwner(), new Observer<Integer>(){
-            @Override
-            public void onChanged(Integer pos) {
-                Log.i(TAG_NAME, "les pos a change et vaut desormais " + pos);
-                textViewPos.setText(String.valueOf(pos.intValue()));
-            }
-        });
-
-        sharedPrefsViewModel.getPts().getDoubleLiveData(SharedPreferencesConstants.KEY_PTS, Double.MIN_VALUE).observe(getViewLifecycleOwner(), new Observer<Double>(){
-            @Override
-            public void onChanged(Double pts) {
-                Log.i(TAG_NAME, "les pts a change et vaut desormais " + pts);
-                textViewPts.setText(String.valueOf(pts.doubleValue()));
-            }
-        });
-
         return root;
     }
 
