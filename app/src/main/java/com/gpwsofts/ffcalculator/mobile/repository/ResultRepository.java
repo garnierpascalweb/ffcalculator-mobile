@@ -7,6 +7,7 @@ import android.os.Looper;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.dao.FFCalculatorDatabase;
@@ -39,6 +40,20 @@ public class ResultRepository {
     public LiveData<List<Result>> getAllResults() {
         Log.i(TAG_NAME, "Recuperation de tous les resultats");
         return allResults;
+    }
+
+    /**
+     *
+     * @since 1.0.0
+     */
+    public LiveData<Double> getAllPts(List<Result> results){
+        MutableLiveData<Double> allPtsLiveData = new MutableLiveData<Double>();
+        allPtsLiveData.setValue(Double.valueOf(0));
+        if (results != null)
+            allPtsLiveData.setValue(results.stream().mapToDouble(result -> result.getPts()).sorted().limit(15).sum());
+        return allPtsLiveData;
+        //TODO methode un peu curieuse, mais conforme a https://developer.android.com/topic/libraries/architecture/livedata?hl=fr#java
+        //TODO 1.0.0 ne marche pas, a virer
     }
 
     public void insert(Result result) {

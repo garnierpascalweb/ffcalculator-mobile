@@ -6,6 +6,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
@@ -21,7 +23,16 @@ import java.util.List;
 public class ResultViewModel extends AndroidViewModel {
     private static final String TAG_NAME = "ResultViewModel";
     private ResultRepository repository;
-    private LiveData<List<Result>> allResults;
+    private LiveData<List<Result>> allResults = new MutableLiveData();
+
+    /**
+     * tentative de reproduire
+     * https://developer.android.com/topic/libraries/architecture/livedata?hl=fr#java
+     */
+    private final LiveData<Double> allPts = Transformations.switchMap(allResults, (results) -> {
+        return repository.getAllPts(results);
+        //TODO 1.0.0 ne marche pas, a virer avec sa connerie en repository
+    });
 
     public ResultViewModel(Application application) {
         super(application);
@@ -60,5 +71,9 @@ public class ResultViewModel extends AndroidViewModel {
         if (null == allResults)
             Log.w(TAG_NAME, "La liste des resultats est null");
         return allResults;
+    }
+
+    public LiveData<Double> getAllPts() {
+        return allPts;
     }
 }

@@ -22,6 +22,7 @@ import com.gpwsofts.ffcalculator.mobile.services.network.FFCPosResponse;
 import com.gpwsofts.ffcalculator.mobile.ui.result.ResultViewModel;
 import com.gpwsofts.ffcalculator.mobile.ui.shared.SharedPrefsViewModel;
 
+import java.util.Collections;
 import java.util.Comparator;
 
 import retrofit2.Call;
@@ -47,8 +48,9 @@ public class SynthesisFragment extends Fragment {
         final TextView textViewPos = binding.textMypos;
         final TextInputEditText textInput = binding.idTIEVue;
         resultViewModel.getAllResults().observe(getViewLifecycleOwner() , results -> {
+            //TODO 1.0.0 : le 15 en dur, cest dur : de plus ca na rien a foutre ici, ca doit etre fait en background, la liste est triee dans le mauvais sens
             final double allPts = results.stream().mapToDouble(result -> result.getPts()).sorted().limit(15).sum();
-            textViewPts.setText("Nombre de POINTS = " + allPts);
+            textViewPts.setText("Nombre de POINTS = " + allPts + " et selon le view Model " + resultViewModel.getAllPts().getValue());
             final Call<FFCPosResponse> call = FFCalculatorApplication.instance.getServicesManager().getPosService().calcPos(allPts, "H");
             call.enqueue(new Callback<FFCPosResponse>() {
                 @Override
