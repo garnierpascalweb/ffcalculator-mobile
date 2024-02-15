@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.ListAdapter;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 
 public class ResultListAdapter extends ListAdapter<Result, ResultViewHolder> {
-    protected ResultListAdapter(@NonNull DiffUtil.ItemCallback<Result> diffCallback) {
+    public ResultListAdapter(@NonNull DiffUtil.ItemCallback<Result> diffCallback) {
         super(diffCallback);
     }
     @NonNull
@@ -21,10 +21,10 @@ public class ResultListAdapter extends ListAdapter<Result, ResultViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ResultViewHolder holder, int position) {
         Result current = getItem(position);
-        holder.bind(current.getLogo(), current.getPlace(), current.getLibelle(), current.getPos(), current.getPrts(), current.getPts());
+        holder.bind(current.getLogo(), current.getLogoColor(), current.getPlace(), current.getLibelle(), current.getPos(), current.getPrts(), current.getPts());
     }
 
-    static class ResultDiff extends DiffUtil.ItemCallback<Result>{
+    public static class ResultDiff extends DiffUtil.ItemCallback<Result>{
 
         @Override
         public boolean areItemsTheSame(@NonNull Result oldItem, @NonNull Result newItem) {
@@ -33,7 +33,15 @@ public class ResultListAdapter extends ListAdapter<Result, ResultViewHolder> {
 
         @Override
         public boolean areContentsTheSame(@NonNull Result oldItem, @NonNull Result newItem) {
-            return false;
+            boolean areTheSameContents = (oldItem.idClasse.equals(newItem.idClasse)) &&
+                    (oldItem.place.equals(newItem.place)) &&
+                    (oldItem.logo.equals(newItem.logo)) &&
+                    (oldItem.logoColor == newItem.logoColor) &&
+                    (oldItem.pos == newItem.pos) &&
+                    (oldItem.prts == newItem.prts) &&
+                    (oldItem.pts == newItem.pts) &&
+                    (oldItem.libelle.equals(newItem.libelle));
+            return areTheSameContents;
         }
     }
 }

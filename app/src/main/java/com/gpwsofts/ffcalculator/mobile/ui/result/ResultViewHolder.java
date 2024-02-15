@@ -1,5 +1,6 @@
 package com.gpwsofts.ffcalculator.mobile.ui.result;
 
+import android.graphics.PorterDuff;
 import android.view.View;
 
 import android.view.LayoutInflater;
@@ -34,12 +35,12 @@ public class ResultViewHolder extends RecyclerView.ViewHolder {
         resultPosPrtsTextView = itemView.findViewById(R.id.idTVResultPosPrts);
         resultPtsView = itemView.findViewById(R.id.idTVResultPts);
     }
-    public void bind(String logo, String place, String libelle, int pos, int prts, double pts){
+    public void bind(String logo, int logoColor, String place, String libelle, int pos, int prts, double pts){
         logoTextView.setText(logo);
+        logoTextView.getBackground().setColorFilter(logoColor, PorterDuff.Mode.SRC_ATOP);
         placeTextView.setText(place);
         libelleTextView.setText(libelle);
-        //TODO 1.0.0 Faire les StringBuilder de merde
-        resultPosPrtsTextView.setText(prts);
+        resultPosPrtsTextView.setText(new StringBuilder().append(pos).append("e sur ").append(prts).toString());
         resultPtsView.setText(String.valueOf(pts));
     }
     static ResultViewHolder create(ViewGroup parent) {
