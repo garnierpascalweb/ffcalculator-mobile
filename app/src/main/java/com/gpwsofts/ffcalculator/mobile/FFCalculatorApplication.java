@@ -17,7 +17,7 @@ public class FFCalculatorApplication extends Application {
      */
     public static FFCalculatorApplication instance;
 
-    public FFCalculatorDatabase database = FFCalculatorDatabase.getInstance(this);
+    public FFCalculatorDatabase database ; //= FFCalculatorDatabase.getInstance(this);
 
     /**
      * Le service Manager pour gérer les services
@@ -31,9 +31,6 @@ public class FFCalculatorApplication extends Application {
      */
     private boolean servicesManagerAlreadyExist = false;
 
-    public FFCalculatorApplication(){
-
-    }
 
     @Override
     public void onCreate() {

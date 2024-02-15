@@ -29,15 +29,13 @@ public abstract class FFCalculatorDatabase extends RoomDatabase {
     public abstract ResultDao resultDao();
 
     public static synchronized FFCalculatorDatabase getInstance(final Context context) {
+        // https://github.com/android/codelab-android-room-with-a-view/blob/master/app/src/main/java/com/example/android/roomwordssample/WordRoomDatabase.java
         if (null == instance) {
-            Log.i(TAG_NAME, "primo construction de la base de donnees " + DATABASE_NAME);
-            instance = Room.databaseBuilder(context.getApplicationContext(), FFCalculatorDatabase.class, DATABASE_NAME)
-                    // pas compris (Part 4)
-                    .fallbackToDestructiveMigration()
-                    // add callback pour faire quelque chose a la creation de la base de donnees (Part 4)
-                    // la creation de la base de donnees cest vraiemnt a l'install de l'application
-                    .addCallback(roomCallback)
-                    .build();
+            synchronized (FFCalculatorDatabase.class) {
+                if (null == instance) {
+                    instance = Room.databaseBuilder(context.getApplicationContext(), FFCalculatorDatabase.class, DATABASE_NAME).build();
+                }
+            }
         }
         return instance;
     }

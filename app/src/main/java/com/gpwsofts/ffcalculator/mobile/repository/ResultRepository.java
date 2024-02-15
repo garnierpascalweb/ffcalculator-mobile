@@ -26,11 +26,11 @@ public class ResultRepository {
     private ResultDao resultDao;
     private LiveData<List<Result>> allResults;
 
-    public ResultRepository() {
+    public ResultRepository(Application application) {
         Log.i(TAG_NAME, "Instanciation de ResultRepository");
         // FFCalculatorDatabase database = FFCalculatorDatabase.getInstance(application);
         // https://medium.com/@imkuldeepsinghrai/a-comprehensive-guide-to-room-database-in-android-implementation-and-best-practices-f3af8c498624
-        FFCalculatorDatabase database = FFCalculatorApplication.instance.database;
+        FFCalculatorDatabase database = FFCalculatorDatabase.getInstance(application);
         resultDao = database.resultDao();
         allResults = resultDao.getAllResults();
         Log.i(TAG_NAME, "Fin Instanciation de ResultRepository");

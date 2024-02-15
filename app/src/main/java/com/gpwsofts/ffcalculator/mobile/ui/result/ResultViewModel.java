@@ -18,15 +18,16 @@ import java.util.List;
  *
  * @since 1.0.0
  */
-public class ResultViewModel extends ViewModel {
+public class ResultViewModel extends AndroidViewModel {
     private static final String TAG_NAME = "ResultViewModel";
     private ResultRepository repository;
     private LiveData<List<Result>> allResults;
 
-    public ResultViewModel() {
+    public ResultViewModel(Application application) {
+        super(application);
         Log.i(TAG_NAME, "Construction du ResultViewModel");
         Log.i(TAG_NAME, "Instanciation du repository");
-        repository = new ResultRepository();
+        repository = new ResultRepository(application);
         Log.i(TAG_NAME, "Recuperation de tous les resultats");
         allResults = repository.getAllResults();
         if (null == allResults)
