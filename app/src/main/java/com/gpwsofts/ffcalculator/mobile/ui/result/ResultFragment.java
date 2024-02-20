@@ -33,6 +33,7 @@ import com.gpwsofts.ffcalculator.mobile.ui.shared.SharedPrefsViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,6 +43,8 @@ public class ResultFragment extends Fragment {
     private static final String TAG_NAME = "ResultFragment";
     private SeasonViewModel resultViewModel;
     private SharedPrefsViewModel sharedPrefsViewModel;
+
+    private AddResultViewModel addResultViewModel;
     private FragmentResultBinding binding;
 
     TextInputEditText textInputEditTextPlace;
@@ -60,6 +63,7 @@ public class ResultFragment extends Fragment {
 
         resultViewModel = new ViewModelProvider(requireActivity()).get(SeasonViewModel.class);
         sharedPrefsViewModel = new ViewModelProvider(requireActivity()).get(SharedPrefsViewModel.class);
+        addResultViewModel = new ViewModelProvider(requireActivity()).get(AddResultViewModel.class);
         binding = FragmentResultBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         //TODO 1.0.0 recuperation de UUID a mettre autre part que la
@@ -75,12 +79,20 @@ public class ResultFragment extends Fragment {
         // https://stackoverflow.com/questions/18685898/android-clear-in-costom-arrayadapter-java-lang-unsupportedoperationexception
         //ArrayList<String> defaultClasses = new ArrayList<>();
         //defaultClasses.addAll(Arrays.asList(getResources().getStringArray(R.array.classes_for_elite)));
+        addResultViewModel.getClassesChoices().observe(getViewLifecycleOwner(), new Observer<List<String>>() {
+            @Override
+            public void onChanged(List<String> classesList) {
+                ArrayAdapter<String> classesAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, classesList);
+                autoCompleteTextViewClasses.setAdapter(classesAdapter);
+                classesAdapter.notifyDataSetChanged();
+            }
+        });
         arrayAdapterForClasses = new ArrayAdapter<>(getContext(),  android.R.layout.simple_spinner_item, new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.classes_for_G))));
         arrayAdapterForPos = new ArrayAdapter<>(getContext(),  android.R.layout.simple_spinner_item, new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.pos_for_15))));
         arrayAdapterForPrts = new ArrayAdapter<>(getContext(),  android.R.layout.simple_spinner_item, new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.prts_for_200))));
         //arrayAdapter.setDropDownViewResource();
         //arrayAdapter.setDropDownViewResource(R.array.planets_array);
-        autoCompleteTextViewClasses.setAdapter(arrayAdapterForClasses);
+        //autoCompleteTextViewClasses.setAdapter(arrayAdapterForClasses);
         autoCompleteTextViewPos.setAdapter(arrayAdapterForPos);
         autoCompleteTextViewPrts.setAdapter(arrayAdapterForPrts);
 
@@ -166,6 +178,7 @@ public class ResultFragment extends Fragment {
         final int pos = Integer.valueOf(autoCompleteTextViewPos.getText().toString());
         final int prts = Integer.valueOf(autoCompleteTextViewPrts.getText().toString());
         // TODO 1.0.0 ecrire un service qui extrait le idclasse depuis le libelle plutot que la merde substring ci dessus
+        // et si ava.lang.StringIndexOutOfBoundsException
         final String idClasse = libelle.substring(libelle.indexOf("(")+1, libelle.indexOf(")"));
 
         Log.i(TAG_NAME, "ajout de la course une fois les pointzs calcules pour " + place);
