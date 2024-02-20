@@ -1,10 +1,9 @@
-package com.gpwsofts.ffcalculator.mobile.ui.result;
+package com.gpwsofts.ffcalculator.mobile.ui.season;
 
 import android.graphics.PorterDuff;
 import android.view.View;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 

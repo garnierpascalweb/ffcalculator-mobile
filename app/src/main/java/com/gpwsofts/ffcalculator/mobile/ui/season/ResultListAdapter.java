@@ -1,4 +1,4 @@
-package com.gpwsofts.ffcalculator.mobile.ui.result;
+package com.gpwsofts.ffcalculator.mobile.ui.season;
 
 import android.view.ViewGroup;
 

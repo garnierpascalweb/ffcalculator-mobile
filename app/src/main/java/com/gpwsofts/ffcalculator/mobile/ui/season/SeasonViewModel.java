@@ -1,14 +1,11 @@
-package com.gpwsofts.ffcalculator.mobile.ui.result;
+package com.gpwsofts.ffcalculator.mobile.ui.season;
 
 import android.app.Application;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Transformations;
-import androidx.lifecycle.ViewModel;
 
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.repository.ResultRepository;
@@ -20,12 +17,12 @@ import java.util.List;
  *
  * @since 1.0.0
  */
-public class ResultViewModel extends AndroidViewModel {
+public class SeasonViewModel extends AndroidViewModel {
     private static final String TAG_NAME = "ResultViewModel";
     private ResultRepository repository;
     private LiveData<List<Result>> allResults = new MutableLiveData();
 
-    public ResultViewModel(Application application) {
+    public SeasonViewModel(Application application) {
         super(application);
         Log.i(TAG_NAME, "Construction du ResultViewModel");
         Log.i(TAG_NAME, "Instanciation du repository");

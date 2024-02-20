@@ -5,25 +5,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
-import com.gpwsofts.ffcalculator.mobile.constants.SharedPreferencesConstants;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentSynthesisBinding;
 import com.gpwsofts.ffcalculator.mobile.services.network.FFCPosResponse;
-import com.gpwsofts.ffcalculator.mobile.ui.result.ResultViewModel;
-import com.gpwsofts.ffcalculator.mobile.ui.shared.SharedPrefsViewModel;
-
-import java.util.Collections;
-import java.util.Comparator;
+import com.gpwsofts.ffcalculator.mobile.ui.season.SeasonViewModel;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,12 +25,12 @@ import retrofit2.Response;
 public class SynthesisFragment extends Fragment {
     private static final String TAG_NAME = "SynthesisFragment";
     private FragmentSynthesisBinding binding;
-    private ResultViewModel resultViewModel;
+    private SeasonViewModel resultViewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        resultViewModel = new ViewModelProvider(this).get(ResultViewModel.class);
+        resultViewModel = new ViewModelProvider(this).get(SeasonViewModel.class);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

@@ -4,7 +4,6 @@ package com.gpwsofts.ffcalculator.mobile.ui.result;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +28,7 @@ import com.gpwsofts.ffcalculator.mobile.databinding.FragmentResultBinding;
 import com.gpwsofts.ffcalculator.mobile.services.logo.Logo;
 import com.gpwsofts.ffcalculator.mobile.services.network.FFCPointsResponse;
 import com.gpwsofts.ffcalculator.mobile.services.vues.IVueService;
+import com.gpwsofts.ffcalculator.mobile.ui.season.SeasonViewModel;
 import com.gpwsofts.ffcalculator.mobile.ui.shared.SharedPrefsViewModel;
 
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ import retrofit2.Response;
 
 public class ResultFragment extends Fragment {
     private static final String TAG_NAME = "ResultFragment";
-    private ResultViewModel resultViewModel;
+    private SeasonViewModel resultViewModel;
     private SharedPrefsViewModel sharedPrefsViewModel;
     private FragmentResultBinding binding;
 
@@ -58,7 +58,7 @@ public class ResultFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        resultViewModel = new ViewModelProvider(requireActivity()).get(ResultViewModel.class);
+        resultViewModel = new ViewModelProvider(requireActivity()).get(SeasonViewModel.class);
         sharedPrefsViewModel = new ViewModelProvider(requireActivity()).get(SharedPrefsViewModel.class);
         binding = FragmentResultBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
