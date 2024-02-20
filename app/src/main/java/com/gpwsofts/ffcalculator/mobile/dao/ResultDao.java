@@ -11,20 +11,26 @@ import java.util.List;
 
 /**
  * Interface de la couche DAO
+ *
  * @since 1.0.0
  */
 @Dao
 public interface ResultDao {
     @Query("SELECT * FROM result")
     LiveData<List<Result>> getAllResults();
+
     @Query("SELECT * FROM result WHERE id IN (:resultIds)")
-    List<Result> getAllByIds(int[]resultIds);
+    List<Result> getAllByIds(int[] resultIds);
+
     @Insert
     void insert(Result result);
+
     @Update
     void update(Result result);
+
     @Delete
     void delete(Result result);
+
     @Query("DELETE FROM result")
     void deleteAllResults();
 }

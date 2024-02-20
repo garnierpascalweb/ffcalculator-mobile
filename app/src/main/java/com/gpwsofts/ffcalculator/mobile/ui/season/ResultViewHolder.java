@@ -1,9 +1,8 @@
 package com.gpwsofts.ffcalculator.mobile.ui.season;
 
 import android.graphics.PorterDuff;
-import android.view.View;
-
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -13,6 +12,7 @@ import com.gpwsofts.ffcalculator.mobile.R;
 
 /**
  * ViewHolder d'un resultat, a l'image de d'un item de la liste
+ *
  * @since 1.0.0
  */
 public class ResultViewHolder extends RecyclerView.ViewHolder {
@@ -34,7 +34,8 @@ public class ResultViewHolder extends RecyclerView.ViewHolder {
         resultPosPrtsTextView = itemView.findViewById(R.id.idTVResultPosPrts);
         resultPtsView = itemView.findViewById(R.id.idTVResultPts);
     }
-    public void bind(String logo, int logoColor, String place, String libelle, int pos, int prts, double pts){
+
+    public void bind(String logo, int logoColor, String place, String libelle, int pos, int prts, double pts) {
         logoTextView.setText(logo);
         logoTextView.getBackground().setColorFilter(logoColor, PorterDuff.Mode.SRC_ATOP);
         placeTextView.setText(place);
@@ -42,6 +43,7 @@ public class ResultViewHolder extends RecyclerView.ViewHolder {
         resultPosPrtsTextView.setText(new StringBuilder().append(pos).append("e sur ").append(prts).toString());
         resultPtsView.setText(String.valueOf(pts));
     }
+
     static ResultViewHolder create(ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_result_layout, parent, false);
         return new ResultViewHolder(view);

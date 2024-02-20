@@ -5,14 +5,12 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 /**
  * Implementation LiveData de Shared Preferences
  * Source https://stackoverflow.com/questions/50649014/livedata-with-shared-preferences
- * @since 1.0.0
+ *
  * @param <T>
+ * @since 1.0.0
  */
 public abstract class SharedPreferencesLiveData<T> extends LiveData<T> {
     private static final String TAG_NAME = "SharedPreferencesLiveData";
@@ -27,6 +25,7 @@ public abstract class SharedPreferencesLiveData<T> extends LiveData<T> {
         this.key = key;
         this.defValue = defValue;
     }
+
     private SharedPreferences.OnSharedPreferenceChangeListener preferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
@@ -38,19 +37,23 @@ public abstract class SharedPreferencesLiveData<T> extends LiveData<T> {
             }
         }
     };
+
     protected abstract T getValueFromPreferences(String key, T defValue);
+
     @Override
     protected void onActive() {
         super.onActive();
         setValue(getValueFromPreferences(key, defValue));
         sharedPrefs.registerOnSharedPreferenceChangeListener(preferenceChangeListener);
     }
+
     @Override
     protected void onInactive() {
         sharedPrefs.unregisterOnSharedPreferenceChangeListener(preferenceChangeListener);
         super.onInactive();
     }
+
     public SharedPreferencesLiveData<String> getStringLiveData(String key, String defaultValue) {
-        return new SharedPreferencesStringLiveData(sharedPrefs,key, defaultValue);
+        return new SharedPreferencesStringLiveData(sharedPrefs, key, defaultValue);
     }
 }

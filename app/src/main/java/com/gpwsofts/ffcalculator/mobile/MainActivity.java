@@ -55,31 +55,31 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
         boolean boolReturn = false;
-        if (itemId == R.id.idMenuItemElite){
+        if (itemId == R.id.idMenuItemElite) {
             Log.i(TAG_NAME, "switch en vue Elite");
             sharedPrefsViewModel.updateVue(IVueService.ELITE);
             boolReturn = true;
-        } else if (itemId == R.id.idMenuItemOpen1){
+        } else if (itemId == R.id.idMenuItemOpen1) {
             Log.i(TAG_NAME, "switch en vue Open1");
             sharedPrefsViewModel.updateVue(IVueService.OPEN_1);
             boolReturn = true;
-        }else if (itemId == R.id.idMenuItemOpen2){
+        } else if (itemId == R.id.idMenuItemOpen2) {
             Log.i(TAG_NAME, "switch en vue Open2");
             sharedPrefsViewModel.updateVue(IVueService.OPEN_2);
             boolReturn = true;
-        }else if (itemId == R.id.idMenuItemOpen3){
+        } else if (itemId == R.id.idMenuItemOpen3) {
             Log.i(TAG_NAME, "switch en vue Open3");
             sharedPrefsViewModel.updateVue(IVueService.OPEN_3);
             boolReturn = true;
-        }else if (itemId == R.id.idMenuItemAccess){
+        } else if (itemId == R.id.idMenuItemAccess) {
             Log.i(TAG_NAME, "switch en vue Access");
             sharedPrefsViewModel.updateVue(IVueService.ACCESS);
             boolReturn = true;
-        }else if (itemId == R.id.idMenuItemU19){
+        } else if (itemId == R.id.idMenuItemU19) {
             Log.i(TAG_NAME, "switch en vue U19");
             sharedPrefsViewModel.updateVue(IVueService.U19);
             boolReturn = true;
-        }else if (itemId == R.id.idMenuItemU17){
+        } else if (itemId == R.id.idMenuItemU17) {
             Log.i(TAG_NAME, "switch en vue U17");
             sharedPrefsViewModel.updateVue(IVueService.U17);
             boolReturn = true;
@@ -95,10 +95,11 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Methode permettant de switcher vers la vue donnée
-     * @since 1.0.0
+     *
      * @param vue
+     * @since 1.0.0
      */
-    private void switchVue(String vue){
+    private void switchVue(String vue) {
         Log.i(TAG_NAME, "switchons en vue " + vue);
     }
 }

@@ -7,26 +7,30 @@ import com.gpwsofts.ffcalculator.mobile.services.ServicesManager;
 
 /**
  * Classe Application
+ *
  * @since 1.0.0
  */
 public class FFCalculatorApplication extends Application {
 
     /**
      * Singleton application
+     *
      * @since 1.0.0
      */
     public static FFCalculatorApplication instance;
 
-    public FFCalculatorDatabase database ; //= FFCalculatorDatabase.getInstance(this);
+    public FFCalculatorDatabase database; //= FFCalculatorDatabase.getInstance(this);
 
     /**
      * Le service Manager pour gérer les services
+     *
      * @since 1.0.0
      */
     private ServicesManager servicesManager;
 
     /**
      * Flag pour l'existence du Service Manager
+     *
      * @since 1.0.0
      */
     private boolean servicesManagerAlreadyExist = false;
@@ -53,8 +57,8 @@ public class FFCalculatorApplication extends Application {
         super.onLowMemory();
         if (null != servicesManager) {
             servicesManager.unbindAndDie();
-            servicesManager=null;
-            servicesManagerAlreadyExist=false;
+            servicesManager = null;
+            servicesManagerAlreadyExist = false;
         }
     }
 

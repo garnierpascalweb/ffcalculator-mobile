@@ -7,6 +7,8 @@ import com.google.gson.annotations.SerializedName;
  * POJO pour une requete pour donner un classement national
  */
 public class FFCPosRequest {
-    @SerializedName("pts")public Double pts;
-    @SerializedName("classType")public String classType;
+    @SerializedName("pts")
+    public Double pts;
+    @SerializedName("classType")
+    public String classType;
 }

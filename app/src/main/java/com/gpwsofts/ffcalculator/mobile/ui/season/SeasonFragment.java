@@ -43,7 +43,7 @@ public class SeasonFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(root.getContext(), LinearLayoutManager.VERTICAL, false);
         resultRV.setLayoutManager(linearLayoutManager);
         resultRV.setHasFixedSize(true);
-        resultViewModel.getAllResults().observe(getViewLifecycleOwner() , results -> {
+        resultViewModel.getAllResults().observe(getViewLifecycleOwner(), results -> {
             adapter.submitList(results);
         });
         return root;

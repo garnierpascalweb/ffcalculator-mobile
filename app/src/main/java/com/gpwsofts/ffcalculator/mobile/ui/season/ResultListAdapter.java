@@ -12,6 +12,7 @@ public class ResultListAdapter extends ListAdapter<Result, ResultViewHolder> {
     public ResultListAdapter(@NonNull DiffUtil.ItemCallback<Result> diffCallback) {
         super(diffCallback);
     }
+
     @NonNull
     @Override
     public ResultViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -24,7 +25,7 @@ public class ResultListAdapter extends ListAdapter<Result, ResultViewHolder> {
         holder.bind(current.getLogo(), current.getLogoColor(), current.getPlace(), current.getLibelle(), current.getPos(), current.getPrts(), current.getPts());
     }
 
-    public static class ResultDiff extends DiffUtil.ItemCallback<Result>{
+    public static class ResultDiff extends DiffUtil.ItemCallback<Result> {
 
         @Override
         public boolean areItemsTheSame(@NonNull Result oldItem, @NonNull Result newItem) {

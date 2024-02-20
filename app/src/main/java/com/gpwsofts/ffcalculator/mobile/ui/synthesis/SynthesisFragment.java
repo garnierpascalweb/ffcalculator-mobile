@@ -40,7 +40,7 @@ public class SynthesisFragment extends Fragment {
         final TextView textViewPts = binding.textAllpts;
         final TextView textViewPos = binding.textMypos;
         final TextInputEditText textInput = binding.idTIEVue;
-        resultViewModel.getAllResults().observe(getViewLifecycleOwner() , results -> {
+        resultViewModel.getAllResults().observe(getViewLifecycleOwner(), results -> {
             //TODO 1.0.0 : le 15 en dur, cest dur : de plus ca na rien a foutre ici, ca doit etre fait en background, la liste est triee dans le mauvais sens
             final double allPts = results.stream().mapToDouble(result -> result.getPts()).sorted().limit(15).sum();
             textViewPts.setText("Nombre de POINTS = " + allPts);
@@ -52,11 +52,12 @@ public class SynthesisFragment extends Fragment {
                         int myPos = response.body().pos;
                         //sharedPrefsViewModel.updatePos(myPos);
                         textViewPos.setText(myPos + " eme au classement national FFC ");
-                        Log.d(TAG_NAME,"recalcul de la position ok : <" + myPos + ">");
+                        Log.d(TAG_NAME, "recalcul de la position ok : <" + myPos + ">");
                     } else {
                         Log.w(TAG_NAME, "probleme sur le calcul de la position " + response.code());
                     }
                 }
+
                 @Override
                 public void onFailure(Call<FFCPosResponse> call, Throwable t) {
                     Log.w(TAG_NAME, "probleme sur l'appel au calcul de la position");

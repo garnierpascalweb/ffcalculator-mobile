@@ -1,25 +1,19 @@
 package com.gpwsofts.ffcalculator.mobile.repository;
 
 import android.app.Application;
-import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
-import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.dao.FFCalculatorDatabase;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.dao.ResultDao;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * Couche Repository
+ *
  * @since 1.0.0
  */
 public class ResultRepository {
@@ -48,18 +42,21 @@ public class ResultRepository {
             resultDao.insert(result);
         });
     }
+
     public void update(Result result) {
         Log.i(TAG_NAME, "Envoi dans le pool Executor database dun ordre de update");
         FFCalculatorDatabase.databaseWriteExecutor.execute(() -> {
             resultDao.update(result);
         });
     }
+
     public void delete(Result result) {
         Log.i(TAG_NAME, "Envoi dans le pool Executor database dun ordre de delete");
         FFCalculatorDatabase.databaseWriteExecutor.execute(() -> {
             resultDao.delete(result);
         });
     }
+
     public void deleteAll() {
         Log.i(TAG_NAME, "Envoi dans le pool Executor database dun ordre de Delete All");
         FFCalculatorDatabase.databaseWriteExecutor.execute(() -> {

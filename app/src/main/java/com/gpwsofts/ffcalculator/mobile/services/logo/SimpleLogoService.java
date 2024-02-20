@@ -17,7 +17,8 @@ public class SimpleLogoService implements ILogoService {
     private static Logo logoU23;
 
     private Resources res;
-    public SimpleLogoService(Resources res){
+
+    public SimpleLogoService(Resources res) {
         this.res = res;
         res.getString(R.string.logo_elite);
         res.getColor(R.color.logo_elite);
@@ -31,7 +32,7 @@ public class SimpleLogoService implements ILogoService {
         logoU23 = new Logo(res.getColor(R.color.logo_u23), res.getString(R.string.logo_u23));
     }
 
-    public Logo getLogo(String idClasse){
+    public Logo getLogo(String idClasse) {
         //TODO 1.0.0 : referencer tous les champs statiques de IdClassesConstants
         //todo 1.0.0: non !
         Logo logo = logoU17;
@@ -48,18 +49,18 @@ public class SimpleLogoService implements ILogoService {
             case IdClassesConstants.ELITE_NATIONALE:
             case IdClassesConstants.ELITE_NATIONALE_ETAPE:
             case IdClassesConstants.ELITE_NATIONALE_GENERAL:
-            case  IdClassesConstants.ELITE_OPEN_1:
-            case  IdClassesConstants.ELITE_OPEN_1_E:
-            case  IdClassesConstants.ELITE_OPEN_1_G:
-            case  IdClassesConstants.ELITE_OPEN_1_2:
-            case  IdClassesConstants.ELITE_OPEN_1_2_E:
-            case  IdClassesConstants.ELITE_OPEN_1_2_G:
-            case  IdClassesConstants.ELITE_OPEN_1_2_3:
-            case  IdClassesConstants.ELITE_OPEN_1_2_3_E:
-            case  IdClassesConstants.ELITE_OPEN_1_2_3_G:
-            case  IdClassesConstants.ELITE_OPEN_1_2_3_ACCESS:
-            case  IdClassesConstants.ELITE_OPEN_1_2_3_ACCESS_E:
-            case  IdClassesConstants.ELITE_OPEN_1_2_3_ACCESS_G:
+            case IdClassesConstants.ELITE_OPEN_1:
+            case IdClassesConstants.ELITE_OPEN_1_E:
+            case IdClassesConstants.ELITE_OPEN_1_G:
+            case IdClassesConstants.ELITE_OPEN_1_2:
+            case IdClassesConstants.ELITE_OPEN_1_2_E:
+            case IdClassesConstants.ELITE_OPEN_1_2_G:
+            case IdClassesConstants.ELITE_OPEN_1_2_3:
+            case IdClassesConstants.ELITE_OPEN_1_2_3_E:
+            case IdClassesConstants.ELITE_OPEN_1_2_3_G:
+            case IdClassesConstants.ELITE_OPEN_1_2_3_ACCESS:
+            case IdClassesConstants.ELITE_OPEN_1_2_3_ACCESS_E:
+            case IdClassesConstants.ELITE_OPEN_1_2_3_ACCESS_G:
                 logo = logoElite;
                 break;
             /**

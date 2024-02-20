@@ -87,9 +87,9 @@ public class ResultFragment extends Fragment {
                 classesAdapter.notifyDataSetChanged();
             }
         });
-        arrayAdapterForClasses = new ArrayAdapter<>(getContext(),  android.R.layout.simple_spinner_item, new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.classes_for_G))));
-        arrayAdapterForPos = new ArrayAdapter<>(getContext(),  android.R.layout.simple_spinner_item, new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.pos_for_15))));
-        arrayAdapterForPrts = new ArrayAdapter<>(getContext(),  android.R.layout.simple_spinner_item, new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.prts_for_200))));
+        arrayAdapterForClasses = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.classes_for_G))));
+        arrayAdapterForPos = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.pos_for_15))));
+        arrayAdapterForPrts = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.prts_for_200))));
         //arrayAdapter.setDropDownViewResource();
         //arrayAdapter.setDropDownViewResource(R.array.planets_array);
         //autoCompleteTextViewClasses.setAdapter(arrayAdapterForClasses);
@@ -123,13 +123,13 @@ public class ResultFragment extends Fragment {
 
 
         this.sharedPrefsViewModel.getVue().observe(getViewLifecycleOwner(), new Observer<String>() {
-                    @SuppressLint("ResourceType")
-                    @Override
-                    public void onChanged(String vue) {
-                        loadComboBoxDatas(vue);
-                        //autoCompleteTextViewClasses.showDropDown();
-                    }
-                });
+            @SuppressLint("ResourceType")
+            @Override
+            public void onChanged(String vue) {
+                loadComboBoxDatas(vue);
+                //autoCompleteTextViewClasses.showDropDown();
+            }
+        });
 
 
         // selon https://stackoverflow.com/questions/63548323/how-to-use-viewmodel-in-a-fragment
@@ -147,7 +147,7 @@ public class ResultFragment extends Fragment {
         return root;
     }
 
-    private void loadComboBoxDatas(String vue){
+    private void loadComboBoxDatas(String vue) {
         Log.d(TAG_NAME, "lancement LoadComboBoxAsyncTask");
         new LoadComboBoxAsyncTask(FFCalculatorApplication.instance.getServicesManager().getVueService(getResources())).execute(vue);
         Log.d(TAG_NAME, "fin lancement LoadComboBoxAsyncTask");
@@ -169,6 +169,7 @@ public class ResultFragment extends Fragment {
 
     /**
      * Demande de sauvegarde d'un resultat
+     *
      * @since 1.0.0
      */
     private void saveResult() {
@@ -179,7 +180,7 @@ public class ResultFragment extends Fragment {
         final int prts = Integer.valueOf(autoCompleteTextViewPrts.getText().toString());
         // TODO 1.0.0 ecrire un service qui extrait le idclasse depuis le libelle plutot que la merde substring ci dessus
         // et si ava.lang.StringIndexOutOfBoundsException
-        final String idClasse = libelle.substring(libelle.indexOf("(")+1, libelle.indexOf(")"));
+        final String idClasse = libelle.substring(libelle.indexOf("(") + 1, libelle.indexOf(")"));
 
         Log.i(TAG_NAME, "ajout de la course une fois les pointzs calcules pour " + place);
         Call<FFCPointsResponse> call = FFCalculatorApplication.instance.getServicesManager().getPtsService().calcPts(place, pos, prts, idClasse);
@@ -209,12 +210,14 @@ public class ResultFragment extends Fragment {
                     Log.e(TAG_NAME, "na pas pu se faire , code http " + response.code() + " messgae " + response.message());
                 }
             }
+
             @Override
             public void onFailure(Call<FFCPointsResponse> call, Throwable t) {
                 Log.e(TAG_NAME, "echec lors de l'appel a l'api ", t);
                 Log.d(TAG_NAME, "preparation du message de toast en echec");
             }
-        });;
+        });
+        ;
         //TODO 1.0.0 on dit pas salope
         Toast.makeText(this.getContext(), "salope", Toast.LENGTH_SHORT).show();
         //TODO 1.0.0 gerer les erreurs
@@ -228,6 +231,7 @@ public class ResultFragment extends Fragment {
 
     private class LoadComboBoxAsyncTask extends AsyncTask<String, Void, ArrayList<String>> {
         private IVueService vueService;
+
         private LoadComboBoxAsyncTask(IVueService vueService) {
             this.vueService = vueService;
         }
@@ -240,6 +244,7 @@ public class ResultFragment extends Fragment {
             Log.d(TAG_NAME, "fin execution LoadComboBoxAsyncTask");
             return listVues;
         }
+
         @Override
         protected void onPostExecute(ArrayList<String> result) {
             Log.d(TAG_NAME, "onPostExecute pour rendre le resultat");

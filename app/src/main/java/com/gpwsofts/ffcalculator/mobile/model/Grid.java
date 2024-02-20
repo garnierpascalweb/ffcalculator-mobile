@@ -13,7 +13,8 @@ public class Grid {
     public int maxPos;
     public int totalpts;
     public List<Integer> pts;
-    public Grid(){
+
+    public Grid() {
         vues = new ArrayList<String>();
         pts = new ArrayList<Integer>();
     }

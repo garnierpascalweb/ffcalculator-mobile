@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Gestion des Services
+ *
  * @since 1.0.0
  */
 public class ServicesManager {
@@ -27,6 +28,7 @@ public class ServicesManager {
 
     /**
      * Pool de Thread keepAlive
+     *
      * @since 1.0.0
      */
     private ExecutorService keepAliveThreadsExecutor = null;
@@ -52,6 +54,7 @@ public class ServicesManager {
 
     /**
      * Constructeur de ServiceManager
+     *
      * @param application
      */
     public ServicesManager(FFCalculatorApplication application) {
@@ -60,38 +63,38 @@ public class ServicesManager {
         }
     }
 
-    public final IVueService getVueService(Resources res){
-        if (null == vueService){
-            Log.i(TAG_NAME,"creation dune nouvelle instance de IVueService");
+    public final IVueService getVueService(Resources res) {
+        if (null == vueService) {
+            Log.i(TAG_NAME, "creation dune nouvelle instance de IVueService");
             vueService = new SimpleVueService(res);
         } else {
-            Log.d(TAG_NAME,"recuperation dune instance existante de IVueService");
+            Log.d(TAG_NAME, "recuperation dune instance existante de IVueService");
         }
         return vueService;
     }
 
-    public final ILogoService getLogoService(Resources res){
-        if (null == logoService){
-            Log.i(TAG_NAME,"creation dune nouvelle instance de ILogoService");
+    public final ILogoService getLogoService(Resources res) {
+        if (null == logoService) {
+            Log.i(TAG_NAME, "creation dune nouvelle instance de ILogoService");
             logoService = new SimpleLogoService(res);
         } else {
-            Log.d(TAG_NAME,"recuperation dune instance existante de ILogoService");
+            Log.d(TAG_NAME, "recuperation dune instance existante de ILogoService");
         }
         return logoService;
     }
 
-    public final IPtsService getPtsService(){
-        if (null == ptsService){
-            Log.i(TAG_NAME,"creation dune nouvelle instance de IPtsService");
+    public final IPtsService getPtsService() {
+        if (null == ptsService) {
+            Log.i(TAG_NAME, "creation dune nouvelle instance de IPtsService");
             ptsService = new SimplePtsService();
         } else {
-            Log.d(TAG_NAME,"recuperation dune instance existante de IPtsService");
+            Log.d(TAG_NAME, "recuperation dune instance existante de IPtsService");
         }
         return ptsService;
     }
 
-    public final IPosService getPosService(){
-        if (null == posService){
+    public final IPosService getPosService() {
+        if (null == posService) {
             Log.i(TAG_NAME, "creation dune nouvelle instance de IPosService");
             posService = new SimplePosService();
         } else {
@@ -101,12 +104,12 @@ public class ServicesManager {
     }
 
     /**
-     * @since 1.0.0
      * @return rend l'executorService du pool de Threads
+     * @since 1.0.0
      */
     public final ExecutorService getKeepAliveThreadsExecutor() {
         if (keepAliveThreadsExecutor == null) {
-            keepAliveThreadsExecutor = Executors.newFixedThreadPool(12,Executors.defaultThreadFactory() );
+            keepAliveThreadsExecutor = Executors.newFixedThreadPool(12, Executors.defaultThreadFactory());
         }
         return keepAliveThreadsExecutor;
     }
@@ -114,6 +117,7 @@ public class ServicesManager {
     /**
      * Flingue le service Manager
      * C'est a dire tous les services, et kille les process en cours dans ExecutorService
+     *
      * @since 1.0.0
      */
     public void unbindAndDie() {
@@ -141,11 +145,11 @@ public class ServicesManager {
             } catch (InterruptedException ie) {
                 // (Re-)Cancel if current thread also interrupted
                 keepAliveThreadsExecutor.shutdownNow();
-                keepAliveThreadsExecutor=null;
+                keepAliveThreadsExecutor = null;
                 //Log.e("MyApp", "Probably a memory leak here too");
             }
         }
-        keepAliveThreadsExecutor=null;
+        keepAliveThreadsExecutor = null;
     }
 
 

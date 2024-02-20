@@ -5,7 +5,6 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.gpwsofts.ffcalculator.mobile.repository.GridRepository;
 
@@ -31,41 +30,46 @@ public class AddResultViewModel extends AndroidViewModel {
      */
     private LiveData<List<Integer>> prtsChoices;
 
-    public AddResultViewModel(Application application){
+    public AddResultViewModel(Application application) {
         super(application);
         gridRepository = new GridRepository(application);
         classesChoices = gridRepository.getClassesChoices();
     }
-    public LiveData<List<String>> getClassesChoices(){
-        if (null == classesChoices){
+
+    public LiveData<List<String>> getClassesChoices() {
+        if (null == classesChoices) {
             classesChoices = new MutableLiveData<List<String>>();
             loadClassesChoices();
         }
         return classesChoices;
     }
-    public LiveData<List<Integer>> getPrtsChoices(){
-        if (null == prtsChoices){
+
+    public LiveData<List<Integer>> getPrtsChoices() {
+        if (null == prtsChoices) {
             prtsChoices = new MutableLiveData<List<Integer>>();
             loadPrtsChoices();
         }
         return prtsChoices;
     }
-    public LiveData<List<Integer>> getPosChoices(){
-        if (null == posChoices){
+
+    public LiveData<List<Integer>> getPosChoices() {
+        if (null == posChoices) {
             posChoices = new MutableLiveData<List<Integer>>();
             loadPosChoices();
         }
         return posChoices;
     }
-    private void loadClassesChoices(){
+
+    private void loadClassesChoices() {
         //TODO 1.0.0 operations asynchrones pour le chargement de la liste déroulante des classes
 
     }
+
     private void loadPrtsChoices() {
 
     }
 
-    private void loadPosChoices(){
+    private void loadPosChoices() {
         //TODO 1.0.0 operation asynchrones
     }
 }

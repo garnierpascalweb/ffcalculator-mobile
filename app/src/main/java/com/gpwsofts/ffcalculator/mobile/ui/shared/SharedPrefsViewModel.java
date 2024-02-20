@@ -9,6 +9,7 @@ import com.gpwsofts.ffcalculator.mobile.repository.SharedPrefsRepository;
 
 /**
  * Un ViewModel s'appuyant sur les Shared Preferences
+ *
  * @since 1.0.0
  */
 public class SharedPrefsViewModel extends ViewModel {
@@ -24,10 +25,12 @@ public class SharedPrefsViewModel extends ViewModel {
         vue = repository.getVue();
         Log.i(TAG_NAME, "vue en sharedPreferences = <" + vue.getValue() + ">");
     }
-    public void updateVue(String inVue){
+
+    public void updateVue(String inVue) {
         Log.i(TAG_NAME, "demande de mise a jour de la vue vers <" + inVue + ">");
         repository.updateVue(inVue);
     }
+
     public SharedPreferencesStringLiveData getVue() {
         return vue;
     }

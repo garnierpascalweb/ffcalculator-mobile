@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 /**
  * Interface de service vue
+ *
  * @since 1.0.0
  */
 public interface IVueService {
@@ -43,14 +44,16 @@ public interface IVueService {
 
     /**
      * Rend la liste des items de la combobox de choix de course, pour une vue sélectionnée
-     * @since 1.0.0
+     *
      * @param vue
      * @return
+     * @since 1.0.0
      */
     public ArrayList<String> getComboboxClassesForVue(String vue);
 
     /**
      * Rend l'index dans le menu selon la vue en shared prefs
+     *
      * @param vue
      * @return
      */
