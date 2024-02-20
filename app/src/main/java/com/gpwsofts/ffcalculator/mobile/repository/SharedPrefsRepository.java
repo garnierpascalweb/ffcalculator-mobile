@@ -9,6 +9,9 @@ import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.constants.SharedPreferencesConstants;
 import com.gpwsofts.ffcalculator.mobile.livedata.SharedPreferencesStringLiveData;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 /**
  * Un repository pour les shard preferences
  * @since 1.0.0
@@ -16,6 +19,9 @@ import com.gpwsofts.ffcalculator.mobile.livedata.SharedPreferencesStringLiveData
 public class SharedPrefsRepository {
     private static final String TAG_NAME = "SharedPrefsRepository";
     public static final String SHARED_PREFS_APP_NAME = "FFCalculatorSharedPrefs";
+
+    private static final int NUMBER_OF_THREADS = 4;
+    public static final ExecutorService sharedPrefsWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
     private SharedPreferences sharedPrefs;
     private SharedPreferences.Editor sharedPrefsEditor;
@@ -32,22 +38,10 @@ public class SharedPrefsRepository {
 
     //TODO 1.0.0 pour tous les update, faire de l'asynchrone et bien faire les commit
     public void updateVue(String inVue){
-        Log.i(TAG_NAME, "Mise a jour Shared Preferences <" + SharedPreferencesConstants.KEY_VUE + "> valeur = <" +  inVue + ">");
-        sharedPrefsEditor.putString(SharedPreferencesConstants.KEY_VUE, inVue);
-        sharedPrefsEditor.commit();
-    }
-    //TODO 1.0.0 mettre cette grosse merde en executor
-    private static class UpdateVueAsyncTask extends AsyncTask<String, Void, Void> {
-        // private ResultDao resultDao;
-        private SharedPreferences.Editor sharedPrefsEditor;
-        private UpdateVueAsyncTask(SharedPreferences.Editor sharedPrefsEditor) {
-            this.sharedPrefsEditor = sharedPrefsEditor;
-        }
-        @Override
-        protected Void doInBackground(String... vue) {
-            Log.i(TAG_NAME, "SharedPrefsEditor : put dans " + SharedPreferencesConstants.KEY_VUE + " de va valeur " + vue[0]);
-            sharedPrefsEditor.putString(SharedPreferencesConstants.KEY_VUE, vue[0]);
-            return null;
-        }
+        sharedPrefsWriteExecutor.execute(() -> {
+            Log.i(TAG_NAME, "Mise a jour Shared Preferences <" + SharedPreferencesConstants.KEY_VUE + "> valeur = <" +  inVue + ">");
+            sharedPrefsEditor.putString(SharedPreferencesConstants.KEY_VUE, inVue);
+            sharedPrefsEditor.commit();
+        });
     }
 }

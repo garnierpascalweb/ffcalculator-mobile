@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
+        <item android:id="@+id/idMenuItemGeneral"
+            android:titleCondensed="@string/label_open3"
+            android:title="@string/label_open3"
+            android:icon="@android:drawable/ic_menu_preferences">
+        </item>
         <item android:id="@+id/idMenuItemOpen3"
             android:titleCondensed="@string/label_open3"
             android:title="@string/label_open3"

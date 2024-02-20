@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         sharedPrefsViewModel = new ViewModelProvider(this).get(SharedPrefsViewModel.class);
@@ -45,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = this.getMenuInflater();
         menuInflater.inflate(R.menu.vues_menu, menu);
+        sharedPrefsViewModel.getVue().observe(this, vue -> {
+            int index = FFCalculatorApplication.instance.getServicesManager().getVueService(getResources()).getIndexInMenu(vue);
+            menu.getItem(index).setChecked(true);
+        });
         return true;
     }
 

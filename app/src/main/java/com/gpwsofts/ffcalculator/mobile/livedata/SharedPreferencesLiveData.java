@@ -5,6 +5,9 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 /**
  * Implementation LiveData de Shared Preferences
  * Source https://stackoverflow.com/questions/50649014/livedata-with-shared-preferences
@@ -17,6 +20,7 @@ public abstract class SharedPreferencesLiveData<T> extends LiveData<T> {
     SharedPreferences.Editor sharedPrefsEditor;
     String key;
     public T defValue;
+
     public SharedPreferencesLiveData(SharedPreferences prefs, String key, T defValue) {
         this.sharedPrefs = prefs;
         this.sharedPrefsEditor = this.sharedPrefs.edit();

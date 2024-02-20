@@ -202,6 +202,7 @@ public class ResultFragment extends Fragment {
                 Log.d(TAG_NAME, "preparation du message de toast en echec");
             }
         });;
+        //TODO 1.0.0 on dit pas salope
         Toast.makeText(this.getContext(), "salope", Toast.LENGTH_SHORT).show();
         //TODO 1.0.0 gerer les erreurs
     }

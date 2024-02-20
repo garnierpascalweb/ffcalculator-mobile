@@ -48,4 +48,11 @@ public interface IVueService {
      * @return
      */
     public ArrayList<String> getComboboxClassesForVue(String vue);
+
+    /**
+     * Rend l'index dans le menu selon la vue en shared prefs
+     * @param vue
+     * @return
+     */
+    public int getIndexInMenu(String vue);
 }
