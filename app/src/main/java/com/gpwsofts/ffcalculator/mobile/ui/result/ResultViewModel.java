@@ -25,15 +25,6 @@ public class ResultViewModel extends AndroidViewModel {
     private ResultRepository repository;
     private LiveData<List<Result>> allResults = new MutableLiveData();
 
-    /**
-     * tentative de reproduire
-     * https://developer.android.com/topic/libraries/architecture/livedata?hl=fr#java
-     */
-    private final LiveData<Double> allPts = Transformations.switchMap(allResults, (results) -> {
-        return repository.getAllPts(results);
-        //TODO 1.0.0 ne marche pas, a virer avec sa connerie en repository
-    });
-
     public ResultViewModel(Application application) {
         super(application);
         Log.i(TAG_NAME, "Construction du ResultViewModel");
@@ -71,9 +62,5 @@ public class ResultViewModel extends AndroidViewModel {
         if (null == allResults)
             Log.w(TAG_NAME, "La liste des resultats est null");
         return allResults;
-    }
-
-    public LiveData<Double> getAllPts() {
-        return allPts;
     }
 }

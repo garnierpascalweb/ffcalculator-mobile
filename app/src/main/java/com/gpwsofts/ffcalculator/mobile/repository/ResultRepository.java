@@ -42,20 +42,6 @@ public class ResultRepository {
         return allResults;
     }
 
-    /**
-     *
-     * @since 1.0.0
-     */
-    public LiveData<Double> getAllPts(List<Result> results){
-        MutableLiveData<Double> allPtsLiveData = new MutableLiveData<Double>();
-        allPtsLiveData.setValue(Double.valueOf(0));
-        if (results != null)
-            allPtsLiveData.setValue(results.stream().mapToDouble(result -> result.getPts()).sorted().limit(15).sum());
-        return allPtsLiveData;
-        //TODO methode un peu curieuse, mais conforme a https://developer.android.com/topic/libraries/architecture/livedata?hl=fr#java
-        //TODO 1.0.0 ne marche pas, a virer
-    }
-
     public void insert(Result result) {
         Log.i(TAG_NAME, "Envoi dans le pool Executor database dun ordre de insert");
         FFCalculatorDatabase.databaseWriteExecutor.execute(() -> {
