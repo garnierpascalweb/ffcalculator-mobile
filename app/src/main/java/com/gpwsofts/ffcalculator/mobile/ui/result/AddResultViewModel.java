@@ -16,7 +16,11 @@ import java.util.List;
  */
 public class AddResultViewModel extends AndroidViewModel {
 
+    private static final String TAG_NAME = "AddResultViewModel";
+
     private final GridRepository gridRepository;
+
+    private MutableLiveData<String> selectedClasse;
     /**
      * La liste deroulante des classes de course
      */
@@ -32,6 +36,7 @@ public class AddResultViewModel extends AndroidViewModel {
 
     public AddResultViewModel(Application application) {
         super(application);
+        selectedClasse = new MutableLiveData<>();
         gridRepository = new GridRepository(application);
         classesChoices = gridRepository.getClassesChoices();
     }
@@ -55,21 +60,32 @@ public class AddResultViewModel extends AndroidViewModel {
     public LiveData<List<Integer>> getPosChoices() {
         if (null == posChoices) {
             posChoices = new MutableLiveData<List<Integer>>();
-            loadPosChoices();
+            loadPosChoices(selectedClasse.getValue());
         }
         return posChoices;
     }
 
     private void loadClassesChoices() {
-        //TODO 1.0.0 operations asynchrones pour le chargement de la liste déroulante des classes
+        classesChoices = gridRepository.getClassesChoices();
+    }
 
+    private void loadPosChoices(String code) {
+        posChoices = gridRepository.getPosChoices(code);
+    }
+
+    public void refreshPosChoices(String code) {
+        gridRepository.loadPosChoices(code);
     }
 
     private void loadPrtsChoices() {
 
     }
 
-    private void loadPosChoices() {
-        //TODO 1.0.0 operation asynchrones
+    public MutableLiveData<String> getSelectedClasse() {
+        return selectedClasse;
+    }
+
+    public void setSelectedClasse(MutableLiveData<String> selectedClasse) {
+        this.selectedClasse = selectedClasse;
     }
 }

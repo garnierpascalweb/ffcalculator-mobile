@@ -15,15 +15,19 @@ import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class GridRepository {
     private static final String TAG_NAME = "GridRepository";
     public static final ExecutorService gridRepositoryExecutor = Executors.newFixedThreadPool(1);
 
+    public static final List<Integer> DEFAULT_5_POS = IntStream.rangeClosed(1, 5).boxed().collect(Collectors.toList());
     MutableLiveData<List<String>> classesChoices;
+    MutableLiveData<List<Integer>> posChoices;
     List<Grid> grids = null;
 
     public GridRepository(final Application application) {
@@ -33,6 +37,7 @@ public class GridRepository {
         String jsonDatas = null;
         Type listGridType = null;
         try {
+            Log.i(TAG_NAME, "chargement du fichier json des grilles");
             is = application.getApplicationContext().getAssets().open("grids/grilles.json");
             int size = is.available();
             byte[] buffer = new byte[size];
@@ -42,6 +47,7 @@ public class GridRepository {
             jsonDatas = new String(buffer, StandardCharsets.UTF_8);
             grids = gson.fromJson(jsonDatas, listGridType);
             //TODO 1.0.0 pas O1 en default, mais ce quil y a en shared prefs
+            Log.i(TAG_NAME, "fin chargement du fichier json des grilles");
             loadClassesChoices("O1");
         } catch (IOException e) {
             Log.e(TAG_NAME, "probleme sur le chargement du json", e);
@@ -62,11 +68,33 @@ public class GridRepository {
 
     }
 
+    /**
+     * Chargement asynchrone de la liste déroulante des classes
+     * @param vue en fonction de la vue
+     */
     private void loadClassesChoices(String vue) {
+        Log.i(TAG_NAME, "tache asynchrone de chargement des choix de classes pour la vue <" + vue + ">");
         gridRepositoryExecutor.execute(() -> {
-            List<String> values = grids.stream().filter(grid -> grid.vues.contains(vue)).map(grid -> new StringBuilder().append(grid.libelle).append(" ").append(grid.code).toString()).collect(Collectors.toList());
-            ;
-            classesChoices.postValue(values);
+            List<String> currentClasesChoices = grids.stream().filter(grid -> grid.vues.contains(vue)).map(grid -> new StringBuilder().append(grid.libelle).append(" (").append(grid.code).append(")").toString()).collect(Collectors.toList());
+            Log.d(TAG_NAME, currentClasesChoices.size() + " choix de classes renvoyees pour <" + vue + ">");
+            classesChoices.postValue(currentClasesChoices);
+        });
+    }
+
+    /**
+     * Chargement en asynchrone de la liste deroulance des position
+     * @param code en fonction de la classe de course (1.25.1)
+     */
+    public void loadPosChoices(String code){
+        Log.i(TAG_NAME, "tache asynchrone de chargement des choix de positions pour <" + code + ">");
+        gridRepositoryExecutor.execute(()->{
+            List<Integer> currentPosChoices = DEFAULT_5_POS;
+            Grid myGrid = grids.stream().filter(grid -> grid.code.equals(code)).findAny().orElse(null);
+            if (myGrid != null){
+                currentPosChoices = IntStream.rangeClosed(1, myGrid.maxPos).boxed().collect(Collectors.toList());
+            }
+            Log.d(TAG_NAME, currentPosChoices.size() + " choux de positions renvoyees pour <" + code + ">");
+            posChoices.postValue(currentPosChoices);
         });
     }
 
@@ -74,11 +102,16 @@ public class GridRepository {
         return classesChoices;
     }
 
+    public LiveData<List<Integer>> getPosChoices(String code){
+        if (null == posChoices){
+            posChoices = new MutableLiveData<>();
+            loadPosChoices(code);
+        }
+        return posChoices;
+    }
+
     private void loadPrtsChoices() {
 
     }
 
-    private void loadPosChoices() {
-        //TODO 1.0.0 operation asynchrones
-    }
 }

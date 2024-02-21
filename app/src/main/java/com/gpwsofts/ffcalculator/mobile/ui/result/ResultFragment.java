@@ -71,14 +71,11 @@ public class ResultFragment extends Fragment {
         //Log.i(TAG_NAME, "device id " + android_device_id);
         //Log.i(TAG_NAME, "nombre de pts = " + this.resultViewModel.getAllPts());
         textInputEditTextPlace = binding.idTIETPlace;
-        //textInputLayoutSpinnerClasses = binding.idTISPClasses;
-        //textInputLayoutSpinnerPos = binding.idTISPPos;
         autoCompleteTextViewClasses = binding.idTVAutoClasses;
         autoCompleteTextViewPos = binding.idTVAutoPos;
         autoCompleteTextViewPrts = binding.idTVAutoPrts;
-        // https://stackoverflow.com/questions/18685898/android-clear-in-costom-arrayadapter-java-lang-unsupportedoperationexception
-        //ArrayList<String> defaultClasses = new ArrayList<>();
-        //defaultClasses.addAll(Arrays.asList(getResources().getStringArray(R.array.classes_for_elite)));
+
+        // mise a jour de la liste deroulante des classes quand ca change
         addResultViewModel.getClassesChoices().observe(getViewLifecycleOwner(), new Observer<List<String>>() {
             @Override
             public void onChanged(List<String> classesList) {
@@ -87,31 +84,50 @@ public class ResultFragment extends Fragment {
                 classesAdapter.notifyDataSetChanged();
             }
         });
-        arrayAdapterForClasses = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.classes_for_G))));
-        arrayAdapterForPos = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.pos_for_15))));
-        arrayAdapterForPrts = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.prts_for_200))));
-        //arrayAdapter.setDropDownViewResource();
-        //arrayAdapter.setDropDownViewResource(R.array.planets_array);
-        //autoCompleteTextViewClasses.setAdapter(arrayAdapterForClasses);
-        autoCompleteTextViewPos.setAdapter(arrayAdapterForPos);
-        autoCompleteTextViewPrts.setAdapter(arrayAdapterForPrts);
 
-        //autoCompleteTextViewClasses.get
-
-        autoCompleteTextViewClasses.setOnItemSelectedListener(
-                new AdapterView.OnItemSelectedListener() {
+        // mise a jour de la liste des positions quand ca change
+        addResultViewModel.getPosChoices().observe(getViewLifecycleOwner(), new Observer<List<Integer>>() {
                     @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        Log.i(TAG_NAME, "nouvel item selectionne ");
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
+                    public void onChanged(List<Integer> integers) {
+                        ArrayAdapter<Integer> posAdapter = new ArrayAdapter<Integer>(getContext(), android.R.layout.simple_spinner_item, integers);
+                        autoCompleteTextViewPos.setAdapter(posAdapter);
+                        posAdapter.notifyDataSetChanged();
                     }
                 }
         );
-        //textInputLayoutSpinnerPrts = binding.idTISPPrts;
+
+        /*
+        addResultViewModel.getSelectedClasse().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                Log.i(TAG_NAME, "nouvel classe selectionnee");
+
+            }
+        });
+        */
+
+
+        // ecouteur sur la selection d'une classe dans la liste droulante
+        autoCompleteTextViewClasses.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        // qui met a jout la classe selectionnee dans le view model
+                        Log.i(TAG_NAME, "nouvel item selectionne ");
+                        Object o = parent.getItemAtPosition(position);
+                        Log.i(TAG_NAME, "selection de " + o + " qui est de classe " + o.toString()) ;
+                        addResultViewModel.getSelectedClasse().postValue(o.toString());
+                        String str = o.toString().substring(o.toString().indexOf("(")+1,o.toString().indexOf(")"));
+                        addResultViewModel.refreshPosChoices(str);
+                        //TODO 1.0.0 atroce
+                    }
+                }
+        );
+
+
+
+
+
         buttonAjouter = binding.idBTAjouter;
 
         buttonAjouter.setOnClickListener(new View.OnClickListener() {
@@ -126,46 +142,15 @@ public class ResultFragment extends Fragment {
             @SuppressLint("ResourceType")
             @Override
             public void onChanged(String vue) {
-                loadComboBoxDatas(vue);
-                //autoCompleteTextViewClasses.showDropDown();
+                //TODO 1.0.0 que faire si la vue a changé
             }
         });
-
-
-        // selon https://stackoverflow.com/questions/63548323/how-to-use-viewmodel-in-a-fragment
-        /*
-        resultViewModel = new ViewModelProvider(requireActivity()).get(ResultViewModel.class);
-        resultViewModel.getAllResults().observe(getActivity(), new Observer<List<Result>>(){
-                    @Override
-                    public void onChanged(List<Result> results) {
-                        Toast.makeText(getActivity(), "a changé", Toast.LENGTH_SHORT).show();
-                        homeViewModel.setText(results.size() + " elements");
-                    }
-                }
-                );
-         */
         return root;
     }
 
-    private void loadComboBoxDatas(String vue) {
-        Log.d(TAG_NAME, "lancement LoadComboBoxAsyncTask");
-        new LoadComboBoxAsyncTask(FFCalculatorApplication.instance.getServicesManager().getVueService(getResources())).execute(vue);
-        Log.d(TAG_NAME, "fin lancement LoadComboBoxAsyncTask");
-    }
 
-    private void getComboBoxDatas(ArrayList<String> listOfClasses) {
-        Log.d(TAG_NAME, "clear des eventuels choix deja sectiones");
-        autoCompleteTextViewClasses.clearListSelection();
-        Log.d(TAG_NAME, "clear du arrayAdapter");
-        arrayAdapterForClasses.clear();
-        Log.d(TAG_NAME, "addAll " + listOfClasses.size() + " nouvelles classes");
-        arrayAdapterForClasses.addAll(listOfClasses);
-        Log.d(TAG_NAME, "notification que arrayAdapter a été réalimenté");
-        //TODO 1.0.0 verifier si ce notify est vraiment necessiare, depuis qu'on amis en place le getFilter()
-        arrayAdapterForClasses.notifyDataSetChanged();
-        Log.d(TAG_NAME, "filter sur autoCompleteTextViewClasses");
-        arrayAdapterForClasses.getFilter().filter(autoCompleteTextViewClasses.getText(), null);
-    }
+
+
 
     /**
      * Demande de sauvegarde d'un resultat
@@ -227,28 +212,5 @@ public class ResultFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-    }
-
-    private class LoadComboBoxAsyncTask extends AsyncTask<String, Void, ArrayList<String>> {
-        private IVueService vueService;
-
-        private LoadComboBoxAsyncTask(IVueService vueService) {
-            this.vueService = vueService;
-        }
-
-        @Override
-        protected ArrayList<String> doInBackground(String... vues) {
-            Log.d(TAG_NAME, "execution LoadComboBoxAsyncTask");
-            String vue = vues[0];
-            ArrayList<String> listVues = vueService.getComboboxClassesForVue(vue);
-            Log.d(TAG_NAME, "fin execution LoadComboBoxAsyncTask");
-            return listVues;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<String> result) {
-            Log.d(TAG_NAME, "onPostExecute pour rendre le resultat");
-            getComboBoxDatas(result);
-        }
     }
 }
