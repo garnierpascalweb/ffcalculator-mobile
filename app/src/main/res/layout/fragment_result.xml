@@ -47,7 +47,7 @@
             android:inputType="none"
 
             app:helperText="La classe de course"
-            app:helperTextEnabled="true">
+            app:helperTextEnabled="true" >
 
             <AutoCompleteTextView
                 android:id="@+id/idTVAutoClasses"

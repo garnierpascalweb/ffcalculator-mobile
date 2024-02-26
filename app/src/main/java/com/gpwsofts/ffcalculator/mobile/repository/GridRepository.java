@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -26,92 +28,114 @@ public class GridRepository {
     public static final ExecutorService gridRepositoryExecutor = Executors.newFixedThreadPool(1);
 
     public static final List<Integer> DEFAULT_5_POS = IntStream.rangeClosed(1, 5).boxed().collect(Collectors.toList());
+
     MutableLiveData<List<String>> classesChoices;
     MutableLiveData<List<Integer>> posChoices;
-    List<Grid> grids = null;
+
+    MutableLiveData<List<Integer>> prtsChoices;
+    private List<Grid> grids = null;
+
+    public static final String GRID_RELATIVE_PATH = "grids/grilles.json";
 
     public GridRepository(final Application application) {
-        classesChoices = new MutableLiveData<>();
-        Gson gson = new Gson();
         InputStream is = null;
-        String jsonDatas = null;
         Type listGridType = null;
+        String jsonDatas = null;
+        Gson gson = null;
         try {
-            Log.i(TAG_NAME, "chargement du fichier json des grilles");
-            is = application.getApplicationContext().getAssets().open("grids/grilles.json");
+            Log.i(TAG_NAME, "debut de chargement des grilles");
+            is = application.getApplicationContext().getAssets().open(GRID_RELATIVE_PATH);
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
             listGridType = new TypeToken<List<Grid>>() {
             }.getType();
             jsonDatas = new String(buffer, StandardCharsets.UTF_8);
+            gson = new Gson();
             grids = gson.fromJson(jsonDatas, listGridType);
-            //TODO 1.0.0 pas O1 en default, mais ce quil y a en shared prefs
-            Log.i(TAG_NAME, "fin chargement du fichier json des grilles");
-            loadClassesChoices("O1");
+            Log.i(TAG_NAME, "fin du chargement des grilles - <" + grids.size() + "> grilles chargees");
+            classesChoices = new MutableLiveData<>();
+            posChoices = new MutableLiveData<>();
+            prtsChoices = new MutableLiveData<>();
+            updatePrtsChoices();
         } catch (IOException e) {
-            Log.e(TAG_NAME, "probleme sur le chargement du json", e);
-        } finally {
-            if (is != null)
+            Log.e(TAG_NAME, "probleme lors du chargement des grilles");
+        }  finally {
+            if (is != null) {
                 try {
                     is.close();
                 } catch (IOException e) {
-
-                } finally {
-
+                    Log.w(TAG_NAME, "probleme lors de la fermeture dun flux");
                 }
+            }
         }
-
     }
 
-    public void init() {
-
-    }
 
     /**
      * Chargement asynchrone de la liste déroulante des classes
      * @param vue en fonction de la vue
      */
-    private void loadClassesChoices(String vue) {
+    public void updateClassesChoices(String vue) {
         Log.i(TAG_NAME, "tache asynchrone de chargement des choix de classes pour la vue <" + vue + ">");
         gridRepositoryExecutor.execute(() -> {
-            List<String> currentClasesChoices = grids.stream().filter(grid -> grid.vues.contains(vue)).map(grid -> new StringBuilder().append(grid.libelle).append(" (").append(grid.code).append(")").toString()).collect(Collectors.toList());
+            List<String> currentClasesChoices = null;
+            //TODO 1.0.0 pas de G en dur
+            //TODO 1.0.0 ci dessous travail de merde
+            if (vue.equals("G")){
+                currentClasesChoices = grids.stream().map(new GridToLibelleFunction()).collect(Collectors.toList());
+            } else {
+                currentClasesChoices = grids.stream().filter(grid -> grid.vues.contains(vue)).map(new GridToLibelleFunction()).collect(Collectors.toList());
+            }
             Log.d(TAG_NAME, currentClasesChoices.size() + " choix de classes renvoyees pour <" + vue + ">");
             classesChoices.postValue(currentClasesChoices);
         });
     }
 
+    private class GridToLibelleFunction implements Function<Grid, String> {
+        @Override
+        public String apply(Grid grid) {
+            return new StringBuilder().append(grid.libelle).append(" (").append(grid.code).append(")").toString();
+        }
+    }
+
     /**
      * Chargement en asynchrone de la liste deroulance des position
-     * @param code en fonction de la classe de course (1.25.1)
+     * @param itemValue en fonction de la classe de course (1.25.1)
      */
-    public void loadPosChoices(String code){
-        Log.i(TAG_NAME, "tache asynchrone de chargement des choix de positions pour <" + code + ">");
+    public void updatePosChoices(String itemValue){
+        Log.i(TAG_NAME, "tache asynchrone de chargement des choix de positions pour un itemValue <" + itemValue + ">");
         gridRepositoryExecutor.execute(()->{
             List<Integer> currentPosChoices = DEFAULT_5_POS;
+            String code =  itemValue.substring(itemValue.indexOf("(")+1, itemValue.indexOf(")"));
             Grid myGrid = grids.stream().filter(grid -> grid.code.equals(code)).findAny().orElse(null);
             if (myGrid != null){
                 currentPosChoices = IntStream.rangeClosed(1, myGrid.maxPos).boxed().collect(Collectors.toList());
             }
-            Log.d(TAG_NAME, currentPosChoices.size() + " choux de positions renvoyees pour <" + code + ">");
+            Log.d(TAG_NAME, currentPosChoices.size() + " choix de positions renvoyees pour <" + itemValue + ">");
             posChoices.postValue(currentPosChoices);
         });
     }
 
-    public LiveData<List<String>> getClassesChoices() {
+    private void updatePrtsChoices(){
+        Log.i(TAG_NAME, "tache asynchrone de chargement des choix de partants");
+        gridRepositoryExecutor.execute(()->{
+            List<Integer> currentPrtsChoices = null;
+            //TODO 1.0.0 200 pas en dur
+            currentPrtsChoices = IntStream.rangeClosed(1, 200).boxed().collect(Collectors.toList());
+            prtsChoices.postValue(currentPrtsChoices);
+            Log.d(TAG_NAME, currentPrtsChoices.size() + " choix de partants renvoyees");
+        });
+    }
+
+    public MutableLiveData<List<String>> getClassesChoices() {
         return classesChoices;
     }
 
-    public LiveData<List<Integer>> getPosChoices(String code){
-        if (null == posChoices){
-            posChoices = new MutableLiveData<>();
-            loadPosChoices(code);
-        }
+    public MutableLiveData<List<Integer>> getPosChoices() {
         return posChoices;
     }
-
-    private void loadPrtsChoices() {
-
+    public LiveData<List<Integer>> getPrtsChoices() {
+        return prtsChoices;
     }
-
 }

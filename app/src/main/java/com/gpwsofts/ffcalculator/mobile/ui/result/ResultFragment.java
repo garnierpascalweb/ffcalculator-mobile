@@ -2,7 +2,6 @@ package com.gpwsofts.ffcalculator.mobile.ui.result;
 
 
 import android.annotation.SuppressLint;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,17 +21,14 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
-import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentResultBinding;
 import com.gpwsofts.ffcalculator.mobile.services.logo.Logo;
 import com.gpwsofts.ffcalculator.mobile.services.network.FFCPointsResponse;
-import com.gpwsofts.ffcalculator.mobile.services.vues.IVueService;
 import com.gpwsofts.ffcalculator.mobile.ui.season.SeasonViewModel;
 import com.gpwsofts.ffcalculator.mobile.ui.shared.SharedPrefsViewModel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -41,25 +37,21 @@ import retrofit2.Response;
 
 public class ResultFragment extends Fragment {
     private static final String TAG_NAME = "ResultFragment";
-    private SeasonViewModel resultViewModel;
-    private SharedPrefsViewModel sharedPrefsViewModel;
-
-    private AddResultViewModel addResultViewModel;
-    private FragmentResultBinding binding;
-
     TextInputEditText textInputEditTextPlace;
     TextInputLayout textInputLayoutSpinnerClasses;
     AutoCompleteTextView autoCompleteTextViewPos;
     AutoCompleteTextView autoCompleteTextViewPrts;
     AutoCompleteTextView autoCompleteTextViewClasses;
     Button buttonAjouter;
+    private ArrayAdapter arrayAdapterForClasses;
+    private ArrayAdapter arrayAdapterForPos;
+    private ArrayAdapter arrayAdapterForPrts;
+    private SeasonViewModel resultViewModel;
+    private SharedPrefsViewModel sharedPrefsViewModel;
+    private AddResultViewModel addResultViewModel;
+    private FragmentResultBinding binding;
 
-    ArrayAdapter arrayAdapterForClasses;
-    ArrayAdapter arrayAdapterForPos;
-    ArrayAdapter arrayAdapterForPrts;
-
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         resultViewModel = new ViewModelProvider(requireActivity()).get(SeasonViewModel.class);
         sharedPrefsViewModel = new ViewModelProvider(requireActivity()).get(SharedPrefsViewModel.class);
@@ -74,61 +66,58 @@ public class ResultFragment extends Fragment {
         autoCompleteTextViewClasses = binding.idTVAutoClasses;
         autoCompleteTextViewPos = binding.idTVAutoPos;
         autoCompleteTextViewPrts = binding.idTVAutoPrts;
-
-        // mise a jour de la liste deroulante des classes quand ca change
+        buttonAjouter = binding.idBTAjouter;
+        arrayAdapterForClasses = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item);
+        autoCompleteTextViewClasses.setAdapter(arrayAdapterForClasses);
+        arrayAdapterForPos = new ArrayAdapter<Integer>(getContext(), android.R.layout.simple_spinner_item);
+        autoCompleteTextViewPos.setAdapter(arrayAdapterForPos);
+        arrayAdapterForPrts = new ArrayAdapter<Integer>(getContext(), android.R.layout.simple_spinner_item);
+        autoCompleteTextViewPrts.setAdapter(arrayAdapterForPrts);
+        // observation de la liste des classes
+        // Update UI
         addResultViewModel.getClassesChoices().observe(getViewLifecycleOwner(), new Observer<List<String>>() {
             @Override
             public void onChanged(List<String> classesList) {
-                ArrayAdapter<String> classesAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, classesList);
-                autoCompleteTextViewClasses.setAdapter(classesAdapter);
-                classesAdapter.notifyDataSetChanged();
+                Log.i(TAG_NAME, "changement au niveau des choix de classe - la liste deroulante va contenir <" + classesList.size() + "> items");
+                arrayAdapterForClasses.clear();
+                arrayAdapterForClasses.addAll(classesList);
+                // arrayAdapterForClasses.notifyDataSetChanged();
             }
         });
 
-        // mise a jour de la liste des positions quand ca change
+        // observation de la liste des positions
+        // update UI
         addResultViewModel.getPosChoices().observe(getViewLifecycleOwner(), new Observer<List<Integer>>() {
-                    @Override
-                    public void onChanged(List<Integer> integers) {
-                        ArrayAdapter<Integer> posAdapter = new ArrayAdapter<Integer>(getContext(), android.R.layout.simple_spinner_item, integers);
-                        autoCompleteTextViewPos.setAdapter(posAdapter);
-                        posAdapter.notifyDataSetChanged();
-                    }
-                }
-        );
-
-        /*
-        addResultViewModel.getSelectedClasse().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
-            public void onChanged(String s) {
-                Log.i(TAG_NAME, "nouvel classe selectionnee");
-
+            public void onChanged(List<Integer> integers) {
+                Log.i(TAG_NAME, "changement au niveau des choix de positions - la liste deroulante va contenir <" + integers.size() + "> items");
+                arrayAdapterForPos.clear();
+                arrayAdapterForPos.addAll(integers);
+                // arrayAdapterForPos.notifyDataSetChanged();
             }
         });
-        */
 
+        // observation de la liste des partants
+        // uodate UI
+        addResultViewModel.getPrtsChoices().observe(getViewLifecycleOwner(), new Observer<List<Integer>>() {
+            @Override
+            public void onChanged(List<Integer> integers) {
+                Log.i(TAG_NAME, "changement au niveau des choix de partants - la liste deroulante va contenir <" + integers.size() + "> items");
+                arrayAdapterForPrts.clear();
+                arrayAdapterForPrts.addAll(integers);
+                // arrayAdapterForPrts.notifyDataSetChanged();
+            }
+        });
 
-        // ecouteur sur la selection d'une classe dans la liste droulante
-        autoCompleteTextViewClasses.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        // qui met a jout la classe selectionnee dans le view model
-                        Log.i(TAG_NAME, "nouvel item selectionne ");
-                        Object o = parent.getItemAtPosition(position);
-                        Log.i(TAG_NAME, "selection de " + o + " qui est de classe " + o.toString()) ;
-                        addResultViewModel.getSelectedClasse().postValue(o.toString());
-                        String str = o.toString().substring(o.toString().indexOf("(")+1,o.toString().indexOf(")"));
-                        addResultViewModel.refreshPosChoices(str);
-                        //TODO 1.0.0 atroce
-                    }
-                }
-        );
-
-
-
-
-
-        buttonAjouter = binding.idBTAjouter;
+        // ecouteur sur la selection d'une classe dans la liste déroulante
+        autoCompleteTextViewClasses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.i(TAG_NAME, "nouvel item selectionne ");
+                String itemValue = parent.getItemAtPosition(position).toString();
+                addResultViewModel.updatePosChoices(itemValue);
+            }
+        });
 
         buttonAjouter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,14 +131,12 @@ public class ResultFragment extends Fragment {
             @SuppressLint("ResourceType")
             @Override
             public void onChanged(String vue) {
-                //TODO 1.0.0 que faire si la vue a changé
+                Log.i(TAG_NAME, "nouvelle vue selectionnee = <" + vue + ">");
+                addResultViewModel.updateClassesChoices(vue);
             }
         });
         return root;
     }
-
-
-
 
 
     /**

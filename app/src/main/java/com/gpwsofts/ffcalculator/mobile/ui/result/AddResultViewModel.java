@@ -15,12 +15,8 @@ import java.util.List;
  * ViewModel propre au fragment d'ajout de resultat
  */
 public class AddResultViewModel extends AndroidViewModel {
-
     private static final String TAG_NAME = "AddResultViewModel";
-
     private final GridRepository gridRepository;
-
-    private MutableLiveData<String> selectedClasse;
     /**
      * La liste deroulante des classes de course
      */
@@ -36,56 +32,29 @@ public class AddResultViewModel extends AndroidViewModel {
 
     public AddResultViewModel(Application application) {
         super(application);
-        selectedClasse = new MutableLiveData<>();
         gridRepository = new GridRepository(application);
         classesChoices = gridRepository.getClassesChoices();
+        posChoices = gridRepository.getPosChoices();
+        prtsChoices = gridRepository.getPrtsChoices();
     }
 
     public LiveData<List<String>> getClassesChoices() {
-        if (null == classesChoices) {
-            classesChoices = new MutableLiveData<List<String>>();
-            loadClassesChoices();
-        }
         return classesChoices;
     }
 
-    public LiveData<List<Integer>> getPrtsChoices() {
-        if (null == prtsChoices) {
-            prtsChoices = new MutableLiveData<List<Integer>>();
-            loadPrtsChoices();
-        }
-        return prtsChoices;
-    }
-
     public LiveData<List<Integer>> getPosChoices() {
-        if (null == posChoices) {
-            posChoices = new MutableLiveData<List<Integer>>();
-            loadPosChoices(selectedClasse.getValue());
-        }
         return posChoices;
     }
 
-    private void loadClassesChoices() {
-        classesChoices = gridRepository.getClassesChoices();
+    public LiveData<List<Integer>> getPrtsChoices() {
+        return prtsChoices;
     }
 
-    private void loadPosChoices(String code) {
-        posChoices = gridRepository.getPosChoices(code);
+    public void updatePosChoices(String itemValue) {
+        gridRepository.updatePosChoices(itemValue);
     }
 
-    public void refreshPosChoices(String code) {
-        gridRepository.loadPosChoices(code);
-    }
-
-    private void loadPrtsChoices() {
-
-    }
-
-    public MutableLiveData<String> getSelectedClasse() {
-        return selectedClasse;
-    }
-
-    public void setSelectedClasse(MutableLiveData<String> selectedClasse) {
-        this.selectedClasse = selectedClasse;
+    public void updateClassesChoices(String vue){
+        gridRepository.updateClassesChoices(vue);
     }
 }
