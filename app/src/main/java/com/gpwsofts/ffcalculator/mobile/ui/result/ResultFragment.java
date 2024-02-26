@@ -109,6 +109,15 @@ public class ResultFragment extends Fragment {
             }
         });
 
+        addResultViewModel.getToastMessage().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                Log.i(TAG_NAME, "changement au niveau du message Toast : affichage");
+                showToast(s);
+            }
+        });
+
+
         // ecouteur sur la selection d'une classe dans la liste déroulante
         autoCompleteTextViewClasses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -138,6 +147,9 @@ public class ResultFragment extends Fragment {
         return root;
     }
 
+    private void showToast(String message){
+        Toast.makeText(this.getContext(), message, Toast.LENGTH_SHORT).show();
+    }
 
     /**
      * Demande de sauvegarde d'un resultat
@@ -146,6 +158,7 @@ public class ResultFragment extends Fragment {
      */
     private void saveResult() {
         // recuperation des datas
+        String toastMessage = null;
         final String place = String.valueOf(textInputEditTextPlace.getText());
         final String libelle = String.valueOf(autoCompleteTextViewClasses.getText().toString());
         final int pos = Integer.valueOf(autoCompleteTextViewPos.getText().toString());
@@ -153,45 +166,54 @@ public class ResultFragment extends Fragment {
         // TODO 1.0.0 ecrire un service qui extrait le idclasse depuis le libelle plutot que la merde substring ci dessus
         // et si ava.lang.StringIndexOutOfBoundsException
         final String idClasse = libelle.substring(libelle.indexOf("(") + 1, libelle.indexOf(")"));
-
-        Log.i(TAG_NAME, "ajout de la course une fois les pointzs calcules pour " + place);
-        Call<FFCPointsResponse> call = FFCalculatorApplication.instance.getServicesManager().getPtsService().calcPts(place, pos, prts, idClasse);
-        call.enqueue(new Callback<FFCPointsResponse>() {
-            @Override
-            public void onResponse(Call<FFCPointsResponse> call, Response<FFCPointsResponse> response) {
-                if (response.isSuccessful()) {
-                    final double pts = response.body().pts;
-                    final String message = response.body().message;
-                    Log.i(TAG_NAME, "succes lors du calcul des points valant " + pts + ", message = " + message + " , construction de l'objet Result");
-                    Result result = new Result();
-                    result.setPlace(place);
-                    //TODO 1.0.0 : creer un logo service pour rendr eun logo en fonction de la classe de course
-                    Logo logo = FFCalculatorApplication.instance.getServicesManager().getLogoService(getResources()).getLogo(idClasse);
-                    result.setLogo(logo.getText());
-                    result.setLogoColor(logo.getColor());
-                    //TODO 1.0.0 faire un appel http pour calculer les points
-                    result.setPts(pts);
-                    result.setPrts(prts);
-                    result.setPos(pos);
-                    result.setLibelle(libelle);
-                    result.setIdClasse(idClasse);
-                    Log.i(TAG_NAME, "insertion du resultat en database room");
-                    resultViewModel.insert(result);
-                    Log.d(TAG_NAME, "preparation du message de toast en succes");
-                } else {
-                    Log.e(TAG_NAME, "na pas pu se faire , code http " + response.code() + " messgae " + response.message());
+        Log.i(TAG_NAME, "ajout de la course une fois les points calcules pour " + place);
+        // TODO 1.0.0 si ya pas de reseau je vais essayer de pas faire d'appel reseau
+        boolean isWwwConnected = FFCalculatorApplication.instance.getServicesManager().getNetworkService().isWwwConnected();
+        if (isWwwConnected){
+            Call<FFCPointsResponse> call = FFCalculatorApplication.instance.getServicesManager().getPtsService().calcPts(place, pos, prts, idClasse);
+            call.enqueue(new Callback<FFCPointsResponse>() {
+                @Override
+                public void onResponse(Call<FFCPointsResponse> call, Response<FFCPointsResponse> response) {
+                    if (response.isSuccessful()) {
+                        final double pts = response.body().pts;
+                        final String message = response.body().message;
+                        Log.i(TAG_NAME, "succes lors du calcul des points valant " + pts + ", message = " + message + " , construction de l'objet Result");
+                        Result result = new Result();
+                        result.setPlace(place);
+                        //TODO 1.0.0 : creer un logo service pour rendr eun logo en fonction de la classe de course
+                        Logo logo = FFCalculatorApplication.instance.getServicesManager().getLogoService(getResources()).getLogo(idClasse);
+                        result.setLogo(logo.getText());
+                        result.setLogoColor(logo.getColor());
+                        //TODO 1.0.0 faire un appel http pour calculer les points
+                        result.setPts(pts);
+                        result.setPrts(prts);
+                        result.setPos(pos);
+                        result.setLibelle(libelle);
+                        result.setIdClasse(idClasse);
+                        Log.i(TAG_NAME, "insertion du resultat en database room");
+                        resultViewModel.insert(result);
+                        Log.d(TAG_NAME, "preparation du message de toast en succes");
+                        addResultViewModel.updateToastMessage("Résultat ajouté avec succès");
+                    } else {
+                        addResultViewModel.updateToastMessage("Probleme technique");
+                        Log.e(TAG_NAME, "na pas pu se faire , code http " + response.code() + " messgae " + response.message());
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<FFCPointsResponse> call, Throwable t) {
-                Log.e(TAG_NAME, "echec lors de l'appel a l'api ", t);
-                Log.d(TAG_NAME, "preparation du message de toast en echec");
-            }
-        });
+                @Override
+                public void onFailure(Call<FFCPointsResponse> call, Throwable t) {
+                    addResultViewModel.updateToastMessage("Probleme technique");
+                    Log.e(TAG_NAME, "echec lors de l'appel a l'api ", t);
+                }
+            });
+        } else {
+            addResultViewModel.updateToastMessage("Pas de réseau");
+            Log.e(TAG_NAME, "pas de reseau");
+        }
+
         ;
         //TODO 1.0.0 on dit pas salope
-        Toast.makeText(this.getContext(), "salope", Toast.LENGTH_SHORT).show();
+
         //TODO 1.0.0 gerer les erreurs
     }
 

@@ -18,6 +18,10 @@ public class AddResultViewModel extends AndroidViewModel {
     private static final String TAG_NAME = "AddResultViewModel";
     private final GridRepository gridRepository;
     /**
+     * Un message toast
+     */
+    private LiveData<String> toastMessage;
+    /**
      * La liste deroulante des classes de course
      */
     private LiveData<List<String>> classesChoices;
@@ -36,25 +40,23 @@ public class AddResultViewModel extends AndroidViewModel {
         classesChoices = gridRepository.getClassesChoices();
         posChoices = gridRepository.getPosChoices();
         prtsChoices = gridRepository.getPrtsChoices();
+        toastMessage = new MutableLiveData<String>();
     }
-
     public LiveData<List<String>> getClassesChoices() {
         return classesChoices;
     }
-
     public LiveData<List<Integer>> getPosChoices() {
         return posChoices;
     }
-
     public LiveData<List<Integer>> getPrtsChoices() {
         return prtsChoices;
     }
-
+    public LiveData<String> getToastMessage() { return toastMessage; }
     public void updatePosChoices(String itemValue) {
         gridRepository.updatePosChoices(itemValue);
     }
-
     public void updateClassesChoices(String vue){
         gridRepository.updateClassesChoices(vue);
     }
+    public void updateToastMessage(String message) {((MutableLiveData)toastMessage).postValue(message);};
 }
