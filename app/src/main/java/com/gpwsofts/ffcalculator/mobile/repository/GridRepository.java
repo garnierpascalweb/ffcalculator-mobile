@@ -80,13 +80,7 @@ public class GridRepository {
         Log.i(TAG_NAME, "tache asynchrone de chargement des choix de classes pour la vue <" + vue + ">");
         gridRepositoryExecutor.execute(() -> {
             List<String> currentClasesChoices = null;
-            //TODO 1.0.0 pas de G en dur
-            //TODO 1.0.0 ci dessous travail de merde
-            if (vue.equals("G")){
-                currentClasesChoices = grids.stream().map(new GridToLibelleFunction()).collect(Collectors.toList());
-            } else {
-                currentClasesChoices = grids.stream().filter(grid -> grid.vues.contains(vue)).map(new GridToLibelleFunction()).collect(Collectors.toList());
-            }
+            currentClasesChoices = grids.stream().filter(grid -> grid.vues.contains(vue)).map(new GridToLibelleFunction()).collect(Collectors.toList());
             Log.d(TAG_NAME, currentClasesChoices.size() + " choix de classes renvoyees pour <" + vue + ">");
             classesChoices.postValue(currentClasesChoices);
         });
