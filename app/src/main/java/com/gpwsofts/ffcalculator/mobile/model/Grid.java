@@ -7,7 +7,7 @@ import java.util.List;
  * @since 1.0.0
  * Modele pour une grille telles que définies dans le tableau Json
  */
-public class Grid {
+public class Grid implements Comparable{
     public String code;
     public int priority;
     public String logo;
@@ -102,5 +102,10 @@ public class Grid {
 
     public void setPts(List<Integer> pts) {
         this.pts = pts;
+    }
+
+    @Override
+    public int compareTo(Object other) {
+        return priority - ((Grid)other).getPriority();
     }
 }
