@@ -80,7 +80,7 @@ public class GridRepository {
         Log.i(TAG_NAME, "tache asynchrone de chargement des choix de classes pour la vue <" + vue + ">");
         gridRepositoryExecutor.execute(() -> {
             List<String> currentClasesChoices = null;
-            currentClasesChoices = grids.stream().filter(grid -> grid.vues.contains(vue)).map(new GridToLibelleFunction()).collect(Collectors.toList());
+            currentClasesChoices = grids.stream().filter(grid -> grid.vues.contains(vue)).map(new GridToLibelleFunction()).sorted().collect(Collectors.toList());
             Log.d(TAG_NAME, currentClasesChoices.size() + " choix de classes renvoyees pour <" + vue + ">");
             classesChoices.postValue(currentClasesChoices);
         });
