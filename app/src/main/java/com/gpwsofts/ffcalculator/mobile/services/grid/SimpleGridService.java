@@ -42,6 +42,7 @@ public class SimpleGridService implements IGridService {
     public SimpleGridService(){
         grids = new ArrayList<Grid>();
         classesChoices = new MutableLiveData<List<String>>();
+
         posChoices = new MutableLiveData<List<Integer>>();
         prtsChoices = new MutableLiveData<List<Integer>>();
         loadAsynchronously();

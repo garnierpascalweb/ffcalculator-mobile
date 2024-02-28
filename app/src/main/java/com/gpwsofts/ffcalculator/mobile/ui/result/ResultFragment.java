@@ -15,6 +15,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -52,11 +53,17 @@ public class ResultFragment extends Fragment {
     private AddResultViewModel addResultViewModel;
     private FragmentResultBinding binding;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        resultViewModel = new ViewModelProvider(this).get(SeasonViewModel.class);
+        sharedPrefsViewModel = new ViewModelProvider(this).get(SharedPrefsViewModel.class);
+        addResultViewModel = new ViewModelProvider(this).get(AddResultViewModel.class);
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        resultViewModel = new ViewModelProvider(requireActivity()).get(SeasonViewModel.class);
-        sharedPrefsViewModel = new ViewModelProvider(requireActivity()).get(SharedPrefsViewModel.class);
-        addResultViewModel = new ViewModelProvider(requireActivity()).get(AddResultViewModel.class);
+
         binding = FragmentResultBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         //TODO 1.0.0 recuperation de UUID a mettre autre part que la
@@ -76,74 +83,50 @@ public class ResultFragment extends Fragment {
         autoCompleteTextViewPrts.setAdapter(arrayAdapterForPrts);
         // observation de la liste des classes
         // Update UI
-        addResultViewModel.getClassesChoices().observe(getViewLifecycleOwner(), new Observer<List<String>>() {
-            @Override
-            public void onChanged(List<String> classesList) {
-                Log.i(TAG_NAME, "changement au niveau des choix de classe - la liste deroulante va contenir <" + classesList.size() + "> items");
-                arrayAdapterForClasses.clear();
-                arrayAdapterForClasses.addAll(classesList);
-                // arrayAdapterForClasses.notifyDataSetChanged();
-            }
+        addResultViewModel.getClassesChoices().observe(getViewLifecycleOwner(), classesList -> {
+            Log.i(TAG_NAME, "changement au niveau des choix de classe - la liste deroulante va contenir <" + classesList.size() + "> items");
+            arrayAdapterForClasses.clear();
+            arrayAdapterForClasses.addAll(classesList);
+            // arrayAdapterForClasses.notifyDataSetChanged();
         });
 
         // observation de la liste des positions
         // update UI
-        addResultViewModel.getPosChoices().observe(getViewLifecycleOwner(), new Observer<List<Integer>>() {
-            @Override
-            public void onChanged(List<Integer> integers) {
-                Log.i(TAG_NAME, "changement au niveau des choix de positions - la liste deroulante va contenir <" + integers.size() + "> items");
-                arrayAdapterForPos.clear();
-                arrayAdapterForPos.addAll(integers);
-                // arrayAdapterForPos.notifyDataSetChanged();
-            }
+        addResultViewModel.getPosChoices().observe(getViewLifecycleOwner(), integers -> {
+            Log.i(TAG_NAME, "changement au niveau des choix de positions - la liste deroulante va contenir <" + integers.size() + "> items");
+            arrayAdapterForPos.clear();
+            arrayAdapterForPos.addAll(integers);
+            // arrayAdapterForPos.notifyDataSetChanged();
         });
 
         // observation de la liste des partants
         // uodate UI
-        addResultViewModel.getPrtsChoices().observe(getViewLifecycleOwner(), new Observer<List<Integer>>() {
-            @Override
-            public void onChanged(List<Integer> integers) {
-                Log.i(TAG_NAME, "changement au niveau des choix de partants - la liste deroulante va contenir <" + integers.size() + "> items");
-                arrayAdapterForPrts.clear();
-                arrayAdapterForPrts.addAll(integers);
-                // arrayAdapterForPrts.notifyDataSetChanged();
-            }
+        addResultViewModel.getPrtsChoices().observe(getViewLifecycleOwner(), integers -> {
+            Log.i(TAG_NAME, "changement au niveau des choix de partants - la liste deroulante va contenir <" + integers.size() + "> items");
+            arrayAdapterForPrts.clear();
+            arrayAdapterForPrts.addAll(integers);
+            // arrayAdapterForPrts.notifyDataSetChanged();
         });
 
-        addResultViewModel.getToastMessage().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                Log.i(TAG_NAME, "changement au niveau du message Toast : affichage");
-                showToast(s);
-            }
+        addResultViewModel.getToastMessage().observe(getViewLifecycleOwner(), s -> {
+            Log.i(TAG_NAME, "changement au niveau du message Toast : affichage");
+            showToast(s);
         });
 
 
         // ecouteur sur la selection d'une classe dans la liste déroulante
-        autoCompleteTextViewClasses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.i(TAG_NAME, "nouvel item selectionne ");
-                String itemValue = parent.getItemAtPosition(position).toString();
-                addResultViewModel.updatePosChoices(itemValue);
-            }
+        autoCompleteTextViewClasses.setOnItemClickListener((parent, view, position, id) -> {
+            Log.i(TAG_NAME, "nouvel item selectionne ");
+            String itemValue = parent.getItemAtPosition(position).toString();
+            addResultViewModel.updatePosChoices(itemValue);
         });
 
-        buttonAjouter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveResult();
-            }
-        });
+        buttonAjouter.setOnClickListener(vue -> saveResult());
 
 
-        this.sharedPrefsViewModel.getVue().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @SuppressLint("ResourceType")
-            @Override
-            public void onChanged(String vue) {
-                Log.i(TAG_NAME, "nouvelle vue selectionnee = <" + vue + ">");
-                addResultViewModel.updateClassesChoices(vue);
-            }
+        sharedPrefsViewModel.getVue().observe(getViewLifecycleOwner(), vue -> {
+            Log.i(TAG_NAME, "nouvelle vue selectionnee = <" + vue + ">");
+            addResultViewModel.updateClassesChoices(vue);
         });
         return root;
     }

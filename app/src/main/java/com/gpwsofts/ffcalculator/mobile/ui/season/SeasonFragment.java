@@ -21,13 +21,11 @@ public class SeasonFragment extends Fragment {
     private static final String TAG_NAME = "SeasonFragment";
     private FragmentSeasonBinding binding;
     private SeasonViewModel resultViewModel;
-    private SharedPrefsViewModel sharedPrefsViewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         resultViewModel = new ViewModelProvider(this).get(SeasonViewModel.class);
-        sharedPrefsViewModel = new ViewModelProvider(this).get(SharedPrefsViewModel.class);
     }
 
     @Override
