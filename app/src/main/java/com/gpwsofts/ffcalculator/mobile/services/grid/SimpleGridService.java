@@ -36,15 +36,16 @@ public class SimpleGridService implements IGridService {
     private static final List<Integer> DEFAULT_5_POS = IntStream.rangeClosed(1, 5).boxed().collect(Collectors.toList());
     private List<Grid> grids = null;
     private MutableLiveData<List<String>> classesChoices;
+
+    private MutableLiveData<List<Grid>> gridsChoices;
+
     private MutableLiveData<List<Integer>> posChoices;
-    private MutableLiveData<List<Integer>> prtsChoices;
 
     public SimpleGridService(){
         grids = new ArrayList<Grid>();
         classesChoices = new MutableLiveData<List<String>>();
-
+        gridsChoices = new MutableLiveData<List<Grid>>();
         posChoices = new MutableLiveData<List<Integer>>();
-        prtsChoices = new MutableLiveData<List<Integer>>();
         loadAsynchronously();
     }
 
@@ -74,8 +75,6 @@ public class SimpleGridService implements IGridService {
                 Log.i(TAG_NAME, "fin du chargement des grilles - <" + grids.size() + "> grilles chargees");
                 classesChoices = new MutableLiveData<>();
                 posChoices = new MutableLiveData<>();
-                prtsChoices = new MutableLiveData<>();
-                updatePrtsChoicesAsynchronously();
             }  catch (IOException e) {
                 throw new RuntimeException(e);
             } finally {
@@ -99,6 +98,16 @@ public class SimpleGridService implements IGridService {
             classesChoices.postValue(currentClasesChoices);
         });
     }
+
+    public void loadGridChoicesAsynchronously(String vue) {
+        Log.i(TAG_NAME, "chargement asynchrone  des grilles pour la vue <" + vue + ">");
+        gridServiceExecutor.execute(() -> {
+            List<Grid> currentGridsChoices = null;
+            currentGridsChoices = grids.stream().filter(grid -> grid.vues.contains(vue)).collect(Collectors.toList());
+            Log.d(TAG_NAME, currentGridsChoices.size() + " choix de grids renvoyees pour <" + vue + ">");
+            gridsChoices.postValue(currentGridsChoices);
+        });
+    }
     public void loadPosChoicesAsynchronously(String itemValue){
         Log.i(TAG_NAME, "chargement asynchrone des choix de positions pour un itemValue <" + itemValue + ">");
         gridServiceExecutor.execute(()->{
@@ -112,16 +121,6 @@ public class SimpleGridService implements IGridService {
             posChoices.postValue(currentPosChoices);
         });
     }
-    private void updatePrtsChoicesAsynchronously(){
-        Log.i(TAG_NAME, "chargement asynchrone des choix de partants");
-        gridServiceExecutor.execute(()->{
-            List<Integer> currentPrtsChoices = null;
-            //TODO 1.0.0 200 pas en dur
-            currentPrtsChoices = IntStream.rangeClosed(1, 200).boxed().collect(Collectors.toList());
-            prtsChoices.postValue(currentPrtsChoices);
-            Log.d(TAG_NAME, currentPrtsChoices.size() + " choix de partants renvoyees");
-        });
-    }
 
     public LiveData<List<String>> getClassesChoices() {
         return classesChoices;
@@ -129,9 +128,7 @@ public class SimpleGridService implements IGridService {
     public LiveData<List<Integer>> getPosChoices() {
         return posChoices;
     }
-    public LiveData<List<Integer>> getPrtsChoices() {
-        return prtsChoices;
-    }
+    public LiveData<List<Grid>> getGridChoices() {return gridsChoices;}
 
     private class GridToLibelleFunction implements Function<Grid, String> {
         @Override

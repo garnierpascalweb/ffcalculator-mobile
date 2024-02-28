@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
+import com.gpwsofts.ffcalculator.mobile.model.Grid;
 import com.gpwsofts.ffcalculator.mobile.repository.GridRepository;
 import com.gpwsofts.ffcalculator.mobile.services.grid.IGridService;
 
@@ -40,9 +41,7 @@ public class AddResultViewModel extends AndroidViewModel {
     public LiveData<List<Integer>> getPosChoices() {
         return gridService.getPosChoices();
     }
-    public LiveData<List<Integer>> getPrtsChoices() {
-        return gridService.getPrtsChoices();
-    }
+    public LiveData<List<Grid>> getGridsChoices() {return gridService.getGridChoices();};
     public LiveData<String> getToastMessage() {
         return toastMessage;
     }
@@ -51,6 +50,9 @@ public class AddResultViewModel extends AndroidViewModel {
     }
     public void updateClassesChoices(String vue){
         gridService.loadClassesChoicesAsynchronously(vue);
+    }
+    public void updateGridChoices(String vue){
+        gridService.loadGridChoicesAsynchronously(vue);
     }
     public void updateToastMessage(String message) {((MutableLiveData)toastMessage).postValue(message);};
 

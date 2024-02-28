@@ -108,4 +108,12 @@ public class Grid implements Comparable{
     public int compareTo(Object other) {
         return Integer.compare(priority,((Grid)other).getPriority());
     }
+
+    /**
+     * @since 1.0.0
+     * @return la valeur du spinner value
+     */
+    public String getSpinnerItemValue(){
+        return new StringBuilder(libelle).append(" (").append(code).append(")").toString();
+    }
 }
