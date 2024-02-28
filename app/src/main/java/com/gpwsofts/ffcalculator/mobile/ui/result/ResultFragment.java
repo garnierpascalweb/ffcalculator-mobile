@@ -61,9 +61,9 @@ public class ResultFragment extends Fragment {
         addResultViewModel = new ViewModelProvider(this).get(AddResultViewModel.class);
     }
 
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-
+        Log.i(TAG_NAME, "appel de onCreateView");
         binding = FragmentResultBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         //TODO 1.0.0 recuperation de UUID a mettre autre part que la
@@ -84,28 +84,31 @@ public class ResultFragment extends Fragment {
         // observation de la liste des classes
         // Update UI
         addResultViewModel.getClassesChoices().observe(getViewLifecycleOwner(), classesList -> {
-            Log.i(TAG_NAME, "changement au niveau des choix de classe - la liste deroulante va contenir <" + classesList.size() + "> items");
+            Log.i(TAG_NAME, "refreshUI sur la liste des classes");
+            Log.d(TAG_NAME, "arrayAdapterForClasses : appel de clear() - contenait <" + arrayAdapterForClasses.getCount() + "> items");
             arrayAdapterForClasses.clear();
+            Log.d(TAG_NAME, "arrayAdapterForClasses : appel de addAll() - contendra <" + classesList.size() + "> items");
             arrayAdapterForClasses.addAll(classesList);
-            // arrayAdapterForClasses.notifyDataSetChanged();
+            Log.d(TAG_NAME, "arrayAdapterForClasses : contient desormais <" + arrayAdapterForClasses.getCount() + "> items");
+            Log.i(TAG_NAME, "fin refreshUI sur la liste des classes");
         });
 
         // observation de la liste des positions
         // update UI
         addResultViewModel.getPosChoices().observe(getViewLifecycleOwner(), integers -> {
-            Log.i(TAG_NAME, "changement au niveau des choix de positions - la liste deroulante va contenir <" + integers.size() + "> items");
+            Log.i(TAG_NAME, "refreshUI sur la liste des positions");
             arrayAdapterForPos.clear();
             arrayAdapterForPos.addAll(integers);
-            // arrayAdapterForPos.notifyDataSetChanged();
+            Log.i(TAG_NAME, "fin refreshUI sur la liste des positions");
         });
 
         // observation de la liste des partants
         // uodate UI
         addResultViewModel.getPrtsChoices().observe(getViewLifecycleOwner(), integers -> {
-            Log.i(TAG_NAME, "changement au niveau des choix de partants - la liste deroulante va contenir <" + integers.size() + "> items");
+            Log.i(TAG_NAME, "refreshUI sur la liste des partants");
             arrayAdapterForPrts.clear();
             arrayAdapterForPrts.addAll(integers);
-            // arrayAdapterForPrts.notifyDataSetChanged();
+            Log.i(TAG_NAME, "fin refreshUI sur la liste des partants");
         });
 
         addResultViewModel.getToastMessage().observe(getViewLifecycleOwner(), s -> {
