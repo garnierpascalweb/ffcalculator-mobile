@@ -34,9 +34,8 @@ public class RecyclerBaseAdapter<VH extends RecyclerView.ViewHolder>
     public Object getItem(int position) {
         // not supported
         //return null;
-        return ((ClassesListAdapter)mAdapter).getCurrentList().get(position).getSpinnerItemValue();
+        return ((ClassesListAdapter) mAdapter).getCurrentList().get(position).getSpinnerItemValue();
     }
-
 
 
     @Override

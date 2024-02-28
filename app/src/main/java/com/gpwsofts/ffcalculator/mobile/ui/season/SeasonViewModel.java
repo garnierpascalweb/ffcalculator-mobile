@@ -28,8 +28,7 @@ public class SeasonViewModel extends AndroidViewModel {
         repository = new ResultRepository(application);
         Log.i(TAG_NAME, "Recuperation de tous les resultats");
         allResults = repository.getAllResults();
-        if (null == allResults)
-            Log.w(TAG_NAME, "La liste des resultats est null");
+        if (null == allResults) Log.w(TAG_NAME, "La liste des resultats est null");
         Log.i(TAG_NAME, "Fin instantiotion de SeasonViewModel");
     }
 
@@ -55,8 +54,7 @@ public class SeasonViewModel extends AndroidViewModel {
 
     public LiveData<List<Result>> getAllResults() {
         Log.i(TAG_NAME, "Recuperation de la liste de tous les resultats");
-        if (null == allResults)
-            Log.w(TAG_NAME, "La liste des resultats est null");
+        if (null == allResults) Log.w(TAG_NAME, "La liste des resultats est null");
         return allResults;
     }
 }

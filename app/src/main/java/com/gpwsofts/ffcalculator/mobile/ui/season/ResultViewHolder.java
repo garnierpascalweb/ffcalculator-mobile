@@ -35,6 +35,11 @@ public class ResultViewHolder extends RecyclerView.ViewHolder {
         resultPtsView = itemView.findViewById(R.id.idTVResultPts);
     }
 
+    static ResultViewHolder create(ViewGroup parent) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_result_layout, parent, false);
+        return new ResultViewHolder(view);
+    }
+
     public void bind(String logo, int logoColor, String place, String libelle, int pos, int prts, double pts) {
         logoTextView.setText(logo);
         logoTextView.getBackground().setColorFilter(logoColor, PorterDuff.Mode.SRC_ATOP);
@@ -42,10 +47,5 @@ public class ResultViewHolder extends RecyclerView.ViewHolder {
         libelleTextView.setText(libelle);
         resultPosPrtsTextView.setText(new StringBuilder().append(pos).append("e sur ").append(prts).toString());
         resultPtsView.setText(String.valueOf(pts));
-    }
-
-    static ResultViewHolder create(ViewGroup parent) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_result_layout, parent, false);
-        return new ResultViewHolder(view);
     }
 }

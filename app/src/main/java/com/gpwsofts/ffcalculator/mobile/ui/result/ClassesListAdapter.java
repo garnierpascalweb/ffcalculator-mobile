@@ -6,9 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 
-import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.model.Grid;
-import com.gpwsofts.ffcalculator.mobile.ui.season.ResultViewHolder;
 
 /**
  *
@@ -30,7 +28,7 @@ public class ClassesListAdapter extends ListAdapter<Grid, ClassesViewHolder> {
         holder.bind(current);
     }
 
-    public static class ClassesDiff extends DiffUtil.ItemCallback<Grid>{
+    public static class ClassesDiff extends DiffUtil.ItemCallback<Grid> {
 
         @Override
         public boolean areItemsTheSame(@NonNull Grid oldItem, @NonNull Grid newItem) {

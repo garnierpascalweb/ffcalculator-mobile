@@ -7,36 +7,28 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.gpwsofts.ffcalculator.mobile.model.Grid;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class GridRepository {
-    private static final String TAG_NAME = "GridRepository";
     public static final ExecutorService gridRepositoryExecutor = Executors.newFixedThreadPool(1);
-
     public static final List<Integer> DEFAULT_5_POS = IntStream.rangeClosed(1, 5).boxed().collect(Collectors.toList());
-
+    public static final String GRID_RELATIVE_PATH = "grids/grilles.json";
+    private static final String TAG_NAME = "GridRepository";
     MutableLiveData<List<String>> classesChoices;
     MutableLiveData<List<Integer>> posChoices;
     MutableLiveData<List<Integer>> prtsChoices;
     private List<Grid> grids = null;
-
-    public static final String GRID_RELATIVE_PATH = "grids/grilles.json";
 
     public GridRepository(final Application application) {
         InputStream is = null;
@@ -79,6 +71,7 @@ public class GridRepository {
 
     /**
      * Chargement asynchrone de la liste déroulante des classes
+     *
      * @param vue en fonction de la vue
      */
     public void updateClassesChoices(String vue) {
@@ -91,24 +84,18 @@ public class GridRepository {
         });
     }
 
-    private class GridToLibelleFunction implements Function<Grid, String> {
-        @Override
-        public String apply(Grid grid) {
-            return new StringBuilder().append(grid.libelle).append(" (").append(grid.code).append(")").toString();
-        }
-    }
-
     /**
      * Chargement en asynchrone de la liste deroulance des position
+     *
      * @param itemValue en fonction de la classe de course (1.25.1)
      */
-    public void updatePosChoices(String itemValue){
+    public void updatePosChoices(String itemValue) {
         Log.i(TAG_NAME, "tache asynchrone de chargement des choix de positions pour un itemValue <" + itemValue + ">");
-        gridRepositoryExecutor.execute(()->{
+        gridRepositoryExecutor.execute(() -> {
             List<Integer> currentPosChoices = DEFAULT_5_POS;
-            String code =  itemValue.substring(itemValue.indexOf("(")+1, itemValue.indexOf(")"));
+            String code = itemValue.substring(itemValue.indexOf("(") + 1, itemValue.indexOf(")"));
             Grid myGrid = grids.stream().filter(grid -> grid.code.equals(code)).findAny().orElse(null);
-            if (myGrid != null){
+            if (myGrid != null) {
                 currentPosChoices = IntStream.rangeClosed(1, myGrid.maxPos).boxed().collect(Collectors.toList());
             }
             Log.d(TAG_NAME, currentPosChoices.size() + " choix de positions renvoyees pour <" + itemValue + ">");
@@ -116,9 +103,9 @@ public class GridRepository {
         });
     }
 
-    private void updatePrtsChoices(){
+    private void updatePrtsChoices() {
         Log.i(TAG_NAME, "tache asynchrone de chargement des choix de partants");
-        gridRepositoryExecutor.execute(()->{
+        gridRepositoryExecutor.execute(() -> {
             List<Integer> currentPrtsChoices = null;
             //TODO 1.0.0 200 pas en dur
             currentPrtsChoices = IntStream.rangeClosed(1, 200).boxed().collect(Collectors.toList());
@@ -134,7 +121,15 @@ public class GridRepository {
     public MutableLiveData<List<Integer>> getPosChoices() {
         return posChoices;
     }
+
     public LiveData<List<Integer>> getPrtsChoices() {
         return prtsChoices;
+    }
+
+    private class GridToLibelleFunction implements Function<Grid, String> {
+        @Override
+        public String apply(Grid grid) {
+            return new StringBuilder().append(grid.libelle).append(" (").append(grid.code).append(")").toString();
+        }
     }
 }

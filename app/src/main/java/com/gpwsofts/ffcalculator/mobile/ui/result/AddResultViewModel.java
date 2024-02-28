@@ -9,7 +9,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.model.Grid;
-import com.gpwsofts.ffcalculator.mobile.repository.GridRepository;
 import com.gpwsofts.ffcalculator.mobile.services.grid.IGridService;
 
 import java.util.List;
@@ -26,6 +25,7 @@ public class AddResultViewModel extends AndroidViewModel {
      * Un message toast
      */
     private LiveData<String> toastMessage;
+
     public AddResultViewModel(Application application) {
         super(application);
         Log.i(TAG_NAME, "Instantiation de AddResultViewModel");
@@ -35,25 +35,33 @@ public class AddResultViewModel extends AndroidViewModel {
         toastMessage = new MutableLiveData<String>();
         Log.i(TAG_NAME, "Fin instantiotion de AddResultViewModel");
     }
-    public LiveData<List<String>> getClassesChoices() {
-        return gridService.getClassesChoices();
-    }
+
     public LiveData<List<Integer>> getPosChoices() {
         return gridService.getPosChoices();
     }
-    public LiveData<List<Grid>> getGridsChoices() {return gridService.getGridChoices();};
+
+    public LiveData<List<Grid>> getGridsChoices() {
+        return gridService.getGridChoices();
+    }
+
+    ;
+
     public LiveData<String> getToastMessage() {
         return toastMessage;
     }
+
     public void updatePosChoices(String itemValue) {
         gridService.loadPosChoicesAsynchronously(itemValue);
     }
-    public void updateClassesChoices(String vue){
-        gridService.loadClassesChoicesAsynchronously(vue);
-    }
-    public void updateGridChoices(String vue){
+
+    public void updateGridChoices(String vue) {
         gridService.loadGridChoicesAsynchronously(vue);
     }
-    public void updateToastMessage(String message) {((MutableLiveData)toastMessage).postValue(message);};
+
+    public void updateToastMessage(String message) {
+        ((MutableLiveData) toastMessage).postValue(message);
+    }
+
+    ;
 
 }

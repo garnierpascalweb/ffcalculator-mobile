@@ -21,11 +21,16 @@ import java.util.concurrent.Executors;
 public abstract class FFCalculatorDatabase extends RoomDatabase {
     private static final String TAG_NAME = "FFCalculatorDatabase";
     private static final String DATABASE_NAME = "ffcalculator_database";
-    private static volatile FFCalculatorDatabase instance;
     private static final int NUMBER_OF_THREADS = 4;
     public static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
-
-    public abstract ResultDao resultDao();
+    private static volatile FFCalculatorDatabase instance;
+    private static RoomDatabase.Callback roomCallback = new RoomDatabase.Callback() {
+        @Override
+        public void onCreate(@NonNull SupportSQLiteDatabase db) {
+            super.onCreate(db);
+            //TODO a activer en cas de populate new PopulateDbAsyncTask(instance).execute();
+        }
+    };
 
     public static synchronized FFCalculatorDatabase getInstance(final Context context) {
         // https://github.com/android/codelab-android-room-with-a-view/blob/master/app/src/main/java/com/example/android/roomwordssample/WordRoomDatabase.java
@@ -39,11 +44,5 @@ public abstract class FFCalculatorDatabase extends RoomDatabase {
         return instance;
     }
 
-    private static RoomDatabase.Callback roomCallback = new RoomDatabase.Callback() {
-        @Override
-        public void onCreate(@NonNull SupportSQLiteDatabase db) {
-            super.onCreate(db);
-            //TODO a activer en cas de populate new PopulateDbAsyncTask(instance).execute();
-        }
-    };
+    public abstract ResultDao resultDao();
 }

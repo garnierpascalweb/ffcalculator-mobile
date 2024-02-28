@@ -1,36 +1,28 @@
 package com.gpwsofts.ffcalculator.mobile.ui.result;
 
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
-import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentResultBinding;
 import com.gpwsofts.ffcalculator.mobile.services.logo.Logo;
 import com.gpwsofts.ffcalculator.mobile.services.network.FFCPointsResponse;
-import com.gpwsofts.ffcalculator.mobile.ui.season.ResultListAdapter;
 import com.gpwsofts.ffcalculator.mobile.ui.season.SeasonViewModel;
 import com.gpwsofts.ffcalculator.mobile.ui.shared.SharedPrefsViewModel;
 
@@ -49,9 +41,9 @@ public class ResultFragment extends Fragment {
     TextInputLayout textInputLayoutSpinnerClasses;
     AutoCompleteTextView autoCompleteTextViewPos;
     AutoCompleteTextView autoCompleteTextViewPrts;
-     AutoCompleteTextView autoCompleteTextViewClasses;
+    AutoCompleteTextView autoCompleteTextViewClasses;
     Button buttonAjouter;
-    private ArrayAdapter arrayAdapterForClasses;
+
     private List<String> currentClasses;
     private ArrayAdapter arrayAdapterForPos;
     private List<Integer> currentPos;
@@ -62,7 +54,7 @@ public class ResultFragment extends Fragment {
     private AddResultViewModel addResultViewModel;
     private FragmentResultBinding binding;
 
-    public ResultFragment(){
+    public ResultFragment() {
         Log.i(TAG_NAME, "appel du constructeur");
         currentClasses = new ArrayList<String>();
         currentPos = new ArrayList<Integer>();
@@ -95,7 +87,6 @@ public class ResultFragment extends Fragment {
         autoCompleteTextViewPrts = binding.idTVAutoPrts;
         buttonAjouter = binding.idBTAjouter;
         Log.i(TAG_NAME, "reinstanciation de ArrayAdapter avec <" + currentClasses.size() + "> classes");
-        arrayAdapterForClasses = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, currentClasses);
         //autoCompleteTextViewClasses.setAdapter(arrayAdapterForClasses);
         //RecyclerView classesRV = root.findViewById(R.id.idRVClasses);
         final ClassesListAdapter classesListAdapter = new ClassesListAdapter(new ClassesListAdapter.ClassesDiff());
@@ -176,15 +167,13 @@ public class ResultFragment extends Fragment {
         */
 
 
-
         buttonAjouter.setOnClickListener(vue -> saveResult());
-
 
 
         return root;
     }
 
-    private void showToast(String message){
+    private void showToast(String message) {
         Toast.makeText(this.getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
@@ -208,7 +197,7 @@ public class ResultFragment extends Fragment {
         Log.i(TAG_NAME, "ajout de la course une fois les points calcules pour " + place);
         // TODO 1.0.0 si ya pas de reseau je vais essayer de pas faire d'appel reseau
         boolean isWwwConnected = FFCalculatorApplication.instance.getServicesManager().getNetworkService().isWwwConnected();
-        if (isWwwConnected){
+        if (isWwwConnected) {
             Call<FFCPointsResponse> call = FFCalculatorApplication.instance.getServicesManager().getPtsService().calcPts(place, pos, prts, idClasse);
             call.enqueue(new Callback<FFCPointsResponse>() {
                 @Override

@@ -17,9 +17,8 @@ import java.util.concurrent.Executors;
  * @since 1.0.0
  */
 public class SharedPrefsRepository {
-    private static final String TAG_NAME = "SharedPrefsRepository";
     public static final String SHARED_PREFS_APP_NAME = "FFCalculatorSharedPrefs";
-
+    private static final String TAG_NAME = "SharedPrefsRepository";
     private static final int NUMBER_OF_THREADS = 4;
     public static final ExecutorService sharedPrefsWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 

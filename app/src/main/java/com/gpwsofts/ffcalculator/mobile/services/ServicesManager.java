@@ -114,8 +114,8 @@ public class ServicesManager {
         return posService;
     }
 
-    public final INetworkService getNetworkService(){
-        if (null == networkService){
+    public final INetworkService getNetworkService() {
+        if (null == networkService) {
             Log.i(TAG_NAME, "creation dune nouvelle instance de INetworkService");
             networkService = new SimpleNetworkService();
         } else {
@@ -124,8 +124,8 @@ public class ServicesManager {
         return networkService;
     }
 
-    public final IGridService getGridService(){
-        if (null == gridService){
+    public final IGridService getGridService() {
+        if (null == gridService) {
             Log.i(TAG_NAME, "creation dune nouvelle instance de IGridService");
             gridService = new SimpleGridService();
         } else {

@@ -1,6 +1,5 @@
 package com.gpwsofts.ffcalculator.mobile.services.grid;
 
-import android.app.Application;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -10,7 +9,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.model.Grid;
-import com.gpwsofts.ffcalculator.mobile.repository.GridRepository;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,7 +24,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
- *
  * @since 1.0.0
  */
 public class SimpleGridService implements IGridService {
@@ -35,21 +32,19 @@ public class SimpleGridService implements IGridService {
     private static final ExecutorService gridServiceExecutor = Executors.newFixedThreadPool(1);
     private static final List<Integer> DEFAULT_5_POS = IntStream.rangeClosed(1, 5).boxed().collect(Collectors.toList());
     private List<Grid> grids = null;
-    private MutableLiveData<List<String>> classesChoices;
 
     private MutableLiveData<List<Grid>> gridsChoices;
 
     private MutableLiveData<List<Integer>> posChoices;
 
-    public SimpleGridService(){
+    public SimpleGridService() {
         grids = new ArrayList<Grid>();
-        classesChoices = new MutableLiveData<List<String>>();
         gridsChoices = new MutableLiveData<List<Grid>>();
         posChoices = new MutableLiveData<List<Integer>>();
         loadAsynchronously();
     }
 
-    private void loadAsynchronously (){
+    private void loadAsynchronously() {
         Log.i(TAG_NAME, "chargement asynchrone des grilles depuis la ressource en asset = <" + GRID_RELATIVE_PATH + ">");
         gridServiceExecutor.execute(() -> {
             InputStream is = null;
@@ -73,9 +68,8 @@ public class SimpleGridService implements IGridService {
                 Log.v(TAG_NAME, "tri de la liste des grilles");
                 Collections.sort(grids);
                 Log.i(TAG_NAME, "fin du chargement des grilles - <" + grids.size() + "> grilles chargees");
-                classesChoices = new MutableLiveData<>();
                 posChoices = new MutableLiveData<>();
-            }  catch (IOException e) {
+            } catch (IOException e) {
                 throw new RuntimeException(e);
             } finally {
                 if (is != null) {
@@ -89,16 +83,6 @@ public class SimpleGridService implements IGridService {
         });
     }
 
-    public void loadClassesChoicesAsynchronously(String vue) {
-        Log.i(TAG_NAME, "chargement asynchrone  des choix de classes pour la vue <" + vue + ">");
-        gridServiceExecutor.execute(() -> {
-            List<String> currentClasesChoices = null;
-            currentClasesChoices = grids.stream().filter(grid -> grid.vues.contains(vue)).map(new SimpleGridService.GridToLibelleFunction()).collect(Collectors.toList());
-            Log.d(TAG_NAME, currentClasesChoices.size() + " choix de classes renvoyees pour <" + vue + ">");
-            classesChoices.postValue(currentClasesChoices);
-        });
-    }
-
     public void loadGridChoicesAsynchronously(String vue) {
         Log.i(TAG_NAME, "chargement asynchrone  des grilles pour la vue <" + vue + ">");
         gridServiceExecutor.execute(() -> {
@@ -108,13 +92,14 @@ public class SimpleGridService implements IGridService {
             gridsChoices.postValue(currentGridsChoices);
         });
     }
-    public void loadPosChoicesAsynchronously(String itemValue){
+
+    public void loadPosChoicesAsynchronously(String itemValue) {
         Log.i(TAG_NAME, "chargement asynchrone des choix de positions pour un itemValue <" + itemValue + ">");
-        gridServiceExecutor.execute(()->{
+        gridServiceExecutor.execute(() -> {
             List<Integer> currentPosChoices = DEFAULT_5_POS;
-            String code =  itemValue.substring(itemValue.indexOf("(")+1, itemValue.indexOf(")"));
+            String code = itemValue.substring(itemValue.indexOf("(") + 1, itemValue.indexOf(")"));
             Grid myGrid = grids.stream().filter(grid -> grid.code.equals(code)).findAny().orElse(null);
-            if (myGrid != null){
+            if (myGrid != null) {
                 currentPosChoices = IntStream.rangeClosed(1, myGrid.maxPos).boxed().collect(Collectors.toList());
             }
             Log.d(TAG_NAME, currentPosChoices.size() + " choix de positions renvoyees pour <" + itemValue + ">");
@@ -122,13 +107,13 @@ public class SimpleGridService implements IGridService {
         });
     }
 
-    public LiveData<List<String>> getClassesChoices() {
-        return classesChoices;
-    }
     public LiveData<List<Integer>> getPosChoices() {
         return posChoices;
     }
-    public LiveData<List<Grid>> getGridChoices() {return gridsChoices;}
+
+    public LiveData<List<Grid>> getGridChoices() {
+        return gridsChoices;
+    }
 
     private class GridToLibelleFunction implements Function<Grid, String> {
         @Override
