@@ -59,4 +59,5 @@ public class AddResultViewModel extends AndroidViewModel {
         gridRepository.updateClassesChoices(vue);
     }
     public void updateToastMessage(String message) {((MutableLiveData)toastMessage).postValue(message);};
+
 }

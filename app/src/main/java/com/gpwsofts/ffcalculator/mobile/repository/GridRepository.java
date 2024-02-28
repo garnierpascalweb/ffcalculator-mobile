@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
@@ -44,6 +46,7 @@ public class GridRepository {
         Gson gson = null;
         try {
             Log.i(TAG_NAME, "debut de chargement des grilles");
+            /*
             is = application.getApplicationContext().getAssets().open(GRID_RELATIVE_PATH);
             int size = is.available();
             byte[] buffer = new byte[size];
@@ -53,14 +56,17 @@ public class GridRepository {
             jsonDatas = new String(buffer, StandardCharsets.UTF_8);
             gson = new Gson();
             grids = gson.fromJson(jsonDatas, listGridType);
+            Collections.sort(grids);
+             */
+            grids = new ArrayList<Grid>();
             Log.i(TAG_NAME, "fin du chargement des grilles - <" + grids.size() + "> grilles chargees");
             classesChoices = new MutableLiveData<>();
             posChoices = new MutableLiveData<>();
             prtsChoices = new MutableLiveData<>();
             updatePrtsChoices();
-        } catch (IOException e) {
+        } /*catch (IOException e) {
             Log.e(TAG_NAME, "probleme lors du chargement des grilles");
-        }  finally {
+        } */ finally {
             if (is != null) {
                 try {
                     is.close();
@@ -80,7 +86,7 @@ public class GridRepository {
         Log.i(TAG_NAME, "tache asynchrone de chargement des choix de classes pour la vue <" + vue + ">");
         gridRepositoryExecutor.execute(() -> {
             List<String> currentClasesChoices = null;
-            currentClasesChoices = grids.stream().filter(grid -> grid.vues.contains(vue)).map(new GridToLibelleFunction()).sorted().collect(Collectors.toList());
+            currentClasesChoices = grids.stream().filter(grid -> grid.vues.contains(vue)).map(new GridToLibelleFunction()).collect(Collectors.toList());
             Log.d(TAG_NAME, currentClasesChoices.size() + " choix de classes renvoyees pour <" + vue + ">");
             classesChoices.postValue(currentClasesChoices);
         });

@@ -106,6 +106,6 @@ public class Grid implements Comparable{
 
     @Override
     public int compareTo(Object other) {
-        return priority - ((Grid)other).getPriority();
+        return Integer.compare(priority,((Grid)other).getPriority());
     }
 }
