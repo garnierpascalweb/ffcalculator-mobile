@@ -4,6 +4,8 @@ import android.content.res.Resources;
 import android.util.Log;
 
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
+import com.gpwsofts.ffcalculator.mobile.services.grid.IGridService;
+import com.gpwsofts.ffcalculator.mobile.services.grid.SimpleGridService;
 import com.gpwsofts.ffcalculator.mobile.services.logo.ILogoService;
 import com.gpwsofts.ffcalculator.mobile.services.logo.SimpleLogoService;
 import com.gpwsofts.ffcalculator.mobile.services.network.INetworkService;
@@ -56,6 +58,10 @@ public class ServicesManager {
      * Service concernant l'état du reseau
      */
     private INetworkService networkService = null;
+    /**
+     *
+     */
+    private IGridService gridService = null;
 
     /**
      * Constructeur de ServiceManager
@@ -116,6 +122,16 @@ public class ServicesManager {
             Log.d(TAG_NAME, "recuperation d'une instance existante de INetworkService");
         }
         return networkService;
+    }
+
+    public final IGridService getGridService(){
+        if (null == gridService){
+            Log.i(TAG_NAME, "creation dune nouvelle instance de IGridService");
+            gridService = new SimpleGridService();
+        } else {
+            Log.d(TAG_NAME, "recuperation d'une instance existante de IGridService");
+        }
+        return gridService;
     }
 
     /**

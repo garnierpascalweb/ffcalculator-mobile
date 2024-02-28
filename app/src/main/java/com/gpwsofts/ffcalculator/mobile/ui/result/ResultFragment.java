@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -210,11 +211,6 @@ public class ResultFragment extends Fragment {
             addResultViewModel.updateToastMessage("Pas de réseau");
             Log.e(TAG_NAME, "pas de reseau");
         }
-
-        ;
-        //TODO 1.0.0 on dit pas salope
-
-        //TODO 1.0.0 gerer les erreurs
     }
 
     @Override

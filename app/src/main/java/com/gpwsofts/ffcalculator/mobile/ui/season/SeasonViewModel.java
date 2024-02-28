@@ -24,14 +24,13 @@ public class SeasonViewModel extends AndroidViewModel {
 
     public SeasonViewModel(Application application) {
         super(application);
-        Log.i(TAG_NAME, "Construction du ResultViewModel");
-        Log.i(TAG_NAME, "Instanciation du repository");
+        Log.i(TAG_NAME, "Instantiotion de SeasonViewModel");
         repository = new ResultRepository(application);
         Log.i(TAG_NAME, "Recuperation de tous les resultats");
         allResults = repository.getAllResults();
         if (null == allResults)
             Log.w(TAG_NAME, "La liste des resultats est null");
-        //allResults.observe();
+        Log.i(TAG_NAME, "Fin instantiotion de SeasonViewModel");
     }
 
     public void insert(Result result) {

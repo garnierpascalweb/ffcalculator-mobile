@@ -24,6 +24,10 @@
     <string name="vue_u17">U17</string>
     <string name="vue_access">A</string>
 
+    <!-- texte des radio button -->
+    <string name="radio_button_en_ligne">En Ligne</string>
+    <string name="radio_button_par_etapes">Par étapes</string>
+
     <!-- Texte des logos -->
     <string name="logo_elite">Elite</string>
     <string name="logo_open_1_2_3">Open 1/2/3</string>

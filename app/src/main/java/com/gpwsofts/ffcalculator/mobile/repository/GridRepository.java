@@ -33,7 +33,6 @@ public class GridRepository {
 
     MutableLiveData<List<String>> classesChoices;
     MutableLiveData<List<Integer>> posChoices;
-
     MutableLiveData<List<Integer>> prtsChoices;
     private List<Grid> grids = null;
 
