@@ -13,6 +13,8 @@ import com.gpwsofts.ffcalculator.mobile.services.network.IPosService;
 import com.gpwsofts.ffcalculator.mobile.services.network.IPtsService;
 import com.gpwsofts.ffcalculator.mobile.services.network.SimplePosService;
 import com.gpwsofts.ffcalculator.mobile.services.network.SimplePtsService;
+import com.gpwsofts.ffcalculator.mobile.services.result.IResultService;
+import com.gpwsofts.ffcalculator.mobile.services.result.RemoteResultService;
 import com.gpwsofts.ffcalculator.mobile.services.vues.IVueService;
 import com.gpwsofts.ffcalculator.mobile.services.vues.SimpleVueService;
 
@@ -62,6 +64,8 @@ public class ServicesManager {
      *
      */
     private IGridService gridService = null;
+
+    private IResultService resultService = null;
 
     /**
      * Constructeur de ServiceManager
@@ -132,6 +136,16 @@ public class ServicesManager {
             Log.d(TAG_NAME, "recuperation d'une instance existante de IGridService");
         }
         return gridService;
+    }
+
+    public final IResultService getResultService(){
+        if (null == resultService){
+            Log.i(TAG_NAME, "creation dune nouvelle instance de IResultService");
+            resultService = new RemoteResultService();
+        } else {
+            Log.d(TAG_NAME, "recuperation d'une instance existante de IResultService");
+        }
+        return resultService;
     }
 
     /**
