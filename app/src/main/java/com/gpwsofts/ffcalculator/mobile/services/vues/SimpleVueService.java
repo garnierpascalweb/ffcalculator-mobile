@@ -1,71 +1,67 @@
 package com.gpwsofts.ffcalculator.mobile.services.vues;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
+import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.R;
+import com.gpwsofts.ffcalculator.mobile.services.result.ResultResponse;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class SimpleVueService implements IVueService {
     private static final String TAG_NAME = "SimpleVueService";
-    private Resources res;
+    private static final String KEY_VUE = "vue";
+    private static final String DEFAULT_VUE_VALUE = "G";
+    private SharedPreferences sharedPrefs;
+    private SharedPreferences.Editor sharedPrefsEditor;
+    public static final String SHARED_PREFS_APP_NAME = "FFCalculatorSharedPrefs";
+    private static final ExecutorService vueServiceExecutor = Executors.newFixedThreadPool(1);
 
-    public SimpleVueService(Resources res) {
-        this.res = res;
+    protected MutableLiveData<String> currentVueLiveData;
+
+    public SimpleVueService() {
+        currentVueLiveData = new MutableLiveData<>();
+        sharedPrefs = FFCalculatorApplication.instance.getApplicationContext().getSharedPreferences(SHARED_PREFS_APP_NAME, Context.MODE_PRIVATE);
+        sharedPrefsEditor = sharedPrefs.edit();
+        loadAsynchronously();
     }
 
-    public ArrayList<String> getComboboxClassesForVue(String vue) {
-        ArrayList<String> listClasses = new ArrayList<String>();
-        switch (vue) {
-            case ELITE: {
-                Log.d(TAG_NAME, "chargement dans la liste deroulante des classes eligibles a la vue " + vue);
-                listClasses.addAll(new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.classes_for_E))));
-                break;
-            }
-            case OPEN_1: {
-                Log.d(TAG_NAME, "chargement dans la liste deroulante des classes eligibles a la vue " + vue);
-                listClasses.addAll(new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.classes_for_O1))));
-                break;
-            }
-            case OPEN_2: {
-                Log.d(TAG_NAME, "chargement dans la liste deroulante des classes eligibles a la vue " + vue);
-                listClasses.addAll(new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.classes_for_O2))));
-                break;
-            }
-            case OPEN_3: {
-                Log.d(TAG_NAME, "chargement dans la liste deroulante des classes eligibles a la vue " + vue);
-                listClasses.addAll(new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.classes_for_O3))));
-                break;
-            }
-            case ACCESS: {
-                Log.d(TAG_NAME, "chargement dans la liste deroulante des classes eligibles a la vue " + vue);
-                listClasses.addAll(new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.classes_for_A))));
-                break;
-            }
-            case U19: {
-                Log.d(TAG_NAME, "chargement dans la liste deroulante des classes eligibles a la vue " + vue);
-                listClasses.addAll(new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.classes_for_U19))));
-                break;
-            }
-            case U17: {
-                Log.d(TAG_NAME, "chargement dans la liste deroulante des classes eligibles a la vue " + vue);
-                listClasses.addAll(new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.classes_for_U17))));
-                break;
-            }
-            default: {
-                Log.d(TAG_NAME, "chargement dans la liste deroulante des classes eligibles a la vue G car " + vue);
-                listClasses.addAll(new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.classes_for_G))));
-                break;
-            }
-        }
-        //TODO 1.0.0 vue U23 ?
-        return listClasses;
+    public LiveData<String> getCurrentVueLiveData() {
+        return currentVueLiveData;
     }
 
+    private void loadAsynchronously() {
+        Log.i(TAG_NAME, "chargement asynchrone de la vue en shared preferences");
+        vueServiceExecutor.execute(() -> {
+            String currentVue = sharedPrefs.getString(KEY_VUE, DEFAULT_VUE_VALUE);
+            Log.d(TAG_NAME, "vue chargee = <" + currentVue + ">");
+            Log.d(TAG_NAME, "postValue");
+            currentVueLiveData.postValue(currentVue);
+        });
+    }
     @Override
+    public void changeVueAsynchronously(String vue) {
+        Log.i(TAG_NAME, "mise a jour asynchrone de la vue en shared preferences = <" + vue + ">");
+        vueServiceExecutor.execute( () -> {
+            Log.d(TAG_NAME, "envoi de la cle valeur en shared prefs - <" + KEY_VUE + "> <" + vue + ">");
+            sharedPrefsEditor.putString(KEY_VUE, vue);
+            Log.d(TAG_NAME, "commit");
+            sharedPrefsEditor.commit();
+            Log.d(TAG_NAME, "postValue");
+            currentVueLiveData.postValue(vue);
+        });
+    }
+
     public int getIndexInMenu(String vue) {
         int indexToSelect = 0;
         switch (vue) {

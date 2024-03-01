@@ -1,5 +1,8 @@
 package com.gpwsofts.ffcalculator.mobile.services.vues;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import java.util.ArrayList;
 
 /**
@@ -8,6 +11,12 @@ import java.util.ArrayList;
  * @since 1.0.0
  */
 public interface IVueService {
+
+    public LiveData<String> getCurrentVueLiveData();
+
+    public int getIndexInMenu(String vue);
+
+    public void changeVueAsynchronously(String vue);
 
     /**
      * La vue Générale
@@ -42,20 +51,5 @@ public interface IVueService {
      */
     public static final String ACCESS = "A";
 
-    /**
-     * Rend la liste des items de la combobox de choix de course, pour une vue sélectionnée
-     *
-     * @param vue
-     * @return
-     * @since 1.0.0
-     */
-    public ArrayList<String> getComboboxClassesForVue(String vue);
 
-    /**
-     * Rend l'index dans le menu selon la vue en shared prefs
-     *
-     * @param vue
-     * @return
-     */
-    public int getIndexInMenu(String vue);
 }

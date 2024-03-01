@@ -18,19 +18,12 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
-import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentResultBinding;
-import com.gpwsofts.ffcalculator.mobile.services.logo.Logo;
-import com.gpwsofts.ffcalculator.mobile.services.network.FFCPointsResponse;
+import com.gpwsofts.ffcalculator.mobile.ui.VueViewModel;
 import com.gpwsofts.ffcalculator.mobile.ui.season.SeasonViewModel;
-import com.gpwsofts.ffcalculator.mobile.ui.shared.SharedPrefsViewModel;
 
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class AddResultFragment extends Fragment {
     private static final String TAG_NAME = "ResultFragment";
@@ -42,8 +35,8 @@ public class AddResultFragment extends Fragment {
     Button buttonAjouter;
 
     private SeasonViewModel resultViewModel;
-    private SharedPrefsViewModel sharedPrefsViewModel;
     private AddResultViewModel addResultViewModel;
+    private VueViewModel vueViewModel;
     private FragmentResultBinding binding;
 
 
@@ -52,8 +45,8 @@ public class AddResultFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Log.i(TAG_NAME, "appel de onCreate");
         resultViewModel = new ViewModelProvider(this).get(SeasonViewModel.class);
-        sharedPrefsViewModel = new ViewModelProvider(this).get(SharedPrefsViewModel.class);
         addResultViewModel = new ViewModelProvider(this).get(AddResultViewModel.class);
+        vueViewModel = new ViewModelProvider(this).get(VueViewModel.class);
         Log.i(TAG_NAME, "fin appel de onCreate");
     }
 
@@ -80,8 +73,8 @@ public class AddResultFragment extends Fragment {
         prtsListAdapter.submitList(IntStream.rangeClosed(1, 200).boxed().collect(Collectors.toList()));
         autoCompleteTextViewPrts.setAdapter(new IntegerRecyclerBaseAdapter(prtsListAdapter));
 
-        sharedPrefsViewModel.getVue().observe(getViewLifecycleOwner(), vue -> {
-            Log.i(TAG_NAME, "nouvelle vue selectionnee = <" + vue + ">");
+        // observation de la vue courante
+        vueViewModel.getVueLiveData().observe(getViewLifecycleOwner(), vue -> {
             addResultViewModel.updateGridChoices(vue);
         });
 

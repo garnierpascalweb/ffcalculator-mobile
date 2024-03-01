@@ -17,12 +17,13 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.gpwsofts.ffcalculator.mobile.databinding.ActivityMainBinding;
 import com.gpwsofts.ffcalculator.mobile.services.vues.IVueService;
-import com.gpwsofts.ffcalculator.mobile.ui.shared.SharedPrefsViewModel;
+import com.gpwsofts.ffcalculator.mobile.ui.VueViewModel;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG_NAME = "MainActivity";
-    private SharedPrefsViewModel sharedPrefsViewModel;
     private ActivityMainBinding binding;
+
+    private VueViewModel vueViewModel;
 
 
     @Override
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        sharedPrefsViewModel = new ViewModelProvider(this).get(SharedPrefsViewModel.class);
+        vueViewModel = new ViewModelProvider(this).get(VueViewModel.class);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -44,9 +45,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = this.getMenuInflater();
         menuInflater.inflate(R.menu.vues_menu, menu);
-        sharedPrefsViewModel.getVue().observe(this, vue -> {
-            int index = FFCalculatorApplication.instance.getServicesManager().getVueService(getResources()).getIndexInMenu(vue);
-            menu.getItem(index).setChecked(true);
+        vueViewModel.getVueLiveData().observe(this, vue -> {
+            menu.getItem(FFCalculatorApplication.instance.getServicesManager().getVueService().getIndexInMenu(vue)).setChecked(true);
         });
         return true;
     }
@@ -57,35 +57,35 @@ public class MainActivity extends AppCompatActivity {
         boolean boolReturn = false;
         if (itemId == R.id.idMenuItemElite) {
             Log.i(TAG_NAME, "switch en vue Elite");
-            sharedPrefsViewModel.updateVue(IVueService.ELITE);
+            vueViewModel.updateVue(IVueService.ELITE);
             boolReturn = true;
         } else if (itemId == R.id.idMenuItemOpen1) {
             Log.i(TAG_NAME, "switch en vue Open1");
-            sharedPrefsViewModel.updateVue(IVueService.OPEN_1);
+            vueViewModel.updateVue(IVueService.OPEN_1);
             boolReturn = true;
         } else if (itemId == R.id.idMenuItemOpen2) {
             Log.i(TAG_NAME, "switch en vue Open2");
-            sharedPrefsViewModel.updateVue(IVueService.OPEN_2);
+            vueViewModel.updateVue(IVueService.OPEN_2);
             boolReturn = true;
         } else if (itemId == R.id.idMenuItemOpen3) {
             Log.i(TAG_NAME, "switch en vue Open3");
-            sharedPrefsViewModel.updateVue(IVueService.OPEN_3);
+            vueViewModel.updateVue(IVueService.OPEN_3);
             boolReturn = true;
         } else if (itemId == R.id.idMenuItemAccess) {
             Log.i(TAG_NAME, "switch en vue Access");
-            sharedPrefsViewModel.updateVue(IVueService.ACCESS);
+            vueViewModel.updateVue(IVueService.ACCESS);
             boolReturn = true;
         } else if (itemId == R.id.idMenuItemU19) {
             Log.i(TAG_NAME, "switch en vue U19");
-            sharedPrefsViewModel.updateVue(IVueService.U19);
+            vueViewModel.updateVue(IVueService.U19);
             boolReturn = true;
         } else if (itemId == R.id.idMenuItemU17) {
             Log.i(TAG_NAME, "switch en vue U17");
-            sharedPrefsViewModel.updateVue(IVueService.U17);
+            vueViewModel.updateVue(IVueService.U17);
             boolReturn = true;
         } else {
             Log.w(TAG_NAME, "selection dune vue non geree, vue generale");
-            sharedPrefsViewModel.updateVue(IVueService.GENERALE);
+            vueViewModel.updateVue(IVueService.GENERALE);
             boolReturn = super.onOptionsItemSelected(item);
         }
         return boolReturn;

@@ -78,10 +78,10 @@ public class ServicesManager {
         }
     }
 
-    public final IVueService getVueService(Resources res) {
+    public final IVueService getVueService() {
         if (null == vueService) {
             Log.i(TAG_NAME, "creation dune nouvelle instance de IVueService");
-            vueService = new SimpleVueService(res);
+            vueService = new SimpleVueService();
         } else {
             Log.d(TAG_NAME, "recuperation dune instance existante de IVueService");
         }
