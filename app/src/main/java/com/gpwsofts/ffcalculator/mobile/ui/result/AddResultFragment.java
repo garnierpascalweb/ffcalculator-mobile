@@ -35,7 +35,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ResultFragment extends Fragment {
+public class AddResultFragment extends Fragment {
     private static final String TAG_NAME = "ResultFragment";
     TextInputEditText textInputEditTextPlace;
     TextInputLayout textInputLayoutSpinnerClasses;
@@ -54,7 +54,7 @@ public class ResultFragment extends Fragment {
     private AddResultViewModel addResultViewModel;
     private FragmentResultBinding binding;
 
-    public ResultFragment() {
+    public AddResultFragment() {
         Log.i(TAG_NAME, "appel du constructeur");
         currentClasses = new ArrayList<String>();
         currentPos = new ArrayList<Integer>();
