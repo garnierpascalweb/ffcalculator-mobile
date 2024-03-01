@@ -15,4 +15,6 @@ public interface IGridService {
 
     public void loadGridChoicesAsynchronously(String vue);
 
+    public List<Grid> getGrids();
+
 }

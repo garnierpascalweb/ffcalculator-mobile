@@ -37,6 +37,9 @@
     <string name="logo_u23">U23</string>
     <string name="logo_u19">U19</string>
     <string name="logo_u17">U17</string>
+    <string name="logo_cdfn1">CDF N1</string>
+    <string name="logo_cdfn2">CDF N2</string>
+    <string name="logo_cdfn3">CDF N3</string>
 
 
     <!-- Definition des libelles pour les classes de course dans la combo -->

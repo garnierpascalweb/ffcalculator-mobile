@@ -121,4 +121,7 @@ public class SimpleGridService implements IGridService {
             return new StringBuilder().append(grid.libelle).append(" (").append(grid.code).append(")").toString();
         }
     }
+    public List<Grid> getGrids() {
+        return grids;
+    }
 }
