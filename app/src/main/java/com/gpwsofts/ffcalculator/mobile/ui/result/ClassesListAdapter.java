@@ -9,7 +9,8 @@ import androidx.recyclerview.widget.ListAdapter;
 import com.gpwsofts.ffcalculator.mobile.model.Grid;
 
 /**
- *
+ * @since 1.0.0
+ * Adapter pour la liste déroulante des classes (item objet Grid, rendu ClassesViewHolder)
  */
 public class ClassesListAdapter extends ListAdapter<Grid, ClassesViewHolder> {
     protected ClassesListAdapter(@NonNull DiffUtil.ItemCallback<Grid> diffCallback) {

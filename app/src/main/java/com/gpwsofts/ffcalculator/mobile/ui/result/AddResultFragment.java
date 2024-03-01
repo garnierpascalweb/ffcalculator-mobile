@@ -90,15 +90,9 @@ public class AddResultFragment extends Fragment {
         //autoCompleteTextViewClasses.setAdapter(arrayAdapterForClasses);
         //RecyclerView classesRV = root.findViewById(R.id.idRVClasses);
         final ClassesListAdapter classesListAdapter = new ClassesListAdapter(new ClassesListAdapter.ClassesDiff());
-        //classesRV.setAdapter(adapter);
-        autoCompleteTextViewClasses.setAdapter(new RecyclerBaseAdapter(classesListAdapter));
-        //autoCompleteTextViewClasses.setAdapter(classesListAdapter);
-        //LinearLayoutManager linearLayoutManager = new LinearLayoutManager(root.getContext(), LinearLayoutManager.VERTICAL, false);
-        //classesRV.setLayoutManager(linearLayoutManager);
-        //classesRV.setHasFixedSize(true);
-
-        arrayAdapterForPos = new ArrayAdapter<Integer>(getContext(), android.R.layout.simple_spinner_item, currentPos);
-        autoCompleteTextViewPos.setAdapter(arrayAdapterForPos);
+        autoCompleteTextViewClasses.setAdapter(new ClassesRecyclerBaseAdapter(classesListAdapter));
+        final PosListAdapter posListAdapter = new PosListAdapter(new PosListAdapter.PosDiff());
+        autoCompleteTextViewPos.setAdapter(new PosRecyclerBaseAdapter(posListAdapter));
         arrayAdapterForPrts = new ArrayAdapter<Integer>(getContext(), android.R.layout.simple_spinner_item, currentPrts);
         autoCompleteTextViewPrts.setAdapter(arrayAdapterForPrts);
 
@@ -132,14 +126,12 @@ public class AddResultFragment extends Fragment {
             Log.i(TAG_NAME, "fin refreshUI sur la liste des grilles");
         });
 
+
         // observation de la liste des positions
         // update UI
-        addResultViewModel.getPosChoices().observe(getViewLifecycleOwner(), integers -> {
+        addResultViewModel.getPosChoices().observe(getViewLifecycleOwner(), posList -> {
             Log.i(TAG_NAME, "refreshUI sur la liste des positions");
-            //arrayAdapterForPos.clear();
-            //arrayAdapterForPos.addAll(integers);
-            currentPos.clear();
-            currentPos.addAll(integers);
+           posListAdapter.submitList(posList);
             Log.i(TAG_NAME, "fin refreshUI sur la liste des positions");
         });
 
@@ -150,14 +142,12 @@ public class AddResultFragment extends Fragment {
         });
 
 
-        // ecouteur sur la selection d'une classe dans la liste déroulante
-        /*
         autoCompleteTextViewClasses.setOnItemClickListener((parent, view, position, id) -> {
-            Log.i(TAG_NAME, "nouvel item selectionne ");
+            Log.i(TAG_NAME, "selection d'une nouvelle classe de course");
             String itemValue = parent.getItemAtPosition(position).toString();
             addResultViewModel.updatePosChoices(itemValue);
         });
-        */
+
         /*
         classesRV.setOnItemClickListener((parent, view, position, id) -> {
             Log.i(TAG_NAME, "nouvel item selectionne ");

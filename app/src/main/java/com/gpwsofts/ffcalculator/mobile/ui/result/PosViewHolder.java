@@ -14,32 +14,25 @@ import com.gpwsofts.ffcalculator.mobile.model.Grid;
 /**
  * Reprend les elements qui ont été définis dans notre custom Layout : simple_spinner_item
  */
-public class ClassesViewHolder extends RecyclerView.ViewHolder {
+public class PosViewHolder extends RecyclerView.ViewHolder {
     /**
-     * Le Text View de notre Item
+     * le textView de notre item
      */
     private final TextView spinnerItemTextView;
-
-    public ClassesViewHolder(@NonNull View itemView) {
+    public PosViewHolder(@NonNull View itemView) {
         super(itemView);
         spinnerItemTextView = (TextView) itemView;
     }
-
     /**
      * Chargement depuis le layour que nous avons défini : simple_spinner_item
      * @param parent
      * @return
      */
-    static ClassesViewHolder create(ViewGroup parent) {
+    static PosViewHolder create(ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.simple_spinner_item, parent, false);
-        return new ClassesViewHolder(view);
+        return new PosViewHolder(view);
     }
-
-    /**
-     * Permet d'associer l'instance de l'item en cours (de type Grid) a l'objet graphique défini dans notre custom layout
-     * @param current
-     */
-    public void bind(Grid current) {
-        spinnerItemTextView.setText(current.getSpinnerItemValue());
+    public void bind(Integer current) {
+        spinnerItemTextView.setText(String.valueOf(current));
     }
 }

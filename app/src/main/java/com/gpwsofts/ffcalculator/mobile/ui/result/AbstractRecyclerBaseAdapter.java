@@ -9,13 +9,13 @@ import android.widget.Filterable;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class RecyclerBaseAdapter<VH extends RecyclerView.ViewHolder>
+public abstract class AbstractRecyclerBaseAdapter<VH extends RecyclerView.ViewHolder>
         extends BaseAdapter implements Filterable {
     private static final String TAG_NAME = "RecyclerBaseAdapter";
 
-    private final RecyclerView.Adapter<VH> mAdapter;
+    protected final RecyclerView.Adapter<VH> mAdapter;
 
-    public RecyclerBaseAdapter(RecyclerView.Adapter<VH> adapter) {
+    public AbstractRecyclerBaseAdapter(RecyclerView.Adapter<VH> adapter) {
         mAdapter = adapter;
     }
 
@@ -29,14 +29,8 @@ public class RecyclerBaseAdapter<VH extends RecyclerView.ViewHolder>
         return mAdapter.getItemCount();
     }
 
-
     @Override
-    public Object getItem(int position) {
-        // not supported
-        //return null;
-        return ((ClassesListAdapter) mAdapter).getCurrentList().get(position).getSpinnerItemValue();
-    }
-
+    public abstract Object getItem(int position);
 
     @Override
     public long getItemId(int position) {
@@ -72,13 +66,9 @@ public class RecyclerBaseAdapter<VH extends RecyclerView.ViewHolder>
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                // TODO Auto-generated method stub
-                //Names = (ArrayList<String>) results.values;
                 Log.i(TAG_NAME, "appel de publishResults avec <" + results + ">");
                 notifyDataSetChanged();
-            }
-
-            ;
+            };
         };
     }
 }
