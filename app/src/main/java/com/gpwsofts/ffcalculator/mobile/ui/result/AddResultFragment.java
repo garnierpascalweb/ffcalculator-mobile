@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
@@ -26,8 +25,6 @@ import com.gpwsofts.ffcalculator.mobile.services.network.FFCPointsResponse;
 import com.gpwsofts.ffcalculator.mobile.ui.season.SeasonViewModel;
 import com.gpwsofts.ffcalculator.mobile.ui.shared.SharedPrefsViewModel;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -44,22 +41,11 @@ public class AddResultFragment extends Fragment {
     AutoCompleteTextView autoCompleteTextViewClasses;
     Button buttonAjouter;
 
-    private List<String> currentClasses;
-    private ArrayAdapter arrayAdapterForPos;
-    private List<Integer> currentPos;
-    private ArrayAdapter arrayAdapterForPrts;
-    private List<Integer> currentPrts;
     private SeasonViewModel resultViewModel;
     private SharedPrefsViewModel sharedPrefsViewModel;
     private AddResultViewModel addResultViewModel;
     private FragmentResultBinding binding;
 
-    public AddResultFragment() {
-        Log.i(TAG_NAME, "appel du constructeur");
-        currentClasses = new ArrayList<String>();
-        currentPos = new ArrayList<Integer>();
-        currentPrts = IntStream.rangeClosed(1, 200).boxed().collect(Collectors.toList());
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -86,80 +72,53 @@ public class AddResultFragment extends Fragment {
         autoCompleteTextViewPos = binding.idTVAutoPos;
         autoCompleteTextViewPrts = binding.idTVAutoPrts;
         buttonAjouter = binding.idBTAjouter;
-        Log.i(TAG_NAME, "reinstanciation de ArrayAdapter avec <" + currentClasses.size() + "> classes");
-        //autoCompleteTextViewClasses.setAdapter(arrayAdapterForClasses);
-        //RecyclerView classesRV = root.findViewById(R.id.idRVClasses);
         final ClassesListAdapter classesListAdapter = new ClassesListAdapter(new ClassesListAdapter.ClassesDiff());
         autoCompleteTextViewClasses.setAdapter(new ClassesRecyclerBaseAdapter(classesListAdapter));
-        final PosListAdapter posListAdapter = new PosListAdapter(new PosListAdapter.PosDiff());
-        autoCompleteTextViewPos.setAdapter(new PosRecyclerBaseAdapter(posListAdapter));
-        arrayAdapterForPrts = new ArrayAdapter<Integer>(getContext(), android.R.layout.simple_spinner_item, currentPrts);
-        autoCompleteTextViewPrts.setAdapter(arrayAdapterForPrts);
+        final IntegerListAdapter posListAdapter = new IntegerListAdapter(new IntegerListAdapter.IntDiff());
+        autoCompleteTextViewPos.setAdapter(new IntegerRecyclerBaseAdapter(posListAdapter));
+        final IntegerListAdapter prtsListAdapter = new IntegerListAdapter(new IntegerListAdapter.IntDiff());
+        prtsListAdapter.submitList(IntStream.rangeClosed(1, 200).boxed().collect(Collectors.toList()));
+        autoCompleteTextViewPrts.setAdapter(new IntegerRecyclerBaseAdapter(prtsListAdapter));
 
         sharedPrefsViewModel.getVue().observe(getViewLifecycleOwner(), vue -> {
             Log.i(TAG_NAME, "nouvelle vue selectionnee = <" + vue + ">");
-            //addResultViewModel.updateClassesChoices(vue);
             addResultViewModel.updateGridChoices(vue);
         });
-        // observation de la liste des classes
-        // Update UI
-        /*
-        addResultViewModel.getClassesChoices().observe(getViewLifecycleOwner(), classesList -> {
-            Log.i(TAG_NAME, "refreshUI sur la liste des classes");
-            //Log.d(TAG_NAME, "arrayAdapterForClasses : appel de clear() - contenait <" + arrayAdapterForClasses.getCount() + "> items");
-            //arrayAdapterForClasses.clear();
-            //Log.d(TAG_NAME, "arrayAdapterForClasses : appel de addAll() - contendra <" + classesList.size() + "> items");
-            //arrayAdapterForClasses.addAll(classesList);
-            //Log.d(TAG_NAME, "arrayAdapterForClasses : contient desormais <" + arrayAdapterForClasses.getCount() + "> items");
-            Log.d(TAG_NAME, "currentClasses : appel de clear() - contenait <" + currentClasses.size() + "> items");
-            currentClasses.clear();
-            Log.d(TAG_NAME, "currentClasses : appel de addAll() - contendra <" + classesList.size() + "> items");
-            currentClasses.addAll(classesList);
-            Log.d(TAG_NAME, "currentClasses : contient desormais <" + currentClasses.size() + "> items et arrayAdapter <" + arrayAdapterForClasses.getCount() + ">");
-            Log.i(TAG_NAME, "fin refreshUI sur la liste des classes");
-        });
-        */
 
+        // observation de la liste des grilles
+        // update UI
         addResultViewModel.getGridsChoices().observe(getViewLifecycleOwner(), gridsList -> {
             Log.i(TAG_NAME, "refreshUI sur la liste des grilles");
             classesListAdapter.submitList(gridsList);
             Log.i(TAG_NAME, "fin refreshUI sur la liste des grilles");
         });
 
-
         // observation de la liste des positions
         // update UI
         addResultViewModel.getPosChoices().observe(getViewLifecycleOwner(), posList -> {
             Log.i(TAG_NAME, "refreshUI sur la liste des positions");
-           posListAdapter.submitList(posList);
+            posListAdapter.submitList(posList);
             Log.i(TAG_NAME, "fin refreshUI sur la liste des positions");
         });
 
-
+        // observation du message
+        // update UI
         addResultViewModel.getToastMessage().observe(getViewLifecycleOwner(), s -> {
             Log.i(TAG_NAME, "changement au niveau du message Toast : affichage");
             showToast(s);
         });
 
-
+        // ecouteur de click sur la liste deroulante des classes (nouvel item selectionne)
+        // update des choix de positions
         autoCompleteTextViewClasses.setOnItemClickListener((parent, view, position, id) -> {
             Log.i(TAG_NAME, "selection d'une nouvelle classe de course");
             String itemValue = parent.getItemAtPosition(position).toString();
             addResultViewModel.updatePosChoices(itemValue);
         });
 
-        /*
-        classesRV.setOnItemClickListener((parent, view, position, id) -> {
-            Log.i(TAG_NAME, "nouvel item selectionne ");
-            String itemValue = parent.getItemAtPosition(position).toString();
-            addResultViewModel.updatePosChoices(itemValue);
-        });
-        */
-
-
+        // ecouteur de click sur le bouton ajouter
+        // declenche une action de sauvegarde du resultat
         buttonAjouter.setOnClickListener(vue -> saveResult());
-
-
         return root;
     }
 
@@ -175,19 +134,14 @@ public class AddResultFragment extends Fragment {
     private void saveResult() {
         // recuperation des datas
         String toastMessage = null;
-        final String place = String.valueOf(textInputEditTextPlace.getText());
-        //TODO 1.0.0 a restaurer
-        final String libelle = "toto";
-        //final String libelle = String.valueOf(autoCompleteTextViewClasses.getText().toString());
-        final int pos = Integer.valueOf(autoCompleteTextViewPos.getText().toString());
-        final int prts = Integer.valueOf(autoCompleteTextViewPrts.getText().toString());
-        // TODO 1.0.0 ecrire un service qui extrait le idclasse depuis le libelle plutot que la merde substring ci dessus
-        // et si ava.lang.StringIndexOutOfBoundsException
-        final String idClasse = libelle.substring(libelle.indexOf("(") + 1, libelle.indexOf(")"));
-        Log.i(TAG_NAME, "ajout de la course une fois les points calcules pour " + place);
-        // TODO 1.0.0 si ya pas de reseau je vais essayer de pas faire d'appel reseau
         boolean isWwwConnected = FFCalculatorApplication.instance.getServicesManager().getNetworkService().isWwwConnected();
         if (isWwwConnected) {
+            final String place = String.valueOf(textInputEditTextPlace.getText());
+            final String libelle = String.valueOf(autoCompleteTextViewClasses.getText().toString());
+            final int pos = Integer.valueOf(autoCompleteTextViewPos.getText().toString());
+            final int prts = Integer.valueOf(autoCompleteTextViewPrts.getText().toString());
+            final String idClasse = libelle.substring(libelle.indexOf("(") + 1, libelle.indexOf(")"));
+            Log.i(TAG_NAME, "ajout de la course une fois les points calcules pour " + place);
             Call<FFCPointsResponse> call = FFCalculatorApplication.instance.getServicesManager().getPtsService().calcPts(place, pos, prts, idClasse);
             call.enqueue(new Callback<FFCPointsResponse>() {
                 @Override

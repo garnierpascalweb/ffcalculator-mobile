@@ -7,27 +7,27 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 
 /**
- * Adapter pour la liste déroulante des positions (item objet Integer, rendu PosViewHolder)
+ * Adapter pour une liste déroulante de Integer (positions, partants) (item objet Integer, rendu IntegerViewHolder)
  * @since 1.0.0
  */
-public class PosListAdapter extends ListAdapter<Integer, PosViewHolder> {
-    protected PosListAdapter(@NonNull DiffUtil.ItemCallback<Integer> diffCallback) {
+public class IntegerListAdapter extends ListAdapter<Integer, IntegerViewHolder> {
+    protected IntegerListAdapter(@NonNull DiffUtil.ItemCallback<Integer> diffCallback) {
         super(diffCallback);
     }
 
     @NonNull
     @Override
-    public PosViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return PosViewHolder.create(parent);
+    public IntegerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return IntegerViewHolder.create(parent);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PosViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull IntegerViewHolder holder, int position) {
         int current = getItem(position);
         holder.bind(current);
     }
 
-    public static class PosDiff extends DiffUtil.ItemCallback<Integer> {
+    public static class IntDiff extends DiffUtil.ItemCallback<Integer> {
 
         @Override
         public boolean areItemsTheSame(@NonNull Integer oldItem, @NonNull Integer newItem) {

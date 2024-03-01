@@ -9,17 +9,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gpwsofts.ffcalculator.mobile.R;
-import com.gpwsofts.ffcalculator.mobile.model.Grid;
 
 /**
  * Reprend les elements qui ont été définis dans notre custom Layout : simple_spinner_item
  */
-public class PosViewHolder extends RecyclerView.ViewHolder {
+public class IntegerViewHolder extends RecyclerView.ViewHolder {
     /**
      * le textView de notre item
      */
     private final TextView spinnerItemTextView;
-    public PosViewHolder(@NonNull View itemView) {
+    public IntegerViewHolder(@NonNull View itemView) {
         super(itemView);
         spinnerItemTextView = (TextView) itemView;
     }
@@ -28,9 +27,9 @@ public class PosViewHolder extends RecyclerView.ViewHolder {
      * @param parent
      * @return
      */
-    static PosViewHolder create(ViewGroup parent) {
+    static IntegerViewHolder create(ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.simple_spinner_item, parent, false);
-        return new PosViewHolder(view);
+        return new IntegerViewHolder(view);
     }
     public void bind(Integer current) {
         spinnerItemTextView.setText(String.valueOf(current));
