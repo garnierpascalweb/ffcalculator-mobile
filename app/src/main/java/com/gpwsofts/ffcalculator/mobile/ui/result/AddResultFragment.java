@@ -34,6 +34,12 @@ public class AddResultFragment extends Fragment {
     AutoCompleteTextView autoCompleteTextViewClasses;
     Button buttonAjouter;
 
+    private ClassesListAdapter classesListAdapter;
+    private ClassesRecyclerBaseAdapter classesRecyclerBaseAdapter;
+    private IntegerRecyclerBaseAdapter posRecyclerBaseAdapter;
+    private IntegerListAdapter posListAdapter;
+    private IntegerRecyclerBaseAdapter prtsRecyclerBaseAdapter;
+    private IntegerListAdapter prtsListAdapter;
     private SeasonViewModel resultViewModel;
     private AddResultViewModel addResultViewModel;
     private VueViewModel vueViewModel;
@@ -47,6 +53,15 @@ public class AddResultFragment extends Fragment {
         resultViewModel = new ViewModelProvider(this).get(SeasonViewModel.class);
         addResultViewModel = new ViewModelProvider(this).get(AddResultViewModel.class);
         vueViewModel = new ViewModelProvider(this).get(VueViewModel.class);
+        classesListAdapter = new ClassesListAdapter(new ClassesListAdapter.ClassesDiff());
+        classesRecyclerBaseAdapter = new ClassesRecyclerBaseAdapter(classesListAdapter);
+        posListAdapter = new IntegerListAdapter(new IntegerListAdapter.IntDiff());
+        posRecyclerBaseAdapter = new IntegerRecyclerBaseAdapter(posListAdapter);
+        prtsListAdapter = new IntegerListAdapter(new IntegerListAdapter.IntDiff());
+        prtsRecyclerBaseAdapter = new IntegerRecyclerBaseAdapter(prtsListAdapter);
+        prtsListAdapter.submitList(IntStream.rangeClosed(1, 200).boxed().collect(Collectors.toList()));
+
+        final IntegerListAdapter posListAdapter = new IntegerListAdapter(new IntegerListAdapter.IntDiff());
         Log.i(TAG_NAME, "fin appel de onCreate");
     }
 
@@ -65,13 +80,10 @@ public class AddResultFragment extends Fragment {
         autoCompleteTextViewPos = binding.idTVAutoPos;
         autoCompleteTextViewPrts = binding.idTVAutoPrts;
         buttonAjouter = binding.idBTAjouter;
-        final ClassesListAdapter classesListAdapter = new ClassesListAdapter(new ClassesListAdapter.ClassesDiff());
-        autoCompleteTextViewClasses.setAdapter(new ClassesRecyclerBaseAdapter(classesListAdapter));
-        final IntegerListAdapter posListAdapter = new IntegerListAdapter(new IntegerListAdapter.IntDiff());
-        autoCompleteTextViewPos.setAdapter(new IntegerRecyclerBaseAdapter(posListAdapter));
-        final IntegerListAdapter prtsListAdapter = new IntegerListAdapter(new IntegerListAdapter.IntDiff());
-        prtsListAdapter.submitList(IntStream.rangeClosed(1, 200).boxed().collect(Collectors.toList()));
-        autoCompleteTextViewPrts.setAdapter(new IntegerRecyclerBaseAdapter(prtsListAdapter));
+
+        autoCompleteTextViewClasses.setAdapter(classesRecyclerBaseAdapter);
+        autoCompleteTextViewPos.setAdapter(posRecyclerBaseAdapter);
+        autoCompleteTextViewPrts.setAdapter(prtsRecyclerBaseAdapter);
 
         // observation de la vue courante
         vueViewModel.getVueLiveData().observe(getViewLifecycleOwner(), vue -> {
@@ -104,7 +116,7 @@ public class AddResultFragment extends Fragment {
         // update UI
         addResultViewModel.getToastMessage().observe(getViewLifecycleOwner(), s -> {
             Log.i(TAG_NAME, "changement au niveau du message Toast : affichage");
-            showToast(s);
+           // showToast(s);
         });
 
         // ecouteur de click sur la liste deroulante des classes (nouvel item selectionne)
@@ -119,10 +131,6 @@ public class AddResultFragment extends Fragment {
         // declenche une action de sauvegarde du resultat
         buttonAjouter.setOnClickListener(vue -> saveResult());
         return root;
-    }
-
-    private void showToast(String message) {
-        Toast.makeText(this.getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     /**

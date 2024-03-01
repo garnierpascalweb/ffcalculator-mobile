@@ -57,7 +57,6 @@ public abstract class AbstractRecyclerBaseAdapter<VH extends RecyclerView.ViewHo
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-                Log.i(TAG_NAME, "filtre sur la contrainte <" + constraint + ">");
                 FilterResults result = new FilterResults();
                 result.values = mAdapter;
                 result.count = mAdapter.getItemCount();
@@ -66,7 +65,6 @@ public abstract class AbstractRecyclerBaseAdapter<VH extends RecyclerView.ViewHo
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                Log.i(TAG_NAME, "appel de publishResults avec <" + results + ">");
                 notifyDataSetChanged();
             };
         };
