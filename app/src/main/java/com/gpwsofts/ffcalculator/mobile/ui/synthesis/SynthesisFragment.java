@@ -43,6 +43,10 @@ public class SynthesisFragment extends Fragment {
         final TextView textViewPos = binding.textMypos;
         synthesisViewModel.getPts().observe(getViewLifecycleOwner(), pts -> {
             textViewPts.setText(String.valueOf(pts));
+            searchPosApi(pts, "H");
+        });
+        synthesisViewModel.getPos().observe(getViewLifecycleOwner(), pos -> {
+            textViewPos.setText(String.valueOf(pos));
         });
         return root;
     }
@@ -52,4 +56,10 @@ public class SynthesisFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
+    private void searchPosApi(double pts, String classType){
+        synthesisViewModel.searchPosApi(pts, classType);
+    }
+
+
 }

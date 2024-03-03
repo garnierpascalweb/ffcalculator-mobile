@@ -15,4 +15,6 @@ public class FFCPosResponse {
     public String classType;
     @SerializedName("message")
     public String message;
+
+
 }
