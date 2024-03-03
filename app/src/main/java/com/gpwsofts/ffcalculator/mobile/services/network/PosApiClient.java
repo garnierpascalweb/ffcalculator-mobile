@@ -42,12 +42,9 @@ public class PosApiClient {
         }
         getPosRunnable = new GetPosRunnable(pts, classType);
         final Future myHandler = AppExecutors.getInstance().networkIO().submit(getPosRunnable);
-        AppExecutors.getInstance().networkIO().schedule(new Runnable() {
-            @Override
-            public void run() {
-                // annuler l'appel a l'API
-                myHandler.cancel(true);
-            }
+        AppExecutors.getInstance().networkIO().schedule(() -> {
+            // annuler l'appel a l'API
+            myHandler.cancel(true);
         }, 5000, TimeUnit.MILLISECONDS);
         //TODO 1.0.0 revoir ce timeout
     }
