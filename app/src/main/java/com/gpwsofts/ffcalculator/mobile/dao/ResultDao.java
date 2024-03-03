@@ -22,6 +22,10 @@ public interface ResultDao {
     @Query("SELECT * FROM result WHERE id IN (:resultIds)")
     List<Result> getAllByIds(int[] resultIds);
 
+    //TODO 1.0.0 a tester chaudement
+    @Query("SELECT SUM(pts) FROM result WHERE id in (SELECT id FROM result ORDER BY pts DESC LIMIT 15)")
+    LiveData<Double> getPts();
+
     @Insert
     void insert(Result result);
 

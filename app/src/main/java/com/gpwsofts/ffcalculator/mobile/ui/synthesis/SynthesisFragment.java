@@ -10,11 +10,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentSynthesisBinding;
+import com.gpwsofts.ffcalculator.mobile.repository.ResultRepository;
 import com.gpwsofts.ffcalculator.mobile.services.network.FFCPosResponse;
 import com.gpwsofts.ffcalculator.mobile.ui.season.SeasonViewModel;
 
@@ -25,44 +27,22 @@ import retrofit2.Response;
 public class SynthesisFragment extends Fragment {
     private static final String TAG_NAME = "SynthesisFragment";
     private FragmentSynthesisBinding binding;
-    private SeasonViewModel resultViewModel;
+    private SynthesisViewModel synthesisViewModel;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        resultViewModel = new ViewModelProvider(this).get(SeasonViewModel.class);
+        synthesisViewModel = new ViewModelProvider(this).get(SynthesisViewModel.class);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentSynthesisBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        final TextView textView = binding.textNotifications;
         final TextView textViewPts = binding.textAllpts;
         final TextView textViewPos = binding.textMypos;
-        final TextInputEditText textInput = binding.idTIEVue;
-        resultViewModel.getAllResults().observe(getViewLifecycleOwner(), results -> {
-            //TODO 1.0.0 : le 15 en dur, cest dur : de plus ca na rien a foutre ici, ca doit etre fait en background, la liste est triee dans le mauvais sens
-            final double allPts = results.stream().mapToDouble(result -> result.getPts()).sorted().limit(15).sum();
-            textViewPts.setText("Nombre de POINTS = " + allPts);
-            final Call<FFCPosResponse> call = FFCalculatorApplication.instance.getServicesManager().getPosService().calcPos(allPts, "H");
-            call.enqueue(new Callback<FFCPosResponse>() {
-                @Override
-                public void onResponse(Call<FFCPosResponse> call, Response<FFCPosResponse> response) {
-                    if (response.isSuccessful()) {
-                        int myPos = response.body().pos;
-                        //sharedPrefsViewModel.updatePos(myPos);
-                        textViewPos.setText(myPos + " eme au classement national FFC ");
-                        Log.d(TAG_NAME, "recalcul de la position ok : <" + myPos + ">");
-                    } else {
-                        Log.w(TAG_NAME, "probleme sur le calcul de la position " + response.code());
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<FFCPosResponse> call, Throwable t) {
-                    Log.w(TAG_NAME, "probleme sur l'appel au calcul de la position");
-                }
-            });
+        synthesisViewModel.getPts().observe(getViewLifecycleOwner(), pts -> {
+            textViewPts.setText(String.valueOf(pts));
         });
         return root;
     }
