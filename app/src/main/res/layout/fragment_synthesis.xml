@@ -6,33 +6,40 @@
     android:layout_height="match_parent"
     tools:context=".ui.synthesis.SynthesisFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp">
 
-        <TextView
-            android:id="@+id/text_allpts"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/app_name" />
+    <TextView
+        android:id="@+id/text_allpts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="51dp"
+        android:layout_marginBottom="73dp"
+        android:text="@string/app_name"
+        app:layout_constraintBottom_toTopOf="@+id/text_mypos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/text_mypos"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/app_name" />
+    <TextView
+        android:id="@+id/text_mypos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="68dp"
+        android:text="@string/app_name"
+        app:layout_constraintBottom_toTopOf="@+id/any_chart_view"
+        app:layout_constraintStart_toStartOf="@+id/text_allpts"
+        app:layout_constraintTop_toBottomOf="@+id/text_allpts" />
 
-    </LinearLayout>
-
-    <!--
     <com.anychart.AnyChartView
         android:id="@+id/any_chart_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
-        -->
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="55dp"
+        android:layout_marginEnd="55dp"
+        android:layout_marginBottom="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_mypos" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

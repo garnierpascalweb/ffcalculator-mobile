@@ -13,12 +13,23 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.anychart.AnyChart;
+import com.anychart.AnyChartView;
+import com.anychart.chart.common.dataentry.DataEntry;
+import com.anychart.chart.common.dataentry.ValueDataEntry;
+import com.anychart.charts.Pyramid;
+import com.anychart.core.ui.Legend;
+import com.anychart.enums.Align;
+import com.anychart.enums.LegendLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentSynthesisBinding;
 import com.gpwsofts.ffcalculator.mobile.repository.ResultRepository;
 import com.gpwsofts.ffcalculator.mobile.services.network.FFCPosResponse;
 import com.gpwsofts.ffcalculator.mobile.ui.season.SeasonViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,6 +52,28 @@ public class SynthesisFragment extends Fragment {
         View root = binding.getRoot();
         final TextView textViewPts = binding.textAllpts;
         final TextView textViewPos = binding.textMypos;
+
+        AnyChartView anyChartView = binding.anyChartView;//findViewById(R.id.any_chart_view);
+        //anyChartView.setProgressBar(binding.progressBar);
+
+        Pyramid pyramid = AnyChart.pyramid();
+        List<DataEntry> data = new ArrayList<>();
+        data.add(new ValueDataEntry("TV promotion", 6371664));
+        data.add(new ValueDataEntry("Radio promotion", 7216301));
+        data.add(new ValueDataEntry("Advertising leaflets", 1486621));
+        data.add(new ValueDataEntry("Before advertising started", 1386622));
+        pyramid.data(data);
+        Legend legend = pyramid.legend();
+        legend.enabled(true);
+        legend.position("outside-right");
+        legend.itemsLayout(LegendLayout.VERTICAL);
+        legend.align(Align.TOP);
+
+        pyramid.labels(false);
+
+        anyChartView.setChart(pyramid);
+
+
         synthesisViewModel.getPts().observe(getViewLifecycleOwner(), pts -> {
             textViewPts.setText(String.valueOf(pts));
             searchPosApi(pts, "H");
