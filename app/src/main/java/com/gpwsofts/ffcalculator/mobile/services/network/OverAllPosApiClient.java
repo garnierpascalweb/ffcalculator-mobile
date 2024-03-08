@@ -15,20 +15,20 @@ import java.util.concurrent.TimeUnit;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class PosApiClient {
+public class OverAllPosApiClient {
     private static final String TAG_NAME = "PosApiClient";
-    private static PosApiClient instance;
+    private static OverAllPosApiClient instance;
     private MutableLiveData<Integer> mPos;
 
     private GetPosRunnable getPosRunnable;
 
-    private PosApiClient() {
+    private OverAllPosApiClient() {
         mPos = new MutableLiveData<Integer>();
     }
 
-    public static PosApiClient getInstance() {
+    public static OverAllPosApiClient getInstance() {
         if (null == instance)
-            instance = new PosApiClient();
+            instance = new OverAllPosApiClient();
         return instance;
     }
 
@@ -63,43 +63,42 @@ public class PosApiClient {
 
         @Override
         public void run() {
-            Log.i(TAG_NAME, "debut du job GetPosRunnable");
+            Log.i(TAG_NAME, "debut du job asynchrone GetPosRunnable");
             Response response = null;
+            final Integer pos;
             try {
                 Log.d(TAG_NAME, "appel synchrone au service des positions et recuperation de la reponse");
+                Log.d(TAG_NAME, " arguments : pts = <" + pts + ">, type de classement = <" +  classType + ">");
                 response = getPos(pts, classType).execute();
-
                 if (cancelRequest) {
-                    Log.d(TAG_NAME, "calcelRequest true, retourne zboub");
+                    Log.d(TAG_NAME, "cancelRequest true, retourne zboub");
                     return;
                 }
                 int responseCode = response.code();
-                Log.d(TAG_NAME, "responseCode = <" + responseCode + ">");
+                Log.d(TAG_NAME, "responseCode du service des positions = <" + responseCode + ">");
                 if (response.code() == 200) {
-                    Integer pos = ((FFCPosResponse) response.body()).pos;
-                    // envoi a LiveData
-                    // postValue : utilisé pour background (nous)
-                    Log.d(TAG_NAME, "pos rendue et postee = <" + pos + ">");
+                    pos = ((FFCPosResponse) response.body()).pos;
+                    Log.d(TAG_NAME, "succes du calcul de la position pour ce capital de points = <" + pos + ">");
+                    Log.d(TAG_NAME, "post de la nouvelle position en livedata");
                     mPos.postValue(pos);
                 } else {
                     // reponse pas 200
                     String error = response.errorBody().string();
+                    Log.e(TAG_NAME, "echec du calcul de la position pour ce capital de points");
                     Log.e(TAG_NAME, "erreur " + error);
                     Log.d(TAG_NAME, "pos rendue et postee = <null>");
                     mPos.postValue(null);
                 }
             } catch (IOException e) {
-                Log.e(TAG_NAME , "erreur lors de l'appel http ", e);
+                Log.e(TAG_NAME, "echec du calcul de la position pour ce capital de points");
             } finally {
-                Log.i(TAG_NAME, "fin du job GetPosRunnable");
+                Log.i(TAG_NAME, "fin du job asynchrone GetPosRunnable");
             }
         }
 
         private Call<FFCPosResponse> getPos(double pts, String classType) {
             return FFCalculatorApplication.instance.getServicesManager().getPosService().calcPos(pts, classType);
-        }
-
-        ;
+        };
 
         private void cancelRequest() {
             Log.v("TAGNAME", "annulation de la requete");

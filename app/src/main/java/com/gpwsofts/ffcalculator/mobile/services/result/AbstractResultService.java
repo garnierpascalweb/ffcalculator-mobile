@@ -14,7 +14,7 @@ public abstract class AbstractResultService implements IResultService {
 
     public AbstractResultService(){
         resultResponseLiveData = new MutableLiveData<ResultResponse>();
-        resultRepository = new ResultRepository(FFCalculatorApplication.instance);
+        resultRepository = ResultRepository.getInstance();
     }
 
     public LiveData<ResultResponse> getResultResponseLiveData() {

@@ -106,18 +106,6 @@ public class AddResultFragment extends Fragment {
             Log.i(TAG_NAME, "fin refreshUI sur la liste des positions");
         });
 
-        // observation de la reponse de nouveau resultat
-        // update UI
-        addResultViewModel.getResultResponse().observe(getViewLifecycleOwner(), resultResponse -> {
-            addResultViewModel.updateToastMessage(resultResponse.getMessage());
-        });
-
-        // observation du message
-        // update UI
-        addResultViewModel.getToastMessage().observe(getViewLifecycleOwner(), s -> {
-            Log.i(TAG_NAME, "changement au niveau du message Toast : affichage");
-           // showToast(s);
-        });
 
         // ecouteur de click sur la liste deroulante des classes (nouvel item selectionne)
         // update des choix de positions
@@ -149,7 +137,7 @@ public class AddResultFragment extends Fragment {
             final int prts = Integer.valueOf(autoCompleteTextViewPrts.getText().toString());
             addResultViewModel.createNewResult(place,libelle,pos,prts);
         } else {
-            addResultViewModel.updateToastMessage("Pas de réseau");
+            //addResultViewModel.updateToastMessage("Pas de réseau");
             Log.e(TAG_NAME, "pas de reseau");
         }
     }

@@ -25,7 +25,7 @@ public class SeasonViewModel extends AndroidViewModel {
     public SeasonViewModel(Application application) {
         super(application);
         Log.i(TAG_NAME, "Instantiotion de SeasonViewModel");
-        repository = new ResultRepository(application);
+        repository = ResultRepository.getInstance();
         Log.i(TAG_NAME, "Recuperation de tous les resultats");
         allResults = repository.getAllResults();
         if (null == allResults) Log.w(TAG_NAME, "La liste des resultats est null");

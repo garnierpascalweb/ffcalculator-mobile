@@ -8,6 +8,8 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -32,12 +34,12 @@ public abstract class FFCalculatorDatabase extends RoomDatabase {
         }
     };
 
-    public static synchronized FFCalculatorDatabase getInstance(final Context context) {
+    public static synchronized FFCalculatorDatabase getInstance() {
         // https://github.com/android/codelab-android-room-with-a-view/blob/master/app/src/main/java/com/example/android/roomwordssample/WordRoomDatabase.java
         if (null == instance) {
             synchronized (FFCalculatorDatabase.class) {
                 if (null == instance) {
-                    instance = Room.databaseBuilder(context.getApplicationContext(), FFCalculatorDatabase.class, DATABASE_NAME).build();
+                    instance = Room.databaseBuilder(FFCalculatorApplication.instance.getApplicationContext(), FFCalculatorDatabase.class, DATABASE_NAME).build();
                 }
             }
         }

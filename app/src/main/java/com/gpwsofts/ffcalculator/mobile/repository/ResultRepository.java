@@ -12,19 +12,26 @@ import com.gpwsofts.ffcalculator.mobile.dao.ResultDao;
 import java.util.List;
 
 /**
- * Couche Repository
- *
+ * Repository pour la liste des resultats
+ * Basé sur la base de données
  * @since 1.0.0
  */
 public class ResultRepository {
+    private static ResultRepository instance;
     private static final String TAG_NAME = "ResultRepository";
     private ResultDao resultDao;
 
-    public ResultRepository(Application application) {
+    public static ResultRepository getInstance(){
+        if (null == instance)
+            instance = new ResultRepository();
+        return instance;
+    }
+
+    private ResultRepository() {
         Log.i(TAG_NAME, "Instanciation de ResultRepository");
         // FFCalculatorDatabase database = FFCalculatorDatabase.getInstance(application);
         // https://medium.com/@imkuldeepsinghrai/a-comprehensive-guide-to-room-database-in-android-implementation-and-best-practices-f3af8c498624
-        FFCalculatorDatabase database = FFCalculatorDatabase.getInstance(application);
+        FFCalculatorDatabase database = FFCalculatorDatabase.getInstance();
         resultDao = database.resultDao();
         Log.i(TAG_NAME, "Fin Instanciation de ResultRepository");
     }
@@ -36,8 +43,6 @@ public class ResultRepository {
 
     public LiveData<Double> getPts(){
         Log.i(TAG_NAME, "Recuperation du total des points");
-        // return resultDao.getAllResults().getValue().stream().mapToDouble(result -> result.getPts()).sorted().limit(15).sum();
-        // faire un sum dans la base de données
         return resultDao.getPts();
     }
 
