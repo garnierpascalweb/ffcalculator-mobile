@@ -19,42 +19,37 @@ import java.util.List;
  */
 public class SeasonViewModel extends AndroidViewModel {
     private static final String TAG_NAME = "ResultViewModel";
-    private DatabaseResultRepository repository;
-    private LiveData<List<Result>> allResults = new MutableLiveData();
+    private DatabaseResultRepository databaseResultRepository;
 
     public SeasonViewModel(Application application) {
         super(application);
         Log.i(TAG_NAME, "Instantiotion de SeasonViewModel");
-        repository = DatabaseResultRepository.getInstance();
-        Log.i(TAG_NAME, "Recuperation de tous les resultats");
-        allResults = repository.getAllResults();
-        if (null == allResults) Log.w(TAG_NAME, "La liste des resultats est null");
+        databaseResultRepository = DatabaseResultRepository.getInstance();
         Log.i(TAG_NAME, "Fin instantiotion de SeasonViewModel");
     }
 
     public void insert(Result result) {
         Log.i(TAG_NAME, "Insertion d un nouveau resultat");
-        repository.insert(result);
+        databaseResultRepository.insert(result);
     }
 
     public void update(Result result) {
         Log.i(TAG_NAME, "Mise a jour resultat");
-        repository.update(result);
+        databaseResultRepository.update(result);
     }
 
     public void delete(Result result) {
         Log.i(TAG_NAME, "Suppression d un resultat");
-        repository.delete(result);
+        databaseResultRepository.delete(result);
     }
 
     public void deleteAll() {
         Log.i(TAG_NAME, "Suppression de tous les resultats");
-        repository.deleteAll();
+        databaseResultRepository.deleteAll();
     }
 
     public LiveData<List<Result>> getAllResults() {
         Log.i(TAG_NAME, "Recuperation de la liste de tous les resultats");
-        if (null == allResults) Log.w(TAG_NAME, "La liste des resultats est null");
-        return allResults;
+        return databaseResultRepository.getAllResults();
     }
 }
