@@ -6,11 +6,9 @@ import retrofit2.Call;
 
 public class SimplePosService extends AbstractHttpService implements IPosService {
     private static final String TAG_NAME = "SimplePosService";
-
     public SimplePosService() {
         retrofit = getClient();
     }
-
     @Override
     public Call<FFCPosResponse> calcPos(double pts, String classType) {
         // cest du retrofit !

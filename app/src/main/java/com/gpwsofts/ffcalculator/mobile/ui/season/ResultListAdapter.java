@@ -12,13 +12,11 @@ public class ResultListAdapter extends ListAdapter<Result, ResultViewHolder> {
     public ResultListAdapter(@NonNull DiffUtil.ItemCallback<Result> diffCallback) {
         super(diffCallback);
     }
-
     @NonNull
     @Override
     public ResultViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return ResultViewHolder.create(parent);
     }
-
     @Override
     public void onBindViewHolder(@NonNull ResultViewHolder holder, int position) {
         Result current = getItem(position);

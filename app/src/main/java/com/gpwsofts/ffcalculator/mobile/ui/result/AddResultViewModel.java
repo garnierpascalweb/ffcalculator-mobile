@@ -5,17 +5,12 @@ import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.room.Database;
 
-import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.model.Grid;
 import com.gpwsofts.ffcalculator.mobile.repository.AddResultRepository;
 import com.gpwsofts.ffcalculator.mobile.repository.DatabaseResultRepository;
 import com.gpwsofts.ffcalculator.mobile.repository.GridRepository;
-import com.gpwsofts.ffcalculator.mobile.services.grid.IGridService;
-import com.gpwsofts.ffcalculator.mobile.services.result.IResultService;
-import com.gpwsofts.ffcalculator.mobile.services.result.ResultResponse;
 
 import java.util.List;
 

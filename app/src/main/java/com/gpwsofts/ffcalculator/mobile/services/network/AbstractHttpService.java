@@ -9,7 +9,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class AbstractHttpService {
     protected static Retrofit retrofit = null;
-
     static Retrofit getClient() {
         // HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         // interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
