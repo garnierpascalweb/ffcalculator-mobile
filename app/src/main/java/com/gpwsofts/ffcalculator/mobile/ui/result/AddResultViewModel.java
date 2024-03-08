@@ -12,6 +12,7 @@ import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.model.Grid;
 import com.gpwsofts.ffcalculator.mobile.repository.AddResultRepository;
 import com.gpwsofts.ffcalculator.mobile.repository.DatabaseResultRepository;
+import com.gpwsofts.ffcalculator.mobile.repository.GridRepository;
 import com.gpwsofts.ffcalculator.mobile.services.grid.IGridService;
 import com.gpwsofts.ffcalculator.mobile.services.result.IResultService;
 import com.gpwsofts.ffcalculator.mobile.services.result.ResultResponse;
@@ -24,31 +25,26 @@ import java.util.List;
  */
 public class AddResultViewModel extends AndroidViewModel {
     private static final String TAG_NAME = "AddResultViewModel";
-    //private final GridRepository gridRepository;
-    private final IGridService gridService;
-    private final IResultService resultService;
     private AddResultRepository addResultRepository;
-
     private DatabaseResultRepository databaseResultRepository;
+    private GridRepository gridRepository;
 
 
     public AddResultViewModel(Application application) {
         super(application);
         Log.i(TAG_NAME, "Instantiation de AddResultViewModel");
-        Log.d(TAG_NAME, "Instantiation si besoin d'un IGridService");
-        gridService = FFCalculatorApplication.instance.getServicesManager().getGridService();
-        resultService = FFCalculatorApplication.instance.getServicesManager().getResultService();
         addResultRepository = AddResultRepository.getInstance();
         databaseResultRepository = DatabaseResultRepository.getInstance();
-        Log.i(TAG_NAME, "Fin instantiotion de AddResultViewModel");
+        gridRepository = GridRepository.getInstance();
+        Log.i(TAG_NAME, "Fin Instantiation de AddResultViewModel");
     }
 
     public LiveData<List<Integer>> getPosChoices() {
-        return gridService.getPosChoices();
+        return gridRepository.getPosChoices();
     }
 
     public LiveData<List<Grid>> getGridsChoices() {
-        return gridService.getGridChoices();
+        return gridRepository.getGridsChoices();
     }
 
     public LiveData<Result> getAddedResult(){
@@ -56,11 +52,11 @@ public class AddResultViewModel extends AndroidViewModel {
     }
 
     public void updatePosChoices(String itemValue) {
-        gridService.loadPosChoicesAsynchronously(itemValue);
+        gridRepository.loadPosChoices(itemValue);
     }
 
     public void updateGridChoices(String vue) {
-        gridService.loadGridChoicesAsynchronously(vue);
+        gridRepository.loadClassesChoices(vue);
     }
 
     public void createNewResult(String place, String libelle, int pos, int prts){
