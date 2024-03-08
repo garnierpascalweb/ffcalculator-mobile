@@ -90,6 +90,12 @@ public class AddResultFragment extends Fragment {
             addResultViewModel.updateGridChoices(vue);
         });
 
+        // observation d'un nouveau resultat
+        //
+        addResultViewModel.getAddedResult().observe(getViewLifecycleOwner(), result -> {
+            addResultViewModel.onNewResultCreated(result);
+        });
+
         // observation de la liste des grilles
         // update UI
         addResultViewModel.getGridsChoices().observe(getViewLifecycleOwner(), gridsList -> {

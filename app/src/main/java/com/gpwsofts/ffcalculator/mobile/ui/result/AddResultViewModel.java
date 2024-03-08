@@ -5,10 +5,13 @@ import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.room.Database;
 
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
+import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.model.Grid;
 import com.gpwsofts.ffcalculator.mobile.repository.AddResultRepository;
+import com.gpwsofts.ffcalculator.mobile.repository.DatabaseResultRepository;
 import com.gpwsofts.ffcalculator.mobile.services.grid.IGridService;
 import com.gpwsofts.ffcalculator.mobile.services.result.IResultService;
 import com.gpwsofts.ffcalculator.mobile.services.result.ResultResponse;
@@ -24,8 +27,9 @@ public class AddResultViewModel extends AndroidViewModel {
     //private final GridRepository gridRepository;
     private final IGridService gridService;
     private final IResultService resultService;
-
     private AddResultRepository addResultRepository;
+
+    private DatabaseResultRepository databaseResultRepository;
 
 
     public AddResultViewModel(Application application) {
@@ -35,6 +39,7 @@ public class AddResultViewModel extends AndroidViewModel {
         gridService = FFCalculatorApplication.instance.getServicesManager().getGridService();
         resultService = FFCalculatorApplication.instance.getServicesManager().getResultService();
         addResultRepository = AddResultRepository.getInstance();
+        databaseResultRepository = DatabaseResultRepository.getInstance();
         Log.i(TAG_NAME, "Fin instantiotion de AddResultViewModel");
     }
 
@@ -45,8 +50,9 @@ public class AddResultViewModel extends AndroidViewModel {
     public LiveData<List<Grid>> getGridsChoices() {
         return gridService.getGridChoices();
     }
-    public LiveData<ResultResponse> getResultResponse() {
-        return resultService.getResultResponseLiveData();
+
+    public LiveData<Result> getAddedResult(){
+        return addResultRepository.getResult();
     }
 
     public void updatePosChoices(String itemValue) {
@@ -59,5 +65,9 @@ public class AddResultViewModel extends AndroidViewModel {
 
     public void createNewResult(String place, String libelle, int pos, int prts){
         addResultRepository.addResultApi(place, libelle,pos,prts);
+    }
+
+    public void onNewResultCreated(Result newResult){
+        databaseResultRepository.insert(newResult);
     }
 }
