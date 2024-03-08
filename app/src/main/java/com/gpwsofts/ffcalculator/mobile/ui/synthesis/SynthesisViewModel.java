@@ -7,16 +7,16 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.gpwsofts.ffcalculator.mobile.repository.OverallPosRepository;
-import com.gpwsofts.ffcalculator.mobile.repository.ResultRepository;
+import com.gpwsofts.ffcalculator.mobile.repository.DatabaseResultRepository;
 
 public class SynthesisViewModel extends AndroidViewModel {
     private static final String TAG_NAME = "SynthesisViewModel";
-    private ResultRepository repository;
+    private DatabaseResultRepository repository;
     private OverallPosRepository posRepository;
     public SynthesisViewModel(Application application) {
         super(application);
         Log.i(TAG_NAME, "Instantiation de SynthesisViewModel");
-        repository = ResultRepository.getInstance();
+        repository = DatabaseResultRepository.getInstance();
         posRepository = OverallPosRepository.getInstance();
         Log.i(TAG_NAME, "Fin instantiation de SynthesisViewModel");
     }

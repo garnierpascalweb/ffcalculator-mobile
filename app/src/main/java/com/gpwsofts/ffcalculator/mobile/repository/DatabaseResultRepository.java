@@ -1,6 +1,5 @@
 package com.gpwsofts.ffcalculator.mobile.repository;
 
-import android.app.Application;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -12,22 +11,22 @@ import com.gpwsofts.ffcalculator.mobile.dao.ResultDao;
 import java.util.List;
 
 /**
- * Repository pour la liste des resultats
+ * Repository pour la liste des resultats en base de données
  * Basé sur la base de données
  * @since 1.0.0
  */
-public class ResultRepository {
-    private static ResultRepository instance;
+public class DatabaseResultRepository {
+    private static DatabaseResultRepository instance;
     private static final String TAG_NAME = "ResultRepository";
     private ResultDao resultDao;
 
-    public static ResultRepository getInstance(){
+    public static DatabaseResultRepository getInstance(){
         if (null == instance)
-            instance = new ResultRepository();
+            instance = new DatabaseResultRepository();
         return instance;
     }
 
-    private ResultRepository() {
+    private DatabaseResultRepository() {
         Log.i(TAG_NAME, "Instanciation de ResultRepository");
         // FFCalculatorDatabase database = FFCalculatorDatabase.getInstance(application);
         // https://medium.com/@imkuldeepsinghrai/a-comprehensive-guide-to-room-database-in-android-implementation-and-best-practices-f3af8c498624

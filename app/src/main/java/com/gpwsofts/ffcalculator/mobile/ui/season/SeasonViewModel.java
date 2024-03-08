@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
-import com.gpwsofts.ffcalculator.mobile.repository.ResultRepository;
+import com.gpwsofts.ffcalculator.mobile.repository.DatabaseResultRepository;
 
 import java.util.List;
 
@@ -19,13 +19,13 @@ import java.util.List;
  */
 public class SeasonViewModel extends AndroidViewModel {
     private static final String TAG_NAME = "ResultViewModel";
-    private ResultRepository repository;
+    private DatabaseResultRepository repository;
     private LiveData<List<Result>> allResults = new MutableLiveData();
 
     public SeasonViewModel(Application application) {
         super(application);
         Log.i(TAG_NAME, "Instantiotion de SeasonViewModel");
-        repository = ResultRepository.getInstance();
+        repository = DatabaseResultRepository.getInstance();
         Log.i(TAG_NAME, "Recuperation de tous les resultats");
         allResults = repository.getAllResults();
         if (null == allResults) Log.w(TAG_NAME, "La liste des resultats est null");
