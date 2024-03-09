@@ -19,11 +19,12 @@ public class OverAllPosApiClient {
     private static final String TAG_NAME = "PosApiClient";
     private static OverAllPosApiClient instance;
     private MutableLiveData<Integer> mPos;
-
     private GetPosRunnable getPosRunnable;
 
     private OverAllPosApiClient() {
+        Log.i(TAG_NAME,"instanciation de GridApiClient");
         mPos = new MutableLiveData<Integer>();
+        Log.i(TAG_NAME,"fin instanciation de GridApiClient");
     }
 
     public static OverAllPosApiClient getInstance() {

@@ -28,19 +28,17 @@ public class AddResultApiClient {
 
     private static AddResultApiClient instance;
     private MutableLiveData<Result> mResult;
-
     private AddResultRunnable addResultRunnable;
-
     public static AddResultApiClient getInstance() {
         if (null == instance)
             instance = new AddResultApiClient();
         return instance;
     }
-
     private AddResultApiClient(){
+        Log.i(TAG_NAME,"instanciation de AddResultApiClient");
         mResult = new MutableLiveData<Result>();
+        Log.i(TAG_NAME,"fin instanciation de AddResultApiClient");
     }
-
     public LiveData<Result> getResult() {
         return mResult;
     }

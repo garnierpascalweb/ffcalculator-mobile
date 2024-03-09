@@ -3,21 +3,18 @@ package com.gpwsofts.ffcalculator.mobile.ui;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
-import com.gpwsofts.ffcalculator.mobile.services.grid.IGridService;
-import com.gpwsofts.ffcalculator.mobile.services.vues.IVueService;
+import com.gpwsofts.ffcalculator.mobile.model.Vue;
+import com.gpwsofts.ffcalculator.mobile.repository.VueRepository;
 
 public class VueViewModel extends ViewModel {
-    private final IVueService vueService;
+    private VueRepository vueRepository;
     public VueViewModel(){
-        vueService = FFCalculatorApplication.instance.getServicesManager().getVueService();
+        vueRepository = VueRepository.getInstance();
     }
-
-    public LiveData<String> getVueLiveData(){
-        return vueService.getCurrentVueLiveData();
+    public LiveData<Vue> getVueLiveData(){
+        return vueRepository.getVue();
     }
-
     public void updateVue(String vue){
-        vueService.changeVueAsynchronously(vue);
+        vueRepository.setVueApi(vue);
     }
 }

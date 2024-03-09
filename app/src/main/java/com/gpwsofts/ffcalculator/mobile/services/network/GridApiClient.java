@@ -32,8 +32,10 @@ public class GridApiClient {
         return instance;
     }
     private GridApiClient(){
+        Log.i(TAG_NAME,"instanciation de GridApiClient");
         mGridChoices = new MutableLiveData<List<Grid>>();
         mPosChoices = new MutableLiveData<List<Integer>>();
+        Log.i(TAG_NAME,"fin instanciation de GridApiClient");
     }
 
     public LiveData<List<Grid>> getGridChoices() {

@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.model.Grid;
+import com.gpwsofts.ffcalculator.mobile.model.Vue;
 import com.gpwsofts.ffcalculator.mobile.repository.AddResultRepository;
 import com.gpwsofts.ffcalculator.mobile.repository.DatabaseResultRepository;
 import com.gpwsofts.ffcalculator.mobile.repository.GridRepository;
@@ -50,8 +51,8 @@ public class AddResultViewModel extends AndroidViewModel {
         gridRepository.loadPosChoices(itemValue);
     }
 
-    public void updateGridChoices(String vue) {
-        gridRepository.loadClassesChoices(vue);
+    public void updateGridChoices(Vue vue) {
+        gridRepository.loadClassesChoices(vue.getCode());
     }
 
     public void createNewResult(String place, String libelle, int pos, int prts){

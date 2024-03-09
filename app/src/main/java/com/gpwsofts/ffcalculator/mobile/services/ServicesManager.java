@@ -13,8 +13,6 @@ import com.gpwsofts.ffcalculator.mobile.services.network.IPosService;
 import com.gpwsofts.ffcalculator.mobile.services.network.IPtsService;
 import com.gpwsofts.ffcalculator.mobile.services.network.SimplePosService;
 import com.gpwsofts.ffcalculator.mobile.services.network.SimplePtsService;
-import com.gpwsofts.ffcalculator.mobile.services.vues.IVueService;
-import com.gpwsofts.ffcalculator.mobile.services.vues.SimpleVueService;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -38,7 +36,7 @@ public class ServicesManager {
     /**
      * Service des vues
      */
-    private IVueService vueService = null;
+
 
     /**
      * Service des logos
@@ -73,16 +71,6 @@ public class ServicesManager {
         if (application.isServicesManagerAlreadyExist()) {
             throw new ExceptionInInitializerError("ServicesManager deja instancié pour FFCalculatorApplication");
         }
-    }
-
-    public final IVueService getVueService() {
-        if (null == vueService) {
-            Log.i(TAG_NAME, "creation dune nouvelle instance de IVueService");
-            vueService = new SimpleVueService();
-        } else {
-            Log.d(TAG_NAME, "recuperation dune instance existante de IVueService");
-        }
-        return vueService;
     }
 
     public final ILogoService getLogoService(Resources res) {

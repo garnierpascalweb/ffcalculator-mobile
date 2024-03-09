@@ -16,8 +16,8 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.gpwsofts.ffcalculator.mobile.databinding.ActivityMainBinding;
-import com.gpwsofts.ffcalculator.mobile.services.vues.IVueService;
 import com.gpwsofts.ffcalculator.mobile.ui.VueViewModel;
+import com.gpwsofts.ffcalculator.mobile.model.Vue;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG_NAME = "MainActivity";
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater menuInflater = this.getMenuInflater();
         menuInflater.inflate(R.menu.vues_menu, menu);
         vueViewModel.getVueLiveData().observe(this, vue -> {
-            menu.getItem(FFCalculatorApplication.instance.getServicesManager().getVueService().getIndexInMenu(vue)).setChecked(true);
+            menu.getItem(vue.getIndexInComboMenu()).setChecked(true);
         });
         return true;
     }
@@ -57,35 +57,35 @@ public class MainActivity extends AppCompatActivity {
         boolean boolReturn = false;
         if (itemId == R.id.idMenuItemElite) {
             Log.i(TAG_NAME, "switch en vue Elite");
-            vueViewModel.updateVue(IVueService.ELITE);
+            vueViewModel.updateVue(Vue.ELITE);
             boolReturn = true;
         } else if (itemId == R.id.idMenuItemOpen1) {
             Log.i(TAG_NAME, "switch en vue Open1");
-            vueViewModel.updateVue(IVueService.OPEN_1);
+            vueViewModel.updateVue(Vue.OPEN_1);
             boolReturn = true;
         } else if (itemId == R.id.idMenuItemOpen2) {
             Log.i(TAG_NAME, "switch en vue Open2");
-            vueViewModel.updateVue(IVueService.OPEN_2);
+            vueViewModel.updateVue(Vue.OPEN_2);
             boolReturn = true;
         } else if (itemId == R.id.idMenuItemOpen3) {
             Log.i(TAG_NAME, "switch en vue Open3");
-            vueViewModel.updateVue(IVueService.OPEN_3);
+            vueViewModel.updateVue(Vue.OPEN_3);
             boolReturn = true;
         } else if (itemId == R.id.idMenuItemAccess) {
             Log.i(TAG_NAME, "switch en vue Access");
-            vueViewModel.updateVue(IVueService.ACCESS);
+            vueViewModel.updateVue(Vue.ACCESS);
             boolReturn = true;
         } else if (itemId == R.id.idMenuItemU19) {
             Log.i(TAG_NAME, "switch en vue U19");
-            vueViewModel.updateVue(IVueService.U19);
+            vueViewModel.updateVue(Vue.U19);
             boolReturn = true;
         } else if (itemId == R.id.idMenuItemU17) {
             Log.i(TAG_NAME, "switch en vue U17");
-            vueViewModel.updateVue(IVueService.U17);
+            vueViewModel.updateVue(Vue.U17);
             boolReturn = true;
         } else {
             Log.w(TAG_NAME, "selection dune vue non geree, vue generale");
-            vueViewModel.updateVue(IVueService.GENERALE);
+            vueViewModel.updateVue(Vue.GENERALE);
             boolReturn = super.onOptionsItemSelected(item);
         }
         return boolReturn;
