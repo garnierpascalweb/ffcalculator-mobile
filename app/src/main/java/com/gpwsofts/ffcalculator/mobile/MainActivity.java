@@ -16,7 +16,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.gpwsofts.ffcalculator.mobile.databinding.ActivityMainBinding;
-import com.gpwsofts.ffcalculator.mobile.ui.VueViewModel;
+import com.gpwsofts.ffcalculator.mobile.ui.view.VueViewModel;
 import com.gpwsofts.ffcalculator.mobile.model.Vue;
 
 public class MainActivity extends AppCompatActivity {

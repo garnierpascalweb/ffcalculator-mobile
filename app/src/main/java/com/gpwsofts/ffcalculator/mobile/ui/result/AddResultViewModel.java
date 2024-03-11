@@ -59,7 +59,6 @@ public class AddResultViewModel extends AndroidViewModel {
     public void createNewResult(String place, String libelle, int pos, int prts){
         addResultRepository.addResultApi(place, libelle,pos,prts);
     }
-
     public void onNewResultCreated(Result newResult){
         databaseResultRepository.insert(newResult);
     }

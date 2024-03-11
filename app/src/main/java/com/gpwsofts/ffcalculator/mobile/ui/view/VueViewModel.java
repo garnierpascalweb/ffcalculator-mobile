@@ -1,4 +1,4 @@
-package com.gpwsofts.ffcalculator.mobile.ui;
+package com.gpwsofts.ffcalculator.mobile.ui.view;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;

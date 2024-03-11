@@ -35,7 +35,7 @@
             android:textSize="16sp"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:text="@string/label_open2"
+            android:text="@string/sample_logo_open_2"
             />
 
         <LinearLayout

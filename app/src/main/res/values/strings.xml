@@ -11,14 +11,14 @@
     <string name="test_libelle">Open 2/3</string>
     <string name="test_modifier">Modifier</string>
     <string name="test_supprimer">Supprimer</string>
-    <string name="label_generale">Générale</string>
-    <string name="label_elite">Elite</string>
-    <string name="label_open1">Open 1</string>
-    <string name="label_open2">Open 2</string>
-    <string name="label_open3">Open 3</string>
-    <string name="label_u19">U19</string>
-    <string name="label_u17">U17</string>
-    <string name="label_access">Access</string>
+    <string name="label_vue_generale">Vue Générale</string>
+    <string name="label_vue_elite">Vue Elite</string>
+    <string name="label_vue_open1">Vue Open 1</string>
+    <string name="label_vue_open2">Vue Open 2</string>
+    <string name="label_vue_open3">VueOpen 3</string>
+    <string name="label_vue_u19">Vue U19</string>
+    <string name="label_vue_u17">Vue U17</string>
+    <string name="label_vue_access">Vue Access</string>
     <string name="vue_generale">G</string>
     <string name="vue_elite">E</string>
     <string name="vue_open1">O1</string>
@@ -27,6 +27,8 @@
     <string name="vue_u19">U19</string>
     <string name="vue_u17">U17</string>
     <string name="vue_access">A</string>
+
+    <string name="sample_logo_open_2">Open 2/3</string>
 
     <!-- texte des radio button -->
     <string name="radio_button_en_ligne">En Ligne</string>
