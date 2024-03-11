@@ -28,9 +28,6 @@ public class GridRepository {
     public LiveData<List<Integer>> getPosChoices() {
         return gridApiClient.getPosChoices();
     }
-    public LiveData<String> getCurrentClasse() {
-        return gridApiClient.getCurrentClasse();
-    }
     public void loadClassesChoices(String vue){
         gridApiClient.loadClassesChoices(vue);
     }
