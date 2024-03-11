@@ -26,6 +26,7 @@ public class AddResultViewModel extends AndroidViewModel {
     private GridRepository gridRepository;
 
 
+
     public AddResultViewModel(Application application) {
         super(application);
         Log.i(TAG_NAME, "Instantiation de AddResultViewModel");
@@ -45,6 +46,10 @@ public class AddResultViewModel extends AndroidViewModel {
 
     public LiveData<Result> getAddedResult(){
         return addResultRepository.getResult();
+    }
+
+    public LiveData<String> getCurrentClasse(){
+        return gridRepository.getCurrentClasse();
     }
 
     public void updatePosChoices(String itemValue) {

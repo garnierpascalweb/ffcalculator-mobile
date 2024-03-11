@@ -2,6 +2,7 @@ package com.gpwsofts.ffcalculator.mobile.ui.result;
 
 
 import android.os.Bundle;
+import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +29,10 @@ import java.util.stream.IntStream;
 public class AddResultFragment extends Fragment {
     private static final String TAG_NAME = "ResultFragment";
     TextInputEditText textInputEditTextPlace;
-    TextInputLayout textInputLayoutSpinnerClasses;
+    TextInputLayout textInputLayoutPlace;
+    TextInputLayout textInputLayoutClasse;
+    TextInputLayout textInputLayoutPos;
+    TextInputLayout textInputLayoutPrts;
     AutoCompleteTextView autoCompleteTextViewPos;
     AutoCompleteTextView autoCompleteTextViewPrts;
     AutoCompleteTextView autoCompleteTextViewClasses;
@@ -74,6 +78,11 @@ public class AddResultFragment extends Fragment {
         //String android_device_id = Settings.Secure.getString(this.requireActivity().getContentResolver(), Settings.Secure.ANDROID_ID);
         //Log.i(TAG_NAME, "device id " + android_device_id);
         //Log.i(TAG_NAME, "nombre de pts = " + this.resultViewModel.getAllPts());
+        textInputLayoutPlace = binding.idTILPlace;
+        textInputLayoutClasse = binding.idTILClasses;
+        textInputLayoutPos = binding.idTILPos;
+        textInputLayoutPrts = binding.idTILPrts;
+
         textInputEditTextPlace = binding.idTIETPlace;
         autoCompleteTextViewClasses = binding.idTVAutoClasses;
 
@@ -84,6 +93,7 @@ public class AddResultFragment extends Fragment {
         autoCompleteTextViewClasses.setAdapter(classesRecyclerBaseAdapter);
         autoCompleteTextViewPos.setAdapter(posRecyclerBaseAdapter);
         autoCompleteTextViewPrts.setAdapter(prtsRecyclerBaseAdapter);
+
 
         // observation de la vue courante
         vueViewModel.getVueLiveData().observe(getViewLifecycleOwner(), vue -> {
@@ -109,6 +119,7 @@ public class AddResultFragment extends Fragment {
         addResultViewModel.getPosChoices().observe(getViewLifecycleOwner(), posList -> {
             Log.i(TAG_NAME, "refreshUI sur la liste des positions");
             posListAdapter.submitList(posList);
+            textInputLayoutPos.setHelperText("Points attribués aux " + posList.size()+ " premiers pur une épreuve de type " + autoCompleteTextViewClasses.getText());
             Log.i(TAG_NAME, "fin refreshUI sur la liste des positions");
         });
 
@@ -137,11 +148,19 @@ public class AddResultFragment extends Fragment {
         String toastMessage = null;
         boolean isWwwConnected = FFCalculatorApplication.instance.getServicesManager().getNetworkService().isWwwConnected();
         if (isWwwConnected) {
-            final String place = String.valueOf(textInputEditTextPlace.getText());
-            final String libelle = String.valueOf(autoCompleteTextViewClasses.getText().toString());
-            final int pos = Integer.valueOf(autoCompleteTextViewPos.getText().toString());
-            final int prts = Integer.valueOf(autoCompleteTextViewPrts.getText().toString());
-            addResultViewModel.createNewResult(place,libelle,pos,prts);
+            final Editable placeEditable = textInputEditTextPlace.getText();
+            final Editable libelleEditable = autoCompleteTextViewClasses.getText();
+            final Editable posEditable = autoCompleteTextViewPos.getText();
+            final Editable prtsEditable = autoCompleteTextViewPrts.getText();
+            if (null == placeEditable  || placeEditable.length() == 0 || null == posEditable || posEditable.length() == 0 || null == libelleEditable || libelleEditable.length() == 0 || null == prtsEditable){
+                Log.w(TAG_NAME, "un des champs est null");
+            } else {
+                final String place = String.valueOf(placeEditable);
+                final String libelle = String.valueOf(libelleEditable);
+                final int pos = Integer.valueOf(posEditable.toString());
+                final int prts = Integer.valueOf(prtsEditable.toString());
+                addResultViewModel.createNewResult(place,libelle,pos,prts);
+            }
         } else {
             //addResultViewModel.updateToastMessage("Pas de réseau");
             Log.e(TAG_NAME, "pas de reseau");

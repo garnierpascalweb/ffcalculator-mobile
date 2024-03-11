@@ -24,6 +24,8 @@ public class GridApiClient {
     private MutableLiveData<List<Grid>> mGridChoices;
     private MutableLiveData<List<Integer>> mPosChoices;
 
+    private MutableLiveData<String> mCurrentClasse;
+
     private LoadClassesChoicesRunnable loadClassesChoicesRunnable;
     private LoadPosChoicesRunnable loadPosChoicesRunnable;
     public static GridApiClient getInstance() {
@@ -35,6 +37,7 @@ public class GridApiClient {
         Log.i(TAG_NAME,"instanciation de GridApiClient");
         mGridChoices = new MutableLiveData<List<Grid>>();
         mPosChoices = new MutableLiveData<List<Integer>>();
+        mCurrentClasse = new MutableLiveData<String>();
         Log.i(TAG_NAME,"fin instanciation de GridApiClient");
     }
 
@@ -44,6 +47,10 @@ public class GridApiClient {
 
     public LiveData<List<Integer>> getPosChoices() {
         return mPosChoices;
+    }
+
+    public LiveData<String> getCurrentClasse() {
+        return mCurrentClasse;
     }
 
     public void loadClassesChoices(String vue){
@@ -124,6 +131,8 @@ public class GridApiClient {
             } //TODO 1.0.0 et si null ?
             Log.d(TAG_NAME, "post du la liste des pos en liveData (" + posChoices.size() + " elements charges)");
             mPosChoices.postValue(posChoices);
+            Log.d(TAG_NAME, "post du currentIdClasse en liveData (" + idClasse + ")");
+            mCurrentClasse.postValue(idClasse);
             Log.i(TAG_NAME, "fin du job asynchrone LoadPosChoicesRunnable selon le libelle <" + libelle + ">");
         }
 
