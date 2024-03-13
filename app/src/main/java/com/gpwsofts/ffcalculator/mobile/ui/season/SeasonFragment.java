@@ -3,6 +3,7 @@ package com.gpwsofts.ffcalculator.mobile.ui.season;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -60,6 +61,7 @@ public class SeasonFragment extends Fragment {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                Log.i(TAG_NAME, "swippage");
                resultViewModel.delete(adapter.getItemFromAdapter(viewHolder.getAbsoluteAdapterPosition()));
             }
         }).attachToRecyclerView(resultRV);
@@ -71,4 +73,6 @@ public class SeasonFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
+
 }

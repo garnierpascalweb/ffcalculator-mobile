@@ -4,6 +4,7 @@ import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +27,8 @@ public class ResultViewHolder extends RecyclerView.ViewHolder {
     // @+id/idTVResultPts
     private final TextView resultPtsView;
 
+    private final ImageButton imageButton;
+
     public ResultViewHolder(View itemView) {
         super(itemView);
         logoTextView = itemView.findViewById(R.id.idTVResultLogo);
@@ -33,6 +36,7 @@ public class ResultViewHolder extends RecyclerView.ViewHolder {
         libelleTextView = itemView.findViewById(R.id.idTVLibelle);
         resultPosPrtsTextView = itemView.findViewById(R.id.idTVResultPosPrts);
         resultPtsView = itemView.findViewById(R.id.idTVResultPts);
+        imageButton = itemView.findViewById(R.id.idIBDelete);
     }
 
     static ResultViewHolder create(ViewGroup parent) {
