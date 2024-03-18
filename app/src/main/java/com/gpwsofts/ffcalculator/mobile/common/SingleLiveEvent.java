@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- *
+ * https://stackoverflow.com/questions/59840883/when-i-go-back-to-a-fragment-the-observer-is-immediately-called
  * @param <T>
  */
 public class SingleLiveEvent<T> extends MutableLiveData<T> {
