@@ -31,6 +31,7 @@ import com.anychart.enums.MarkerType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class SynthesisFragment extends Fragment {
     private static final String TAG_NAME = "SynthesisFragment";
@@ -144,7 +145,8 @@ public class SynthesisFragment extends Fragment {
 
 
         synthesisViewModel.getPts().observe(getViewLifecycleOwner(), pts -> {
-            textViewPts.setText(String.valueOf(pts));
+            Double myPts = Optional.of(pts).orElse(0.0);
+            textViewPts.setText(String.valueOf(myPts));
             searchPosApi(pts, "H");
         });
         synthesisViewModel.getPos().observe(getViewLifecycleOwner(), pos -> {

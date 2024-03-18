@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.gpwsofts.ffcalculator.mobile.AppExecutors;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
+import com.gpwsofts.ffcalculator.mobile.common.SingleLiveEvent;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.services.logo.Logo;
 
@@ -27,7 +28,7 @@ public class AddResultApiClient {
     private static final String TAG_NAME = "AddResultApiClient";
 
     private static AddResultApiClient instance;
-    private MutableLiveData<Result> mResult;
+    private SingleLiveEvent<Result> mResult;
     private AddResultRunnable addResultRunnable;
     public static AddResultApiClient getInstance() {
         if (null == instance)
@@ -36,7 +37,7 @@ public class AddResultApiClient {
     }
     private AddResultApiClient(){
         Log.i(TAG_NAME,"instanciation de AddResultApiClient");
-        mResult = new MutableLiveData<Result>();
+        mResult = new SingleLiveEvent<Result>();
         Log.i(TAG_NAME,"fin instanciation de AddResultApiClient");
     }
     public LiveData<Result> getResult() {

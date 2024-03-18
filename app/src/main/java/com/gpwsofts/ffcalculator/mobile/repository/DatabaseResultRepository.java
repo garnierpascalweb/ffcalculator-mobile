@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class DatabaseResultRepository {
     private static DatabaseResultRepository instance;
-    private static final String TAG_NAME = "ResultRepository";
+    private static final String TAG_NAME = "DatabaseResultRepository";
     private ResultDao resultDao;
 
     public static DatabaseResultRepository getInstance(){
