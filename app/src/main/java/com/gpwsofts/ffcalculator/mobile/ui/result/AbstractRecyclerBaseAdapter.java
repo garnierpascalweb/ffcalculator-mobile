@@ -12,32 +12,24 @@ import androidx.recyclerview.widget.RecyclerView;
 public abstract class AbstractRecyclerBaseAdapter<VH extends RecyclerView.ViewHolder>
         extends BaseAdapter implements Filterable {
     private static final String TAG_NAME = "RecyclerBaseAdapter";
-
     protected final RecyclerView.Adapter<VH> mAdapter;
-
     public AbstractRecyclerBaseAdapter(RecyclerView.Adapter<VH> adapter) {
         mAdapter = adapter;
     }
-
     @Override
     public int getItemViewType(int position) {
         return mAdapter.getItemViewType(position);
     }
-
     @Override
     public int getCount() {
         return mAdapter.getItemCount();
     }
-
     @Override
     public abstract Object getItem(int position);
-
     @Override
     public long getItemId(int position) {
         return mAdapter.getItemId(position);
     }
-
-    @SuppressWarnings("unchecked")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         VH holder;

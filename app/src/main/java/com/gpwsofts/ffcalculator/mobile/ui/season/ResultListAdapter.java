@@ -8,6 +8,10 @@ import androidx.recyclerview.widget.ListAdapter;
 
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 
+/**
+ * ListAdapter qui permet d'associer un objet métier Result et un ViewHolder
+ * @since 1.0.0
+ */
 public class ResultListAdapter extends ListAdapter<Result, ResultViewHolder> {
     public ResultListAdapter(@NonNull DiffUtil.ItemCallback<Result> diffCallback) {
         super(diffCallback);

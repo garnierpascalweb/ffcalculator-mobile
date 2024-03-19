@@ -13,7 +13,7 @@ import com.gpwsofts.ffcalculator.mobile.R;
 
 /**
  * ViewHolder d'un resultat, a l'image de d'un item de la liste
- *
+ * Representation graphique
  * @since 1.0.0
  */
 public class ResultViewHolder extends RecyclerView.ViewHolder {
@@ -51,5 +51,6 @@ public class ResultViewHolder extends RecyclerView.ViewHolder {
         libelleTextView.setText(libelle);
         resultPosPrtsTextView.setText(new StringBuilder().append(pos).append("e sur ").append(prts).toString());
         resultPtsView.setText(String.valueOf(pts));
+
     }
 }

@@ -39,32 +39,31 @@ public class SeasonFragment extends Fragment {
         // RecyclerView
         RecyclerView resultRV = root.findViewById(R.id.idRVCourse);
         final ResultListAdapter adapter = new ResultListAdapter(new ResultListAdapter.ResultDiff());
-        resultRV.setAdapter(adapter);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(root.getContext(), LinearLayoutManager.VERTICAL, false);
-        resultRV.setLayoutManager(linearLayoutManager);
-        resultRV.setHasFixedSize(true);
-        resultViewModel.getAllResults().observe(getViewLifecycleOwner(), results -> {
-            adapter.submitList(results);
-        });
-
-        //TODO 1.0.0 le swip ne marche pas dans le fragment puisque le swip est porté par le fragment
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
-                return 0;
-            }
+        final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
             }
-
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                Log.i(TAG_NAME, "swippage");
-               resultViewModel.delete(adapter.getItemFromAdapter(viewHolder.getAbsoluteAdapterPosition()));
+                Log.v(TAG_NAME, "onSwiped");
+                resultViewModel.delete(adapter.getItemFromAdapter(viewHolder.getAbsoluteAdapterPosition()));
             }
-        }).attachToRecyclerView(resultRV);
+        });
+        Log.i(TAG_NAME, "attachement a la recyclerView du itemTouchHelper ");
+        itemTouchHelper.attachToRecyclerView(resultRV);
+        resultRV.setAdapter(adapter);
+        resultRV.setLayoutManager(new LinearLayoutManager(root.getContext(), LinearLayoutManager.VERTICAL, false));
+        resultRV.setHasFixedSize(true);
+
+        resultViewModel.getAllResults().observe(getViewLifecycleOwner(), results -> {
+            adapter.submitList(results);
+        });
+
+        //TODO 1.0.0 le swip ne marche pas dans le fragment puisque le swip est porté par le fragment
+
+
         return root;
     }
 
@@ -73,6 +72,8 @@ public class SeasonFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
+
 
 
 }
