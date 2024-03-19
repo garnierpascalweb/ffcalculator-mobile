@@ -19,7 +19,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
-            android:hint="Lieu de la Course">
+            android:hint="@string/hint_lieu_epreuve">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/idTIETPlace"

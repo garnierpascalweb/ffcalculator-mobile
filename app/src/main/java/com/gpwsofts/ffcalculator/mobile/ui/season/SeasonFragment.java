@@ -47,7 +47,7 @@ public class SeasonFragment extends Fragment {
             }
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                Log.v(TAG_NAME, "onSwiped");
+                Log.v(TAG_NAME, "demande de suppression de resultat par swipe");
                 resultViewModel.delete(adapter.getItemFromAdapter(viewHolder.getAbsoluteAdapterPosition()));
             }
         });

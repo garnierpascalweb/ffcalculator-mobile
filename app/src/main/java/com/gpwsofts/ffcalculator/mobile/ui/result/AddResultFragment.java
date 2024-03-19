@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
+import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentResultBinding;
 import com.gpwsofts.ffcalculator.mobile.ui.view.VueViewModel;
 import com.gpwsofts.ffcalculator.mobile.ui.season.SeasonViewModel;
@@ -48,6 +50,14 @@ public class AddResultFragment extends Fragment {
     private VueViewModel vueViewModel;
     private FragmentResultBinding binding;
 
+    private String hintPlace;
+    private String hintType;
+    private String hintPos;
+    private String hintPrts;
+
+    private static final String VIDE = "";
+
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,8 +73,10 @@ public class AddResultFragment extends Fragment {
         prtsListAdapter = new IntegerListAdapter(new IntegerListAdapter.IntDiff());
         prtsRecyclerBaseAdapter = new IntegerRecyclerBaseAdapter(prtsListAdapter);
         prtsListAdapter.submitList(IntStream.rangeClosed(1, 200).boxed().collect(Collectors.toList()));
-
-        final IntegerListAdapter posListAdapter = new IntegerListAdapter(new IntegerListAdapter.IntDiff());
+        hintPlace = getResources().getString(R.string.hint_lieu_epreuve);
+        hintType = getResources().getString(R.string.hint_type_epreuve);
+        hintPos = getResources().getString(R.string.hint_place_obtenue);
+        hintPrts = getResources().getString(R.string.hint_partants);
         Log.i(TAG_NAME, "fin appel de onCreate");
     }
 
@@ -81,30 +93,24 @@ public class AddResultFragment extends Fragment {
         textInputLayoutClasse = binding.idTILClasses;
         textInputLayoutPos = binding.idTILPos;
         textInputLayoutPrts = binding.idTILPrts;
-
         textInputEditTextPlace = binding.idTIETPlace;
         autoCompleteTextViewClasses = binding.idTVAutoClasses;
-
         autoCompleteTextViewPos = binding.idTVAutoPos;
         autoCompleteTextViewPrts = binding.idTVAutoPrts;
         buttonAjouter = binding.idBTAjouter;
-
         autoCompleteTextViewClasses.setAdapter(classesRecyclerBaseAdapter);
         autoCompleteTextViewPos.setAdapter(posRecyclerBaseAdapter);
         autoCompleteTextViewPrts.setAdapter(prtsRecyclerBaseAdapter);
-
-
         // observation de la vue courante
         vueViewModel.getVueLiveData().observe(getViewLifecycleOwner(), vue -> {
             addResultViewModel.updateGridChoices(vue);
         });
-
         // observation d'un nouveau resultat
-        //
         addResultViewModel.getAddedResult().observe(getViewLifecycleOwner(), result -> {
             addResultViewModel.onNewResultCreated(result);
+            reinit();
+            Toast.makeText(this.getActivity(), "Nouveau résultat ajouté", Toast.LENGTH_SHORT).show();
         });
-
         // observation de la liste des grilles
         // update UI
         addResultViewModel.getGridsChoices().observe(getViewLifecycleOwner(), gridsList -> {
@@ -118,7 +124,7 @@ public class AddResultFragment extends Fragment {
         addResultViewModel.getPosChoices().observe(getViewLifecycleOwner(), posList -> {
             Log.i(TAG_NAME, "refreshUI sur la liste des positions");
             posListAdapter.submitList(posList);
-            textInputLayoutPos.setHelperText("Points attribués aux " + posList.size()+ " premiers pur une épreuve de type " + autoCompleteTextViewClasses.getText());
+            textInputLayoutPos.setHelperText("Points attribués aux " + posList.size()+ " premiers pour une épreuve de type " + autoCompleteTextViewClasses.getText());
             Log.i(TAG_NAME, "fin refreshUI sur la liste des positions");
         });
 
@@ -151,19 +157,45 @@ public class AddResultFragment extends Fragment {
             final Editable libelleEditable = autoCompleteTextViewClasses.getText();
             final Editable posEditable = autoCompleteTextViewPos.getText();
             final Editable prtsEditable = autoCompleteTextViewPrts.getText();
-            if (null == placeEditable  || placeEditable.length() == 0 || null == posEditable || posEditable.length() == 0 || null == libelleEditable || libelleEditable.length() == 0 || null == prtsEditable){
-                Log.w(TAG_NAME, "un des champs est null");
-            } else {
+            if (validateEditable(hintPlace, placeEditable) && validateEditable(hintType, libelleEditable) && validateEditable(hintPos, posEditable) && validateEditable(hintPrts, prtsEditable)){
                 final String place = String.valueOf(placeEditable);
                 final String libelle = String.valueOf(libelleEditable);
                 final int pos = Integer.valueOf(posEditable.toString());
                 final int prts = Integer.valueOf(prtsEditable.toString());
                 addResultViewModel.createNewResult(place,libelle,pos,prts);
             }
+
+
         } else {
             //addResultViewModel.updateToastMessage("Pas de réseau");
             Log.e(TAG_NAME, "pas de reseau");
         }
+    }
+
+    /**
+     * Valide les champs du formulaire
+     * @since 1.0.0
+     * @param name
+     * @param editable
+     * @return
+     */
+    private boolean validateEditable(String name, Editable editable){
+        boolean isEmpty = (null == editable || editable.length() == 0);
+        if (isEmpty)
+            Toast.makeText(getActivity(), name + " doit etre complété", Toast.LENGTH_SHORT).show();
+        return !isEmpty;
+    }
+
+    /**
+     * Reinitialise l'écran (apres la validation d'un resultat)
+     * @since 1.0.0
+     */
+    private void reinit(){
+        textInputEditTextPlace.setText(VIDE);
+        autoCompleteTextViewClasses.setText(VIDE);
+        autoCompleteTextViewPos.setText(VIDE);
+        autoCompleteTextViewPrts.setText(VIDE);
+        // Remettre les helper text a leur niveau
     }
 
     @Override

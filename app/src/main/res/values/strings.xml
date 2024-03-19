@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">FFCalculatorMobile</string>
+    <string name="hint_lieu_epreuve">Lieu ou Nom d\'épreuve</string>
     <string name="hint_type_epreuve">Type d\'épreuve</string>
     <string name="hint_place_obtenue">Place Obtenue</string>
-    <string name="hint_partants">Partants</string>
+    <string name="hint_partants">Nombre de Partants</string>
     <string name="button_label_ajouter_resultat">Ajouter le résultat</string>
     <string name="title_resultat">Résultat</string>
     <string name="title_saison">Saison</string>
