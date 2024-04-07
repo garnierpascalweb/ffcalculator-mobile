@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -107,8 +108,12 @@ public class AddResultFragment extends Fragment {
         });
         // observation d'un nouveau resultat
         addResultViewModel.getAddedResult().observe(getViewLifecycleOwner(), result -> {
+            // insertion en database
             addResultViewModel.onNewResultCreated(result);
+            // reinitialisation de l'écran
             reinit();
+            // navigation au fragment de saison
+            Navigation.findNavController(binding.getRoot()).navigate(R.id.navigation_season);
             Toast.makeText(this.getActivity(), "Nouveau résultat ajouté", Toast.LENGTH_SHORT).show();
         });
         // observation de la liste des grilles
@@ -153,22 +158,23 @@ public class AddResultFragment extends Fragment {
         String toastMessage = null;
         boolean isWwwConnected = FFCalculatorApplication.instance.getServicesManager().getNetworkService().isWwwConnected();
         if (isWwwConnected) {
+            // connecte a internet
             final Editable placeEditable = textInputEditTextPlace.getText();
             final Editable libelleEditable = autoCompleteTextViewClasses.getText();
             final Editable posEditable = autoCompleteTextViewPos.getText();
             final Editable prtsEditable = autoCompleteTextViewPrts.getText();
             if (validateEditable(hintPlace, placeEditable) && validateEditable(hintType, libelleEditable) && validateEditable(hintPos, posEditable) && validateEditable(hintPrts, prtsEditable)){
+                // champs correctement remplis
                 final String place = String.valueOf(placeEditable);
                 final String libelle = String.valueOf(libelleEditable);
                 final int pos = Integer.valueOf(posEditable.toString());
                 final int prts = Integer.valueOf(prtsEditable.toString());
                 addResultViewModel.createNewResult(place,libelle,pos,prts);
             }
-
-
         } else {
-            //addResultViewModel.updateToastMessage("Pas de réseau");
+            // pas connecte a internet
             Log.e(TAG_NAME, "pas de reseau");
+            Toast.makeText(getActivity(), "Pas de réseau", Toast.LENGTH_SHORT).show();
         }
     }
 
