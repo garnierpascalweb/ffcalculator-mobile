@@ -108,13 +108,21 @@ public class AddResultFragment extends Fragment {
         });
         // observation d'un nouveau resultat
         addResultViewModel.getAddedResult().observe(getViewLifecycleOwner(), result -> {
-            // insertion en database
-            addResultViewModel.onNewResultCreated(result);
-            // reinitialisation de l'écran
-            reinit();
-            // navigation au fragment de saison
-            Navigation.findNavController(binding.getRoot()).navigate(R.id.navigation_season);
-            Toast.makeText(this.getActivity(), "Nouveau résultat ajouté", Toast.LENGTH_SHORT).show();
+            Log.i(TAG_NAME, "refreshUI sur addedResult");
+            Log.d(TAG_NAME, "  nouveau resultat a ajouter " + result);
+            // result peut etre null si un probleme tchnique survient au calcul des points (mResult.postValue(null))
+            if (result != null){
+                // insertion en database
+                addResultViewModel.onNewResultCreated(result);
+                // reinitialisation de l'écran
+                reinit();
+                // navigation au fragment de saison
+                Navigation.findNavController(binding.getRoot()).navigate(R.id.navigation_season);
+                Toast.makeText(getActivity(), "Nouveau résultat ajouté", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getActivity(), "Probleme technique", Toast.LENGTH_SHORT).show();
+            }
+            Log.i(TAG_NAME, "fin refreshUI sur addedResult");
         });
         // observation de la liste des grilles
         // update UI
