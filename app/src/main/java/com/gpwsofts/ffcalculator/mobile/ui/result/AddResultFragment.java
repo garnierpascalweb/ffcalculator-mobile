@@ -106,6 +106,7 @@ public class AddResultFragment extends Fragment {
         // observation de la vue courante
         vueViewModel.getVueLiveData().observe(getViewLifecycleOwner(), vue -> {
             addResultViewModel.updateGridChoices(vue);
+            reinit();
         });
         // observation d'un nouveau resultat
         addResultViewModel.getAddedResult().observe(getViewLifecycleOwner(), result -> {
@@ -233,6 +234,7 @@ public class AddResultFragment extends Fragment {
         hintType = getResources().getString(R.string.hint_type_epreuve);
         hintPos = getResources().getString(R.string.hint_place_obtenue);
         hintPrts = getResources().getString(R.string.hint_partants);
+        textInputLayoutPos.setHelperText(hintPos);
         // Remettre les helper text a leur niveau
     }
 
