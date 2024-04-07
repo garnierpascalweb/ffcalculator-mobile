@@ -23,7 +23,7 @@ public interface ResultDao {
     List<Result> getAllByIds(int[] resultIds);
 
     //TODO 1.0.0 a tester chaudement
-    @Query("SELECT SUM(pts) FROM result WHERE id in (SELECT id FROM result ORDER BY pts DESC LIMIT 15)")
+    @Query("SELECT ROUND(SUM(pts),2) FROM result WHERE id in (SELECT id FROM result ORDER BY pts DESC LIMIT 15)")
     LiveData<Double> getPts();
 
     @Insert
