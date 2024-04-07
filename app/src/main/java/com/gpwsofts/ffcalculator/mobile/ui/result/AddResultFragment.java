@@ -169,7 +169,9 @@ public class AddResultFragment extends Fragment {
                 final String libelle = String.valueOf(libelleEditable);
                 final int pos = Integer.valueOf(posEditable.toString());
                 final int prts = Integer.valueOf(prtsEditable.toString());
-                addResultViewModel.createNewResult(place,libelle,pos,prts);
+                if (validateResultInput(place, libelle, pos, prts)){
+                    addResultViewModel.createNewResult(place,libelle,pos,prts);
+                }
             }
         } else {
             // pas connecte a internet
@@ -179,7 +181,7 @@ public class AddResultFragment extends Fragment {
     }
 
     /**
-     * Valide les champs du formulaire
+     * Valide le contenu des champs du formulaire (non vide)
      * @since 1.0.0
      * @param name
      * @param editable
@@ -190,6 +192,21 @@ public class AddResultFragment extends Fragment {
         if (isEmpty)
             Toast.makeText(getActivity(), name + " doit etre complété", Toast.LENGTH_SHORT).show();
         return !isEmpty;
+    }
+
+    /**
+     * Valide les valeurs données dans le formulaire
+     * @param place
+     * @param libelle
+     * @param pos
+     * @param prts
+     * @return
+     */
+    private boolean validateResultInput(String place, String libelle, int pos, int prts){
+        boolean isValid = pos <= prts;
+        if (!isValid)
+            Toast.makeText(getActivity(), "La place obtenue ne peut etre supérieure aux nombre de participants", Toast.LENGTH_SHORT).show();
+        return isValid;
     }
 
     /**
