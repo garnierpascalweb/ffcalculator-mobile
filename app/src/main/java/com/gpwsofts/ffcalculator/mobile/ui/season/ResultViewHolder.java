@@ -27,7 +27,6 @@ public class ResultViewHolder extends RecyclerView.ViewHolder {
     // @+id/idTVResultPts
     private final TextView resultPtsView;
 
-    private final ImageButton imageButton;
 
     public ResultViewHolder(View itemView) {
         super(itemView);
@@ -36,7 +35,6 @@ public class ResultViewHolder extends RecyclerView.ViewHolder {
         libelleTextView = itemView.findViewById(R.id.idTVLibelle);
         resultPosPrtsTextView = itemView.findViewById(R.id.idTVResultPosPrts);
         resultPtsView = itemView.findViewById(R.id.idTVResultPts);
-        imageButton = itemView.findViewById(R.id.idIBDelete);
     }
 
     static ResultViewHolder create(ViewGroup parent) {
