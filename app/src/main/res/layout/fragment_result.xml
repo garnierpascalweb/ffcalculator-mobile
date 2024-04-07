@@ -48,9 +48,7 @@
             android:focusableInTouchMode="false"
             android:hint="@string/hint_type_epreuve"
             android:inputType="none"
-
-
-            app:helperText="La classe de course"
+            app:helperText=""
             app:helperTextEnabled="true" >
 
             <AutoCompleteTextView
@@ -75,7 +73,7 @@
             android:focusableInTouchMode="false"
             android:hint="@string/hint_place_obtenue"
             android:inputType="none"
-            app:helperText="Place Obtenue"
+            app:helperText=""
             app:helperTextEnabled="true">
 
         <AutoCompleteTextView
@@ -99,7 +97,7 @@
             android:focusableInTouchMode="false"
             android:hint="@string/hint_partants"
             android:inputType="none"
-            app:helperText="Participants"
+            app:helperText=""
             app:helperTextEnabled="true">
 
         <AutoCompleteTextView

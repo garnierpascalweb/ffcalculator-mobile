@@ -25,6 +25,7 @@ import com.gpwsofts.ffcalculator.mobile.databinding.FragmentResultBinding;
 import com.gpwsofts.ffcalculator.mobile.ui.view.VueViewModel;
 import com.gpwsofts.ffcalculator.mobile.ui.season.SeasonViewModel;
 
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -129,6 +130,7 @@ public class AddResultFragment extends Fragment {
         addResultViewModel.getGridsChoices().observe(getViewLifecycleOwner(), gridsList -> {
             Log.i(TAG_NAME, "refreshUI sur la liste des grilles");
             classesListAdapter.submitList(gridsList);
+            textInputLayoutClasse.setHelperText("Vue " + vueViewModel.getVueLiveData().getValue().getName() + " - " + gridsList.size() + " types d'épreuves disponibles");
             Log.i(TAG_NAME, "fin refreshUI sur la liste des grilles");
         });
 
@@ -137,6 +139,7 @@ public class AddResultFragment extends Fragment {
         addResultViewModel.getPosChoices().observe(getViewLifecycleOwner(), posList -> {
             Log.i(TAG_NAME, "refreshUI sur la liste des positions");
             posListAdapter.submitList(posList);
+            autoCompleteTextViewPos.setText(VIDE);
             textInputLayoutPos.setHelperText("Points attribués aux " + posList.size()+ " premiers pour une épreuve de type " + autoCompleteTextViewClasses.getText());
             Log.i(TAG_NAME, "fin refreshUI sur la liste des positions");
         });
@@ -226,6 +229,10 @@ public class AddResultFragment extends Fragment {
         autoCompleteTextViewClasses.setText(VIDE);
         autoCompleteTextViewPos.setText(VIDE);
         autoCompleteTextViewPrts.setText(VIDE);
+        hintPlace = getResources().getString(R.string.hint_lieu_epreuve);
+        hintType = getResources().getString(R.string.hint_type_epreuve);
+        hintPos = getResources().getString(R.string.hint_place_obtenue);
+        hintPrts = getResources().getString(R.string.hint_partants);
         // Remettre les helper text a leur niveau
     }
 

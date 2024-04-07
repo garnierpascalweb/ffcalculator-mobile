@@ -13,14 +13,16 @@ public class Vue {
     public static final String U19 = "U19";
     public static final String U17 = "U17";
     public static final String ACCESS = "A";
-    /**
-     * Le nom de la vue
-     */
+
     /**
      * Le code de la vue tel qu'il apparait dans le csv et les shared prefs,
      * G, E, O1, O2, O3...
      */
     private String code;
+    /**
+     * Le nom de la vue
+     */
+    private String name;
     /**
      * L'index dans la combo box
      */
@@ -33,6 +35,7 @@ public class Vue {
 
     public Vue(String code) {
         this.code = code;
+        this.name = getName(code);
         this.indexInComboMenu = getIndexInMenu(code);
         this.mapClass = getClassToMap(code);
     }
@@ -59,6 +62,14 @@ public class Vue {
 
     public void setMapClass(String mapClass) {
         this.mapClass = mapClass;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     private int getIndexInMenu(String vue) {
@@ -97,6 +108,44 @@ public class Vue {
             }
         }
         return indexToSelect;
+    }
+
+    private String getName(String vue){
+        String name = null;
+        switch (vue) {
+            case ELITE: {
+                name = "Elite";
+                break;
+            }
+            case OPEN_1: {
+                name = "Open 1";
+                break;
+            }
+            case OPEN_2: {
+                name = "Open 2";
+                break;
+            }
+            case OPEN_3: {
+                name = "Open 3";
+                break;
+            }
+            case U19: {
+                name = "U19";
+                break;
+            }
+            case U17: {
+                name = "U17";
+                break;
+            }
+            case ACCESS: {
+                name = "Access";
+                break;
+            }
+            default: {
+                name = "Générale";
+            }
+        }
+        return name;
     }
 
     private String getClassToMap(String vue) {
