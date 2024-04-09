@@ -75,28 +75,28 @@ public class SynthesisFragment extends Fragment {
          */
 
         LinearGauge linearGauge = AnyChart.linear();
+        // la ou est la zigounette rouge
+        linearGauge.data(new SingleValueDataSet(new Double[] { 1155.3D }));
 
-        linearGauge.data(new SingleValueDataSet(new Double[] { 5.3D }));
-
-        linearGauge.layout(Layout.VERTICAL);
+        linearGauge.layout(Layout.HORIZONTAL);
 
         linearGauge.label(0)
                 .position(Position.LEFT_CENTER)
                 .anchor(Anchor.LEFT_CENTER)
-                .offsetY("-50px")
+                .offsetY("40px")
                 .offsetX("50px")
                 .fontColor("black")
                 .fontSize(17);
-        linearGauge.label(0).text("Total Rainfall");
+        linearGauge.label(0).text("Access");
 
         linearGauge.label(1)
-                .position(Position.LEFT_CENTER)
-                .anchor(Anchor.LEFT_CENTER)
+                .position(Position.CENTER)
+                .anchor(Anchor.CENTER)
                 .offsetY("40px")
                 .offsetX("50px")
                 .fontColor("#777777")
                 .fontSize(17);
-        linearGauge.label(1).text("Drought Hazard");
+        linearGauge.label(1).text("Open");
 
         linearGauge.label(2)
                 .position(Position.RIGHT_CENTER)
@@ -105,15 +105,15 @@ public class SynthesisFragment extends Fragment {
                 .offsetX("50px")
                 .fontColor("#777777")
                 .fontSize(17);
-        linearGauge.label(2).text("Flood Hazard");
+        linearGauge.label(2).text("Elite");
 
         OrdinalColor scaleBarColorScale = OrdinalColor.instantiate();
         scaleBarColorScale.ranges(new String[]{
-                "{ from: 0, to: 2, color: ['red 0.5'] }",
-                "{ from: 2, to: 3, color: ['yellow 0.5'] }",
-                "{ from: 3, to: 7, color: ['green 0.5'] }",
-                "{ from: 7, to: 8, color: ['yellow 0.5'] }",
-                "{ from: 8, to: 10, color: ['red 0.5'] }"
+                "{ from: 0, to: 1500, color: ['green 0.5'] }",
+                "{ from: 1500, to: 3000, color: ['#3296ff 0.5'] }",
+                "{ from: 3000, to: 4000, color: ['#0064ff 0.5'] }",
+                "{ from: 4000, to: 4750, color: ['#0000ff 0.5'] }",
+                "{ from: 4750, to: 6000, color: ['#ff3300 0.5'] }"
         });
 
         linearGauge.scaleBar(0)
@@ -127,8 +127,8 @@ public class SynthesisFragment extends Fragment {
                 .zIndex(10);
 
         linearGauge.scale()
-                .minimum(0)
-                .maximum(10);
+                .minimum(1)
+                .maximum(6000);
 //        linearGauge.scale().ticks
 
         linearGauge.axis(0)
@@ -146,11 +146,11 @@ public class SynthesisFragment extends Fragment {
 
         synthesisViewModel.getPts().observe(getViewLifecycleOwner(), pts -> {
             Double myPts = Optional.of(pts).orElse(0.0);
-            textViewPts.setText(String.valueOf(myPts));
+            textViewPts.setText("Total des points : " + String.valueOf(myPts) +" pts");
             searchPosApi(pts, "H");
         });
         synthesisViewModel.getPos().observe(getViewLifecycleOwner(), pos -> {
-            textViewPos.setText(String.valueOf(pos));
+            textViewPos.setText("Classement National : " + String.valueOf(pos) + " eme");
         });
         return root;
     }
