@@ -1,6 +1,7 @@
 package com.gpwsofts.ffcalculator.mobile.ui.synthesis;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -145,12 +146,20 @@ public class SynthesisFragment extends Fragment {
 
 
         synthesisViewModel.getPts().observe(getViewLifecycleOwner(), pts -> {
-            Double myPts = Optional.of(pts).orElse(0.0);
-            textViewPts.setText("Total des points : " + String.valueOf(myPts) +" pts");
-            searchPosApi(pts, "H");
+            if (null != pts){
+                textViewPts.setText("Total des points : " + String.valueOf(pts) +" pts");
+                searchPosApi(pts, "H");
+            } else {
+                Log.w(TAG_NAME, "la valeur de pts est pas renseignee");
+            }
+
         });
         synthesisViewModel.getPos().observe(getViewLifecycleOwner(), pos -> {
-            textViewPos.setText("Classement National : " + String.valueOf(pos) + " eme");
+            if (pos != null){
+                textViewPos.setText("Classement National : " + String.valueOf(pos) + " eme");
+            } else {
+                Log.w(TAG_NAME, "la valeur de pos est pas renseignee apres appel au service");
+            }
         });
         return root;
     }
