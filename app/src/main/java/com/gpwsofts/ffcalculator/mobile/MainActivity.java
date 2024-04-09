@@ -77,6 +77,10 @@ public class MainActivity extends AppCompatActivity {
             Log.i(TAG_NAME, "switch en vue Access");
             vueViewModel.updateVue(Vue.ACCESS);
             boolReturn = true;
+        } else if (itemId == R.id.idMenuItemU23) {
+            Log.i(TAG_NAME, "switch en vue U23");
+            vueViewModel.updateVue(Vue.U23);
+            boolReturn = true;
         } else if (itemId == R.id.idMenuItemU19) {
             Log.i(TAG_NAME, "switch en vue U19");
             vueViewModel.updateVue(Vue.U19);
