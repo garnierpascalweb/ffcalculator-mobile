@@ -77,7 +77,7 @@ public class SynthesisFragment extends Fragment {
 
         LinearGauge linearGauge = AnyChart.linear();
         // la ou est la zigounette rouge
-        linearGauge.data(new SingleValueDataSet(new Double[] { 1155.3D }));
+
 
         linearGauge.layout(Layout.HORIZONTAL);
 
@@ -148,6 +148,7 @@ public class SynthesisFragment extends Fragment {
         synthesisViewModel.getPts().observe(getViewLifecycleOwner(), pts -> {
             if (null != pts){
                 textViewPts.setText("Total des points : " + String.valueOf(pts) +" pts");
+                //TODO 1.0.0 le classement national doit etre bati sur le type de vue
                 searchPosApi(pts, "H");
             } else {
                 Log.w(TAG_NAME, "la valeur de pts est pas renseignee");
@@ -157,6 +158,7 @@ public class SynthesisFragment extends Fragment {
         synthesisViewModel.getPos().observe(getViewLifecycleOwner(), pos -> {
             if (pos != null){
                 textViewPos.setText("Classement National : " + String.valueOf(pos) + " eme");
+                linearGauge.data(new SingleValueDataSet(new Integer[] { pos }));
             } else {
                 Log.w(TAG_NAME, "la valeur de pos est pas renseignee apres appel au service");
             }

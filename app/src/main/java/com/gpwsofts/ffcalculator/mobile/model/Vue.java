@@ -10,6 +10,7 @@ public class Vue {
     public static final String OPEN_1 = "O1";
     public static final String OPEN_2 = "O2";
     public static final String OPEN_3 = "O3";
+    public static final String U23 = "U23";
     public static final String U19 = "U19";
     public static final String U17 = "U17";
     public static final String ACCESS = "A";
@@ -91,16 +92,20 @@ public class Vue {
                 indexToSelect = 1;
                 break;
             }
-            case U19: {
+            case U23: {
                 indexToSelect = 5;
                 break;
             }
-            case U17: {
+            case U19: {
                 indexToSelect = 6;
                 break;
             }
-            case ACCESS: {
+            case U17: {
                 indexToSelect = 7;
+                break;
+            }
+            case ACCESS: {
+                indexToSelect = 8;
                 break;
             }
             default: {
@@ -127,6 +132,10 @@ public class Vue {
             }
             case OPEN_3: {
                 name = "Open 3";
+                break;
+            }
+            case U23: {
+                name = "U23";
                 break;
             }
             case U19: {
@@ -156,7 +165,7 @@ public class Vue {
                 break;
             }
             default: {
-                classToMap = "G";
+                classToMap = "H";
             }
         }
         return classToMap;

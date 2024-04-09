@@ -29,6 +29,12 @@
             android:icon="@android:drawable/ic_menu_preferences"
             >
         </item>
+        <item android:id="@+id/idMenuItemU23"
+            android:titleCondensed="@string/label_vue_u23"
+            android:title="@string/label_vue_u23"
+            android:icon="@android:drawable/ic_menu_preferences"
+            >
+        </item>
         <item android:id="@+id/idMenuItemU19"
             android:titleCondensed="@string/label_vue_u19"
             android:title="@string/label_vue_u19"
