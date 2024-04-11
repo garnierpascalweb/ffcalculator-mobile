@@ -4,15 +4,16 @@ import android.content.res.Resources;
 import android.util.Log;
 
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
-import com.gpwsofts.ffcalculator.mobile.services.grid.IGridService;
-import com.gpwsofts.ffcalculator.mobile.services.grid.SimpleGridService;
-import com.gpwsofts.ffcalculator.mobile.services.logo.ILogoService;
-import com.gpwsofts.ffcalculator.mobile.services.logo.SimpleLogoService;
-import com.gpwsofts.ffcalculator.mobile.services.network.INetworkService;
-import com.gpwsofts.ffcalculator.mobile.services.network.IPosService;
-import com.gpwsofts.ffcalculator.mobile.services.network.IPtsService;
-import com.gpwsofts.ffcalculator.mobile.services.network.SimplePosService;
-import com.gpwsofts.ffcalculator.mobile.services.network.SimplePtsService;
+import com.gpwsofts.ffcalculator.mobile.services.api.business.grid.IGridService;
+import com.gpwsofts.ffcalculator.mobile.services.api.business.grid.SimpleGridService;
+import com.gpwsofts.ffcalculator.mobile.services.api.business.logo.ILogoService;
+import com.gpwsofts.ffcalculator.mobile.services.api.business.logo.SimpleLogoService;
+import com.gpwsofts.ffcalculator.mobile.services.api.business.network.INetworkService;
+import com.gpwsofts.ffcalculator.mobile.services.api.http.pos.IPosHttpService;
+import com.gpwsofts.ffcalculator.mobile.services.api.http.pts.IPtsHttpService;
+import com.gpwsofts.ffcalculator.mobile.services.api.http.pos.SimplePosHttpService;
+import com.gpwsofts.ffcalculator.mobile.services.api.http.pts.SimplePtsHttpService;
+import com.gpwsofts.ffcalculator.mobile.services.api.business.network.SimpleNetworkService;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -46,12 +47,12 @@ public class ServicesManager {
     /**
      * Service http des points
      */
-    private IPtsService ptsService = null;
+    private IPtsHttpService ptsService = null;
 
     /**
      * Service http de classement
      */
-    private IPosService posService = null;
+    private IPosHttpService posService = null;
     /**
      * Service concernant l'état du reseau
      */
@@ -83,20 +84,20 @@ public class ServicesManager {
         return logoService;
     }
 
-    public final IPtsService getPtsService() {
+    public final IPtsHttpService getPtsService() {
         if (null == ptsService) {
             Log.i(TAG_NAME, "creation dune nouvelle instance de IPtsService");
-            ptsService = new SimplePtsService();
+            ptsService = new SimplePtsHttpService();
         } else {
             Log.d(TAG_NAME, "recuperation dune instance existante de IPtsService");
         }
         return ptsService;
     }
 
-    public final IPosService getPosService() {
+    public final IPosHttpService getPosService() {
         if (null == posService) {
             Log.i(TAG_NAME, "creation dune nouvelle instance de IPosService");
-            posService = new SimplePosService();
+            posService = new SimplePosHttpService();
         } else {
             Log.d(TAG_NAME, "recuperation d'une instance existante de IPosService");
         }

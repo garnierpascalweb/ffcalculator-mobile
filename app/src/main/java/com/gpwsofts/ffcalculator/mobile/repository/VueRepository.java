@@ -3,7 +3,7 @@ package com.gpwsofts.ffcalculator.mobile.repository;
 import androidx.lifecycle.LiveData;
 
 import com.gpwsofts.ffcalculator.mobile.model.Vue;
-import com.gpwsofts.ffcalculator.mobile.services.network.VueApiClient;
+import com.gpwsofts.ffcalculator.mobile.services.client.VueApiClient;
 
 /**
  * Repository pour la vue en cours

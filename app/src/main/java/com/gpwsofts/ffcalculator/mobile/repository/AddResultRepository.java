@@ -3,8 +3,7 @@ package com.gpwsofts.ffcalculator.mobile.repository;
 import androidx.lifecycle.LiveData;
 
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
-import com.gpwsofts.ffcalculator.mobile.services.network.AddResultApiClient;
-import com.gpwsofts.ffcalculator.mobile.services.network.OverAllPosApiClient;
+import com.gpwsofts.ffcalculator.mobile.services.client.AddResultApiClient;
 
 /**
  * Repository pour l'ajout d'un nouveau resultat

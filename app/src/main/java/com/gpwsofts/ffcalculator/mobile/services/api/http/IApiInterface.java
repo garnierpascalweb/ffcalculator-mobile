@@ -1,0 +1,23 @@
+package com.gpwsofts.ffcalculator.mobile.services.api.http;
+
+import com.gpwsofts.ffcalculator.mobile.services.api.http.pts.pojo.FFCPointsRequest;
+import com.gpwsofts.ffcalculator.mobile.services.api.http.pts.pojo.FFCPointsResponse;
+import com.gpwsofts.ffcalculator.mobile.services.api.http.pos.pojo.FFCPosRequest;
+import com.gpwsofts.ffcalculator.mobile.services.api.http.pos.pojo.FFCPosResponse;
+
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.POST;
+
+/**
+ * @since 1.0.0
+ * Interface de la couche cliente API
+ */
+public interface IApiInterface {
+    static final String URI_PTS = "ffcpoints.php";
+    static final String URI_CLASSEMENT = "ffcclass.php";
+    @POST(URI_PTS)
+    Call<FFCPointsResponse> calcPts(@Body FFCPointsRequest request);
+    @POST(URI_CLASSEMENT)
+    Call<FFCPosResponse> calcPos(@Body FFCPosRequest request);
+}

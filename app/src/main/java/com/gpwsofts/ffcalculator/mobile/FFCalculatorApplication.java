@@ -1,6 +1,7 @@
 package com.gpwsofts.ffcalculator.mobile;
 
 import android.app.Application;
+import android.net.ConnectivityManager;
 
 import com.gpwsofts.ffcalculator.mobile.dao.FFCalculatorDatabase;
 import com.gpwsofts.ffcalculator.mobile.services.ServicesManager;
@@ -18,15 +19,15 @@ public class FFCalculatorApplication extends Application {
      * @since 1.0.0
      */
     public static FFCalculatorApplication instance;
+    public FFCalculatorDatabase database;
 
-    public FFCalculatorDatabase database; //= FFCalculatorDatabase.getInstance(this);
 
     /**
      * Le service Manager pour gérer les services
-     *
      * @since 1.0.0
      */
     private ServicesManager servicesManager;
+    private ConnectivityManager connectivityManager;
 
     /**
      * Flag pour l'existence du Service Manager
@@ -72,5 +73,12 @@ public class FFCalculatorApplication extends Application {
             servicesManagerAlreadyExist = true;
         }
         return servicesManager;
+    }
+
+    public final ConnectivityManager getConnectivityManager(){
+        if (null == connectivityManager){
+            connectivityManager = getSystemService(ConnectivityManager.class);
+        }
+        return connectivityManager;
     }
 }

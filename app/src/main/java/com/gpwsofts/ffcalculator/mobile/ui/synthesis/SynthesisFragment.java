@@ -39,7 +39,6 @@ public class SynthesisFragment extends Fragment {
     private FragmentSynthesisBinding binding;
     private SynthesisViewModel synthesisViewModel;
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,7 +143,8 @@ public class SynthesisFragment extends Fragment {
 
         anyChartView.setChart(linearGauge);
 
-
+        // observation du total des points
+        // Update UI
         synthesisViewModel.getPts().observe(getViewLifecycleOwner(), pts -> {
             if (null != pts){
                 textViewPts.setText("Total des points : " + String.valueOf(pts) +" pts");
@@ -155,6 +155,8 @@ public class SynthesisFragment extends Fragment {
             }
 
         });
+        // observation du total des positions
+        // Update UI
         synthesisViewModel.getPos().observe(getViewLifecycleOwner(), pos -> {
             if (pos != null){
                 textViewPos.setText("Classement National : " + String.valueOf(pos) + " eme");
