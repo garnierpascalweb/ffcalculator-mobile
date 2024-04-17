@@ -58,7 +58,9 @@ public class SeasonFragment extends Fragment {
         resultRV.setHasFixedSize(true);
 
         resultViewModel.getAllResults().observe(getViewLifecycleOwner(), results -> {
+            Log.i(TAG_NAME, "debut observer getAllResults");
             adapter.submitList(results);
+            Log.i(TAG_NAME, "fin observer getAllResults");
         });
 
         //TODO 1.0.0 le swip ne marche pas dans le fragment puisque le swip est porté par le fragment

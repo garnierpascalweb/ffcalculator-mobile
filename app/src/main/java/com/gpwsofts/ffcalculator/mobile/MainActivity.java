@@ -48,7 +48,9 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater menuInflater = this.getMenuInflater();
         menuInflater.inflate(R.menu.vues_menu, menu);
         vueViewModel.getVueLiveData().observe(this, vue -> {
+            Log.i(TAG_NAME, "debut observer getVueLiveData = <" + vue + ">");
             menu.getItem(vue.getIndexInComboMenu()).setChecked(true);
+            Log.i(TAG_NAME, "fin observer getVueLiveData = <" + vue + ">");
         });
         return true;
     }

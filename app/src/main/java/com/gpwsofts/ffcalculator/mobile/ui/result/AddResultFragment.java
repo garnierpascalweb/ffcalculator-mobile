@@ -105,12 +105,14 @@ public class AddResultFragment extends Fragment {
         autoCompleteTextViewPrts.setAdapter(prtsRecyclerBaseAdapter);
         // observation de la vue courante
         vueViewModel.getVueLiveData().observe(getViewLifecycleOwner(), vue -> {
+            Log.i(TAG_NAME, "debut observer getVueLiveData = <" + vue + ">");
             addResultViewModel.updateGridChoices(vue);
             reinit();
+            Log.i(TAG_NAME, "fin observer getVueLiveData = <" + vue + ">");
         });
         // observation d'un nouveau resultat
         addResultViewModel.getAddedResult().observe(getViewLifecycleOwner(), result -> {
-            Log.i(TAG_NAME, "refreshUI sur addedResult");
+            Log.i(TAG_NAME, "debut observer getAddedResult = <" + result + ">");
             Log.d(TAG_NAME, "  nouveau resultat a ajouter " + result);
             // result peut etre null si un probleme tchnique survient au calcul des points (mResult.postValue(null))
             if (result != null){
@@ -124,25 +126,25 @@ public class AddResultFragment extends Fragment {
             } else {
                 Toast.makeText(getActivity(), "Probleme technique", Toast.LENGTH_SHORT).show();
             }
-            Log.i(TAG_NAME, "fin refreshUI sur addedResult");
+            Log.i(TAG_NAME, "fin observer getAddedResult = <" + result + ">");
         });
         // observation de la liste des grilles
         // update UI
         addResultViewModel.getGridsChoices().observe(getViewLifecycleOwner(), gridsList -> {
-            Log.i(TAG_NAME, "refreshUI sur la liste des grilles");
+            Log.i(TAG_NAME, "debut observer getGridsChoices");
             classesListAdapter.submitList(gridsList);
             textInputLayoutClasse.setHelperText("Vue " + vueViewModel.getVueLiveData().getValue().getName() + " - " + gridsList.size() + " types d'épreuves disponibles");
-            Log.i(TAG_NAME, "fin refreshUI sur la liste des grilles");
+            Log.i(TAG_NAME, "fin observer getGridsChoices");
         });
 
         // observation de la liste des positions
         // update UI
         addResultViewModel.getPosChoices().observe(getViewLifecycleOwner(), posList -> {
-            Log.i(TAG_NAME, "refreshUI sur la liste des positions");
+            Log.i(TAG_NAME, "debut observer getPosChoices");
             posListAdapter.submitList(posList);
             autoCompleteTextViewPos.setText(VIDE);
             textInputLayoutPos.setHelperText("Points attribués aux " + posList.size()+ " premiers pour une épreuve de type " + autoCompleteTextViewClasses.getText());
-            Log.i(TAG_NAME, "fin refreshUI sur la liste des positions");
+            Log.i(TAG_NAME, "fin observer getPosChoices");
         });
 
 
