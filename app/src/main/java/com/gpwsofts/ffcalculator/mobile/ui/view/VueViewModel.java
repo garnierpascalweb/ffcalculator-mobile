@@ -7,7 +7,7 @@ import com.gpwsofts.ffcalculator.mobile.model.Vue;
 import com.gpwsofts.ffcalculator.mobile.repository.VueRepository;
 
 public class VueViewModel extends ViewModel {
-    private VueRepository vueRepository;
+    private final VueRepository vueRepository;
     public VueViewModel(){
         vueRepository = VueRepository.getInstance();
     }

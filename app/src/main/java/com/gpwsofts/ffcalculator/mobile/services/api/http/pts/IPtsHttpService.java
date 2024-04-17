@@ -9,5 +9,5 @@ import retrofit2.Call;
  * Interface de calcul des points
  */
 public interface IPtsHttpService {
-    public Call<FFCPointsResponse> calcPts(String place, int pos, int prts, String classe);
+    Call<FFCPointsResponse> calcPts(String place, int pos, int prts, String classe);
 }

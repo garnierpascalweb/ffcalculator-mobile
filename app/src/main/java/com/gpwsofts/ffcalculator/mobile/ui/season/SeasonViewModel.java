@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class SeasonViewModel extends AndroidViewModel {
     private static final String TAG_NAME = "ResultViewModel";
-    private DatabaseResultRepository databaseResultRepository;
+    private final DatabaseResultRepository databaseResultRepository;
 
     public SeasonViewModel(Application application) {
         super(application);

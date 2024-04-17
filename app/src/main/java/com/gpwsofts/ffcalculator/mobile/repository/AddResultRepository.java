@@ -13,7 +13,7 @@ import com.gpwsofts.ffcalculator.mobile.services.client.AddResultApiClient;
 public class AddResultRepository {
     private static final String TAG_NAME = "AddResultRepository";
     private static AddResultRepository instance;
-    private AddResultApiClient addResultApiClient;
+    private final AddResultApiClient addResultApiClient;
     public static AddResultRepository getInstance(){
         if (null == instance)
             instance = new AddResultRepository();

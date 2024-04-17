@@ -13,7 +13,7 @@ public class VueRepository {
     private static final String TAG_NAME = "VueRepository";
     private static VueRepository instance;
 
-    private VueApiClient vueApiClient;
+    private final VueApiClient vueApiClient;
     public static VueRepository getInstance(){
         if (null == instance)
             instance = new VueRepository();

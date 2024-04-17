@@ -21,13 +21,14 @@ public class SimpleLogoService implements ILogoService {
 
     private static Map<String, Logo> logos;
 
-    private Resources res;
+    private final Resources res;
 
     public SimpleLogoService(Resources res) {
         this.res = res;
         logos = new HashMap<>();
         logos.put(res.getString(R.string.logo_elite),  new Logo(res.getColor(R.color.logo_elite), res.getString(R.string.logo_elite)));
         logos.put(res.getString(R.string.logo_open_1_2_3),  new Logo(res.getColor(R.color.logo_open_1_2_3), res.getString(R.string.logo_open_1_2_3)));
+        logos.put(res.getString(R.string.logo_open_1),  new Logo(res.getColor(R.color.logo_open_1), res.getString(R.string.logo_open_1)));
         logos.put(res.getString(R.string.logo_open_1_2),  new Logo(res.getColor(R.color.logo_open_1_2), res.getString(R.string.logo_open_1_2)));
         logos.put(res.getString(R.string.logo_open_2_3),  new Logo(res.getColor(R.color.logo_open_2_3), res.getString(R.string.logo_open_2_3)));
         logos.put(res.getString(R.string.logo_open_3),  new Logo(res.getColor(R.color.logo_open_3), res.getString(R.string.logo_open_3)));

@@ -12,7 +12,7 @@ import com.gpwsofts.ffcalculator.mobile.services.client.OverAllPosApiClient;
 public class OverallPosRepository {
     private static final String TAG_NAME = "OverallPosRepository";
     private static OverallPosRepository instance;
-    private OverAllPosApiClient posApiClient;
+    private final OverAllPosApiClient posApiClient;
     public static OverallPosRepository getInstance(){
         if (null == instance)
             instance = new OverallPosRepository();

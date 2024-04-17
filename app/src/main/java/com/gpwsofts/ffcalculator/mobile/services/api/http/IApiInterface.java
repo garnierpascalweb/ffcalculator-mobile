@@ -14,8 +14,8 @@ import retrofit2.http.POST;
  * Interface de la couche cliente API
  */
 public interface IApiInterface {
-    static final String URI_PTS = "ffcpoints.php";
-    static final String URI_CLASSEMENT = "ffcclass.php";
+    String URI_PTS = "ffcpoints.php";
+    String URI_CLASSEMENT = "ffcclass.php";
     @POST(URI_PTS)
     Call<FFCPointsResponse> calcPts(@Body FFCPointsRequest request);
     @POST(URI_CLASSEMENT)

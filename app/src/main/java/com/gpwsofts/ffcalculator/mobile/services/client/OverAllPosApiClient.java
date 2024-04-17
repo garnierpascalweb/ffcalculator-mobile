@@ -19,7 +19,7 @@ import retrofit2.Response;
 public class OverAllPosApiClient {
     private static final String TAG_NAME = "OverAllPosApiClient";
     private static OverAllPosApiClient instance;
-    private MutableLiveData<Integer> mPos;
+    private final MutableLiveData<Integer> mPos;
     private GetPosRunnable getPosRunnable;
 
     private OverAllPosApiClient() {
@@ -54,8 +54,8 @@ public class OverAllPosApiClient {
     // Calcul de la position avec l'API
     private class GetPosRunnable implements Runnable {
         boolean cancelRequest;
-        private double pts;
-        private String classType;
+        private final double pts;
+        private final String classType;
 
         public GetPosRunnable(double pts, String classType) {
             this.pts = pts;
@@ -100,7 +100,7 @@ public class OverAllPosApiClient {
 
         private Call<FFCPosResponse> getPos(double pts, String classType) {
             return FFCalculatorApplication.instance.getServicesManager().getPosService().calcPos(pts, classType);
-        };
+        }
 
         private void cancelRequest() {
             Log.v(TAG_NAME, "annulation de la requete");

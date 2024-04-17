@@ -11,8 +11,8 @@ import com.gpwsofts.ffcalculator.mobile.repository.DatabaseResultRepository;
 
 public class SynthesisViewModel extends AndroidViewModel {
     private static final String TAG_NAME = "SynthesisViewModel";
-    private DatabaseResultRepository repository;
-    private OverallPosRepository posRepository;
+    private final DatabaseResultRepository repository;
+    private final OverallPosRepository posRepository;
     public SynthesisViewModel(Application application) {
         super(application);
         Log.i(TAG_NAME, "Instantiation de SynthesisViewModel");

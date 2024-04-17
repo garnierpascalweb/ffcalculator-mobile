@@ -47,7 +47,7 @@ public class ResultViewHolder extends RecyclerView.ViewHolder {
         logoTextView.getBackground().setColorFilter(logoColor, PorterDuff.Mode.SRC_ATOP);
         placeTextView.setText(place);
         libelleTextView.setText(libelle);
-        resultPosPrtsTextView.setText(new StringBuilder().append(pos).append("e sur ").append(prts).toString());
+        resultPosPrtsTextView.setText(pos + "e sur " + prts);
         resultPtsView.setText(String.valueOf(pts));
 
     }

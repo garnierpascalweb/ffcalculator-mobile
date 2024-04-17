@@ -13,7 +13,7 @@ import java.util.List;
 public class GridRepository {
     private static final String TAG_NAME = "GridRepository";
     private static GridRepository instance;
-    private GridApiClient gridApiClient;
+    private final GridApiClient gridApiClient;
     public static GridRepository getInstance(){
         if (null == instance)
             instance = new GridRepository();

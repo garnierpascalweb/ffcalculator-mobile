@@ -14,5 +14,5 @@ public interface ILogoService {
      * @param idClasse
      * @return
      */
-    public Logo getLogo(String idClasse);
+    Logo getLogo(String idClasse);
 }

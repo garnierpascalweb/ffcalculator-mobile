@@ -58,7 +58,7 @@ public abstract class AbstractRecyclerBaseAdapter<VH extends RecyclerView.ViewHo
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
                 notifyDataSetChanged();
-            };
+            }
         };
     }
 }

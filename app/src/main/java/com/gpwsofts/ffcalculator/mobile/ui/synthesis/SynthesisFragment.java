@@ -50,107 +50,41 @@ public class SynthesisFragment extends Fragment {
         View root = binding.getRoot();
         final TextView textViewPts = binding.textAllpts;
         final TextView textViewPos = binding.textMypos;
-
-
-        AnyChartView anyChartView = binding.anyChartView;//findViewById(R.id.any_chart_view);
-        //anyChartView.setProgressBar(binding.progressBar);
-/*
-        Pyramid pyramid = AnyChart.pyramid();
-        List<DataEntry> data = new ArrayList<>();
-        data.add(new ValueDataEntry("TV promotion", 6371664));
-        data.add(new ValueDataEntry("Radio promotion", 7216301));
-        data.add(new ValueDataEntry("Advertising leaflets", 1486621));
-        data.add(new ValueDataEntry("Before advertising started", 1386622));
-        pyramid.data(data);
-        Legend legend = pyramid.legend();
-        legend.enabled(true);
-        legend.position("outside-right");
-        legend.itemsLayout(LegendLayout.VERTICAL);
-        legend.align(Align.TOP);
-
-        pyramid.labels(false);
-
-        anyChartView.setChart(pyramid);
-
-         */
-
+        AnyChartView anyChartView = binding.anyChartView;
         LinearGauge linearGauge = AnyChart.linear();
-        // la ou est la zigounette rouge
-
-
         linearGauge.layout(Layout.HORIZONTAL);
-
-        linearGauge.label(0)
-                .position(Position.LEFT_CENTER)
-                .anchor(Anchor.LEFT_CENTER)
-                .offsetY("40px")
-                .offsetX("50px")
-                .fontColor("black")
-                .fontSize(17);
-        linearGauge.label(0).text("Access");
-
-        linearGauge.label(1)
-                .position(Position.CENTER)
-                .anchor(Anchor.CENTER)
-                .offsetY("40px")
-                .offsetX("50px")
-                .fontColor("#777777")
-                .fontSize(17);
-        linearGauge.label(1).text("Open");
-
-        linearGauge.label(2)
-                .position(Position.RIGHT_CENTER)
-                .anchor(Anchor.RIGHT_CENTER)
-                .offsetY("40px")
-                .offsetX("50px")
-                .fontColor("#777777")
-                .fontSize(17);
-        linearGauge.label(2).text("Elite");
-
         OrdinalColor scaleBarColorScale = OrdinalColor.instantiate();
         scaleBarColorScale.ranges(new String[]{
-                "{ from: 0, to: 1500, color: ['green 0.5'] }",
-                "{ from: 1500, to: 3000, color: ['#3296ff 0.5'] }",
-                "{ from: 3000, to: 4000, color: ['#0064ff 0.5'] }",
-                "{ from: 4000, to: 4750, color: ['#0000ff 0.5'] }",
-                "{ from: 4750, to: 6000, color: ['#ff3300 0.5'] }"
+                "{ from: 0, to: 1885, color: ['green 0.5'] }",
+                "{ from: 1885, to: 4730, color: ['#3296ff 0.5'] }",
+                "{ from: 4730, to: 6115, color: ['#0064ff 0.5'] }",
+                "{ from: 6115, to: 6600, color: ['#0000ff 0.5'] }",
+                "{ from: 6600, to: 7000, color: ['#ff3300 0.5'] }"
         });
-
         linearGauge.scaleBar(0)
                 .width("5%")
                 .colorScale(scaleBarColorScale);
-
         linearGauge.marker(0)
                 .type(MarkerType.TRIANGLE_DOWN)
                 .color("red")
                 .offset("-3.5%")
                 .zIndex(10);
-
         linearGauge.scale()
                 .minimum(1)
-                .maximum(6000);
-//        linearGauge.scale().ticks
-
-        linearGauge.axis(0)
-                .minorTicks(false)
-                .width("1%");
-        linearGauge.axis(0)
-                .offset("-1.5%")
-                .orientation(Orientation.TOP)
-                .labels("top");
-
+                .maximum(7000);
+        linearGauge.legend("{ position:left, itemsLayout: horizontal, align: top}");
         linearGauge.padding(0, 30, 0, 30);
-
         anyChartView.setChart(linearGauge);
-
         // observation du total des points
         // Update UI
         synthesisViewModel.getPts().observe(getViewLifecycleOwner(), pts -> {
             if (null != pts){
-                textViewPts.setText("Total des points : " + String.valueOf(pts) +" pts");
+                textViewPts.setText("Total des points : " + pts +" pts");
                 //TODO 1.0.0 le classement national doit etre bati sur le type de vue
                 searchPosApi(pts, "H");
             } else {
+                textViewPts.setText("Aucun résultat");
+                textViewPos.setText("");
                 Log.w(TAG_NAME, "la valeur de pts est pas renseignee");
             }
 
@@ -159,9 +93,11 @@ public class SynthesisFragment extends Fragment {
         // Update UI
         synthesisViewModel.getPos().observe(getViewLifecycleOwner(), pos -> {
             if (pos != null){
-                textViewPos.setText("Classement National : " + String.valueOf(pos) + " eme");
-                linearGauge.data(new SingleValueDataSet(new Integer[] { pos }));
+                textViewPos.setText("Classement National : " + pos + " eme");
+                linearGauge.data(new SingleValueDataSet(new Integer[] { 7000-pos }));
             } else {
+                textViewPos.setText("Classement National : Echec du calcul de la position");
+                linearGauge.data(new SingleValueDataSet(new Integer[] { 7000 }));
                 Log.w(TAG_NAME, "la valeur de pos est pas renseignee apres appel au service");
             }
         });

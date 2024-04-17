@@ -21,9 +21,9 @@ import java.util.List;
  */
 public class AddResultViewModel extends AndroidViewModel {
     private static final String TAG_NAME = "AddResultViewModel";
-    private AddResultRepository addResultRepository;
-    private DatabaseResultRepository databaseResultRepository;
-    private GridRepository gridRepository;
+    private final AddResultRepository addResultRepository;
+    private final DatabaseResultRepository databaseResultRepository;
+    private final GridRepository gridRepository;
 
 
 

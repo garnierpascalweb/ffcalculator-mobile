@@ -20,8 +20,8 @@ import java.util.stream.IntStream;
 public class GridApiClient {
     private static final String TAG_NAME = "GridApiClient";
     private static GridApiClient instance;
-    private MutableLiveData<List<Grid>> mGridChoices;
-    private MutableLiveData<List<Integer>> mPosChoices;
+    private final MutableLiveData<List<Grid>> mGridChoices;
+    private final MutableLiveData<List<Integer>> mPosChoices;
     private LoadClassesChoicesRunnable loadClassesChoicesRunnable;
     private LoadPosChoicesRunnable loadPosChoicesRunnable;
     public static GridApiClient getInstance() {
@@ -79,7 +79,7 @@ public class GridApiClient {
      */
     private class LoadClassesChoicesRunnable implements Runnable {
         boolean cancelRequest;
-        private String vue;
+        private final String vue;
 
         public LoadClassesChoicesRunnable(String vue){
             this.vue = vue;
@@ -107,7 +107,7 @@ public class GridApiClient {
      */
     private class LoadPosChoicesRunnable implements Runnable {
         boolean cancelRequest;
-        private String libelle;
+        private final String libelle;
 
         public LoadPosChoicesRunnable(String libelle){
             this.libelle = libelle;
@@ -136,7 +136,7 @@ public class GridApiClient {
     private class GridToLibelleFunction implements Function<Grid, String> {
         @Override
         public String apply(Grid grid) {
-            return new StringBuilder().append(grid.libelle).append(" (").append(grid.code).append(")").toString();
+            return grid.libelle + " (" + grid.code + ")";
         }
     }
 }

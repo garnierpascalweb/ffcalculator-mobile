@@ -27,7 +27,7 @@ import retrofit2.Response;
 public class AddResultApiClient {
     private static final String TAG_NAME = "AddResultApiClient";
     private static AddResultApiClient instance;
-    private SingleLiveEvent<Result> mResult;
+    private final SingleLiveEvent<Result> mResult;
     private AddResultRunnable addResultRunnable;
     public static AddResultApiClient getInstance() {
         if (null == instance)
@@ -64,10 +64,10 @@ public class AddResultApiClient {
      */
     private class AddResultRunnable implements Runnable {
         boolean cancelRequest;
-        private String place;
-        private String libelle;
-        private int pos;
-        private int prts;
+        private final String place;
+        private final String libelle;
+        private final int pos;
+        private final int prts;
 
         public AddResultRunnable(String place, String libelle, int pos, int prts){
             this.place = place;

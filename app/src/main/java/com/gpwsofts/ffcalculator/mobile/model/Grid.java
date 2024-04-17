@@ -114,6 +114,6 @@ public class Grid implements Comparable{
      * @return la valeur du spinner value
      */
     public String getSpinnerItemValue(){
-        return new StringBuilder(libelle).append(" (").append(code).append(")").toString();
+        return libelle + " (" + code + ")";
     }
 }

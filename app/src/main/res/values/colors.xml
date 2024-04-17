@@ -16,6 +16,7 @@
     <!-- Couleurs des logos -->
     <color name="logo_elite">#ff3300</color>
     <color name="logo_open_1_2_3">#0000ff</color>
+    <color name="logo_open_1">#0000ff</color>
     <color name="logo_open_1_2">#0000ff</color>
     <color name="logo_open_2_3">#0064ff</color>
     <color name="logo_open_3">#3296ff</color>

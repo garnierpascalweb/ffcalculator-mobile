@@ -17,10 +17,10 @@ import java.util.concurrent.TimeUnit;
 public class VueApiClient {
     private static final String TAG_NAME = "VueApiClient";
     private static VueApiClient instance;
-    private MutableLiveData<Vue> mVue;
+    private final MutableLiveData<Vue> mVue;
     private SetVueRunnable setVueRunnable;
-    private SharedPreferences sharedPrefs;
-    private SharedPreferences.Editor sharedPrefsEditor;
+    private final SharedPreferences sharedPrefs;
+    private final SharedPreferences.Editor sharedPrefsEditor;
     private static final String SHARED_PREFS_APP_NAME = "FFCalculatorSharedPrefs";
     private static final String KEY_VUE = "vue";
     private static final String DEFAULT_VUE_VALUE = "G";
@@ -66,7 +66,7 @@ public class VueApiClient {
      */
     private class SetVueRunnable implements Runnable {
         boolean cancelRequest;
-        private String vue;
+        private final String vue;
         public SetVueRunnable(String vue){
             this.vue = vue;
         }
