@@ -47,11 +47,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = this.getMenuInflater();
         menuInflater.inflate(R.menu.vues_menu, menu);
-        vueViewModel.getVueLiveData().observe(this, vue -> {
-            Log.i(TAG_NAME, "debut observer getVueLiveData = <" + vue + ">");
-            menu.getItem(vue.getIndexInComboMenu()).setChecked(true);
-            Log.i(TAG_NAME, "fin observer getVueLiveData = <" + vue + ">");
-        });
+        Vue currentVue = vueViewModel.getVueLiveData().getValue();
+        if (currentVue != null){
+            menu.getItem(currentVue.getIndexInComboMenu()).setChecked(true);
+        }
         return true;
     }
 

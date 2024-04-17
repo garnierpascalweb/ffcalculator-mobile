@@ -78,6 +78,7 @@ public class SynthesisFragment extends Fragment {
         // observation du total des points
         // Update UI
         synthesisViewModel.getPts().observe(getViewLifecycleOwner(), pts -> {
+            Log.i(TAG_NAME, "debut observer getPts");
             if (null != pts){
                 textViewPts.setText("Total des points : " + pts +" pts");
                 //TODO 1.0.0 le classement national doit etre bati sur le type de vue
@@ -87,11 +88,12 @@ public class SynthesisFragment extends Fragment {
                 textViewPos.setText("");
                 Log.w(TAG_NAME, "la valeur de pts est pas renseignee");
             }
-
+            Log.i(TAG_NAME, "fin observer getPts");
         });
         // observation du total des positions
         // Update UI
         synthesisViewModel.getPos().observe(getViewLifecycleOwner(), pos -> {
+            Log.i(TAG_NAME, "debut observer getPos");
             if (pos != null){
                 textViewPos.setText("Classement National : " + pos + " eme");
                 linearGauge.data(new SingleValueDataSet(new Integer[] { 7000-pos }));
@@ -100,6 +102,7 @@ public class SynthesisFragment extends Fragment {
                 linearGauge.data(new SingleValueDataSet(new Integer[] { 7000 }));
                 Log.w(TAG_NAME, "la valeur de pos est pas renseignee apres appel au service");
             }
+            Log.i(TAG_NAME, "fin observer getPos");
         });
         return root;
     }
