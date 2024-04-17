@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.gpwsofts.ffcalculator.mobile.AppExecutors;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
+import com.gpwsofts.ffcalculator.mobile.common.SingleLiveEvent;
 import com.gpwsofts.ffcalculator.mobile.model.Grid;
 import com.gpwsofts.ffcalculator.mobile.services.api.business.grid.IGridService;
 
@@ -20,8 +21,8 @@ import java.util.stream.IntStream;
 public class GridApiClient {
     private static final String TAG_NAME = "GridApiClient";
     private static GridApiClient instance;
-    private final MutableLiveData<List<Grid>> mGridChoices;
-    private final MutableLiveData<List<Integer>> mPosChoices;
+    private final SingleLiveEvent<List<Grid>> mGridChoices;
+    private final SingleLiveEvent<List<Integer>> mPosChoices;
     private LoadClassesChoicesRunnable loadClassesChoicesRunnable;
     private LoadPosChoicesRunnable loadPosChoicesRunnable;
     public static GridApiClient getInstance() {
@@ -31,8 +32,8 @@ public class GridApiClient {
     }
     private GridApiClient(){
         Log.i(TAG_NAME,"instanciation de GridApiClient");
-        mGridChoices = new MutableLiveData<List<Grid>>();
-        mPosChoices = new MutableLiveData<List<Integer>>();
+        mGridChoices = new SingleLiveEvent<List<Grid>>();
+        mPosChoices = new SingleLiveEvent<List<Integer>>();
         Log.i(TAG_NAME,"fin instanciation de GridApiClient");
     }
 
