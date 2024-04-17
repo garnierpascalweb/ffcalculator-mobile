@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.gpwsofts.ffcalculator.mobile.AppExecutors;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
+import com.gpwsofts.ffcalculator.mobile.common.SingleLiveEvent;
 import com.gpwsofts.ffcalculator.mobile.model.Vue;
 
 import java.util.concurrent.Future;
@@ -17,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 public class VueApiClient {
     private static final String TAG_NAME = "VueApiClient";
     private static VueApiClient instance;
-    private final MutableLiveData<Vue> mVue;
+    private final SingleLiveEvent<Vue> mVue;
     private SetVueRunnable setVueRunnable;
     private final SharedPreferences sharedPrefs;
     private final SharedPreferences.Editor sharedPrefsEditor;
@@ -26,7 +27,7 @@ public class VueApiClient {
     private static final String DEFAULT_VUE_VALUE = "G";
     private VueApiClient() {
         Log.i(TAG_NAME,"instanciation de VueApiClient");
-        mVue = new MutableLiveData<Vue>();
+        mVue = new SingleLiveEvent<Vue>();
         sharedPrefs = FFCalculatorApplication.instance.getApplicationContext().getSharedPreferences(SHARED_PREFS_APP_NAME, Context.MODE_PRIVATE);
         sharedPrefsEditor = sharedPrefs.edit();
         Log.v(TAG_NAME, "recherche dans les shared prefs de la valeur de <" + KEY_VUE + ">");
