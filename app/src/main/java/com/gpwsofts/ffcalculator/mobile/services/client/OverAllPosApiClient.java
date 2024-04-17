@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.gpwsofts.ffcalculator.mobile.AppExecutors;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
+import com.gpwsofts.ffcalculator.mobile.common.SingleLiveEvent;
 import com.gpwsofts.ffcalculator.mobile.services.api.http.pos.pojo.FFCPosResponse;
 
 import java.io.IOException;
@@ -19,12 +20,12 @@ import retrofit2.Response;
 public class OverAllPosApiClient {
     private static final String TAG_NAME = "OverAllPosApiClient";
     private static OverAllPosApiClient instance;
-    private final MutableLiveData<Integer> mPos;
+    private final SingleLiveEvent<Integer> mPos;
     private GetPosRunnable getPosRunnable;
 
     private OverAllPosApiClient() {
         Log.i(TAG_NAME,"instanciation de OverAllPosApiClient");
-        mPos = new MutableLiveData<Integer>();
+        mPos = new SingleLiveEvent<Integer>();
         Log.i(TAG_NAME,"fin instanciation de OverAllPosApiClient");
     }
 
