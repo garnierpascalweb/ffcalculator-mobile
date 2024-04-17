@@ -38,7 +38,11 @@ public class SynthesisFragment extends Fragment {
     private static final String TAG_NAME = "SynthesisFragment";
     private FragmentSynthesisBinding binding;
     private SynthesisViewModel synthesisViewModel;
-
+    private TextView textViewPts;
+    private TextView textViewPos;
+    private AnyChartView anyChartView;
+    private LinearGauge linearGauge;
+    private OrdinalColor scaleBarColorScale;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,12 +52,12 @@ public class SynthesisFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentSynthesisBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        final TextView textViewPts = binding.textAllpts;
-        final TextView textViewPos = binding.textMypos;
-        AnyChartView anyChartView = binding.anyChartView;
-        LinearGauge linearGauge = AnyChart.linear();
+        textViewPts = binding.textAllpts;
+        textViewPos = binding.textMypos;
+        anyChartView = binding.anyChartView;
+        linearGauge = AnyChart.linear();
         linearGauge.layout(Layout.HORIZONTAL);
-        OrdinalColor scaleBarColorScale = OrdinalColor.instantiate();
+        scaleBarColorScale = OrdinalColor.instantiate();
         scaleBarColorScale.ranges(new String[]{
                 "{ from: 0, to: 1885, color: ['green 0.5'] }",
                 "{ from: 1885, to: 4730, color: ['#3296ff 0.5'] }",
@@ -74,7 +78,7 @@ public class SynthesisFragment extends Fragment {
                 .maximum(7000);
         linearGauge.legend("{ position:left, itemsLayout: horizontal, align: top}");
         linearGauge.padding(0, 30, 0, 30);
-        anyChartView.setChart(linearGauge);
+
         // observation du total des points
         // Update UI
         synthesisViewModel.getPts().observe(getViewLifecycleOwner(), pts -> {
@@ -104,6 +108,7 @@ public class SynthesisFragment extends Fragment {
             }
             Log.i(TAG_NAME, "fin observer getPos");
         });
+        anyChartView.setChart(linearGauge);
         return root;
     }
 

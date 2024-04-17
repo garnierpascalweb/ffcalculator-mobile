@@ -22,6 +22,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentResultBinding;
+import com.gpwsofts.ffcalculator.mobile.model.Vue;
 import com.gpwsofts.ffcalculator.mobile.ui.view.VueViewModel;
 import com.gpwsofts.ffcalculator.mobile.ui.season.SeasonViewModel;
 
@@ -103,11 +104,12 @@ public class AddResultFragment extends Fragment {
         autoCompleteTextViewClasses.setAdapter(classesRecyclerBaseAdapter);
         autoCompleteTextViewPos.setAdapter(posRecyclerBaseAdapter);
         autoCompleteTextViewPrts.setAdapter(prtsRecyclerBaseAdapter);
+        // initialisation de l'écran par la vue
+        onUpdatedVue(vueViewModel.getVueLiveData().getValue());
         // observation de la vue courante
         vueViewModel.getVueLiveData().observe(getViewLifecycleOwner(), vue -> {
             Log.i(TAG_NAME, "debut observer getVueLiveData = <" + vue + ">");
-            addResultViewModel.updateGridChoices(vue);
-            reinit();
+            onUpdatedVue(vue);
             Log.i(TAG_NAME, "fin observer getVueLiveData = <" + vue + ">");
         });
         // observation d'un nouveau resultat
@@ -159,7 +161,13 @@ public class AddResultFragment extends Fragment {
         // ecouteur de click sur le bouton ajouter
         // declenche une action de sauvegarde du resultat
         buttonAjouter.setOnClickListener(vue -> saveResult());
+        Log.i(TAG_NAME, "fin appel de onCreateView");
         return root;
+    }
+
+    private void onUpdatedVue(Vue vue){
+        addResultViewModel.updateGridChoices(vue);
+        reinit();
     }
 
     /**
