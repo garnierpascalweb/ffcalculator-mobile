@@ -45,12 +45,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        Log.i(TAG_NAME, "debut onCreateOptionsMenu");
         MenuInflater menuInflater = this.getMenuInflater();
         menuInflater.inflate(R.menu.vues_menu, menu);
         Vue currentVue = vueViewModel.getVueLiveData().getValue();
         if (currentVue != null){
+            Log.i(TAG_NAME, "  setting check sur " + currentVue.getName());
             menu.getItem(currentVue.getIndexInComboMenu()).setChecked(true);
         }
+        Log.i(TAG_NAME, "fin onCreateOptionsMenu");
         return true;
     }
 
@@ -96,8 +99,6 @@ public class MainActivity extends AppCompatActivity {
             boolReturn = super.onOptionsItemSelected(item);
         }
         return boolReturn;
-
-
     }
 
     /**

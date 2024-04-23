@@ -42,7 +42,7 @@ public class DatabaseResultRepository {
 
     public LiveData<Double> getPts(){
         Log.i(TAG_NAME, "Recuperation du total des points");
-        //TODO 1.0.0 si ya rien en ase de données, le liveData contient un Double qui est null
+        // si ya rien en ase de données, le liveData contient un Double qui est null
         return resultDao.getPts();
     }
 

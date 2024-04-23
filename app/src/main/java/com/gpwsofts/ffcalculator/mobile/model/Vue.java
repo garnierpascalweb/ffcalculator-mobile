@@ -1,10 +1,13 @@
 package com.gpwsofts.ffcalculator.mobile.model;
 
+import android.util.Log;
+
 /**
  * @since 1.0.0
  * Un model pour une vue
  */
 public class Vue {
+    private static final String TAG_NAME = "Vue";
     public static final String GENERALE = "G";
     public static final String ELITE = "E";
     public static final String OPEN_1 = "O1";
@@ -35,10 +38,12 @@ public class Vue {
     private String mapClass;
 
     public Vue(String code) {
+        Log.i(TAG_NAME, "construction dune vue pour <" + code + ">");
         this.code = code;
         this.name = getName(code);
         this.indexInComboMenu = getIndexInMenu(code);
         this.mapClass = getClassToMap(code);
+        Log.i(TAG_NAME, "fin construction dune vue pour <" + code + ">");
     }
 
     public String getCode() {
