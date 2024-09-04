@@ -27,8 +27,10 @@ import com.anychart.enums.LegendLayout;
 import com.anychart.enums.Orientation;
 import com.anychart.enums.Position;
 import com.anychart.scales.OrdinalColor;
+import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentSynthesisBinding;
 import com.anychart.enums.MarkerType;
+import com.gpwsofts.ffcalculator.mobile.ui.view.VueViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,7 @@ public class SynthesisFragment extends Fragment {
     private static final String TAG_NAME = "SynthesisFragment";
     private FragmentSynthesisBinding binding;
     private SynthesisViewModel synthesisViewModel;
+    private VueViewModel vueViewModel;
     private TextView textViewPts;
     private TextView textViewPos;
     private AnyChartView anyChartView;
@@ -47,6 +50,7 @@ public class SynthesisFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         synthesisViewModel = new ViewModelProvider(this).get(SynthesisViewModel.class);
+        vueViewModel = new ViewModelProvider(this).get(VueViewModel.class);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -85,8 +89,8 @@ public class SynthesisFragment extends Fragment {
             Log.i(TAG_NAME, "debut observer getPts");
             if (null != pts){
                 textViewPts.setText("Total des points : " + pts +" pts");
-                //TODO 1.0.0 le classement national doit etre bati sur le type de vue
-                searchPosApi(pts, "H");
+                final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
+                searchPosApi(pts, classType);
             } else {
                 textViewPts.setText("Aucun résultat");
                 textViewPos.setText("");
@@ -98,11 +102,13 @@ public class SynthesisFragment extends Fragment {
         // Update UI
         synthesisViewModel.getPos().observe(getViewLifecycleOwner(), pos -> {
             Log.i(TAG_NAME, "debut observer getPos");
+            final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
             if (pos != null){
-                textViewPos.setText("Classement National : " + pos + " eme");
+                // textViewPos.setText("Classement National : " + pos + " eme");
+                textViewPos.setText(getString(R.string.label_classement_national, classType, pos));
                 linearGauge.data(new SingleValueDataSet(new Integer[] { 7000-pos }));
             } else {
-                textViewPos.setText("Classement National : Echec du calcul de la position");
+                textViewPos.setText(getString(R.string.label_classement_national_ko));
                 linearGauge.data(new SingleValueDataSet(new Integer[] { 7000 }));
                 Log.w(TAG_NAME, "la valeur de pos est pas renseignee apres appel au service");
             }
