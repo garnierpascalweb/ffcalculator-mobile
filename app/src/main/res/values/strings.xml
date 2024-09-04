@@ -63,7 +63,7 @@
 
 
     <!-- fragment synthese -->
-    <string name="label_total_pts">Total des points : %1$d pts</string>
+    <string name="label_total_pts">Total des points : %1$.2f pts</string>
     <string name="label_aucun_resultat">Aucun Résultat</string>
     <string name="label_classement_national">Classement National %1$s : %2$d eme</string>
     <string name="label_classement_national_ko">Classement National : Echec du calcul de la position</string>
