@@ -88,11 +88,11 @@ public class SynthesisFragment extends Fragment {
         synthesisViewModel.getPts().observe(getViewLifecycleOwner(), pts -> {
             Log.i(TAG_NAME, "debut observer getPts");
             if (null != pts){
-                textViewPts.setText("Total des points : " + pts +" pts");
+                textViewPts.setText(getString(R.string.label_total_pts, pts));
                 final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
                 searchPosApi(pts, classType);
             } else {
-                textViewPts.setText("Aucun résultat");
+                textViewPts.setText(getString(R.string.label_aucun_resultat));
                 textViewPos.setText("");
                 Log.w(TAG_NAME, "la valeur de pts est pas renseignee");
             }
