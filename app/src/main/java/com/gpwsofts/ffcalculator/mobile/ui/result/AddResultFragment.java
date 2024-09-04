@@ -27,6 +27,7 @@ import com.gpwsofts.ffcalculator.mobile.ui.view.VueViewModel;
 import com.gpwsofts.ffcalculator.mobile.ui.season.SeasonViewModel;
 
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -76,6 +77,7 @@ public class AddResultFragment extends Fragment {
         prtsListAdapter = new IntegerListAdapter(new IntegerListAdapter.IntDiff());
         prtsRecyclerBaseAdapter = new IntegerRecyclerBaseAdapter(prtsListAdapter);
         prtsListAdapter.submitList(IntStream.rangeClosed(1, 200).boxed().collect(Collectors.toList()));
+
         hintPlace = getResources().getString(R.string.hint_lieu_epreuve);
         hintType = getResources().getString(R.string.hint_type_epreuve);
         hintPos = getResources().getString(R.string.hint_place_obtenue);
