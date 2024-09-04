@@ -124,9 +124,9 @@ public class AddResultFragment extends Fragment {
                 reinit();
                 // navigation au fragment de saison
                 Navigation.findNavController(binding.getRoot()).navigate(R.id.navigation_season);
-                Toast.makeText(getActivity(), "Nouveau résultat ajouté", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getString(R.string.toast_add_result_ok), Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getActivity(), "Probleme technique", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getString(R.string.toast_add_result_ko), Toast.LENGTH_SHORT).show();
             }
             Log.i(TAG_NAME, "fin observer getAddedResult = <" + result + ">");
         });
@@ -135,7 +135,8 @@ public class AddResultFragment extends Fragment {
         addResultViewModel.getGridsChoices().observe(getViewLifecycleOwner(), gridsList -> {
             Log.i(TAG_NAME, "debut observer getGridsChoices");
             classesListAdapter.submitList(gridsList);
-            textInputLayoutClasse.setHelperText("Vue " + vueViewModel.getVueLiveData().getValue().getName() + " - " + gridsList.size() + " types d'épreuves disponibles");
+            //textInputLayoutClasse.setHelperText("Vue " + vueViewModel.getVueLiveData().getValue().getName() + " - " + gridsList.size() + " types d'épreuves disponibles");
+            textInputLayoutClasse.setHelperText(getString(R.string.combo_classes_helper_text, vueViewModel.getVueLiveData().getValue().getName(), gridsList.size()));
             Log.i(TAG_NAME, "fin observer getGridsChoices");
         });
 
@@ -145,7 +146,8 @@ public class AddResultFragment extends Fragment {
             Log.i(TAG_NAME, "debut observer getPosChoices");
             posListAdapter.submitList(posList);
             autoCompleteTextViewPos.setText(VIDE);
-            textInputLayoutPos.setHelperText("Points attribués aux " + posList.size()+ " premiers pour une épreuve de type " + autoCompleteTextViewClasses.getText());
+            // textInputLayoutPos.setHelperText("Points attribués aux " + posList.size()+ " premiers pour une épreuve de type " + autoCompleteTextViewClasses.getText());
+            textInputLayoutPos.setHelperText(getString(R.string.combo_pos_helper_text, posList.size(),  autoCompleteTextViewClasses.getText() ));
             Log.i(TAG_NAME, "fin observer getPosChoices");
         });
 
@@ -198,7 +200,7 @@ public class AddResultFragment extends Fragment {
         } else {
             // pas connecte a internet
             Log.e(TAG_NAME, "pas de reseau");
-            Toast.makeText(getActivity(), "Pas de réseau", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getString(R.string.toast_no_network), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -212,7 +214,7 @@ public class AddResultFragment extends Fragment {
     private boolean validateEditable(String name, Editable editable){
         boolean isEmpty = (null == editable || editable.length() == 0);
         if (isEmpty)
-            Toast.makeText(getActivity(), name + " doit etre complété", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getString(R.string.toast_form_incomplet, name), Toast.LENGTH_SHORT).show();
         return !isEmpty;
     }
 
@@ -227,7 +229,7 @@ public class AddResultFragment extends Fragment {
     private boolean validateResultInput(String place, String libelle, int pos, int prts){
         boolean isValid = pos <= prts;
         if (!isValid)
-            Toast.makeText(getActivity(), "La place obtenue ne peut etre supérieure aux nombre de participants", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getString(R.string.toast_invalid_pos_prts), Toast.LENGTH_SHORT).show();
         return isValid;
     }
 

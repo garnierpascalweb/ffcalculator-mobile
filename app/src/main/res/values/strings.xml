@@ -51,7 +51,18 @@
     <string name="logo_cdfn2">CDF N2</string>
     <string name="logo_cdfn3">CDF N3</string>
 
-    <!-- frangment synthese -->
+    <!-- fragment ajouter resultat -->
+    <string name="combo_classes_helper_text">Vue %1$s - %2$d types d\'épreuves disponibles</string>
+    <string name="combo_pos_helper_text">Points attribués aux %1$d premiers pour une épreuve de type %2$s</string>
+    <string name="toast_add_result_ok">Nouveau résultat ajouté</string>
+    <string name="toast_add_result_ko">Echec de l\'ajout d\'un nouveau résultat</string>
+    <string name="toast_no_network">Pas de Réseau</string>
+    <string name="toast_form_incomplet">%1$s doit etre complété</string>
+    <string name="toast_invalid_pos_prts">La place obtenue ne peut etre supérieure aux nombre de participants</string>
+
+
+
+    <!-- fragment synthese -->
     <string name="label_total_pts">Total des points : %1$d pts</string>
     <string name="label_aucun_resultat">Aucun Résultat</string>
     <string name="label_classement_national">Classement National %1$s : %2$d eme</string>
