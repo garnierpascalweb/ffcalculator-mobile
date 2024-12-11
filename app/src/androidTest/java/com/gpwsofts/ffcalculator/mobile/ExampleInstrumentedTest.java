@@ -33,16 +33,18 @@ import java.util.Scanner;
 /**
  * Tests instrumentalisés a base d'Espresso
  * Instrumented test, which will execute on an Android device.
+ *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest {
-    private static final String  TAG_NAME = "ExampleInstrumentedTest";
+    private static final String TAG_NAME = "ExampleInstrumentedTest";
     //TODO 1.0.0 erreur on a vu des junior classe 1 avec le logo u17
     /**
      * le scenario rule
      */
-    @Rule public ActivityScenarioRule<MainActivity> activityScenarioRule = new ActivityScenarioRule<>(MainActivity.class);
+    @Rule
+    public ActivityScenarioRule<MainActivity> activityScenarioRule = new ActivityScenarioRule<>(MainActivity.class);
 
     /**
      * La liste des communes de France (utilisees dans le cadre de la construction d'un resultat)
@@ -58,6 +60,7 @@ public class ExampleInstrumentedTest {
      * Chargement de la liste des grilles depuis assets
      * Chargement de la liste des communes
      * Boucle sur addResult
+     *
      * @throws IOException
      */
     @Test
@@ -66,16 +69,17 @@ public class ExampleInstrumentedTest {
         loadCommunesFromFile();
         Espresso.onView(withId(R.id.navigation_result)).perform(ViewActions.click());
         //TODO 1.0.0 test repeat comme avec testNg ?
-        for (int i=0; i<84; i++) {
+        for (int i = 0; i < 84; i++) {
             addRandomResult(i);
         }
     }
 
     /**
      * Ajout d'un résultat aléatoire
+     *
      * @param index
      */
-    protected void addRandomResult(int index){
+    protected void addRandomResult(int index) {
         RandomResult result = getRandomResult(index);
         Espresso.onView(withId(R.id.navigation_result)).perform(ViewActions.click());
         Espresso.onView(withId(R.id.idTIETPlace)).perform(replaceText(result.place));
@@ -95,19 +99,20 @@ public class ExampleInstrumentedTest {
      * la commune est piochée aléatoirement parmi les communes francaises
      * la grille correspod  l'index demandé
      * le resultat garantit une cohérence de la position et du nombre de prts
+     *
      * @param index
      * @return une instance de RandomResult, résultat aléatoire
      */
-    protected RandomResult getRandomResult(int index){
+    protected RandomResult getRandomResult(int index) {
         int gridsSize = grids.size();
         int communesSize = communes.size();
         Random rand = new Random();
         Grid grid = grids.get(index);
         int maxPos = grid.getMaxPos();
-        String place = communes.get(rand.nextInt(communesSize-1));
+        String place = communes.get(rand.nextInt(communesSize - 1));
         String spinnerItemValue = grid.getSpinnerItemValue();
-        int pos = 1+rand.nextInt(maxPos);
-        int prts = pos+rand.nextInt(200);
+        int pos = 1 + rand.nextInt(maxPos);
+        int prts = pos + rand.nextInt(200);
         RandomResult randomResult = new RandomResult();
         randomResult.classe = spinnerItemValue;
         randomResult.place = place;
@@ -118,6 +123,7 @@ public class ExampleInstrumentedTest {
 
     /**
      * chargement de la grille de points
+     *
      * @throws IOException
      */
     protected void loadGridsFromFile() throws IOException {
@@ -148,16 +154,17 @@ public class ExampleInstrumentedTest {
 
     /**
      * changement des communes francaises
+     *
      * @throws IOException
      */
-    protected void loadCommunesFromFile()  throws IOException {
+    protected void loadCommunesFromFile() throws IOException {
         InputStream is = null;
         Scanner scanner = null;
         try {
             communes = new ArrayList<String>();
             is = InstrumentationRegistry.getInstrumentation().getContext().getResources().getAssets().open("grids/communes.txt");
             scanner = new Scanner(is);
-            while (scanner.hasNextLine()){
+            while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 communes.add(line.trim());
             }
@@ -172,7 +179,7 @@ public class ExampleInstrumentedTest {
     /**
      * inner class pour encapsuler les données d'un resultat
      */
-    private class RandomResult  {
+    private class RandomResult {
         String place;
         String classe;
         int pos;

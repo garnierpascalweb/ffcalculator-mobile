@@ -2,7 +2,7 @@ package com.gpwsofts.ffcalculator.mobile.ui.result;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class IntegerRecyclerBaseAdapter extends AbstractRecyclerBaseAdapter{
+public class IntegerRecyclerBaseAdapter extends AbstractRecyclerBaseAdapter {
     public IntegerRecyclerBaseAdapter(RecyclerView.Adapter adapter) {
         super(adapter);
     }

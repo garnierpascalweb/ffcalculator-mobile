@@ -24,6 +24,7 @@ public class FFCalculatorApplication extends Application {
 
     /**
      * Le service Manager pour gérer les services
+     *
      * @since 1.0.0
      */
     private ServicesManager servicesManager;
@@ -75,8 +76,8 @@ public class FFCalculatorApplication extends Application {
         return servicesManager;
     }
 
-    public final ConnectivityManager getConnectivityManager(){
-        if (null == connectivityManager){
+    public final ConnectivityManager getConnectivityManager() {
+        if (null == connectivityManager) {
             connectivityManager = getSystemService(ConnectivityManager.class);
         }
         return connectivityManager;

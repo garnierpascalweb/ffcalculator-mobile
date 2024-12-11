@@ -13,18 +13,13 @@ import java.util.List;
 /**
  * Repository pour la liste des resultats en base de données
  * Basé sur la base de données
+ *
  * @since 1.0.0
  */
 public class DatabaseResultRepository {
-    private static DatabaseResultRepository instance;
     private static final String TAG_NAME = "DatabaseResultRepository";
+    private static DatabaseResultRepository instance;
     private final ResultDao resultDao;
-
-    public static DatabaseResultRepository getInstance(){
-        if (null == instance)
-            instance = new DatabaseResultRepository();
-        return instance;
-    }
 
     private DatabaseResultRepository() {
         Log.i(TAG_NAME, "Instanciation de ResultRepository");
@@ -35,12 +30,18 @@ public class DatabaseResultRepository {
         Log.i(TAG_NAME, "Fin Instanciation de ResultRepository");
     }
 
+    public static DatabaseResultRepository getInstance() {
+        if (null == instance)
+            instance = new DatabaseResultRepository();
+        return instance;
+    }
+
     public LiveData<List<Result>> getAllResults() {
         Log.i(TAG_NAME, "Recuperation de tous les resultats");
         return resultDao.getAllResults();
     }
 
-    public LiveData<Double> getPts(){
+    public LiveData<Double> getPts() {
         Log.i(TAG_NAME, "Recuperation du total des points");
         // si ya rien en ase de données, le liveData contient un Double qui est null
         return resultDao.getPts();

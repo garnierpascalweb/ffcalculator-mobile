@@ -50,7 +50,7 @@ public class SimpleGridService implements IGridService {
             Collections.sort(grids);
             Log.i(TAG_NAME, "fin du chargement des grilles - <" + grids.size() + "> grilles chargees");
         } catch (IOException e) {
-           Log.wtf(TAG_NAME, "probleme lors du chargement des grilles");
+            Log.wtf(TAG_NAME, "probleme lors du chargement des grilles");
         } finally {
             if (is != null) {
                 try {

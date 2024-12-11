@@ -7,7 +7,7 @@ import java.util.List;
  * @since 1.0.0
  * Modele pour une grille telles que définies dans le tableau Json
  */
-public class Grid implements Comparable{
+public class Grid implements Comparable {
     public String code;
     public int priority;
     public String logo;
@@ -106,14 +106,14 @@ public class Grid implements Comparable{
 
     @Override
     public int compareTo(Object other) {
-        return Integer.compare(priority,((Grid)other).getPriority());
+        return Integer.compare(priority, ((Grid) other).getPriority());
     }
 
     /**
-     * @since 1.0.0
      * @return la valeur du spinner value
+     * @since 1.0.0
      */
-    public String getSpinnerItemValue(){
+    public String getSpinnerItemValue() {
         return libelle + " (" + code + ")";
     }
 }

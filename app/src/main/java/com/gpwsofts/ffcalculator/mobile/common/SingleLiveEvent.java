@@ -1,16 +1,19 @@
 package com.gpwsofts.ffcalculator.mobile.common;
 
 import android.util.Log;
+
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
+
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * https://stackoverflow.com/questions/59840883/when-i-go-back-to-a-fragment-the-observer-is-immediately-called
+ *
  * @param <T>
  */
 public class SingleLiveEvent<T> extends MutableLiveData<T> {

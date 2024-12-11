@@ -11,7 +11,6 @@ import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.model.Logo;
 import com.gpwsofts.ffcalculator.mobile.services.api.http.pts.pojo.FFCPointsResponse;
 
-
 import java.io.IOException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -29,22 +28,25 @@ public class AddResultApiClient {
     private static AddResultApiClient instance;
     private final SingleLiveEvent<Result> mResult;
     private AddResultRunnable addResultRunnable;
+
+    private AddResultApiClient() {
+        Log.i(TAG_NAME, "instanciation de AddResultApiClient");
+        mResult = new SingleLiveEvent<Result>();
+        Log.i(TAG_NAME, "fin instanciation de AddResultApiClient");
+    }
+
     public static AddResultApiClient getInstance() {
         if (null == instance)
             instance = new AddResultApiClient();
         return instance;
     }
-    private AddResultApiClient(){
-        Log.i(TAG_NAME,"instanciation de AddResultApiClient");
-        mResult = new SingleLiveEvent<Result>();
-        Log.i(TAG_NAME,"fin instanciation de AddResultApiClient");
-    }
+
     public LiveData<Result> getResult() {
         return mResult;
     }
 
-    public void addResultApi(String place, String libelle, int pos, int prts){
-        if (addResultRunnable != null){
+    public void addResultApi(String place, String libelle, int pos, int prts) {
+        if (addResultRunnable != null) {
             addResultRunnable = null;
         }
         addResultRunnable = new AddResultRunnable(place, libelle, pos, prts);
@@ -58,23 +60,24 @@ public class AddResultApiClient {
     /**
      * @since 1.0.0
      * Job en tache de fond pour le calcul d'un nouveau resultat
-     *   - parsing du libelle pour deduire classeId
-     *   - appel a l'API HTTP pour le calcul des points
-     *   - construction du Logo
+     * - parsing du libelle pour deduire classeId
+     * - appel a l'API HTTP pour le calcul des points
+     * - construction du Logo
      */
     private class AddResultRunnable implements Runnable {
-        boolean cancelRequest;
         private final String place;
         private final String libelle;
         private final int pos;
         private final int prts;
+        boolean cancelRequest;
 
-        public AddResultRunnable(String place, String libelle, int pos, int prts){
+        public AddResultRunnable(String place, String libelle, int pos, int prts) {
             this.place = place;
             this.libelle = libelle;
             this.pos = pos;
             this.prts = prts;
         }
+
         @Override
         public void run() {
             Log.i(TAG_NAME, "debut du job asynchrone AddResultRunnable");
@@ -84,8 +87,8 @@ public class AddResultApiClient {
                 final String idClasse = libelle.substring(libelle.indexOf("(") + 1, libelle.indexOf(")"));
                 Log.v(TAG_NAME, "libelle <" + libelle + "> donne idClasse <" + idClasse + ">");
                 Log.d(TAG_NAME, "appel synchrone au service des points et recuperation de la reponse");
-                Log.d(TAG_NAME, " arguments : place = <" + place + ">, idClasse = <" +  idClasse + ">, pos = <" + pos + ">, prts = <" + prts + ">");
-                response = getPts(place, idClasse,pos,prts).execute();
+                Log.d(TAG_NAME, " arguments : place = <" + place + ">, idClasse = <" + idClasse + ">, pos = <" + pos + ">, prts = <" + prts + ">");
+                response = getPts(place, idClasse, pos, prts).execute();
                 if (cancelRequest) {
                     Log.d(TAG_NAME, "cancelRequest true, retourne zboub");
                     return;
@@ -127,8 +130,8 @@ public class AddResultApiClient {
             }
         }
 
-        private Call<FFCPointsResponse> getPts(String place, String classe, int pos, int prts){
-            return FFCalculatorApplication.instance.getServicesManager().getPtsService().calcPts(place,pos,prts,classe);
+        private Call<FFCPointsResponse> getPts(String place, String classe, int pos, int prts) {
+            return FFCalculatorApplication.instance.getServicesManager().getPtsService().calcPts(place, pos, prts, classe);
         }
 
         private void cancelRequest() {

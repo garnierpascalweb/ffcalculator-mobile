@@ -26,7 +26,6 @@ public class AddResultViewModel extends AndroidViewModel {
     private final GridRepository gridRepository;
 
 
-
     public AddResultViewModel(Application application) {
         super(application);
         Log.i(TAG_NAME, "Instantiation de AddResultViewModel");
@@ -44,7 +43,7 @@ public class AddResultViewModel extends AndroidViewModel {
         return gridRepository.getGridsChoices();
     }
 
-    public LiveData<Result> getAddedResult(){
+    public LiveData<Result> getAddedResult() {
         return addResultRepository.getResult();
     }
 
@@ -56,10 +55,11 @@ public class AddResultViewModel extends AndroidViewModel {
         gridRepository.loadClassesChoices(vue.getCode());
     }
 
-    public void createNewResult(String place, String libelle, int pos, int prts){
-        addResultRepository.addResultApi(place, libelle,pos,prts);
+    public void createNewResult(String place, String libelle, int pos, int prts) {
+        addResultRepository.addResultApi(place, libelle, pos, prts);
     }
-    public void onNewResultCreated(Result newResult){
+
+    public void onNewResultCreated(Result newResult) {
         databaseResultRepository.insert(newResult);
     }
 }

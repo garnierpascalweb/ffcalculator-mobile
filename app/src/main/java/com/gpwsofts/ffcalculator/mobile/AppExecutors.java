@@ -12,7 +12,8 @@ public class AppExecutors {
             instance = new AppExecutors();
         return instance;
     }
-    public ScheduledExecutorService networkIO(){
+
+    public ScheduledExecutorService networkIO() {
         return mNetworkIO;
     }
 }

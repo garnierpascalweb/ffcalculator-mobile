@@ -9,11 +9,11 @@ import com.gpwsofts.ffcalculator.mobile.services.api.business.grid.SimpleGridSer
 import com.gpwsofts.ffcalculator.mobile.services.api.business.logo.ILogoService;
 import com.gpwsofts.ffcalculator.mobile.services.api.business.logo.SimpleLogoService;
 import com.gpwsofts.ffcalculator.mobile.services.api.business.network.INetworkService;
-import com.gpwsofts.ffcalculator.mobile.services.api.http.pos.IPosHttpService;
-import com.gpwsofts.ffcalculator.mobile.services.api.http.pts.IPtsHttpService;
-import com.gpwsofts.ffcalculator.mobile.services.api.http.pos.SimplePosHttpService;
-import com.gpwsofts.ffcalculator.mobile.services.api.http.pts.SimplePtsHttpService;
 import com.gpwsofts.ffcalculator.mobile.services.api.business.network.SimpleNetworkService;
+import com.gpwsofts.ffcalculator.mobile.services.api.http.pos.IPosHttpService;
+import com.gpwsofts.ffcalculator.mobile.services.api.http.pos.SimplePosHttpService;
+import com.gpwsofts.ffcalculator.mobile.services.api.http.pts.IPtsHttpService;
+import com.gpwsofts.ffcalculator.mobile.services.api.http.pts.SimplePtsHttpService;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

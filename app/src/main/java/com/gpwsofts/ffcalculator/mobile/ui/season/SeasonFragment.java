@@ -3,7 +3,6 @@ package com.gpwsofts.ffcalculator.mobile.ui.season;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -39,12 +38,13 @@ public class SeasonFragment extends Fragment {
         // RecyclerView
         RecyclerView resultRV = root.findViewById(R.id.idRVCourse);
         final ResultListAdapter adapter = new ResultListAdapter(new ResultListAdapter.ResultDiff());
-        final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+        final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
             }
+
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 Log.v(TAG_NAME, "demande de suppression de resultat par swipe");
@@ -74,8 +74,6 @@ public class SeasonFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-
-
 
 
 }

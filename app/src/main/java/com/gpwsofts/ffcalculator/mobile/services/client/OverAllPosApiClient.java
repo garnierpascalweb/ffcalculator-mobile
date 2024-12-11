@@ -3,7 +3,6 @@ package com.gpwsofts.ffcalculator.mobile.services.client;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.gpwsofts.ffcalculator.mobile.AppExecutors;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
@@ -24,9 +23,9 @@ public class OverAllPosApiClient {
     private GetPosRunnable getPosRunnable;
 
     private OverAllPosApiClient() {
-        Log.i(TAG_NAME,"instanciation de OverAllPosApiClient");
+        Log.i(TAG_NAME, "instanciation de OverAllPosApiClient");
         mPos = new SingleLiveEvent<Integer>();
-        Log.i(TAG_NAME,"fin instanciation de OverAllPosApiClient");
+        Log.i(TAG_NAME, "fin instanciation de OverAllPosApiClient");
     }
 
     public static OverAllPosApiClient getInstance() {
@@ -40,7 +39,7 @@ public class OverAllPosApiClient {
     }
 
     public void searchPosApi(double pts, String classType) {
-        if (getPosRunnable != null){
+        if (getPosRunnable != null) {
             getPosRunnable = null;
         }
         getPosRunnable = new GetPosRunnable(pts, classType);
@@ -54,9 +53,9 @@ public class OverAllPosApiClient {
 
     // Calcul de la position avec l'API
     private class GetPosRunnable implements Runnable {
-        boolean cancelRequest;
         private final double pts;
         private final String classType;
+        boolean cancelRequest;
 
         public GetPosRunnable(double pts, String classType) {
             this.pts = pts;
@@ -71,7 +70,7 @@ public class OverAllPosApiClient {
             final Integer pos;
             try {
                 Log.d(TAG_NAME, "appel synchrone au service des positions et recuperation de la reponse");
-                Log.d(TAG_NAME, " arguments : pts = <" + pts + ">, type de classement = <" +  classType + ">");
+                Log.d(TAG_NAME, " arguments : pts = <" + pts + ">, type de classement = <" + classType + ">");
                 response = getPos(pts, classType).execute();
                 if (cancelRequest) {
                     Log.d(TAG_NAME, "cancelRequest true, retourne zboub");

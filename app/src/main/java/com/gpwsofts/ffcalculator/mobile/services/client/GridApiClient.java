@@ -3,7 +3,6 @@ package com.gpwsofts.ffcalculator.mobile.services.client;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.gpwsofts.ffcalculator.mobile.AppExecutors;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
@@ -25,16 +24,18 @@ public class GridApiClient {
     private final SingleLiveEvent<List<Integer>> mPosChoices;
     private LoadClassesChoicesRunnable loadClassesChoicesRunnable;
     private LoadPosChoicesRunnable loadPosChoicesRunnable;
+
+    private GridApiClient() {
+        Log.i(TAG_NAME, "instanciation de GridApiClient");
+        mGridChoices = new SingleLiveEvent<List<Grid>>();
+        mPosChoices = new SingleLiveEvent<List<Integer>>();
+        Log.i(TAG_NAME, "fin instanciation de GridApiClient");
+    }
+
     public static GridApiClient getInstance() {
         if (null == instance)
             instance = new GridApiClient();
         return instance;
-    }
-    private GridApiClient(){
-        Log.i(TAG_NAME,"instanciation de GridApiClient");
-        mGridChoices = new SingleLiveEvent<List<Grid>>();
-        mPosChoices = new SingleLiveEvent<List<Integer>>();
-        Log.i(TAG_NAME,"fin instanciation de GridApiClient");
     }
 
     public LiveData<List<Grid>> getGridChoices() {
@@ -46,9 +47,8 @@ public class GridApiClient {
     }
 
 
-
-    public void loadClassesChoices(String vue){
-        if (loadClassesChoicesRunnable != null){
+    public void loadClassesChoices(String vue) {
+        if (loadClassesChoicesRunnable != null) {
             loadClassesChoicesRunnable = null;
         }
         loadClassesChoicesRunnable = new LoadClassesChoicesRunnable(vue);
@@ -59,8 +59,8 @@ public class GridApiClient {
         //TODO 1.0.0 revoir ce timeout
     }
 
-    public void loadPosChoices(String libelle){
-        if (loadPosChoicesRunnable != null){
+    public void loadPosChoices(String libelle) {
+        if (loadPosChoicesRunnable != null) {
             loadPosChoicesRunnable = null;
         }
         loadPosChoicesRunnable = new LoadPosChoicesRunnable(libelle);
@@ -72,19 +72,19 @@ public class GridApiClient {
     }
 
 
-
     /**
      * @since 1.0.0
      * Job qui permet le chargement asynchrone de la liste des classes sélectionnables à l'interface,
      * à partir d'une vue
      */
     private class LoadClassesChoicesRunnable implements Runnable {
-        boolean cancelRequest;
         private final String vue;
+        boolean cancelRequest;
 
-        public LoadClassesChoicesRunnable(String vue){
+        public LoadClassesChoicesRunnable(String vue) {
             this.vue = vue;
         }
+
         @Override
         public void run() {
             Log.i(TAG_NAME, "debut du job asynchrone LoadClassesChoicesRunnable selon la vue <" + vue + ">");
@@ -107,12 +107,13 @@ public class GridApiClient {
      * en fonction d'un item sélectionné
      */
     private class LoadPosChoicesRunnable implements Runnable {
-        boolean cancelRequest;
         private final String libelle;
+        boolean cancelRequest;
 
-        public LoadPosChoicesRunnable(String libelle){
+        public LoadPosChoicesRunnable(String libelle) {
             this.libelle = libelle;
         }
+
         @Override
         public void run() {
             Log.i(TAG_NAME, "debut du job asynchrone LoadPosChoicesRunnable selon le libelle <" + libelle + ">");

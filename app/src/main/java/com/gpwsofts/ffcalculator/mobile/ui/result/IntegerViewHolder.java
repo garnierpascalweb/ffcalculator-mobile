@@ -18,12 +18,15 @@ public class IntegerViewHolder extends RecyclerView.ViewHolder {
      * le textView de notre item
      */
     private final TextView spinnerItemTextView;
+
     public IntegerViewHolder(@NonNull View itemView) {
         super(itemView);
         spinnerItemTextView = (TextView) itemView;
     }
+
     /**
      * Chargement depuis le layour que nous avons défini : simple_spinner_item
+     *
      * @param parent
      * @return
      */
@@ -31,6 +34,7 @@ public class IntegerViewHolder extends RecyclerView.ViewHolder {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.simple_spinner_item, parent, false);
         return new IntegerViewHolder(view);
     }
+
     public void bind(Integer current) {
         spinnerItemTextView.setText(String.valueOf(current));
     }

@@ -7,7 +7,6 @@ import android.util.Log;
  * Un model pour une vue
  */
 public class Vue {
-    private static final String TAG_NAME = "Vue";
     public static final String GENERALE = "G";
     public static final String ELITE = "E";
     public static final String OPEN_1 = "O1";
@@ -17,7 +16,7 @@ public class Vue {
     public static final String U19 = "U19";
     public static final String U17 = "U17";
     public static final String ACCESS = "A";
-
+    private static final String TAG_NAME = "Vue";
     /**
      * Le code de la vue tel qu'il apparait dans le csv et les shared prefs,
      * G, E, O1, O2, O3...
@@ -120,7 +119,7 @@ public class Vue {
         return indexToSelect;
     }
 
-    private String getName(String vue){
+    private String getName(String vue) {
         String name = null;
         switch (vue) {
             case ELITE: {

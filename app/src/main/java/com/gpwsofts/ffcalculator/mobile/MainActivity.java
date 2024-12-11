@@ -5,8 +5,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,8 +16,8 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.gpwsofts.ffcalculator.mobile.databinding.ActivityMainBinding;
-import com.gpwsofts.ffcalculator.mobile.ui.view.VueViewModel;
 import com.gpwsofts.ffcalculator.mobile.model.Vue;
+import com.gpwsofts.ffcalculator.mobile.ui.view.VueViewModel;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG_NAME = "MainActivity";
@@ -49,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater menuInflater = this.getMenuInflater();
         menuInflater.inflate(R.menu.vues_menu, menu);
         Vue currentVue = vueViewModel.getVueLiveData().getValue();
-        if (currentVue != null){
+        if (currentVue != null) {
             Log.i(TAG_NAME, "  setting check sur " + currentVue.getName());
             menu.getItem(currentVue.getIndexInComboMenu()).setChecked(true);
         }

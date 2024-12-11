@@ -1,7 +1,5 @@
 package com.gpwsofts.ffcalculator.mobile.dao;
 
-import android.content.Context;
-
 import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
@@ -25,7 +23,6 @@ public abstract class FFCalculatorDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "ffcalculator_database";
     private static final int NUMBER_OF_THREADS = 4;
     public static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
-    private static volatile FFCalculatorDatabase instance;
     private static final RoomDatabase.Callback roomCallback = new RoomDatabase.Callback() {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
@@ -33,6 +30,7 @@ public abstract class FFCalculatorDatabase extends RoomDatabase {
             //TODO a activer en cas de populate new PopulateDbAsyncTask(instance).execute();
         }
     };
+    private static volatile FFCalculatorDatabase instance;
 
     public static synchronized FFCalculatorDatabase getInstance() {
         // https://github.com/android/codelab-android-room-with-a-view/blob/master/app/src/main/java/com/example/android/roomwordssample/WordRoomDatabase.java

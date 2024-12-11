@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter;
 
 /**
  * Adapter pour une liste déroulante de Integer (positions, partants) (item objet Integer, rendu IntegerViewHolder)
+ *
  * @since 1.0.0
  */
 public class IntegerListAdapter extends ListAdapter<Integer, IntegerViewHolder> {

@@ -10,24 +10,28 @@ import com.gpwsofts.ffcalculator.mobile.dao.Result;
 
 /**
  * ListAdapter qui permet d'associer un objet métier Result et un ViewHolder
+ *
  * @since 1.0.0
  */
 public class ResultListAdapter extends ListAdapter<Result, ResultViewHolder> {
     public ResultListAdapter(@NonNull DiffUtil.ItemCallback<Result> diffCallback) {
         super(diffCallback);
     }
+
     @NonNull
     @Override
     public ResultViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return ResultViewHolder.create(parent);
     }
+
     @Override
     public void onBindViewHolder(@NonNull ResultViewHolder holder, int position) {
         Result current = getItem(position);
         holder.bind(current.getLogo(), current.getLogoColor(), current.getPlace(), current.getLibelle(), current.getPos(), current.getPrts(), current.getPts());
     }
-//TODO 1.0.0 bizarre methode protegee mais
-    public Result getItemFromAdapter(int position){
+
+    //TODO 1.0.0 bizarre methode protegee mais
+    public Result getItemFromAdapter(int position) {
         return getItem(position);
     }
 

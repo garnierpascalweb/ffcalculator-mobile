@@ -1,6 +1,5 @@
 package com.gpwsofts.ffcalculator.mobile.ui.result;
 
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -13,23 +12,29 @@ public abstract class AbstractRecyclerBaseAdapter<VH extends RecyclerView.ViewHo
         extends BaseAdapter implements Filterable {
     private static final String TAG_NAME = "RecyclerBaseAdapter";
     protected final RecyclerView.Adapter<VH> mAdapter;
+
     public AbstractRecyclerBaseAdapter(RecyclerView.Adapter<VH> adapter) {
         mAdapter = adapter;
     }
+
     @Override
     public int getItemViewType(int position) {
         return mAdapter.getItemViewType(position);
     }
+
     @Override
     public int getCount() {
         return mAdapter.getItemCount();
     }
+
     @Override
     public abstract Object getItem(int position);
+
     @Override
     public long getItemId(int position) {
         return mAdapter.getItemId(position);
     }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         VH holder;

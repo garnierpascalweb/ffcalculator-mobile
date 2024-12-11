@@ -8,8 +8,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Classe mere des services basés sur retrofit
  */
 public abstract class AbstractHttpService {
-    protected static Retrofit retrofit = null;
     private static final String API_BASE_URL = "https://garnierpascalweb.fr/app/ffcalculator/api/v1/";
+    protected static Retrofit retrofit = null;
+
     protected static Retrofit getClient() {
         // HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         // interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);

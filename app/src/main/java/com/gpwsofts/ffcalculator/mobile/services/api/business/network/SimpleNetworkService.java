@@ -1,11 +1,6 @@
 package com.gpwsofts.ffcalculator.mobile.services.api.business.network;
 
 
-
-import static androidx.core.content.ContextCompat.getSystemService;
-
-import android.content.Context;
-import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;

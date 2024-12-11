@@ -14,24 +14,30 @@ public class GridRepository {
     private static final String TAG_NAME = "GridRepository";
     private static GridRepository instance;
     private final GridApiClient gridApiClient;
-    public static GridRepository getInstance(){
+
+    private GridRepository() {
+        gridApiClient = GridApiClient.getInstance();
+    }
+
+    public static GridRepository getInstance() {
         if (null == instance)
             instance = new GridRepository();
         return instance;
     }
-    private GridRepository(){
-        gridApiClient = GridApiClient.getInstance();
-    }
-    public LiveData<List<Grid>> getGridsChoices(){
+
+    public LiveData<List<Grid>> getGridsChoices() {
         return gridApiClient.getGridChoices();
     }
+
     public LiveData<List<Integer>> getPosChoices() {
         return gridApiClient.getPosChoices();
     }
-    public void loadClassesChoices(String vue){
+
+    public void loadClassesChoices(String vue) {
         gridApiClient.loadClassesChoices(vue);
     }
-    public void loadPosChoices(String libelle){
+
+    public void loadPosChoices(String libelle) {
         gridApiClient.loadPosChoices(libelle);
     }
 }

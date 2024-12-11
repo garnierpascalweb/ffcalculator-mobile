@@ -14,20 +14,22 @@ public class VueRepository {
     private static VueRepository instance;
 
     private final VueApiClient vueApiClient;
-    public static VueRepository getInstance(){
+
+    private VueRepository() {
+        vueApiClient = VueApiClient.getInstance();
+    }
+
+    public static VueRepository getInstance() {
         if (null == instance)
             instance = new VueRepository();
         return instance;
     }
 
-    public LiveData<Vue> getVue(){
+    public LiveData<Vue> getVue() {
         return vueApiClient.getVue();
     }
 
-    private VueRepository(){
-        vueApiClient = VueApiClient.getInstance();
-    }
-    public void setVueApi(String vue){
+    public void setVueApi(String vue) {
         vueApiClient.setVueApi(vue);
     }
 

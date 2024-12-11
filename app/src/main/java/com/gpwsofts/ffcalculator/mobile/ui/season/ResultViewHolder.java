@@ -4,7 +4,6 @@ import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +13,7 @@ import com.gpwsofts.ffcalculator.mobile.R;
 /**
  * ViewHolder d'un resultat, a l'image de d'un item de la liste
  * Representation graphique
+ *
  * @since 1.0.0
  */
 public class ResultViewHolder extends RecyclerView.ViewHolder {

@@ -14,27 +14,14 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.anychart.AnyChart;
 import com.anychart.AnyChartView;
-import com.anychart.chart.common.dataentry.DataEntry;
 import com.anychart.chart.common.dataentry.SingleValueDataSet;
-import com.anychart.chart.common.dataentry.ValueDataEntry;
 import com.anychart.charts.LinearGauge;
-import com.anychart.charts.Pyramid;
-import com.anychart.core.ui.Legend;
-import com.anychart.enums.Align;
-import com.anychart.enums.Anchor;
 import com.anychart.enums.Layout;
-import com.anychart.enums.LegendLayout;
-import com.anychart.enums.Orientation;
-import com.anychart.enums.Position;
+import com.anychart.enums.MarkerType;
 import com.anychart.scales.OrdinalColor;
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentSynthesisBinding;
-import com.anychart.enums.MarkerType;
 import com.gpwsofts.ffcalculator.mobile.ui.view.VueViewModel;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 public class SynthesisFragment extends Fragment {
     private static final String TAG_NAME = "SynthesisFragment";
@@ -46,6 +33,7 @@ public class SynthesisFragment extends Fragment {
     private AnyChartView anyChartView;
     private LinearGauge linearGauge;
     private OrdinalColor scaleBarColorScale;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +75,7 @@ public class SynthesisFragment extends Fragment {
         // Update UI
         synthesisViewModel.getPts().observe(getViewLifecycleOwner(), pts -> {
             Log.i(TAG_NAME, "debut observer getPts");
-            if (null != pts){
+            if (null != pts) {
                 textViewPts.setText(getString(R.string.label_total_pts, pts));
                 final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
                 searchPosApi(pts, classType);
@@ -103,13 +91,13 @@ public class SynthesisFragment extends Fragment {
         synthesisViewModel.getPos().observe(getViewLifecycleOwner(), pos -> {
             Log.i(TAG_NAME, "debut observer getPos");
             final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
-            if (pos != null){
+            if (pos != null) {
                 // textViewPos.setText("Classement National : " + pos + " eme");
                 textViewPos.setText(getString(R.string.label_classement_national, classType, pos));
-                linearGauge.data(new SingleValueDataSet(new Integer[] { 7000-pos }));
+                linearGauge.data(new SingleValueDataSet(new Integer[]{7000 - pos}));
             } else {
                 textViewPos.setText(getString(R.string.label_classement_national_ko));
-                linearGauge.data(new SingleValueDataSet(new Integer[] { 7000 }));
+                linearGauge.data(new SingleValueDataSet(new Integer[]{7000}));
                 Log.w(TAG_NAME, "la valeur de pos est pas renseignee apres appel au service");
             }
             Log.i(TAG_NAME, "fin observer getPos");
@@ -124,7 +112,7 @@ public class SynthesisFragment extends Fragment {
         binding = null;
     }
 
-    private void searchPosApi(double pts, String classType){
+    private void searchPosApi(double pts, String classType) {
         synthesisViewModel.searchPosApi(pts, classType);
     }
 

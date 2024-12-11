@@ -8,13 +8,16 @@ import com.gpwsofts.ffcalculator.mobile.repository.VueRepository;
 
 public class VueViewModel extends ViewModel {
     private final VueRepository vueRepository;
-    public VueViewModel(){
+
+    public VueViewModel() {
         vueRepository = VueRepository.getInstance();
     }
-    public LiveData<Vue> getVueLiveData(){
+
+    public LiveData<Vue> getVueLiveData() {
         return vueRepository.getVue();
     }
-    public void updateVue(String vue){
+
+    public void updateVue(String vue) {
         vueRepository.setVueApi(vue);
     }
 }
