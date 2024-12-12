@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 
 import com.gpwsofts.ffcalculator.mobile.dao.FFCalculatorDatabase;
 import com.gpwsofts.ffcalculator.mobile.services.ServicesManager;
+import com.gpwsofts.ffcalculator.mobile.sharedprefs.FFCalculatorSharedPrefs;
 
 /**
  * Classe Application
@@ -28,6 +29,7 @@ public class FFCalculatorApplication extends Application {
      */
     private ServicesManager servicesManager;
     private ConnectivityManager connectivityManager;
+    private FFCalculatorSharedPrefs sharedPrefs;
 
     /**
      * Flag pour l'existence du Service Manager
@@ -35,6 +37,7 @@ public class FFCalculatorApplication extends Application {
      * @since 1.0.0
      */
     private boolean servicesManagerAlreadyExist = false;
+    private boolean sharedPreferencesAlreadyExist = false;
 
 
     @Override
@@ -67,6 +70,10 @@ public class FFCalculatorApplication extends Application {
         return servicesManagerAlreadyExist;
     }
 
+    public boolean isSharedPreferencesAlreadyExist() {
+        return sharedPreferencesAlreadyExist;
+    }
+
     public final ServicesManager getServicesManager() {
         if (null == servicesManager) {
             servicesManager = new ServicesManager(this);
@@ -80,5 +87,13 @@ public class FFCalculatorApplication extends Application {
             connectivityManager = getSystemService(ConnectivityManager.class);
         }
         return connectivityManager;
+    }
+
+    public final FFCalculatorSharedPrefs getSharedPrefs(){
+        if (null == sharedPrefs){
+            sharedPrefs = new FFCalculatorSharedPrefs(this);
+            sharedPreferencesAlreadyExist = true;
+        }
+        return sharedPrefs;
     }
 }

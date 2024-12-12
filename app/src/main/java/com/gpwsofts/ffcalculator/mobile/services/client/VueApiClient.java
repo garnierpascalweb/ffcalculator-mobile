@@ -26,17 +26,13 @@ public class VueApiClient {
     private static final String DEFAULT_VUE_VALUE = "G";
     private static VueApiClient instance;
     private final SingleLiveEvent<Vue> mVue;
-    private final SharedPreferences sharedPrefs;
-    private final SharedPreferences.Editor sharedPrefsEditor;
     private SetVueRunnable setVueRunnable;
 
     private VueApiClient() {
         Log.i(TAG_NAME, "instanciation de VueApiClient");
         mVue = new SingleLiveEvent<Vue>();
-        sharedPrefs = FFCalculatorApplication.instance.getApplicationContext().getSharedPreferences(SHARED_PREFS_APP_NAME, Context.MODE_PRIVATE);
-        sharedPrefsEditor = sharedPrefs.edit();
         Log.v(TAG_NAME, "recherche dans les shared prefs de la valeur de <" + KEY_VUE + ">");
-        final String currentCodeVue = sharedPrefs.getString(KEY_VUE, DEFAULT_VUE_VALUE);
+        final String currentCodeVue = FFCalculatorApplication.instance.getSharedPrefs().getSharedPrefsVue();
         Log.v(TAG_NAME, "set en liveData instance Vue = <" + currentCodeVue + ">");
         final Vue currentVue = new Vue(currentCodeVue);
         mVue.setValue(currentVue);
@@ -82,9 +78,8 @@ public class VueApiClient {
         public void run() {
             Log.i(TAG_NAME, "debut du job asynchrone SetVueRunnable");
             Log.d(TAG_NAME, "envoi de la cle valeur en shared prefs - <" + KEY_VUE + "> <" + vue + ">");
-            sharedPrefsEditor.putString(KEY_VUE, vue);
-            Log.d(TAG_NAME, "commit");
-            sharedPrefsEditor.commit();
+            // sharedPrefsEditor.putString(KEY_VUE, vue);
+            FFCalculatorApplication.instance.getSharedPrefs().setSharedPrefsVue(vue);
             final Vue newVue = new Vue(vue);
             Log.d(TAG_NAME, "post de la nouvelle vue en livedata = <" + vue + ">");
             mVue.postValue(newVue);

@@ -22,6 +22,7 @@ public interface ResultDao {
     @Query("SELECT * FROM result WHERE id IN (:resultIds)")
     List<Result> getAllByIds(int[] resultIds);
 
+    //TODO 1.0.0 les points, c'est les 15 meilleurs résultats. 15 devrait etre en parametre
     @Query("SELECT ROUND(SUM(pts),2) FROM result WHERE id in (SELECT id FROM result ORDER BY pts DESC LIMIT 15)")
     LiveData<Double> getPts();
 
