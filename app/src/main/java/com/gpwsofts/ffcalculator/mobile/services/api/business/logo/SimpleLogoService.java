@@ -8,6 +8,7 @@ import com.gpwsofts.ffcalculator.mobile.model.Logo;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class SimpleLogoService implements ILogoService {
     private static final String TAG_NAME = "SimpleLogoService";
     private static Logo logoElite;

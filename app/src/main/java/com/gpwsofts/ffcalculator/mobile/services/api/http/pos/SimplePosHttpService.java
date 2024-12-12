@@ -9,6 +9,10 @@ import com.gpwsofts.ffcalculator.mobile.services.api.http.pos.pojo.FFCPosRespons
 
 import retrofit2.Call;
 
+/**
+ * @since 1.0.0
+ * emet un appel http POST pour calculer la position au classement national, en fonction de points et dun classType
+ */
 public class SimplePosHttpService extends AbstractHttpService implements IPosHttpService {
     private static final String TAG_NAME = "SimplePosService";
 

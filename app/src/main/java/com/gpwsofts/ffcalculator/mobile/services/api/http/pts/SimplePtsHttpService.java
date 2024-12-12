@@ -9,6 +9,10 @@ import com.gpwsofts.ffcalculator.mobile.services.api.http.pts.pojo.FFCPointsResp
 
 import retrofit2.Call;
 
+/**
+ * @since 1.0.0
+ * emet un appel http POST pour calculer les points rendus pour une course (en fonction de lieu, pos, prts, classe)
+ */
 public class SimplePtsHttpService extends AbstractHttpService implements IPtsHttpService {
     private static final String TAG_NAME = "SimplePtsService";
 
