@@ -3,6 +3,8 @@ package com.gpwsofts.ffcalculator.mobile;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
+import static org.junit.Assert.assertEquals;
+
 import android.util.Log;
 
 import androidx.test.espresso.Espresso;
@@ -18,13 +20,15 @@ import com.gpwsofts.ffcalculator.mobile.model.Grid;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -68,32 +72,36 @@ public class ExampleInstrumentedTest {
         loadGridsFromFile();
         loadCommunesFromFile();
         Espresso.onView(withId(R.id.navigation_result)).perform(ViewActions.click());
+        StringBuilder sb = new StringBuilder();
+        int nbTests = 84;
+        int ok = 0;
+        int ko = 0;
+        List<RandomResult> errors = new ArrayList<RandomResult>();
         //TODO 1.0.0 test repeat comme avec testNg ?
-        for (int i = 0; i < 84; i++) {
-            addRandomResult(i);
+        for (int index = 0; index < nbTests; index++) {
+            RandomResult result = new RandomResult();
+            try {
+                result = getRandomResult(index);
+                Espresso.onView(withId(R.id.navigation_result)).perform(ViewActions.click());
+                Espresso.onView(withId(R.id.idTIETPlace)).perform(replaceText(result.place));
+                Espresso.onView(withId(R.id.idTVAutoClasses)).perform(replaceText(result.classe));
+                Espresso.onView(withId(R.id.idTVAutoPos)).perform(replaceText(String.valueOf(result.pos)));
+                Espresso.onView(withId(R.id.idTVAutoPrts)).perform(replaceText(String.valueOf(result.prts)));
+                Espresso.onView(withId(R.id.idBTAjouter)).perform(ViewActions.click());
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            } catch (Exception e){
+                errors.add(result);
+            } finally {
+
+            }
         }
+        assertEquals("il y a des erreurs pour " + errors.size() + " resultats : " + errors, true, errors.isEmpty());
     }
 
-    /**
-     * Ajout d'un résultat aléatoire
-     *
-     * @param index
-     */
-    protected void addRandomResult(int index) {
-        RandomResult result = getRandomResult(index);
-        Espresso.onView(withId(R.id.navigation_result)).perform(ViewActions.click());
-        Espresso.onView(withId(R.id.idTIETPlace)).perform(replaceText(result.place));
-        Espresso.onView(withId(R.id.idTVAutoClasses)).perform(replaceText(result.classe));
-        Espresso.onView(withId(R.id.idTVAutoPos)).perform(replaceText(String.valueOf(result.pos)));
-        Espresso.onView(withId(R.id.idTVAutoPrts)).perform(replaceText(String.valueOf(result.prts)));
-        Espresso.onView(withId(R.id.idBTAjouter)).perform(ViewActions.click());
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
 
     /**
      * la commune est piochée aléatoirement parmi les communes francaises
@@ -112,7 +120,7 @@ public class ExampleInstrumentedTest {
         String place = communes.get(rand.nextInt(communesSize - 1));
         String spinnerItemValue = grid.getSpinnerItemValue();
         int pos = 1 + rand.nextInt(maxPos);
-        int prts = pos + rand.nextInt(200);
+        int prts = pos + rand.nextInt(100);
         RandomResult randomResult = new RandomResult();
         randomResult.classe = spinnerItemValue;
         randomResult.place = place;
@@ -184,5 +192,9 @@ public class ExampleInstrumentedTest {
         String classe;
         int pos;
         int prts;
+        @Override
+        public String toString(){
+            return place + " "  + classe + " " + pos + prts;
+        }
     }
 }

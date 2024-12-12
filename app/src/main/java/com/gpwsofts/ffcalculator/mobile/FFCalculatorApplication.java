@@ -19,7 +19,6 @@ public class FFCalculatorApplication extends Application {
      * @since 1.0.0
      */
     public static FFCalculatorApplication instance;
-    public FFCalculatorDatabase database;
 
 
     /**
