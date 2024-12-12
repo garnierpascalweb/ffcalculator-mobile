@@ -1,9 +1,9 @@
 package com.gpwsofts.ffcalculator.mobile.www;
 
-import com.gpwsofts.ffcalculator.mobile.services.api.http.pos.pojo.FFCPosRequest;
-import com.gpwsofts.ffcalculator.mobile.services.api.http.pos.pojo.FFCPosResponse;
-import com.gpwsofts.ffcalculator.mobile.services.api.http.pts.pojo.FFCPointsRequest;
-import com.gpwsofts.ffcalculator.mobile.services.api.http.pts.pojo.FFCPointsResponse;
+import com.gpwsofts.ffcalculator.mobile.services.pos.pojo.FFCPosRequest;
+import com.gpwsofts.ffcalculator.mobile.services.pos.pojo.FFCPosResponse;
+import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsRequest;
+import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

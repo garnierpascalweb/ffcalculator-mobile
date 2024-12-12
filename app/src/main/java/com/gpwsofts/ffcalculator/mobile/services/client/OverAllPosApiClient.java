@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData;
 import com.gpwsofts.ffcalculator.mobile.AppExecutors;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.common.SingleLiveEvent;
-import com.gpwsofts.ffcalculator.mobile.services.api.http.pos.pojo.FFCPosResponse;
+import com.gpwsofts.ffcalculator.mobile.services.pos.pojo.FFCPosResponse;
 
 import java.io.IOException;
 import java.util.concurrent.Future;

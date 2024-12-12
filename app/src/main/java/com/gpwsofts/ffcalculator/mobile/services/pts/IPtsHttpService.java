@@ -1,6 +1,6 @@
-package com.gpwsofts.ffcalculator.mobile.services.api.http.pts;
+package com.gpwsofts.ffcalculator.mobile.services.pts;
 
-import com.gpwsofts.ffcalculator.mobile.services.api.http.pts.pojo.FFCPointsResponse;
+import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsResponse;
 
 import retrofit2.Call;
 

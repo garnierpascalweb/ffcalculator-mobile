@@ -1,4 +1,4 @@
-package com.gpwsofts.ffcalculator.mobile.services.api.business.grid;
+package com.gpwsofts.ffcalculator.mobile.services.grid;
 
 import android.util.Log;
 

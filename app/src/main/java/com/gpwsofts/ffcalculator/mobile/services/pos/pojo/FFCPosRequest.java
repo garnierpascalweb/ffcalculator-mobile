@@ -1,4 +1,4 @@
-package com.gpwsofts.ffcalculator.mobile.services.api.http.pos.pojo;
+package com.gpwsofts.ffcalculator.mobile.services.pos.pojo;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -1,4 +1,4 @@
-package com.gpwsofts.ffcalculator.mobile.services.api.business.logo;
+package com.gpwsofts.ffcalculator.mobile.services.logo;
 
 import android.content.res.Resources;
 

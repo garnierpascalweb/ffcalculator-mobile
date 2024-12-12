@@ -3,6 +3,7 @@ package com.gpwsofts.ffcalculator.mobile.services.api.business.grid;
 import static org.junit.Assert.assertNotNull;
 
 import com.gpwsofts.ffcalculator.mobile.model.Grid;
+import com.gpwsofts.ffcalculator.mobile.services.grid.SimpleGridService;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

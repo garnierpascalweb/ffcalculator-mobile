@@ -4,16 +4,16 @@ import android.content.res.Resources;
 import android.util.Log;
 
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
-import com.gpwsofts.ffcalculator.mobile.services.api.business.grid.IGridService;
-import com.gpwsofts.ffcalculator.mobile.services.api.business.grid.SimpleGridService;
-import com.gpwsofts.ffcalculator.mobile.services.api.business.logo.ILogoService;
-import com.gpwsofts.ffcalculator.mobile.services.api.business.logo.SimpleLogoService;
-import com.gpwsofts.ffcalculator.mobile.services.api.business.network.INetworkService;
-import com.gpwsofts.ffcalculator.mobile.services.api.business.network.SimpleNetworkService;
-import com.gpwsofts.ffcalculator.mobile.services.api.http.pos.IPosHttpService;
-import com.gpwsofts.ffcalculator.mobile.services.api.http.pos.SimplePosHttpService;
-import com.gpwsofts.ffcalculator.mobile.services.api.http.pts.IPtsHttpService;
-import com.gpwsofts.ffcalculator.mobile.services.api.http.pts.SimplePtsHttpService;
+import com.gpwsofts.ffcalculator.mobile.services.grid.IGridService;
+import com.gpwsofts.ffcalculator.mobile.services.grid.SimpleGridService;
+import com.gpwsofts.ffcalculator.mobile.services.logo.ILogoService;
+import com.gpwsofts.ffcalculator.mobile.services.logo.SimpleLogoService;
+import com.gpwsofts.ffcalculator.mobile.services.network.INetworkService;
+import com.gpwsofts.ffcalculator.mobile.services.network.SimpleNetworkService;
+import com.gpwsofts.ffcalculator.mobile.services.pos.IPosHttpService;
+import com.gpwsofts.ffcalculator.mobile.services.pos.SimplePosHttpService;
+import com.gpwsofts.ffcalculator.mobile.services.pts.IPtsHttpService;
+import com.gpwsofts.ffcalculator.mobile.services.pts.SimplePtsHttpService;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

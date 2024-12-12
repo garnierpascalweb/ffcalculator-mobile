@@ -9,7 +9,7 @@ import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.common.SingleLiveEvent;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.model.Logo;
-import com.gpwsofts.ffcalculator.mobile.services.api.http.pts.pojo.FFCPointsResponse;
+import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsResponse;
 
 import java.io.IOException;
 import java.util.concurrent.Future;

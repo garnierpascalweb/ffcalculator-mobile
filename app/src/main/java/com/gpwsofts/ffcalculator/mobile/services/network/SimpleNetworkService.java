@@ -1,4 +1,4 @@
-package com.gpwsofts.ffcalculator.mobile.services.api.business.network;
+package com.gpwsofts.ffcalculator.mobile.services.network;
 
 
 import android.net.NetworkInfo;

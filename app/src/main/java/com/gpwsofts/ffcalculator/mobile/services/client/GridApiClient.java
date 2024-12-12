@@ -8,7 +8,7 @@ import com.gpwsofts.ffcalculator.mobile.AppExecutors;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.common.SingleLiveEvent;
 import com.gpwsofts.ffcalculator.mobile.model.Grid;
-import com.gpwsofts.ffcalculator.mobile.services.api.business.grid.IGridService;
+import com.gpwsofts.ffcalculator.mobile.services.grid.IGridService;
 
 import java.util.List;
 import java.util.concurrent.Future;

@@ -1,9 +1,9 @@
-package com.gpwsofts.ffcalculator.mobile.services.api.http.pts;
+package com.gpwsofts.ffcalculator.mobile.services.pts;
 
 import android.util.Log;
 
-import com.gpwsofts.ffcalculator.mobile.services.api.http.pts.pojo.FFCPointsRequest;
-import com.gpwsofts.ffcalculator.mobile.services.api.http.pts.pojo.FFCPointsResponse;
+import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsRequest;
+import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsResponse;
 import com.gpwsofts.ffcalculator.mobile.www.FFCalculatorWebApi;
 
 import retrofit2.Call;
