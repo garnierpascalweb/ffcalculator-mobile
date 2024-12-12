@@ -14,6 +14,11 @@ import com.gpwsofts.ffcalculator.mobile.model.Vue;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * @since 1.0.0
+ * Api Cliente pour le définition asynchrone de la vue
+ * Appelé par VueRepository
+ */
 public class VueApiClient {
     private static final String TAG_NAME = "VueApiClient";
     private static final String SHARED_PREFS_APP_NAME = "FFCalculatorSharedPrefs";
@@ -48,7 +53,7 @@ public class VueApiClient {
         return mVue;
     }
 
-    public void setVueApi(String vue) {
+    public void setVueApiAsync(String vue) {
         if (setVueRunnable != null) {
             setVueRunnable = null;
         }

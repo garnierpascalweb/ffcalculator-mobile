@@ -17,6 +17,12 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * @since 1.0.0
+ * Api Cliente pour le chargement asynchrone des grilles, et des positions possibles pour chaque grille
+ * Appelé par GridRepository
+ *
+ */
 public class GridApiClient {
     private static final String TAG_NAME = "GridApiClient";
     private static GridApiClient instance;
@@ -47,7 +53,7 @@ public class GridApiClient {
     }
 
 
-    public void loadClassesChoices(String vue) {
+    public void loadClassesChoicesAsync(String vue) {
         if (loadClassesChoicesRunnable != null) {
             loadClassesChoicesRunnable = null;
         }
@@ -59,7 +65,7 @@ public class GridApiClient {
         //TODO 1.0.0 revoir ce timeout
     }
 
-    public void loadPosChoices(String libelle) {
+    public void loadPosChoicesAsync(String libelle) {
         if (loadPosChoicesRunnable != null) {
             loadPosChoicesRunnable = null;
         }

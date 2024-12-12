@@ -31,6 +31,6 @@ public class AddResultRepository {
     }
 
     public void addResultApi(String place, String libelle, int pos, int prts) {
-        addResultApiClient.addResultApi(place, libelle, pos, prts);
+        addResultApiClient.addResultApiAsync(place, libelle, pos, prts);
     }
 }

@@ -20,7 +20,8 @@ import retrofit2.Response;
 
 /**
  * @since 1.0.0
- * Api Cliente pour l'ajout d'un nouveau resultat en background
+ * Api Cliente pour l'ajout asynchrone d'un nouveau resultat en background
+ * Appelé par AddResultRepository
  * Rend un LiveData<Result>
  */
 public class AddResultApiClient {
@@ -45,7 +46,7 @@ public class AddResultApiClient {
         return mResult;
     }
 
-    public void addResultApi(String place, String libelle, int pos, int prts) {
+    public void addResultApiAsync(String place, String libelle, int pos, int prts) {
         if (addResultRunnable != null) {
             addResultRunnable = null;
         }

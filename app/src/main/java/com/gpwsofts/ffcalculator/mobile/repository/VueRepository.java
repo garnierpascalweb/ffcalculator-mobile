@@ -30,7 +30,7 @@ public class VueRepository {
     }
 
     public void setVueApi(String vue) {
-        vueApiClient.setVueApi(vue);
+        vueApiClient.setVueApiAsync(vue);
     }
 
 

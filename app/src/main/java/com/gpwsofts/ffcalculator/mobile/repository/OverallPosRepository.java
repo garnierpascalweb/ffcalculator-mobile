@@ -30,6 +30,6 @@ public class OverallPosRepository {
     }
 
     public void searchPosApi(double pts, String classType) {
-        posApiClient.searchPosApi(pts, classType);
+        posApiClient.searchPosApiAsync(pts, classType);
     }
 }

@@ -16,6 +16,11 @@ import java.util.concurrent.TimeUnit;
 import retrofit2.Call;
 import retrofit2.Response;
 
+/**
+ * @since 1.0.0
+ * Api Cliente pour le calcul asynchrone de la position au classement national
+ * Appelé par OverAllPosRepository
+ */
 public class OverAllPosApiClient {
     private static final String TAG_NAME = "OverAllPosApiClient";
     private static OverAllPosApiClient instance;
@@ -38,7 +43,7 @@ public class OverAllPosApiClient {
         return mPos;
     }
 
-    public void searchPosApi(double pts, String classType) {
+    public void searchPosApiAsync(double pts, String classType) {
         if (getPosRunnable != null) {
             getPosRunnable = null;
         }

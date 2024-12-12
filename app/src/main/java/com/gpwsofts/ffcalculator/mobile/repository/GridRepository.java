@@ -34,10 +34,10 @@ public class GridRepository {
     }
 
     public void loadClassesChoices(String vue) {
-        gridApiClient.loadClassesChoices(vue);
+        gridApiClient.loadClassesChoicesAsync(vue);
     }
 
     public void loadPosChoices(String libelle) {
-        gridApiClient.loadPosChoices(libelle);
+        gridApiClient.loadPosChoicesAsync(libelle);
     }
 }
