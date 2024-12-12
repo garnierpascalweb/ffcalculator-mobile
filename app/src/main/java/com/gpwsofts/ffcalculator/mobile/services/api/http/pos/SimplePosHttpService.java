@@ -17,15 +17,13 @@ public class SimplePosHttpService extends AbstractHttpService implements IPosHtt
     private static final String TAG_NAME = "SimplePosService";
 
     public SimplePosHttpService() {
-        retrofit = getClient();
+        initApiService();
     }
 
     @Override
     public Call<FFCPosResponse> calcPos(double pts, String classType) {
         // cest du retrofit !
         Log.i(TAG_NAME, "demande de calcul du classement pour <" + pts + ">  points sur le classement <" + classType + ">");
-        //TODO 1.0.0 nul de recreer une instance
-        IApiInterface apiService = retrofit.create(IApiInterface.class);
         Log.d(TAG_NAME, "construction de la requete");
         FFCPosRequest request = new FFCPosRequest();
         request.pts = pts;

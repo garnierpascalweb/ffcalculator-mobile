@@ -17,15 +17,13 @@ public class SimplePtsHttpService extends AbstractHttpService implements IPtsHtt
     private static final String TAG_NAME = "SimplePtsService";
 
     public SimplePtsHttpService() {
-        retrofit = getClient();
+        initApiService();
     }
 
     @Override
     public Call<FFCPointsResponse> calcPts(String place, int pos, int prts, String classe) {
         // cest du retrofit !
         Log.i(TAG_NAME, "demand ede calcul des points pour une place de <" + pos + "> sur <" + prts + "> sur la course de <" + place + "> en serie <" + classe + ">");
-        //TODO 1.0.0 nul de recreer une instance
-        IApiInterface apiService = retrofit.create(IApiInterface.class);
         Log.d(TAG_NAME, "construction de la requete");
         FFCPointsRequest request = new FFCPointsRequest();
         request.code = classe;
