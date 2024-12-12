@@ -2,10 +2,9 @@ package com.gpwsofts.ffcalculator.mobile.services.api.http.pts;
 
 import android.util.Log;
 
-import com.gpwsofts.ffcalculator.mobile.services.api.http.AbstractHttpService;
-import com.gpwsofts.ffcalculator.mobile.services.api.http.IApiInterface;
 import com.gpwsofts.ffcalculator.mobile.services.api.http.pts.pojo.FFCPointsRequest;
 import com.gpwsofts.ffcalculator.mobile.services.api.http.pts.pojo.FFCPointsResponse;
+import com.gpwsofts.ffcalculator.mobile.www.FFCalculatorWebApi;
 
 import retrofit2.Call;
 
@@ -13,11 +12,11 @@ import retrofit2.Call;
  * @since 1.0.0
  * emet un appel http POST pour calculer les points rendus pour une course (en fonction de lieu, pos, prts, classe)
  */
-public class SimplePtsHttpService extends AbstractHttpService implements IPtsHttpService {
+public class SimplePtsHttpService  implements IPtsHttpService {
     private static final String TAG_NAME = "SimplePtsService";
 
     public SimplePtsHttpService() {
-        initApiService();
+
     }
 
     @Override
@@ -30,6 +29,6 @@ public class SimplePtsHttpService extends AbstractHttpService implements IPtsHtt
         request.pos = pos;
         request.prts = prts;
         Log.d(TAG_NAME, "veritable appel http et call en retour");
-        return apiService.calcPts(request);
+        return FFCalculatorWebApi.getInstance().getApiService().calcPts(request);
     }
 }

@@ -1,4 +1,4 @@
-package com.gpwsofts.ffcalculator.mobile.services.api.http;
+package com.gpwsofts.ffcalculator.mobile.www;
 
 import com.gpwsofts.ffcalculator.mobile.services.api.http.pos.pojo.FFCPosRequest;
 import com.gpwsofts.ffcalculator.mobile.services.api.http.pos.pojo.FFCPosResponse;

@@ -2,10 +2,9 @@ package com.gpwsofts.ffcalculator.mobile.services.api.http.pos;
 
 import android.util.Log;
 
-import com.gpwsofts.ffcalculator.mobile.services.api.http.AbstractHttpService;
-import com.gpwsofts.ffcalculator.mobile.services.api.http.IApiInterface;
 import com.gpwsofts.ffcalculator.mobile.services.api.http.pos.pojo.FFCPosRequest;
 import com.gpwsofts.ffcalculator.mobile.services.api.http.pos.pojo.FFCPosResponse;
+import com.gpwsofts.ffcalculator.mobile.www.FFCalculatorWebApi;
 
 import retrofit2.Call;
 
@@ -13,11 +12,11 @@ import retrofit2.Call;
  * @since 1.0.0
  * emet un appel http POST pour calculer la position au classement national, en fonction de points et dun classType
  */
-public class SimplePosHttpService extends AbstractHttpService implements IPosHttpService {
+public class SimplePosHttpService  implements IPosHttpService {
     private static final String TAG_NAME = "SimplePosService";
 
     public SimplePosHttpService() {
-        initApiService();
+
     }
 
     @Override
@@ -29,6 +28,6 @@ public class SimplePosHttpService extends AbstractHttpService implements IPosHtt
         request.pts = pts;
         request.classType = classType;
         Log.d(TAG_NAME, "veritable appel http et call en retour");
-        return apiService.calcPos(request);
+        return FFCalculatorWebApi.getInstance().getApiService().calcPos(request);
     }
 }
