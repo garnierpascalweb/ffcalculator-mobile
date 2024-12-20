@@ -7,6 +7,7 @@ import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 /**
@@ -19,8 +20,8 @@ public interface IApiInterface {
     String URI_CLASSEMENT = "ffcclass.php";
 
     @POST(URI_PTS)
-    Call<FFCPointsResponse> calcPts(@Body FFCPointsRequest request);
+    Call<FFCPointsResponse> calcPts(@Header("uuid") String uuid, @Body FFCPointsRequest request);
 
     @POST(URI_CLASSEMENT)
-    Call<FFCPosResponse> calcPos(@Body FFCPosRequest request);
+    Call<FFCPosResponse> calcPos(@Header("uuid") String uuid, @Body FFCPosRequest request);
 }

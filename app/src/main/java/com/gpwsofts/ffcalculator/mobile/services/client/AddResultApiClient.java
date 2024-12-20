@@ -79,6 +79,7 @@ public class AddResultApiClient {
             this.prts = prts;
         }
 
+
         @Override
         public void run() {
             Log.i(TAG_NAME, "debut du job asynchrone AddResultRunnable");

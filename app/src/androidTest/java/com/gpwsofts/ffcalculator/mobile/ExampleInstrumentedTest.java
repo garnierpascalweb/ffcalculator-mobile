@@ -94,6 +94,7 @@ public class ExampleInstrumentedTest {
                     throw new RuntimeException(e);
                 }
             } catch (Exception e){
+                result.e = e;
                 errors.add(result);
             } finally {
 
@@ -192,9 +193,15 @@ public class ExampleInstrumentedTest {
         String classe;
         int pos;
         int prts;
+        Exception e;
         @Override
         public String toString(){
-            return place + " "  + classe + " " + pos + prts;
+            StringBuilder sb = new StringBuilder();
+            sb.append(place + " - classe = <"  + classe + "> - position = <" + pos + "> - prts = <" + prts + ">");
+            if (e != null){
+                sb.append(" - exception de type <" + e.getClass().getSimpleName() + "> - message = <" + e.getMessage()+ ">");
+            } else sb.append("exception null");
+            return sb.toString();
         }
     }
 }

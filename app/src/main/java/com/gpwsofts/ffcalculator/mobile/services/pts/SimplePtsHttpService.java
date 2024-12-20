@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsRequest;
 import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsResponse;
+import com.gpwsofts.ffcalculator.mobile.sharedprefs.FFCalculatorSharedPrefs;
 import com.gpwsofts.ffcalculator.mobile.www.FFCalculatorWebApi;
 
 import retrofit2.Call;
@@ -29,6 +30,6 @@ public class SimplePtsHttpService  implements IPtsHttpService {
         request.pos = pos;
         request.prts = prts;
         Log.d(TAG_NAME, "veritable appel http et call en retour");
-        return FFCalculatorWebApi.getInstance().getApiService().calcPts(request);
+        return FFCalculatorWebApi.getInstance().getApiService().calcPts(FFCalculatorSharedPrefs.id(),request);
     }
 }
