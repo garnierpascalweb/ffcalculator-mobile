@@ -7,7 +7,8 @@ import com.google.gson.annotations.SerializedName;
  * POJO pour une requete de calcul de points
  */
 public class FFCPointsRequest {
-
+    @SerializedName("place")
+    public String place;
     @SerializedName("prts")
     public Integer prts;
     @SerializedName("pos")
