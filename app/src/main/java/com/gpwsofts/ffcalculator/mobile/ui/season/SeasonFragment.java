@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.anychart.chart.common.dataentry.SingleValueDataSet;
+
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentSeasonBinding;
 import com.gpwsofts.ffcalculator.mobile.ui.synthesis.SynthesisViewModel;

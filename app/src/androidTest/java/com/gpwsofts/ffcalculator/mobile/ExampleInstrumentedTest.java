@@ -118,7 +118,7 @@ public class ExampleInstrumentedTest {
         Random rand = new Random();
         Grid grid = grids.get(index);
         int maxPos = grid.getMaxPos();
-        String place = communes.get(rand.nextInt(communesSize - 1));
+        String place = new StringBuilder().append(communes.get(rand.nextInt(communesSize - 1))).append(" (").append(index).append(")").toString();
         String spinnerItemValue = grid.getSpinnerItemValue();
         int pos = 1 + rand.nextInt(maxPos);
         int prts = pos + rand.nextInt(100);

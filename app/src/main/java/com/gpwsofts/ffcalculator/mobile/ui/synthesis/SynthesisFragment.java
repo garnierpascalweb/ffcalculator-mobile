@@ -12,13 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.anychart.AnyChart;
-import com.anychart.AnyChartView;
-import com.anychart.chart.common.dataentry.SingleValueDataSet;
-import com.anychart.charts.LinearGauge;
-import com.anychart.enums.Layout;
-import com.anychart.enums.MarkerType;
-import com.anychart.scales.OrdinalColor;
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentSynthesisBinding;
 import com.gpwsofts.ffcalculator.mobile.ui.view.VueViewModel;
