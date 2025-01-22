@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Dao
 public interface ResultDao {
-    @Query("SELECT * FROM result")
+    @Query("SELECT * FROM result ORDER BY id DESC")
     LiveData<List<Result>> getAllResults();
 
     @Query("SELECT * FROM result WHERE id IN (:resultIds)")
