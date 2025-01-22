@@ -6,25 +6,25 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/idTVTest1"
+        android:id="@+id/text_allpts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="2dp"
         android:maxLines="1"
-        android:text="Total Points : "
+        android:text="@string/label_total_pts"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/idTVTest2"
+        android:id="@+id/text_mypos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="2dp"
         android:maxLines="1"
-        android:text="Classement National : "
+        android:text="@string/label_classement_national"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold" />
