@@ -59,20 +59,20 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Log.i(TAG_NAME, "  demande de changement de vue dans la menu");
         int itemId = item.getItemId();
         final String newVue = FFCalculatorApplication.instance.getServicesManager().getVueService().getVueFromMenuItem(itemId);
         Log.i(TAG_NAME, "  mise a jour vers la vue " + newVue);
         vueViewModel.updateVue(newVue);
+        Log.i(TAG_NAME, "  fin de demande de changement de vue  = <" + newVue + ">");
         return false;
     }
 
-    /**
-     * Methode permettant de switcher vers la vue donnée
-     *
-     * @param vue
-     * @since 1.0.0
-     */
-    private void switchVue(String vue) {
-        Log.i(TAG_NAME, "switchons en vue " + vue);
+    @Override
+    public void onOptionsMenuClosed(Menu menu) {
+        Log.i(TAG_NAME, "  mise a jour de la case cochee dans le menu");
+        final Vue currentVue = vueViewModel.getVueLiveData().getValue();
+        menu.getItem(currentVue.getIndexInComboMenu()).setChecked(true);
+        Log.i(TAG_NAME, "  fin mise a jour de la case cochee dans le menu = <" + currentVue.getName() + ">");
     }
 }
