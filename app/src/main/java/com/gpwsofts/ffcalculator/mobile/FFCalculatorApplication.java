@@ -2,8 +2,9 @@ package com.gpwsofts.ffcalculator.mobile;
 
 import android.app.Application;
 import android.net.ConnectivityManager;
+import android.os.Build;
+import android.util.Log;
 
-import com.gpwsofts.ffcalculator.mobile.dao.FFCalculatorDatabase;
 import com.gpwsofts.ffcalculator.mobile.services.ServicesManager;
 import com.gpwsofts.ffcalculator.mobile.sharedprefs.FFCalculatorSharedPrefs;
 
@@ -15,7 +16,7 @@ import com.gpwsofts.ffcalculator.mobile.sharedprefs.FFCalculatorSharedPrefs;
  * @since 1.0.0
  */
 public class FFCalculatorApplication extends Application {
-
+    private static final String TAG_NAME = "FFCalculatorApplication";
     /**
      * Singleton application
      *
@@ -34,6 +35,7 @@ public class FFCalculatorApplication extends Application {
     private FFCalculatorSharedPrefs sharedPrefs;
     private int versionCode;
     private String versionName;
+    private int apiLevel;
 
     /**
      * Flag pour l'existence du Service Manager
@@ -50,7 +52,11 @@ public class FFCalculatorApplication extends Application {
         instance = this;
         try{
             versionCode = BuildConfig.VERSION_CODE;
+            Log.i(TAG_NAME, "versionCode = <" + versionCode + ">");
             versionName = BuildConfig.VERSION_NAME;
+            Log.i(TAG_NAME, "versionName = <" + versionName + ">");
+            apiLevel = Build.VERSION.SDK_INT;
+            Log.i(TAG_NAME, "apiLevel = <" + apiLevel + ">");
         } catch (Exception e){
             // version de code et nom pas identifiée
         }

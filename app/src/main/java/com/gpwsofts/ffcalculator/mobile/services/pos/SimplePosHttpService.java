@@ -2,7 +2,6 @@ package com.gpwsofts.ffcalculator.mobile.services.pos;
 
 import android.util.Log;
 
-import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.services.pos.pojo.FFCPosRequest;
 import com.gpwsofts.ffcalculator.mobile.services.pos.pojo.FFCPosResponse;
 import com.gpwsofts.ffcalculator.mobile.sharedprefs.FFCalculatorSharedPrefs;

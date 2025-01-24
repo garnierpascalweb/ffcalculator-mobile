@@ -19,8 +19,6 @@ import com.gpwsofts.ffcalculator.mobile.databinding.ActivityMainBinding;
 import com.gpwsofts.ffcalculator.mobile.model.Vue;
 import com.gpwsofts.ffcalculator.mobile.ui.view.VueViewModel;
 
-import java.util.HashMap;
-
 public class MainActivity extends AppCompatActivity {
     private static final String TAG_NAME = "MainActivity";
     private ActivityMainBinding binding;
@@ -62,17 +60,11 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG_NAME, "  demande de changement de vue dans la menu");
         int itemId = item.getItemId();
         final String newVue = FFCalculatorApplication.instance.getServicesManager().getVueService().getVueFromMenuItem(itemId);
-        Log.i(TAG_NAME, "  mise a jour vers la vue " + newVue);
+        Log.i(TAG_NAME, "  mise a jour asynchrone vers la vue " + newVue);
         vueViewModel.updateVue(newVue);
+        Log.i(TAG_NAME, "  check de item courant ");
+        item.setChecked(true);
         Log.i(TAG_NAME, "  fin de demande de changement de vue  = <" + newVue + ">");
         return false;
-    }
-
-    @Override
-    public void onOptionsMenuClosed(Menu menu) {
-        Log.i(TAG_NAME, "  mise a jour de la case cochee dans le menu");
-        final Vue currentVue = vueViewModel.getVueLiveData().getValue();
-        menu.getItem(currentVue.getIndexInComboMenu()).setChecked(true);
-        Log.i(TAG_NAME, "  fin mise a jour de la case cochee dans le menu = <" + currentVue.getName() + ">");
     }
 }

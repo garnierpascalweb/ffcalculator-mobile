@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -79,6 +80,4 @@ public class SynthesisFragment extends Fragment {
     private void searchPosApi(double pts, String classType) {
         synthesisViewModel.searchPosApi(pts, classType);
     }
-
-
 }

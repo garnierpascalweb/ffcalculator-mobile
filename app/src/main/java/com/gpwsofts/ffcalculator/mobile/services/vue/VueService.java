@@ -1,9 +1,6 @@
 package com.gpwsofts.ffcalculator.mobile.services.vue;
 
-import android.content.res.Resources;
-
 import com.gpwsofts.ffcalculator.mobile.R;
-import com.gpwsofts.ffcalculator.mobile.model.Logo;
 import com.gpwsofts.ffcalculator.mobile.model.Vue;
 
 import java.util.HashMap;

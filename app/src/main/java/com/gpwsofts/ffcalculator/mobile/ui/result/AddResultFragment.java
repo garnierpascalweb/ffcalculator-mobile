@@ -75,6 +75,7 @@ public class AddResultFragment extends Fragment {
         hintType = getResources().getString(R.string.hint_type_epreuve);
         hintPos = getResources().getString(R.string.hint_place_obtenue);
         hintPrts = getResources().getString(R.string.hint_partants);
+
         Log.i(TAG_NAME, "fin appel de onCreate");
     }
 
