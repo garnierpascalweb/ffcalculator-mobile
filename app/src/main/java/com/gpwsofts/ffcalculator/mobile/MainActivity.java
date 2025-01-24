@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -64,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
         vueViewModel.updateVue(newVue);
         Log.i(TAG_NAME, "  check de item courant ");
         item.setChecked(true);
+        //TODO 1.0.0 sur pour this ? et si la maj de la vue plante ?
+        Toast.makeText(this, getString(R.string.toast_update_vue_ok, newVue), Toast.LENGTH_SHORT).show();
         Log.i(TAG_NAME, "  fin de demande de changement de vue  = <" + newVue + ">");
         return false;
     }

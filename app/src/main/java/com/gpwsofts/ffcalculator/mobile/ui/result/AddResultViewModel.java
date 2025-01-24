@@ -55,6 +55,13 @@ public class AddResultViewModel extends AndroidViewModel {
         gridRepository.loadClassesChoices(vue.getCode());
     }
 
+    /**
+     * Declenche la creation d'un nouveau resultat
+     * @param place
+     * @param libelle
+     * @param pos
+     * @param prts
+     */
     public void createNewResult(String place, String libelle, int pos, int prts) {
         addResultRepository.addResultApi(place, libelle, pos, prts);
     }

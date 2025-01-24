@@ -51,6 +51,9 @@
     <string name="logo_cdfn2">CDF N2</string>
     <string name="logo_cdfn3">CDF N3</string>
 
+    <!-- mainActivity menu -->
+    <string name="toast_update_vue_ok">Bascule sur la vue %1$s</string>
+
     <!-- fragment ajouter resultat -->
     <string name="combo_classes_helper_text">Vue %1$s - %2$d types d\'épreuves disponibles</string>
     <string name="combo_pos_helper_text">Points attribués aux %1$d premiers pour une épreuve de type %2$s</string>
