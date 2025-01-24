@@ -19,6 +19,8 @@ import com.gpwsofts.ffcalculator.mobile.databinding.ActivityMainBinding;
 import com.gpwsofts.ffcalculator.mobile.model.Vue;
 import com.gpwsofts.ffcalculator.mobile.ui.view.VueViewModel;
 
+import java.util.HashMap;
+
 public class MainActivity extends AppCompatActivity {
     private static final String TAG_NAME = "MainActivity";
     private ActivityMainBinding binding;
@@ -58,45 +60,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
-        boolean boolReturn = false;
-        if (itemId == R.id.idMenuItemElite) {
-            Log.i(TAG_NAME, "switch en vue Elite");
-            vueViewModel.updateVue(Vue.ELITE);
-            boolReturn = true;
-        } else if (itemId == R.id.idMenuItemOpen1) {
-            Log.i(TAG_NAME, "switch en vue Open1");
-            vueViewModel.updateVue(Vue.OPEN_1);
-            boolReturn = true;
-        } else if (itemId == R.id.idMenuItemOpen2) {
-            Log.i(TAG_NAME, "switch en vue Open2");
-            vueViewModel.updateVue(Vue.OPEN_2);
-            boolReturn = true;
-        } else if (itemId == R.id.idMenuItemOpen3) {
-            Log.i(TAG_NAME, "switch en vue Open3");
-            vueViewModel.updateVue(Vue.OPEN_3);
-            boolReturn = true;
-        } else if (itemId == R.id.idMenuItemAccess) {
-            Log.i(TAG_NAME, "switch en vue Access");
-            vueViewModel.updateVue(Vue.ACCESS);
-            boolReturn = true;
-        } else if (itemId == R.id.idMenuItemU23) {
-            Log.i(TAG_NAME, "switch en vue U23");
-            vueViewModel.updateVue(Vue.U23);
-            boolReturn = true;
-        } else if (itemId == R.id.idMenuItemU19) {
-            Log.i(TAG_NAME, "switch en vue U19");
-            vueViewModel.updateVue(Vue.U19);
-            boolReturn = true;
-        } else if (itemId == R.id.idMenuItemU17) {
-            Log.i(TAG_NAME, "switch en vue U17");
-            vueViewModel.updateVue(Vue.U17);
-            boolReturn = true;
-        } else {
-            Log.w(TAG_NAME, "selection dune vue non geree, vue generale");
-            vueViewModel.updateVue(Vue.GENERALE);
-            boolReturn = super.onOptionsItemSelected(item);
-        }
-        return boolReturn;
+        final String newVue = FFCalculatorApplication.instance.getServicesManager().getVueService().getVueFromMenuItem(itemId);
+        Log.i(TAG_NAME, "  mise a jour vers la vue " + newVue);
+        vueViewModel.updateVue(newVue);
+        return false;
     }
 
     /**

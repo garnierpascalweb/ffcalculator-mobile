@@ -95,11 +95,6 @@
                 android:text="123.27 pts"
                 android:textSize="18sp"
                 android:textStyle="bold" />
-
-
         </LinearLayout>
-
-
     </LinearLayout>
-
 </androidx.cardview.widget.CardView>

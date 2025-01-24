@@ -14,6 +14,8 @@ import com.gpwsofts.ffcalculator.mobile.services.pos.IPosHttpService;
 import com.gpwsofts.ffcalculator.mobile.services.pos.SimplePosHttpService;
 import com.gpwsofts.ffcalculator.mobile.services.pts.IPtsHttpService;
 import com.gpwsofts.ffcalculator.mobile.services.pts.SimplePtsHttpService;
+import com.gpwsofts.ffcalculator.mobile.services.vue.IVueService;
+import com.gpwsofts.ffcalculator.mobile.services.vue.VueService;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -61,6 +63,11 @@ public class ServicesManager {
      *
      */
     private IGridService gridService = null;
+    /**
+     * Service de vue
+     * @since 1.0.0
+     */
+    private IVueService vueService;
 
 
     /**
@@ -122,6 +129,20 @@ public class ServicesManager {
             Log.d(TAG_NAME, "recuperation d'une instance existante de IGridService");
         }
         return gridService;
+    }
+
+    /**
+     * @since 1.0.0
+     * @return un singleton de service de vue
+     */
+    public final IVueService getVueService(){
+        if (null == vueService) {
+            Log.i(TAG_NAME, "creation dune nouvelle instance de IVueService");
+            vueService = new VueService();
+        } else {
+            Log.d(TAG_NAME, "recuperation d'une instance existante de IVueService");
+        }
+        return vueService;
     }
 
     /**
