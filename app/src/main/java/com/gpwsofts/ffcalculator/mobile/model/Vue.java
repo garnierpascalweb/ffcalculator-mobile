@@ -174,4 +174,6 @@ public class Vue {
         }
         return classToMap;
     }
+
+    //TODO 1.0.0 mettre en constante les chaines  et overrider toString()
 }

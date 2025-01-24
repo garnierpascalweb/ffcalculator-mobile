@@ -40,6 +40,13 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+        vueViewModel.getVueLiveData().observe(this, vue -> {
+            //TODO 1.0.0 uniformiser toutes les logs pour un changement de type observe
+            Log.i(TAG_NAME, "changement vue vers " + vue);
+            if (vue != null) {
+                Toast.makeText(this, getString(R.string.toast_update_vue_ok, vue.getName()), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -52,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
             Log.i(TAG_NAME, "  setting check sur " + currentVue.getName());
             menu.getItem(currentVue.getIndexInComboMenu()).setChecked(true);
         }
+
         Log.i(TAG_NAME, "fin onCreateOptionsMenu");
         return true;
     }
@@ -64,9 +72,8 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG_NAME, "  mise a jour asynchrone vers la vue " + newVue);
         vueViewModel.updateVue(newVue);
         Log.i(TAG_NAME, "  check de item courant ");
+        // TODO 1.0.0 pas forcement, updateView etant asynchrone, peut etre que la vue a pas été mise a jour
         item.setChecked(true);
-        //TODO 1.0.0 sur pour this ? et si la maj de la vue plante ?
-        Toast.makeText(this, getString(R.string.toast_update_vue_ok, newVue), Toast.LENGTH_SHORT).show();
         Log.i(TAG_NAME, "  fin de demande de changement de vue  = <" + newVue + ">");
         return false;
     }

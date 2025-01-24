@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import com.gpwsofts.ffcalculator.mobile.AppExecutors;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.common.SingleLiveEvent;
+import com.gpwsofts.ffcalculator.mobile.dao.FFCalculatorDatabase;
 import com.gpwsofts.ffcalculator.mobile.model.Vue;
 
 import java.util.concurrent.Future;
@@ -57,6 +58,7 @@ public class VueApiClient {
             // annuler l'appel a l'API
             myHandler.cancel(true);
         }, 5000, TimeUnit.MILLISECONDS);
+        //TODO 1.0.0 pas de 5000 en dur en vrac comme ca
     }
 
 
@@ -74,14 +76,23 @@ public class VueApiClient {
 
         @Override
         public void run() {
-            Log.i(TAG_NAME, "debut du job asynchrone SetVueRunnable");
-            Log.d(TAG_NAME, "envoi de la cle valeur en shared prefs - <" + KEY_VUE + "> <" + vue + ">");
-            // sharedPrefsEditor.putString(KEY_VUE, vue);
-            FFCalculatorApplication.instance.getSharedPrefs().setSharedPrefsVue(vue);
-            final Vue newVue = new Vue(vue);
-            Log.d(TAG_NAME, "post de la nouvelle vue en livedata = <" + vue + ">");
-            mVue.postValue(newVue);
-            Log.i(TAG_NAME, "fin du job asynchrone SetVueRunnable");
+            try {
+                Log.i(TAG_NAME, "debut du job asynchrone SetVueRunnable");
+                // TODO 1.0.0 est ce que la vue selectionnee est compatible avec la liste des courses en cours ? Pas de bascule U17 si Open et inversement
+                // FFCalculatorDatabase.getInstance().resultDao().getAllResults().getValue().stream().allMatch(result -> result.getIdClasse())
+                Log.d(TAG_NAME, "envoi de la cle valeur en shared prefs - <" + KEY_VUE + "> <" + vue + ">");
+                // sharedPrefsEditor.putString(KEY_VUE, vue);
+                FFCalculatorApplication.instance.getSharedPrefs().setSharedPrefsVue(vue);
+                final Vue newVue = new Vue(vue);
+                Log.d(TAG_NAME, "post de la nouvelle vue en livedata = <" + vue + ">");
+                mVue.postValue(newVue);
+            } catch (Exception e){
+                Log.e(TAG_NAME, "probleme sur le job SetVueRunnable", e);
+                mVue.postValue(null);
+                //TODO 1.0.0 prendre en consideration la valeur null pour tout observe
+            } finally {
+                Log.i(TAG_NAME, "fin du job asynchrone SetVueRunnable");
+            }
         }
 
         private void cancelRequest() {
