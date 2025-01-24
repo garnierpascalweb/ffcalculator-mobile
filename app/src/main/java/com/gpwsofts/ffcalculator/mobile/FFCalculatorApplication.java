@@ -7,6 +7,8 @@ import com.gpwsofts.ffcalculator.mobile.dao.FFCalculatorDatabase;
 import com.gpwsofts.ffcalculator.mobile.services.ServicesManager;
 import com.gpwsofts.ffcalculator.mobile.sharedprefs.FFCalculatorSharedPrefs;
 
+
+
 /**
  * Classe Application
  *
@@ -30,6 +32,8 @@ public class FFCalculatorApplication extends Application {
     private ServicesManager servicesManager;
     private ConnectivityManager connectivityManager;
     private FFCalculatorSharedPrefs sharedPrefs;
+    private int versionCode;
+    private String versionName;
 
     /**
      * Flag pour l'existence du Service Manager
@@ -44,6 +48,12 @@ public class FFCalculatorApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+        try{
+            versionCode = BuildConfig.VERSION_CODE;
+            versionName = BuildConfig.VERSION_NAME;
+        } catch (Exception e){
+            // version de code et nom pas identifiée
+        }
     }
 
     @Override
@@ -95,5 +105,21 @@ public class FFCalculatorApplication extends Application {
             sharedPreferencesAlreadyExist = true;
         }
         return sharedPrefs;
+    }
+
+    /**
+     * @since 1.0.0
+     * @return la version du code
+     */
+    public final int getVersionCode(){
+        return this.versionCode;
+    }
+
+    /**
+     * @since 1.0.0
+     * @return le nom de la version
+     */
+    public final String getVersionName(){
+        return this.versionName;
     }
 }
