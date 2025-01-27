@@ -41,7 +41,7 @@ public class SynthesisFragment extends Fragment {
 
         // observation du total des points
         // Update UI
-        synthesisViewModel.getPts().observe(getViewLifecycleOwner(), pts -> {
+        synthesisViewModel.getAllPtsLiveData().observe(getViewLifecycleOwner(), pts -> {
             Log.i(TAG_NAME, "debut observer getPts");
             if (null != pts) {
                 textViewPts.setText(getString(R.string.label_total_pts, pts));
@@ -56,7 +56,7 @@ public class SynthesisFragment extends Fragment {
         });
         // observation du total des positions
         // Update UI
-        synthesisViewModel.getPos().observe(getViewLifecycleOwner(), pos -> {
+        synthesisViewModel.getOverAllPosLiveData().observe(getViewLifecycleOwner(), pos -> {
             Log.i(TAG_NAME, "debut observer getPos");
             final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
             if (pos != null) {

@@ -25,12 +25,12 @@ public class GridRepository {
         return instance;
     }
 
-    public LiveData<List<Grid>> getGridsChoices() {
-        return gridApiClient.getGridChoices();
+    public LiveData<List<Grid>> getGridChoicesLiveData() {
+        return gridApiClient.getGridChoicesLiveData();
     }
 
-    public LiveData<List<Integer>> getPosChoices() {
-        return gridApiClient.getPosChoices();
+    public LiveData<List<Integer>> getPosChoicesLiveData() {
+        return gridApiClient.getPosChoicesLiveData();
     }
 
     public void loadClassesChoices(String vue) {

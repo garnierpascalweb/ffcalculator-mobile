@@ -44,11 +44,11 @@ public class GridApiClient {
         return instance;
     }
 
-    public LiveData<List<Grid>> getGridChoices() {
+    public LiveData<List<Grid>> getGridChoicesLiveData() {
         return mGridChoices;
     }
 
-    public LiveData<List<Integer>> getPosChoices() {
+    public LiveData<List<Integer>> getPosChoicesLiveData() {
         return mPosChoices;
     }
 

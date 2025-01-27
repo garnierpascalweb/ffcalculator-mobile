@@ -68,7 +68,7 @@ public class SeasonFragment extends Fragment {
         resultRV.setLayoutManager(new LinearLayoutManager(root.getContext(), LinearLayoutManager.VERTICAL, false));
         resultRV.setHasFixedSize(true);
 
-        resultViewModel.getAllResults().observe(getViewLifecycleOwner(), results -> {
+        resultViewModel.getAllResultsLiveData().observe(getViewLifecycleOwner(), results -> {
             Log.i(TAG_NAME, "debut observer getAllResults");
             adapter.submitList(results);
             Log.i(TAG_NAME, "fin observer getAllResults");
@@ -76,7 +76,7 @@ public class SeasonFragment extends Fragment {
 
         // observation du total des points
         // Update UI
-        synthesisViewModel.getPts().observe(getViewLifecycleOwner(), pts -> {
+        synthesisViewModel.getAllPtsLiveData().observe(getViewLifecycleOwner(), pts -> {
             Log.i(TAG_NAME, "debut observer getPts");
             if (null != pts) {
                 textViewPts.setText(getString(R.string.label_total_pts, pts));
@@ -92,7 +92,7 @@ public class SeasonFragment extends Fragment {
 
         // observation du total des positions
         // Update UI
-        synthesisViewModel.getPos().observe(getViewLifecycleOwner(), pos -> {
+        synthesisViewModel.getOverAllPosLiveData().observe(getViewLifecycleOwner(), pos -> {
             Log.i(TAG_NAME, "debut observer getPos");
             final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
             if (pos != null) {

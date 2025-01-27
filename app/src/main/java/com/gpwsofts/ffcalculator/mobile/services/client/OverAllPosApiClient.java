@@ -39,7 +39,7 @@ public class OverAllPosApiClient {
         return instance;
     }
 
-    public LiveData<Integer> getPos() {
+    public LiveData<Integer> getOverAllPosLiveData() {
         return mPos;
     }
 

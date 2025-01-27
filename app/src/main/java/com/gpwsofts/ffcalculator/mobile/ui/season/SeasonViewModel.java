@@ -47,8 +47,8 @@ public class SeasonViewModel extends AndroidViewModel {
         databaseResultRepository.deleteAll();
     }
 
-    public LiveData<List<Result>> getAllResults() {
+    public LiveData<List<Result>> getAllResultsLiveData() {
         Log.i(TAG_NAME, "Recuperation de la liste de tous les resultats");
-        return databaseResultRepository.getAllResults();
+        return databaseResultRepository.getAllResultsLiveData();
     }
 }

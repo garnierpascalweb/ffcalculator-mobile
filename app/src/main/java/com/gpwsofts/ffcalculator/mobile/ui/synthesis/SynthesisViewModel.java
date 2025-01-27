@@ -22,12 +22,12 @@ public class SynthesisViewModel extends AndroidViewModel {
         Log.i(TAG_NAME, "Fin instantiation de SynthesisViewModel");
     }
 
-    public LiveData<Double> getPts() {
-        return repository.getPts();
+    public LiveData<Double> getAllPtsLiveData() {
+        return repository.getAllPtsLiveData();
     }
 
-    public LiveData<Integer> getPos() {
-        return posRepository.getPos();
+    public LiveData<Integer> getOverAllPosLiveData() {
+        return posRepository.getOverAllPosLiveData();
     }
 
     public void searchPosApi(double pts, String classType) {

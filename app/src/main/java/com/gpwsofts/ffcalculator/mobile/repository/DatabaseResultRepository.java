@@ -36,12 +36,12 @@ public class DatabaseResultRepository {
         return instance;
     }
 
-    public LiveData<List<Result>> getAllResults() {
+    public LiveData<List<Result>> getAllResultsLiveData() {
         Log.i(TAG_NAME, "Recuperation de tous les resultats");
         return resultDao.getAllResults();
     }
 
-    public LiveData<Double> getPts() {
+    public LiveData<Double> getAllPtsLiveData() {
         Log.i(TAG_NAME, "Recuperation du total des points");
         // si ya rien en ase de données, le liveData contient un Double qui est null
         return resultDao.getPts();

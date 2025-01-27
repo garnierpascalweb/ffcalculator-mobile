@@ -35,12 +35,12 @@ public class AddResultViewModel extends AndroidViewModel {
         Log.i(TAG_NAME, "Fin Instantiation de AddResultViewModel");
     }
 
-    public LiveData<List<Integer>> getPosChoices() {
-        return gridRepository.getPosChoices();
+    public LiveData<List<Integer>> getPosChoicesLiveData() {
+        return gridRepository.getPosChoicesLiveData();
     }
 
-    public LiveData<List<Grid>> getGridsChoices() {
-        return gridRepository.getGridsChoices();
+    public LiveData<List<Grid>> getGridChoicesLiveData() {
+        return gridRepository.getGridChoicesLiveData();
     }
 
     public LiveData<Result> getAddedResultLiveData() {

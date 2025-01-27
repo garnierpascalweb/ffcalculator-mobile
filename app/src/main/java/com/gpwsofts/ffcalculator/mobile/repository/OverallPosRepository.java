@@ -25,8 +25,8 @@ public class OverallPosRepository {
         return instance;
     }
 
-    public LiveData<Integer> getPos() {
-        return posApiClient.getPos();
+    public LiveData<Integer> getOverAllPosLiveData() {
+        return posApiClient.getOverAllPosLiveData();
     }
 
     public void searchPosApi(double pts, String classType) {

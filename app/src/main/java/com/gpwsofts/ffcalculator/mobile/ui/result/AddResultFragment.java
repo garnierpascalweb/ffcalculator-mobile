@@ -136,7 +136,7 @@ public class AddResultFragment extends Fragment {
         });
         // observation de la liste des grilles
         // update UI
-        addResultViewModel.getGridsChoices().observe(getViewLifecycleOwner(), gridsList -> {
+        addResultViewModel.getGridChoicesLiveData().observe(getViewLifecycleOwner(), gridsList -> {
             Log.i(TAG_NAME, "debut observer getGridsChoices");
             classesListAdapter.submitList(gridsList);
             //textInputLayoutClasse.setHelperText("Vue " + vueViewModel.getVueLiveData().getValue().getName() + " - " + gridsList.size() + " types d'épreuves disponibles");
@@ -146,7 +146,7 @@ public class AddResultFragment extends Fragment {
 
         // observation de la liste des positions
         // update UI
-        addResultViewModel.getPosChoices().observe(getViewLifecycleOwner(), posList -> {
+        addResultViewModel.getPosChoicesLiveData().observe(getViewLifecycleOwner(), posList -> {
             Log.i(TAG_NAME, "debut observer getPosChoices");
             posListAdapter.submitList(posList);
             autoCompleteTextViewPos.setText(VIDE);
