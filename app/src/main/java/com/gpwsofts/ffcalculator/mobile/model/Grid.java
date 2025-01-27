@@ -8,16 +8,16 @@ import java.util.List;
  * Modele pour une grille telles que définies dans le tableau Json
  */
 public class Grid implements Comparable {
-    public String code;
-    public int priority;
-    public String logo;
-    public String libelle;
-    public List<String> vues;
-    public String type;
-    public String cal;
-    public int maxPos;
-    public int totalpts;
-    public List<Integer> pts;
+    private String code;
+    private int priority;
+    private String logo;
+    private String libelle;
+    private List<String> vues;
+    private String type;
+    private String cal;
+    private int maxPos;
+    private int totalpts;
+    private List<Integer> pts;
 
     public Grid() {
         vues = new ArrayList<String>();

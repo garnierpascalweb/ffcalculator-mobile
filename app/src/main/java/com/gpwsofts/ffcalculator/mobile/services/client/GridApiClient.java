@@ -94,11 +94,17 @@ public class GridApiClient {
         @Override
         public void run() {
             Log.i(TAG_NAME, "debut du job asynchrone LoadClassesChoicesRunnable selon la vue <" + vue + ">");
-            IGridService gridService = FFCalculatorApplication.instance.getServicesManager().getGridService();
-            List<Grid> listGrids = gridService.getGrids().stream().filter(grid -> grid.vues.contains(vue)).collect(Collectors.toList());
-            Log.d(TAG_NAME, "post du la liste des grilles en liveData (" + listGrids.size() + " elements charges)");
-            mGridChoices.postValue(listGrids);
-            Log.i(TAG_NAME, "fin  du job asynchrone LoadClassesChoicesRunnable selon la vue <" + vue + ">");
+            IGridService gridService = null;
+            List<Grid> listGrids = null;
+            try {
+                gridService = FFCalculatorApplication.instance.getServicesManager().getGridService();
+                listGrids = gridService.getGrids().stream().filter(grid -> grid.getVues().contains(vue)).collect(Collectors.toList());
+                Log.d(TAG_NAME, "post du la liste des grilles en liveData (" + listGrids.size() + " elements charges)");
+                mGridChoices.postValue(listGrids);
+
+            } finally {
+                Log.i(TAG_NAME, "fin  du job asynchrone LoadClassesChoicesRunnable selon la vue <" + vue + ">");
+            }
         }
 
         private void cancelRequest() {
@@ -126,9 +132,9 @@ public class GridApiClient {
             List<Integer> posChoices = null;
             IGridService gridService = FFCalculatorApplication.instance.getServicesManager().getGridService();
             String idClasse = libelle.substring(libelle.indexOf("(") + 1, libelle.indexOf(")"));
-            Grid myGrid = gridService.getGrids().stream().filter(grid -> grid.code.equals(idClasse)).findAny().orElse(null);
+            Grid myGrid = gridService.getGrids().stream().filter(grid -> grid.getCode().equals(idClasse)).findAny().orElse(null);
             if (myGrid != null) {
-                posChoices = IntStream.rangeClosed(1, myGrid.maxPos).boxed().collect(Collectors.toList());
+                posChoices = IntStream.rangeClosed(1, myGrid.getMaxPos()).boxed().collect(Collectors.toList());
             } //TODO 1.0.0 et si null ?
             Log.d(TAG_NAME, "post du la liste des pos en liveData (" + posChoices.size() + " elements charges)");
             mPosChoices.postValue(posChoices);
@@ -144,7 +150,7 @@ public class GridApiClient {
     private class GridToLibelleFunction implements Function<Grid, String> {
         @Override
         public String apply(Grid grid) {
-            return grid.libelle + " (" + grid.code + ")";
+            return grid.getLibelle() + " (" + grid.getCode() + ")";
         }
     }
 }
