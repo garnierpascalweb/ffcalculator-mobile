@@ -109,7 +109,7 @@ public class AddResultFragment extends Fragment {
             Log.i(TAG_NAME, "fin observer getVueLiveData = <" + vue + ">");
         });
         // observation d'un nouveau resultat
-        addResultViewModel.getAddedResult().observe(getViewLifecycleOwner(), result -> {
+        addResultViewModel.getAddedResultLiveData().observe(getViewLifecycleOwner(), result -> {
             Log.i(TAG_NAME, "debut observer getAddedResult = <" + result + ">");
             Log.d(TAG_NAME, "  nouveau resultat a ajouter " + result);
             // result peut etre null si un probleme tchnique survient au calcul des points (mResult.postValue(null))
@@ -120,11 +120,19 @@ public class AddResultFragment extends Fragment {
                 reinit();
                 // navigation au fragment de saison
                 Navigation.findNavController(binding.getRoot()).navigate(R.id.navigation_season);
-                Toast.makeText(getActivity(), getString(R.string.toast_add_result_ok), Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getActivity(), getString(R.string.toast_add_result_ok), Toast.LENGTH_SHORT).show();
+            } else {
+                // Toast.makeText(getActivity(), getString(R.string.toast_add_result_ko), Toast.LENGTH_SHORT).show();
+            }
+            Log.i(TAG_NAME, "fin observer getAddedResult = <" + result + ">");
+        });
+        // observation d'un message associé a un nouveau resultat
+        addResultViewModel.getAddedResultMessageLiveData().observe(getViewLifecycleOwner(), message -> {
+            if (message != null) {
+                Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getActivity(), getString(R.string.toast_add_result_ko), Toast.LENGTH_SHORT).show();
             }
-            Log.i(TAG_NAME, "fin observer getAddedResult = <" + result + ">");
         });
         // observation de la liste des grilles
         // update UI

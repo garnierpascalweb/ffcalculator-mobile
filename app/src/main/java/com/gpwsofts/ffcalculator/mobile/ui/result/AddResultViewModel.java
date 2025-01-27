@@ -43,8 +43,11 @@ public class AddResultViewModel extends AndroidViewModel {
         return gridRepository.getGridsChoices();
     }
 
-    public LiveData<Result> getAddedResult() {
-        return addResultRepository.getResult();
+    public LiveData<Result> getAddedResultLiveData() {
+        return addResultRepository.getAddedResultLiveData();
+    }
+    public LiveData<String> getAddedResultMessageLiveData(){
+        return addResultRepository.getAddedResultMessageLiveData();
     }
 
     public void updatePosChoices(String itemValue) {

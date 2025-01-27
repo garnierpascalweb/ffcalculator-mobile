@@ -28,11 +28,13 @@ public class AddResultApiClient {
     private static final String TAG_NAME = "AddResultApiClient";
     private static AddResultApiClient instance;
     private final SingleLiveEvent<Result> mResult;
+    private final SingleLiveEvent<String> mMessage;
     private AddResultRunnable addResultRunnable;
 
     private AddResultApiClient() {
         Log.i(TAG_NAME, "instanciation de AddResultApiClient");
         mResult = new SingleLiveEvent<Result>();
+        mMessage = new SingleLiveEvent<String>();
         Log.i(TAG_NAME, "fin instanciation de AddResultApiClient");
     }
 
@@ -42,8 +44,12 @@ public class AddResultApiClient {
         return instance;
     }
 
-    public LiveData<Result> getResult() {
+    public LiveData<Result> getAddedResultLiveData() {
         return mResult;
+    }
+
+    public LiveData<String> getAddedResultMessageLiveData(){
+        return mMessage;
     }
 
     public void addResultApiAsync(String place, String libelle, int pos, int prts) {
@@ -119,14 +125,17 @@ public class AddResultApiClient {
                     newResult.setLogoColor(logo.getColor());
                     Log.d(TAG_NAME, "post du nouveau resultat en livedata");
                     mResult.postValue(newResult);
+                    mMessage.postValue("Nouveau résultat ajouté (+" + pts + " pts)");
                 } else {
                     Log.e(TAG_NAME, "echec du calcul des points pour ce nouveau resultat");
                     String error = response.errorBody().string();
                     Log.e(TAG_NAME, "erreur " + error);
                     mResult.postValue(null);
+                    mMessage.postValue("Probleme lors de l'ajout d'un nouveau résultat");
                 }
             } catch (IOException e) {
                 Log.e(TAG_NAME, "echec du calcul des points pour ce nouveau resultat", e);
+                mMessage.postValue("Probleme lors de l'ajout d'un nouveau résultat");
             } finally {
                 Log.i(TAG_NAME, "fin du job asynchrone AddResultRunnable");
             }

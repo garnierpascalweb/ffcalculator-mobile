@@ -26,8 +26,12 @@ public class AddResultRepository {
         return instance;
     }
 
-    public LiveData<Result> getResult() {
-        return addResultApiClient.getResult();
+    public LiveData<Result> getAddedResultLiveData() {
+        return addResultApiClient.getAddedResultLiveData();
+    }
+
+    public LiveData<String> getAddedResultMessageLiveData(){
+        return addResultApiClient.getAddedResultMessageLiveData();
     }
 
     public void addResultApi(String place, String libelle, int pos, int prts) {
