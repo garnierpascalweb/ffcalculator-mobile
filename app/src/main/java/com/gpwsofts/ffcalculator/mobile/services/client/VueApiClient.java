@@ -9,8 +9,14 @@ import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.common.SingleLiveEvent;
 import com.gpwsofts.ffcalculator.mobile.dao.FFCalculatorDatabase;
+import com.gpwsofts.ffcalculator.mobile.dao.Result;
+import com.gpwsofts.ffcalculator.mobile.exception.SwitchVueException;
+import com.gpwsofts.ffcalculator.mobile.model.Grid;
 import com.gpwsofts.ffcalculator.mobile.model.Vue;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
@@ -24,10 +30,10 @@ public class VueApiClient {
     private static final String SHARED_PREFS_APP_NAME = "FFCalculatorSharedPrefs";
     private static final String KEY_VUE = "vue";
     private static final String DEFAULT_VUE_VALUE = "G";
+    private static final int JOB_TIMEOUT = 5000;
     private static VueApiClient instance;
     private final SingleLiveEvent<Vue> mVue;
     private SetVueRunnable setVueRunnable;
-    private static final int JOB_TIMEOUT = 5000;
 
 
     private VueApiClient() {
@@ -78,6 +84,7 @@ public class VueApiClient {
 
         @Override
         public void run() {
+            Vue newVue = null;
             try {
                 Log.i(TAG_NAME, "debut du job asynchrone SetVueRunnable");
                 // TODO 1.0.0 est ce que la vue selectionnee est compatible avec la liste des courses en cours ?
@@ -87,15 +94,24 @@ public class VueApiClient {
                 // FFCalculatorDatabase.getInstance().resultDao().getAllResults().getValue().stream().allMatch(result -> FFCalculatorApplication.instance.getServicesManager().getGridService().getGrids().stream().filter(grid -> grid.getCode().equals(result.getIdClasse())).
                 Log.d(TAG_NAME, "envoi de la cle valeur en shared prefs - <" + KEY_VUE + "> <" + codeVue + ">");
                 // sharedPrefsEditor.putString(KEY_VUE, vue);
-                FFCalculatorApplication.instance.getSharedPrefs().setSharedPrefsVue(codeVue);
-                final Vue newVue = FFCalculatorApplication.instance.getServicesManager().getVueService().createVue(codeVue);
-                Log.d(TAG_NAME, "post de la nouvelle vue en livedata = <" + codeVue + ">");
-                mVue.postValue(newVue);
-            } catch (Exception e){
+                if (FFCalculatorApplication.instance.getSharedPrefs().setSharedPrefsVue(codeVue)){
+                    newVue = FFCalculatorApplication.instance.getServicesManager().getVueService().createVue(codeVue);
+                    mVue.postValue(newVue);
+                } else {
+                    SwitchVueException sve = new SwitchVueException(FFCalculatorApplication.instance.getResources().getString(R.string.toast_update_vue_ko));
+                    sve.setToastMessage(FFCalculatorApplication.instance.getResources().getString(R.string.toast_update_vue_ko));
+                    throw sve;
+                }
+            } catch (SwitchVueException sve) {
+                Log.e(TAG_NAME, "probleme sur le job SetVueRunnable", sve);
+                newVue = null;
+                //TODO 1.0.0 prendre en consideration la valeur null pour tout observe
+            }catch (Exception e) {
                 Log.e(TAG_NAME, "probleme sur le job SetVueRunnable", e);
-                mVue.postValue(null);
+                newVue = null;
                 //TODO 1.0.0 prendre en consideration la valeur null pour tout observe
             } finally {
+                mVue.postValue(newVue);
                 Log.i(TAG_NAME, "fin du job asynchrone SetVueRunnable");
             }
         }

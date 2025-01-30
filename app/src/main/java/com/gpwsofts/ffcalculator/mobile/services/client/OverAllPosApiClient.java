@@ -73,7 +73,7 @@ public class OverAllPosApiClient {
         public void run() {
             Log.i(TAG_NAME, "debut du job asynchrone GetPosRunnable");
             Response response = null;
-            final Integer pos;
+            Integer pos = null;
             try {
                 Log.d(TAG_NAME, "appel synchrone au service des positions et recuperation de la reponse");
                 Log.d(TAG_NAME, " arguments : pts = <" + pts + ">, type de classement = <" + classType + ">");
@@ -88,18 +88,18 @@ public class OverAllPosApiClient {
                     pos = ((FFCPosResponse) response.body()).pos;
                     Log.d(TAG_NAME, "succes du calcul de la position pour ce capital de points = <" + pos + ">");
                     Log.d(TAG_NAME, "post de la nouvelle position en livedata");
-                    mPos.postValue(pos);
                 } else {
                     // reponse pas 200
                     String error = response.errorBody().string();
                     Log.e(TAG_NAME, "echec du calcul de la position pour ce capital de points");
                     Log.e(TAG_NAME, "erreur " + error);
                     Log.d(TAG_NAME, "pos rendue et postee = <null>");
-                    mPos.postValue(null);
+                    pos = null;
                 }
             } catch (IOException e) {
                 Log.e(TAG_NAME, "echec du calcul de la position pour ce capital de points");
             } finally {
+                mPos.postValue(pos);
                 Log.i(TAG_NAME, "fin du job asynchrone GetPosRunnable");
             }
         }

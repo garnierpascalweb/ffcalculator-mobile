@@ -51,8 +51,8 @@ public class FFCalculatorSharedPrefs {
         return sharedPrefs.getString(KEY_VUE, DEFAULT_VALUE_VUE);
     }
 
-    public void setSharedPrefsVue(String vue){
+    public boolean setSharedPrefsVue(String vue){
         sharedPrefsEditor.putString(KEY_VUE, vue);
-        sharedPrefsEditor.commit();
+        return sharedPrefsEditor.commit();
     }
 }

@@ -145,7 +145,7 @@ public class VueService implements IVueService {
         return name;
     }
 
-    private String getClassToMap(String codeVue) {
+    public String getClassToMap(String codeVue) {
         String classToMap = "H";
         switch (codeVue) {
             case U17: {
@@ -157,6 +157,10 @@ public class VueService implements IVueService {
             }
         }
         return classToMap;
+    }
+
+    public boolean isU17(String codeVue){
+        return codeVue.equals(U17);
     }
 
 }

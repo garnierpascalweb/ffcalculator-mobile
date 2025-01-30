@@ -54,7 +54,9 @@
 
     <!-- mainActivity menuou global -->
     <string name="toast_update_vue_ok">Bascule sur la vue %1$s</string>
+    <string name="toast_update_vue_ko">Problème sur le changement de vue</string>
     <string name="toast_technical_problem">Problème technique</string>
+
 
     <!-- fragment ajouter resultat -->
     <string name="combo_classes_helper_text">Vue %1$s - %2$d types d\'épreuves disponibles</string>
