@@ -1,5 +1,8 @@
 package com.gpwsofts.ffcalculator.mobile.services.vue;
 
+import com.gpwsofts.ffcalculator.mobile.model.Vue;
+
 public interface IVueService {
-    public String getVueFromMenuItem(int menuItemId);
+    public Vue createVue(String codeVue);
+    public String getCodeVueFromMenuItem(int menuItemId);
 }

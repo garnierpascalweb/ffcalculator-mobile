@@ -36,7 +36,7 @@ public class VueApiClient {
         Log.v(TAG_NAME, "recherche dans les shared prefs de la valeur de <" + KEY_VUE + ">");
         final String currentCodeVue = FFCalculatorApplication.instance.getSharedPrefs().getSharedPrefsVue();
         Log.v(TAG_NAME, "set en liveData instance Vue = <" + currentCodeVue + ">");
-        final Vue currentVue = new Vue(currentCodeVue);
+        final Vue currentVue = FFCalculatorApplication.instance.getServicesManager().getVueService().createVue(currentCodeVue);
         mVue.setValue(currentVue);
         Log.i(TAG_NAME, "fin instanciation de VueApiClient");
     }
@@ -69,11 +69,11 @@ public class VueApiClient {
      * Job permettant de mettre a jour la vue en shared preferences
      */
     private class SetVueRunnable implements Runnable {
-        private final String vue;
+        private final String codeVue;
         boolean cancelRequest;
 
-        public SetVueRunnable(String vue) {
-            this.vue = vue;
+        public SetVueRunnable(String codeVue) {
+            this.codeVue = codeVue;
         }
 
         @Override
@@ -82,13 +82,14 @@ public class VueApiClient {
                 Log.i(TAG_NAME, "debut du job asynchrone SetVueRunnable");
                 // TODO 1.0.0 est ce que la vue selectionnee est compatible avec la liste des courses en cours ?
                 //  Pas de bascule U17 si Open et inversement
-                // Pas de bascule Open si U17
+                // Pas de bascule Open si y'a des courses U17
+                // Pas de bascule U17 si ya des courses Open
                 // FFCalculatorDatabase.getInstance().resultDao().getAllResults().getValue().stream().allMatch(result -> FFCalculatorApplication.instance.getServicesManager().getGridService().getGrids().stream().filter(grid -> grid.getCode().equals(result.getIdClasse())).
-                Log.d(TAG_NAME, "envoi de la cle valeur en shared prefs - <" + KEY_VUE + "> <" + vue + ">");
+                Log.d(TAG_NAME, "envoi de la cle valeur en shared prefs - <" + KEY_VUE + "> <" + codeVue + ">");
                 // sharedPrefsEditor.putString(KEY_VUE, vue);
-                FFCalculatorApplication.instance.getSharedPrefs().setSharedPrefsVue(vue);
-                final Vue newVue = new Vue(vue);
-                Log.d(TAG_NAME, "post de la nouvelle vue en livedata = <" + vue + ">");
+                FFCalculatorApplication.instance.getSharedPrefs().setSharedPrefsVue(codeVue);
+                final Vue newVue = FFCalculatorApplication.instance.getServicesManager().getVueService().createVue(codeVue);
+                Log.d(TAG_NAME, "post de la nouvelle vue en livedata = <" + codeVue + ">");
                 mVue.postValue(newVue);
             } catch (Exception e){
                 Log.e(TAG_NAME, "probleme sur le job SetVueRunnable", e);

@@ -70,13 +70,13 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Log.i(TAG_NAME, "  demande de changement de vue dans la menu");
         int itemId = item.getItemId();
-        final String newVue = FFCalculatorApplication.instance.getServicesManager().getVueService().getVueFromMenuItem(itemId);
-        Log.i(TAG_NAME, "  mise a jour asynchrone vers la vue " + newVue);
-        vueViewModel.updateVue(newVue);
+        final String newCodeVue = FFCalculatorApplication.instance.getServicesManager().getVueService().getCodeVueFromMenuItem(itemId);
+        Log.i(TAG_NAME, "  mise a jour asynchrone vers la vue " + newCodeVue);
+        vueViewModel.updateVue(newCodeVue);
         Log.i(TAG_NAME, "  check de item courant ");
         // TODO 1.0.0 pas forcement, updateView etant asynchrone, peut etre que la vue a pas été mise a jour
         item.setChecked(true);
-        Log.i(TAG_NAME, "  fin de demande de changement de vue  = <" + newVue + ">");
+        Log.i(TAG_NAME, "  fin de demande de changement de vue  = <" + newCodeVue + ">");
         return false;
     }
 }
