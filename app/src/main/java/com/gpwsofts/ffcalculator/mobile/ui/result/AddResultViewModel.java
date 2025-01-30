@@ -50,12 +50,12 @@ public class AddResultViewModel extends AndroidViewModel {
         return addResultRepository.getAddedResultMessageLiveData();
     }
 
-    public void updatePosChoices(String itemValue) {
-        gridRepository.loadPosChoices(itemValue);
+    public void loadPosChoicesAsync(String itemValue) {
+        gridRepository.loadPosChoicesAsync(itemValue);
     }
 
-    public void updateGridChoices(Vue vue) {
-        gridRepository.loadClassesChoices(vue.getCode());
+    public void loadGridChoicesAsync(Vue vue) {
+        gridRepository.loadGridChoicesAsync(vue.getCode());
     }
 
     /**
@@ -65,8 +65,8 @@ public class AddResultViewModel extends AndroidViewModel {
      * @param pos
      * @param prts
      */
-    public void createNewResult(String place, String libelle, int pos, int prts) {
-        addResultRepository.addResultApi(place, libelle, pos, prts);
+    public void addResultApiAsync(String place, String libelle, String pos, String prts) {
+        addResultRepository.addResultApiAsync(place, libelle, pos, prts);
     }
 
     public void onNewResultCreated(Result newResult) {

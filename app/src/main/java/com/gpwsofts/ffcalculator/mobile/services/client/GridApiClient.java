@@ -30,6 +30,7 @@ public class GridApiClient {
     private final SingleLiveEvent<List<Integer>> mPosChoices;
     private LoadClassesChoicesRunnable loadClassesChoicesRunnable;
     private LoadPosChoicesRunnable loadPosChoicesRunnable;
+    private static final int JOB_TIMEOUT = 5000;
 
     private GridApiClient() {
         Log.i(TAG_NAME, "instanciation de GridApiClient");
@@ -52,8 +53,7 @@ public class GridApiClient {
         return mPosChoices;
     }
 
-
-    public void loadClassesChoicesAsync(String vue) {
+    public void loadGridChoicesAsync(String vue) {
         if (loadClassesChoicesRunnable != null) {
             loadClassesChoicesRunnable = null;
         }
@@ -61,7 +61,7 @@ public class GridApiClient {
         final Future myHandler = AppExecutors.getInstance().networkIO().submit(loadClassesChoicesRunnable);
         AppExecutors.getInstance().networkIO().schedule(() -> {
             myHandler.cancel(true);
-        }, 5000, TimeUnit.MILLISECONDS);
+        }, JOB_TIMEOUT, TimeUnit.MILLISECONDS);
         //TODO 1.0.0 revoir ce timeout
     }
 
@@ -73,7 +73,7 @@ public class GridApiClient {
         final Future myHandler = AppExecutors.getInstance().networkIO().submit(loadPosChoicesRunnable);
         AppExecutors.getInstance().networkIO().schedule(() -> {
             myHandler.cancel(true);
-        }, 5000, TimeUnit.MILLISECONDS);
+        }, JOB_TIMEOUT, TimeUnit.MILLISECONDS);
         //TODO 1.0.0 revoir ce timeout
     }
 
@@ -95,14 +95,17 @@ public class GridApiClient {
         public void run() {
             Log.i(TAG_NAME, "debut du job asynchrone LoadClassesChoicesRunnable selon la vue <" + vue + ">");
             IGridService gridService = null;
-            List<Grid> listGrids = null;
+            List<Grid> listGridsForMyVue = null;
             try {
-                gridService = FFCalculatorApplication.instance.getServicesManager().getGridService();
-                listGrids = gridService.getGrids().stream().filter(grid -> grid.getVues().contains(vue)).collect(Collectors.toList());
-                Log.d(TAG_NAME, "post du la liste des grilles en liveData (" + listGrids.size() + " elements charges)");
-                mGridChoices.postValue(listGrids);
-
+                List<Grid> grids = FFCalculatorApplication.instance.getServicesManager().getGridService().getGrids();
+                Log.d(TAG_NAME, " nombre de grilles <" + grids.size() + ">");
+                listGridsForMyVue = FFCalculatorApplication.instance.getServicesManager().getGridService().getGrids().stream().filter(grid -> grid.getVues().contains(vue)).collect(Collectors.toList());
+                Log.d(TAG_NAME, " <" + listGridsForMyVue.size() + "> vues chargees pour la vue <" + vue + ">");
+            } catch (Exception e){
+                Log.e(TAG_NAME, "echec du chargement de la liste des classes de courses par rapport a la vue", e);
+                listGridsForMyVue = null;
             } finally {
+                mGridChoices.postValue(listGridsForMyVue);
                 Log.i(TAG_NAME, "fin  du job asynchrone LoadClassesChoicesRunnable selon la vue <" + vue + ">");
             }
         }
@@ -130,15 +133,22 @@ public class GridApiClient {
         public void run() {
             Log.i(TAG_NAME, "debut du job asynchrone LoadPosChoicesRunnable selon le libelle <" + libelle + ">");
             List<Integer> posChoices = null;
-            IGridService gridService = FFCalculatorApplication.instance.getServicesManager().getGridService();
-            String idClasse = libelle.substring(libelle.indexOf("(") + 1, libelle.indexOf(")"));
-            Grid myGrid = gridService.getGrids().stream().filter(grid -> grid.getCode().equals(idClasse)).findAny().orElse(null);
-            if (myGrid != null) {
-                posChoices = IntStream.rangeClosed(1, myGrid.getMaxPos()).boxed().collect(Collectors.toList());
-            } //TODO 1.0.0 et si null ?
-            Log.d(TAG_NAME, "post du la liste des pos en liveData (" + posChoices.size() + " elements charges)");
-            mPosChoices.postValue(posChoices);
-            Log.i(TAG_NAME, "fin du job asynchrone LoadPosChoicesRunnable selon le libelle <" + libelle + ">");
+            IGridService gridService = null;
+            try{
+                final String idClasse = FFCalculatorApplication.instance.getServicesManager().getGridService().getIdClasseFromLibelle(libelle);
+                final Grid myGrid = FFCalculatorApplication.instance.getServicesManager().getGridService().getGrids().stream().filter(grid -> grid.getCode().equals(idClasse)).findAny().orElse(null);
+                if (myGrid != null) {
+                    posChoices = IntStream.rangeClosed(1, myGrid.getMaxPos()).boxed().collect(Collectors.toList());
+                } else {
+                    posChoices = null;
+                }
+            } catch (Exception e){
+                Log.e(TAG_NAME, "echec du chargement de la liste des ppositions possibles ", e);
+                posChoices = null;
+            } finally {
+                mPosChoices.postValue(posChoices);
+                Log.i(TAG_NAME, "fin du job asynchrone LoadPosChoicesRunnable selon le libelle <" + libelle + ">");
+            }
         }
 
         private void cancelRequest() {

@@ -34,7 +34,7 @@ public class AddResultRepository {
         return addResultApiClient.getAddedResultMessageLiveData();
     }
 
-    public void addResultApi(String place, String libelle, int pos, int prts) {
+    public void addResultApiAsync(String place, String libelle, String pos, String prts) {
         addResultApiClient.addResultApiAsync(place, libelle, pos, prts);
     }
 }

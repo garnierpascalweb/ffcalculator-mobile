@@ -14,7 +14,7 @@ public class VueViewModel extends ViewModel {
     }
 
     public LiveData<Vue> getVueLiveData() {
-        return vueRepository.getVue();
+        return vueRepository.getVueLiveData();
     }
 
     public void updateVue(String vue) {

@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 
 import com.gpwsofts.ffcalculator.mobile.AppExecutors;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
+import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.common.SingleLiveEvent;
 import com.gpwsofts.ffcalculator.mobile.dao.FFCalculatorDatabase;
 import com.gpwsofts.ffcalculator.mobile.model.Vue;
@@ -26,6 +27,8 @@ public class VueApiClient {
     private static VueApiClient instance;
     private final SingleLiveEvent<Vue> mVue;
     private SetVueRunnable setVueRunnable;
+    private static final int JOB_TIMEOUT = 5000;
+
 
     private VueApiClient() {
         Log.i(TAG_NAME, "instanciation de VueApiClient");
@@ -44,7 +47,7 @@ public class VueApiClient {
         return instance;
     }
 
-    public LiveData<Vue> getVue() {
+    public LiveData<Vue> getVueLiveData() {
         return mVue;
     }
 
@@ -57,8 +60,7 @@ public class VueApiClient {
         AppExecutors.getInstance().networkIO().schedule(() -> {
             // annuler l'appel a l'API
             myHandler.cancel(true);
-        }, 5000, TimeUnit.MILLISECONDS);
-        //TODO 1.0.0 pas de 5000 en dur en vrac comme ca
+        }, JOB_TIMEOUT, TimeUnit.MILLISECONDS);
     }
 
 
@@ -78,8 +80,10 @@ public class VueApiClient {
         public void run() {
             try {
                 Log.i(TAG_NAME, "debut du job asynchrone SetVueRunnable");
-                // TODO 1.0.0 est ce que la vue selectionnee est compatible avec la liste des courses en cours ? Pas de bascule U17 si Open et inversement
-                // FFCalculatorDatabase.getInstance().resultDao().getAllResults().getValue().stream().allMatch(result -> result.getIdClasse())
+                // TODO 1.0.0 est ce que la vue selectionnee est compatible avec la liste des courses en cours ?
+                //  Pas de bascule U17 si Open et inversement
+                // Pas de bascule Open si U17
+                // FFCalculatorDatabase.getInstance().resultDao().getAllResults().getValue().stream().allMatch(result -> FFCalculatorApplication.instance.getServicesManager().getGridService().getGrids().stream().filter(grid -> grid.getCode().equals(result.getIdClasse())).
                 Log.d(TAG_NAME, "envoi de la cle valeur en shared prefs - <" + KEY_VUE + "> <" + vue + ">");
                 // sharedPrefsEditor.putString(KEY_VUE, vue);
                 FFCalculatorApplication.instance.getSharedPrefs().setSharedPrefsVue(vue);

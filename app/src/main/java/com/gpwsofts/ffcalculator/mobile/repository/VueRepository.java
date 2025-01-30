@@ -25,8 +25,8 @@ public class VueRepository {
         return instance;
     }
 
-    public LiveData<Vue> getVue() {
-        return vueApiClient.getVue();
+    public LiveData<Vue> getVueLiveData() {
+        return vueApiClient.getVueLiveData();
     }
 
     public void setVueApi(String vue) {

@@ -70,12 +70,10 @@ public class AddResultFragment extends Fragment {
         prtsListAdapter = new IntegerListAdapter(new IntegerListAdapter.IntDiff());
         prtsRecyclerBaseAdapter = new IntegerRecyclerBaseAdapter(prtsListAdapter);
         prtsListAdapter.submitList(IntStream.rangeClosed(1, 200).boxed().collect(Collectors.toList()));
-
         hintPlace = getResources().getString(R.string.hint_lieu_epreuve);
         hintType = getResources().getString(R.string.hint_type_epreuve);
         hintPos = getResources().getString(R.string.hint_place_obtenue);
         hintPrts = getResources().getString(R.string.hint_partants);
-
         Log.i(TAG_NAME, "fin appel de onCreate");
     }
 
@@ -84,10 +82,6 @@ public class AddResultFragment extends Fragment {
         Log.i(TAG_NAME, "appel de onCreateView");
         binding = FragmentResultBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        //TODO 1.0.0 recuperation de UUID a mettre autre part que la
-        //String android_device_id = Settings.Secure.getString(this.requireActivity().getContentResolver(), Settings.Secure.ANDROID_ID);
-        //Log.i(TAG_NAME, "device id " + android_device_id);
-        //Log.i(TAG_NAME, "nombre de pts = " + this.resultViewModel.getAllPts());
         textInputLayoutPlace = binding.idTILPlace;
         textInputLayoutClasse = binding.idTILClasses;
         textInputLayoutPos = binding.idTILPos;
@@ -105,7 +99,12 @@ public class AddResultFragment extends Fragment {
         // observation de la vue courante
         vueViewModel.getVueLiveData().observe(getViewLifecycleOwner(), vue -> {
             Log.i(TAG_NAME, "debut observer getVueLiveData = <" + vue + ">");
-            onUpdatedVue(vue);
+            if (vue != null) {
+                onUpdatedVue(vue);
+                Toast.makeText(getActivity(), getString(R.string.toast_update_vue_ok, vue.getName()), Toast.LENGTH_SHORT).show();
+            } else {
+                //TODO 1.0.0  gerer cas erreur
+            }
             Log.i(TAG_NAME, "fin observer getVueLiveData = <" + vue + ">");
         });
         // observation d'un nouveau resultat
@@ -120,9 +119,8 @@ public class AddResultFragment extends Fragment {
                 reinit();
                 // navigation au fragment de saison
                 Navigation.findNavController(binding.getRoot()).navigate(R.id.navigation_season);
-                // Toast.makeText(getActivity(), getString(R.string.toast_add_result_ok), Toast.LENGTH_SHORT).show();
             } else {
-                // Toast.makeText(getActivity(), getString(R.string.toast_add_result_ko), Toast.LENGTH_SHORT).show();
+                //TODO 1.0.0  gerer cas erreur
             }
             Log.i(TAG_NAME, "fin observer getAddedResult = <" + result + ">");
         });
@@ -131,6 +129,7 @@ public class AddResultFragment extends Fragment {
             if (message != null) {
                 Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
             } else {
+                // ne devrait pas arriver
                 Toast.makeText(getActivity(), getString(R.string.toast_add_result_ko), Toast.LENGTH_SHORT).show();
             }
         });
@@ -138,9 +137,12 @@ public class AddResultFragment extends Fragment {
         // update UI
         addResultViewModel.getGridChoicesLiveData().observe(getViewLifecycleOwner(), gridsList -> {
             Log.i(TAG_NAME, "debut observer getGridsChoices");
-            classesListAdapter.submitList(gridsList);
-            //textInputLayoutClasse.setHelperText("Vue " + vueViewModel.getVueLiveData().getValue().getName() + " - " + gridsList.size() + " types d'épreuves disponibles");
-            textInputLayoutClasse.setHelperText(getString(R.string.combo_classes_helper_text, vueViewModel.getVueLiveData().getValue().getName(), gridsList.size()));
+            if (gridsList != null) {
+                classesListAdapter.submitList(gridsList);
+                textInputLayoutClasse.setHelperText(getString(R.string.combo_classes_helper_text, vueViewModel.getVueLiveData().getValue().getName(), gridsList.size()));
+            } else {
+                //TODO 1.0.0  gerer cas erreur
+            }
             Log.i(TAG_NAME, "fin observer getGridsChoices");
         });
 
@@ -148,10 +150,13 @@ public class AddResultFragment extends Fragment {
         // update UI
         addResultViewModel.getPosChoicesLiveData().observe(getViewLifecycleOwner(), posList -> {
             Log.i(TAG_NAME, "debut observer getPosChoices");
-            posListAdapter.submitList(posList);
-            autoCompleteTextViewPos.setText(VIDE);
-            // textInputLayoutPos.setHelperText("Points attribués aux " + posList.size()+ " premiers pour une épreuve de type " + autoCompleteTextViewClasses.getText());
-            textInputLayoutPos.setHelperText(getString(R.string.combo_pos_helper_text, posList.size(), autoCompleteTextViewClasses.getText()));
+            if (posList != null) {
+                posListAdapter.submitList(posList);
+                autoCompleteTextViewPos.setText(VIDE);
+                textInputLayoutPos.setHelperText(getString(R.string.combo_pos_helper_text, posList.size(), autoCompleteTextViewClasses.getText()));
+            } else {
+                //TODO 1.0.0  gerer cas erreur
+            }
             Log.i(TAG_NAME, "fin observer getPosChoices");
         });
 
@@ -161,7 +166,7 @@ public class AddResultFragment extends Fragment {
         autoCompleteTextViewClasses.setOnItemClickListener((parent, view, position, id) -> {
             Log.i(TAG_NAME, "selection d'une nouvelle classe de course");
             String itemValue = parent.getItemAtPosition(position).toString();
-            addResultViewModel.updatePosChoices(itemValue);
+            addResultViewModel.loadPosChoicesAsync(itemValue);
         });
 
         // ecouteur de click sur le bouton ajouter
@@ -172,7 +177,7 @@ public class AddResultFragment extends Fragment {
     }
 
     private void onUpdatedVue(Vue vue) {
-        addResultViewModel.updateGridChoices(vue);
+        addResultViewModel.loadGridChoicesAsync(vue);
         reinit();
     }
 
@@ -183,61 +188,21 @@ public class AddResultFragment extends Fragment {
      */
     private void saveResult() {
         // recuperation des datas
-        String toastMessage = null;
-        boolean isWwwConnected = FFCalculatorApplication.instance.getServicesManager().getNetworkService().isWwwConnected();
-        if (isWwwConnected) {
-            // connecte a internet
-            final Editable placeEditable = textInputEditTextPlace.getText();
-            final Editable libelleEditable = autoCompleteTextViewClasses.getText();
-            final Editable posEditable = autoCompleteTextViewPos.getText();
-            final Editable prtsEditable = autoCompleteTextViewPrts.getText();
-            if (validateEditable(hintPlace, placeEditable) && validateEditable(hintType, libelleEditable) && validateEditable(hintPos, posEditable) && validateEditable(hintPrts, prtsEditable)) {
-                // champs correctement remplis
-                final String place = String.valueOf(placeEditable);
-                final String libelle = String.valueOf(libelleEditable);
-                final int pos = Integer.valueOf(posEditable.toString());
-                final int prts = Integer.valueOf(prtsEditable.toString());
-                if (validateResultInput(place, libelle, pos, prts)) {
-                    addResultViewModel.createNewResult(place, libelle, pos, prts);
-                }
-            }
-        } else {
-            // pas connecte a internet
-            Log.e(TAG_NAME, "pas de reseau");
-            Toast.makeText(getActivity(), getString(R.string.toast_no_network), Toast.LENGTH_SHORT).show();
-        }
+        final Editable placeEditable = textInputEditTextPlace.getText();
+        final Editable libelleEditable = autoCompleteTextViewClasses.getText();
+        final Editable posEditable = autoCompleteTextViewPos.getText();
+        final Editable prtsEditable = autoCompleteTextViewPrts.getText();
+        // obtention des 4 variables telles que saisies
+        final String place = placeEditable == null ? null : String.valueOf(placeEditable);
+        final String libelle = libelleEditable == null ? null : String.valueOf(libelleEditable);
+        final String pos = posEditable == null ? null : String.valueOf(posEditable);
+        final String prts = prtsEditable == null ? null : String.valueOf(prtsEditable);
+        addResultViewModel.addResultApiAsync(place, libelle, pos, prts);
     }
 
-    /**
-     * Valide le contenu des champs du formulaire (non vide)
-     *
-     * @param name
-     * @param editable
-     * @return
-     * @since 1.0.0
-     */
-    private boolean validateEditable(String name, Editable editable) {
-        boolean isEmpty = (null == editable || editable.length() == 0);
-        if (isEmpty)
-            Toast.makeText(getActivity(), getString(R.string.toast_form_incomplet, name), Toast.LENGTH_SHORT).show();
-        return !isEmpty;
-    }
 
-    /**
-     * Valide les valeurs données dans le formulaire
-     *
-     * @param place
-     * @param libelle
-     * @param pos
-     * @param prts
-     * @return
-     */
-    private boolean validateResultInput(String place, String libelle, int pos, int prts) {
-        boolean isValid = pos <= prts;
-        if (!isValid)
-            Toast.makeText(getActivity(), getString(R.string.toast_invalid_pos_prts), Toast.LENGTH_SHORT).show();
-        return isValid;
-    }
+
+
 
     /**
      * Reinitialise l'écran (apres la validation d'un resultat)

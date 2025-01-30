@@ -1,5 +1,6 @@
 package com.gpwsofts.ffcalculator.mobile.services.pts;
 
+import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsRequest;
 import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsResponse;
 
 import retrofit2.Call;
@@ -10,4 +11,5 @@ import retrofit2.Call;
  */
 public interface IPtsHttpService {
     Call<FFCPointsResponse> calcPts(String place, int pos, int prts, String classe);
+    Call<FFCPointsResponse> calcPts(FFCPointsRequest request);
 }

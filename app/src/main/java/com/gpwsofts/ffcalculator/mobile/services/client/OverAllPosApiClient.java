@@ -26,6 +26,7 @@ public class OverAllPosApiClient {
     private static OverAllPosApiClient instance;
     private final SingleLiveEvent<Integer> mPos;
     private GetPosRunnable getPosRunnable;
+    private static final int JOB_TIMEOUT = 5000;
 
     private OverAllPosApiClient() {
         Log.i(TAG_NAME, "instanciation de OverAllPosApiClient");
@@ -52,7 +53,7 @@ public class OverAllPosApiClient {
         AppExecutors.getInstance().networkIO().schedule(() -> {
             // annuler l'appel a l'API
             myHandler.cancel(true);
-        }, 5000, TimeUnit.MILLISECONDS);
+        }, JOB_TIMEOUT, TimeUnit.MILLISECONDS);
         //TODO 1.0.0 revoir ce timeout
     }
 

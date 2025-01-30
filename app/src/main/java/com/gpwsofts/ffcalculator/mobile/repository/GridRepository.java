@@ -33,11 +33,11 @@ public class GridRepository {
         return gridApiClient.getPosChoicesLiveData();
     }
 
-    public void loadClassesChoices(String vue) {
-        gridApiClient.loadClassesChoicesAsync(vue);
+    public void loadGridChoicesAsync(String vue) {
+        gridApiClient.loadGridChoicesAsync(vue);
     }
 
-    public void loadPosChoices(String libelle) {
+    public void loadPosChoicesAsync(String libelle) {
         gridApiClient.loadPosChoicesAsync(libelle);
     }
 }

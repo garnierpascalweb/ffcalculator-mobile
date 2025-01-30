@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
+import com.gpwsofts.ffcalculator.mobile.InputLibelleFormatException;
 import com.gpwsofts.ffcalculator.mobile.model.Grid;
 
 import java.io.IOException;
@@ -14,8 +15,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * @since 1.0.0
@@ -23,11 +22,39 @@ import java.util.concurrent.Executors;
 public class SimpleGridService implements IGridService {
     private static final String TAG_NAME = "SimpleGridService";
     private static final String GRID_RELATIVE_PATH = "grids/grilles.json";
-    private static final ExecutorService gridServiceExecutor = Executors.newFixedThreadPool(1);
     private List<Grid> grids = null;
 
     public SimpleGridService() {
         grids = new ArrayList<Grid>();
+    }
+
+    public List<Grid> getGrids() throws IOException {
+        if (null == grids || grids.isEmpty())
+            loadGridsFromLocalResource();
+        return grids;
+    }
+
+    @Override
+    public String getIdClasseFromLibelle(String libelle) throws InputLibelleFormatException {
+        String idClasse;
+        if (null == libelle)
+            throw new InputLibelleFormatException("libelle est null");
+        try {
+            final int borneInf = libelle.indexOf("(") + 1;
+            final int borneSup = libelle.indexOf(")");
+            idClasse = libelle.substring(borneInf, borneSup);
+        } catch (IndexOutOfBoundsException ie){
+            throw new InputLibelleFormatException(" le libelle " + libelle + " nest pas au bon format", ie);
+        }
+        return idClasse;
+    }
+
+    /**
+     * Chargement des grilles
+     * @since 1.0.0
+     * @throws IOException
+     */
+    private void loadGridsFromLocalResource() throws IOException {
         InputStream is = null;
         Type listGridType = null;
         String jsonDatas = null;
@@ -49,8 +76,6 @@ public class SimpleGridService implements IGridService {
             Log.v(TAG_NAME, "tri de la liste des grilles");
             Collections.sort(grids);
             Log.i(TAG_NAME, "fin du chargement des grilles - <" + grids.size() + "> grilles chargees");
-        } catch (IOException e) {
-            Log.wtf(TAG_NAME, "probleme lors du chargement des grilles");
         } finally {
             if (is != null) {
                 try {
@@ -60,9 +85,5 @@ public class SimpleGridService implements IGridService {
                 }
             }
         }
-    }
-
-    public List<Grid> getGrids() {
-        return grids;
     }
 }
