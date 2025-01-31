@@ -63,6 +63,4 @@ public class Vue {
     public void setName(String name) {
         this.name = name;
     }
-
-    //TODO 1.0.0 mettre en constante les chaines  et overrider toString()
 }
