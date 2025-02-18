@@ -103,7 +103,7 @@ public class AddResultFragment extends Fragment {
                 onUpdatedVue(vue);
                 Toast.makeText(getActivity(), getString(R.string.toast_update_vue_ok, vue.getName()), Toast.LENGTH_SHORT).show();
             } else {
-                //TODO 1.0.0  gerer cas erreur
+                Toast.makeText(getActivity(), getString(R.string.toast_update_vue_ko), Toast.LENGTH_SHORT).show();
             }
             Log.i(TAG_NAME, "fin observer getVueLiveData = <" + vue + ">");
         });
@@ -111,7 +111,7 @@ public class AddResultFragment extends Fragment {
         addResultViewModel.getAddedResultLiveData().observe(getViewLifecycleOwner(), result -> {
             Log.i(TAG_NAME, "debut observer getAddedResult = <" + result + ">");
             Log.d(TAG_NAME, "  nouveau resultat a ajouter " + result);
-            // result peut etre null si un probleme tchnique survient au calcul des points (mResult.postValue(null))
+            // result peut etre null si un probleme technique survient au calcul des points (mResult.postValue(null))
             if (result != null) {
                 // insertion en database
                 addResultViewModel.onNewResultCreated(result);
@@ -120,7 +120,8 @@ public class AddResultFragment extends Fragment {
                 // navigation au fragment de saison
                 Navigation.findNavController(binding.getRoot()).navigate(R.id.navigation_season);
             } else {
-                //TODO 1.0.0  gerer cas erreur
+                Log.e(TAG_NAME, "probleme sur l'ajout d'un nouveau resultat");
+                Toast.makeText(getActivity(), getString(R.string.toast_add_result_ko), Toast.LENGTH_SHORT).show();
             }
             Log.i(TAG_NAME, "fin observer getAddedResult = <" + result + ">");
         });
@@ -129,7 +130,7 @@ public class AddResultFragment extends Fragment {
             if (message != null) {
                 Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
             } else {
-                // ne devrait pas arriver
+                Log.e(TAG_NAME, "probleme sur l'ajout d'un nouveau resultat");
                 Toast.makeText(getActivity(), getString(R.string.toast_add_result_ko), Toast.LENGTH_SHORT).show();
             }
         });

@@ -104,10 +104,6 @@ public class SeasonFragment extends Fragment {
             }
             Log.i(TAG_NAME, "fin observer getPos");
         });
-
-        //TODO 1.0.0 le swip ne marche pas dans le fragment puisque le swip est porté par le fragment
-
-
         return root;
     }
 

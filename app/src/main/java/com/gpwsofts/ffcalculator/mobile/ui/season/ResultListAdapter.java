@@ -30,7 +30,7 @@ public class ResultListAdapter extends ListAdapter<Result, ResultViewHolder> {
         holder.bind(current.getLogo(), current.getLogoColor(), current.getPlace(), current.getLibelle(), current.getPos(), current.getPrts(), current.getPts());
     }
 
-    //TODO 1.0.0 bizarre methode protegee mais
+    // bizarre methode protegee mais
     public Result getItemFromAdapter(int position) {
         return getItem(position);
     }
