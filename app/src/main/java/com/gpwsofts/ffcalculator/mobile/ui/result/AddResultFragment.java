@@ -22,10 +22,12 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentResultBinding;
+import com.gpwsofts.ffcalculator.mobile.model.Grid;
 import com.gpwsofts.ffcalculator.mobile.model.Vue;
 import com.gpwsofts.ffcalculator.mobile.ui.season.SeasonViewModel;
 import com.gpwsofts.ffcalculator.mobile.ui.view.VueViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -34,6 +36,7 @@ public class AddResultFragment extends Fragment {
     private static final String TAG_NAME = "ResultFragment";
     private static final List<Integer> INTEGER_LIST_1_200 = IntStream.rangeClosed(1, 200).boxed().collect(Collectors.toList());
     private static final List<Integer> INTEGER_LIST_1_50 = IntStream.rangeClosed(1, 50).boxed().collect(Collectors.toList());
+    private static final List<Grid> EMPTY_GRID_LIST = new ArrayList<Grid>();
     private static final String VIDE = "";
     TextInputEditText textInputEditTextPlace;
     TextInputLayout textInputLayoutPlace;
@@ -143,9 +146,11 @@ public class AddResultFragment extends Fragment {
             Log.i(TAG_NAME, "debut observer getGridsChoices");
             if (gridsList != null) {
                 classesListAdapter.submitList(gridsList);
-                textInputLayoutClasse.setHelperText(getString(R.string.combo_classes_helper_text, vueViewModel.getVueLiveData().getValue().getName(), gridsList.size()));
+                textInputLayoutClasse.setHelperText(getString(R.string.combo_classes_helper_text_ok, vueViewModel.getVueLiveData().getValue().getName(), gridsList.size()));
             } else {
-                //TODO 1.0.0  gerer cas erreur
+                Log.w(TAG_NAME, "probleme sur le chargement des grilles");
+                classesListAdapter.submitList(EMPTY_GRID_LIST);
+                textInputLayoutClasse.setHelperText(getString(R.string.combo_classes_helper_text_ko));
             }
             Log.i(TAG_NAME, "fin observer getGridsChoices");
         });
