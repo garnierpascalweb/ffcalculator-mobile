@@ -15,4 +15,10 @@ public interface ILogoService {
      * @return
      */
     Logo getLogo(String idClasse);
+
+    /**
+     * Rend une instance de Logo inconnu
+     * @return
+     */
+    Logo getUnknownLogo();
 }

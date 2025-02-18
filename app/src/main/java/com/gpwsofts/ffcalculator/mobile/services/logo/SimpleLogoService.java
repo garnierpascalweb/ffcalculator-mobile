@@ -1,6 +1,7 @@
 package com.gpwsofts.ffcalculator.mobile.services.logo;
 
 import android.content.res.Resources;
+import android.util.Log;
 
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.model.Logo;
@@ -11,14 +12,6 @@ import java.util.Map;
 
 public class SimpleLogoService implements ILogoService {
     private static final String TAG_NAME = "SimpleLogoService";
-    private static Logo logoElite;
-    private static Logo logoOpen123;
-    private static Logo logoOpen12;
-    private static Logo logoOpen23;
-    private static Logo logoOpen3;
-    private static Logo logoU17;
-    private static Logo logoU19;
-    private static Logo logoU23;
 
     private static Map<String, Logo> logos;
 
@@ -39,9 +32,33 @@ public class SimpleLogoService implements ILogoService {
         logos.put(res.getString(R.string.logo_cdfn1), new Logo(res.getColor(R.color.logo_cdfn1), res.getString(R.string.logo_cdfn1)));
         logos.put(res.getString(R.string.logo_cdfn2), new Logo(res.getColor(R.color.logo_cdfn2), res.getString(R.string.logo_cdfn2)));
         logos.put(res.getString(R.string.logo_cdfn3), new Logo(res.getColor(R.color.logo_cdfn3), res.getString(R.string.logo_cdfn3)));
+        logos.put(res.getString(R.string.logo_unknown), new Logo(res.getColor(R.color.logo_unknown), res.getString(R.string.logo_unknown)));
     }
 
+    /**
+     * @param idLogo id de logo, s'il est null, renvoi un logo par defaut
+     * @return une instance de Logo pour un idLogo
+     */
     public Logo getLogo(String idLogo) {
-        return logos.get(idLogo);
+        Logo logo = null;
+        if (null == idLogo){
+            Log.w(TAG_NAME, "idLogo null, renvoi du logo par defaut");
+            logo = getUnknownLogo();
+        } else {
+            logo = logos.get(idLogo);
+            if (null == logo){
+                Log.w(TAG_NAME, "aucun logo pour " + idLogo + ", renvoi du logo par defaut");
+                logo = getUnknownLogo();
+            }
+        }
+        return logo;
+    }
+
+    /**
+     * le logo par defaut unknown
+     * @return
+     */
+    public Logo getUnknownLogo(){
+        return logos.get(res.getString(R.string.logo_unknown));
     }
 }

@@ -51,6 +51,7 @@
     <string name="logo_cdfn1">CDF N1</string>
     <string name="logo_cdfn2">CDF N2</string>
     <string name="logo_cdfn3">CDF N3</string>
+    <string name="logo_unknown">\?</string>
 
     <!-- mainActivity menuou global -->
     <string name="toast_update_vue_ok">Bascule sur la vue %1$s</string>

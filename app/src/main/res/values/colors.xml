@@ -26,4 +26,5 @@
     <color name="logo_cdfn1">#17202A</color>
     <color name="logo_cdfn2">#424949</color>
     <color name="logo_cdfn3">#626567</color>
+    <color name="logo_unknown">#000000</color>
 </resources>

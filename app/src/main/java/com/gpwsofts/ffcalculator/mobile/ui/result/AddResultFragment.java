@@ -119,13 +119,14 @@ public class AddResultFragment extends Fragment {
             Log.d(TAG_NAME, "  nouveau resultat a ajouter " + result);
             // result peut etre null si un probleme technique survient au calcul des points (mResult.postValue(null))
             if (result != null) {
-                // insertion en database
+                // insertion en database (mais si ca merde on n'en sait rien ! )
                 addResultViewModel.onNewResultCreated(result);
                 // reinitialisation de l'écran
                 reinit();
                 // navigation au fragment de saison
                 Navigation.findNavController(binding.getRoot()).navigate(R.id.navigation_season);
             } else {
+                // le live data result est null (probleme dans le job sous jacent)
                 Log.e(TAG_NAME, "probleme sur l'ajout d'un nouveau resultat");
                 Toast.makeText(getActivity(), getString(R.string.toast_add_result_ko), Toast.LENGTH_SHORT).show();
             }
@@ -136,6 +137,7 @@ public class AddResultFragment extends Fragment {
             if (message != null) {
                 Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
             } else {
+                // le live data message est null (probleme dans le job sous jacent)
                 Log.e(TAG_NAME, "probleme sur l'ajout d'un nouveau resultat");
                 Toast.makeText(getActivity(), getString(R.string.toast_add_result_ko), Toast.LENGTH_SHORT).show();
             }
@@ -148,6 +150,7 @@ public class AddResultFragment extends Fragment {
                 classesListAdapter.submitList(gridsList);
                 textInputLayoutClasse.setHelperText(getString(R.string.combo_classes_helper_text_ok, vueViewModel.getVueLiveData().getValue().getName(), gridsList.size()));
             } else {
+                // le live data gridsList est null (probleme dans le job sous jacent)
                 Log.w(TAG_NAME, "probleme sur le chargement des grilles");
                 classesListAdapter.submitList(EMPTY_GRID_LIST);
                 textInputLayoutClasse.setHelperText(getString(R.string.combo_classes_helper_text_ko));
@@ -164,6 +167,7 @@ public class AddResultFragment extends Fragment {
                 autoCompleteTextViewPos.setText(VIDE);
                 textInputLayoutPos.setHelperText(getString(R.string.combo_pos_helper_text_ok, posList.size(), autoCompleteTextViewClasses.getText()));
             } else {
+                // le live data posList est null (probleme dans le job sous jacent)
                 Log.w(TAG_NAME, "probleme sur le chargement des positions possibles pour ce type de classe, valeur par defaut rendue");
                 posListAdapter.submitList(INTEGER_LIST_1_50);
                 autoCompleteTextViewPos.setText(VIDE);
