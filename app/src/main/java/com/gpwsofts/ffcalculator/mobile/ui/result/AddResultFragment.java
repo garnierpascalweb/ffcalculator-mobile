@@ -26,11 +26,14 @@ import com.gpwsofts.ffcalculator.mobile.model.Vue;
 import com.gpwsofts.ffcalculator.mobile.ui.season.SeasonViewModel;
 import com.gpwsofts.ffcalculator.mobile.ui.view.VueViewModel;
 
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class AddResultFragment extends Fragment {
     private static final String TAG_NAME = "ResultFragment";
+    private static final List<Integer> INTEGER_LIST_1_200 = IntStream.rangeClosed(1, 200).boxed().collect(Collectors.toList());
+    private static final List<Integer> INTEGER_LIST_1_50 = IntStream.rangeClosed(1, 50).boxed().collect(Collectors.toList());
     private static final String VIDE = "";
     TextInputEditText textInputEditTextPlace;
     TextInputLayout textInputLayoutPlace;
@@ -69,7 +72,7 @@ public class AddResultFragment extends Fragment {
         posRecyclerBaseAdapter = new IntegerRecyclerBaseAdapter(posListAdapter);
         prtsListAdapter = new IntegerListAdapter(new IntegerListAdapter.IntDiff());
         prtsRecyclerBaseAdapter = new IntegerRecyclerBaseAdapter(prtsListAdapter);
-        prtsListAdapter.submitList(IntStream.rangeClosed(1, 200).boxed().collect(Collectors.toList()));
+        prtsListAdapter.submitList(INTEGER_LIST_1_200);
         hintPlace = getResources().getString(R.string.hint_lieu_epreuve);
         hintType = getResources().getString(R.string.hint_type_epreuve);
         hintPos = getResources().getString(R.string.hint_place_obtenue);
@@ -154,9 +157,12 @@ public class AddResultFragment extends Fragment {
             if (posList != null) {
                 posListAdapter.submitList(posList);
                 autoCompleteTextViewPos.setText(VIDE);
-                textInputLayoutPos.setHelperText(getString(R.string.combo_pos_helper_text, posList.size(), autoCompleteTextViewClasses.getText()));
+                textInputLayoutPos.setHelperText(getString(R.string.combo_pos_helper_text_ok, posList.size(), autoCompleteTextViewClasses.getText()));
             } else {
-                //TODO 1.0.0  gerer cas erreur
+                Log.w(TAG_NAME, "probleme sur le chargement des positions possibles pour ce type de classe, valeur par defaut rendue");
+                posListAdapter.submitList(INTEGER_LIST_1_50);
+                autoCompleteTextViewPos.setText(VIDE);
+                textInputLayoutPos.setHelperText(getString(R.string.combo_pos_helper_text_ko, INTEGER_LIST_1_50.size(), autoCompleteTextViewClasses.getText()));
             }
             Log.i(TAG_NAME, "fin observer getPosChoices");
         });

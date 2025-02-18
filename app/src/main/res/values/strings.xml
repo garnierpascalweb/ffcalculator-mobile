@@ -60,7 +60,8 @@
 
     <!-- fragment ajouter resultat -->
     <string name="combo_classes_helper_text">Vue %1$s - %2$d types d\'épreuves disponibles</string>
-    <string name="combo_pos_helper_text">Points attribués aux %1$d premiers pour une épreuve de type %2$s</string>
+    <string name="combo_pos_helper_text_ok">Points attribués aux %1$d premiers pour une épreuve de type %2$s</string>
+    <string name="combo_pos_helper_text_ko">Problème sur le chargement d\'une donnée - defaut %1$d (épreuve de type %2$s)</string>
     <string name="toast_add_result_ok">Nouveau résultat ajouté</string>
     <string name="toast_add_result_ko">Echec de l\'ajout d\'un nouveau résultat</string>
     <string name="toast_no_network">Pas de Réseau</string>
