@@ -46,6 +46,7 @@ public class FFCalculatorApplication extends Application {
     private boolean sharedPreferencesAlreadyExist = false;
 
 
+    // cette methode s'exécute dans l'UI Thread selon M.Seguy
     @Override
     public void onCreate() {
         super.onCreate();

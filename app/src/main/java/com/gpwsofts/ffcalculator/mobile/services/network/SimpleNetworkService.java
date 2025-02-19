@@ -14,7 +14,7 @@ public class SimpleNetworkService implements INetworkService {
     private boolean isNetworkAvailable() {
         NetworkInfo activeNetworkInfo = FFCalculatorApplication.instance.getConnectivityManager() != null ? FFCalculatorApplication.instance.getConnectivityManager().getActiveNetworkInfo() : null;
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-        //TODO 1.0.0 method depreciee
+        //TODO 1.0.0 methode depreciee
     }
 
 }

@@ -27,7 +27,7 @@ public abstract class FFCalculatorDatabase extends RoomDatabase {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-            //TODO a activer en cas de populate new PopulateDbAsyncTask(instance).execute();
+            // a activer en cas de populate new PopulateDbAsyncTask(instance).execute();
         }
     };
     private static volatile FFCalculatorDatabase instance;

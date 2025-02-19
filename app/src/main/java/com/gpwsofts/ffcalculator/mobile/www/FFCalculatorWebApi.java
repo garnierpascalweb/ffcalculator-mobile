@@ -11,6 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class FFCalculatorWebApi {
     private static final String TAG_NAME = "FFCalculatorWebApi";
+    //TODO 1.0.0 cette url devrait etre quelque part en configuration
     private static final String API_BASE_URL = "https://garnierpascalweb.fr/app/ffcalculator/api/v2/";
     private static FFCalculatorWebApi instance = null;
     private static Retrofit retrofit = null;

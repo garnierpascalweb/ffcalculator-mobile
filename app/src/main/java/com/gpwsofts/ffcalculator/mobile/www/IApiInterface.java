@@ -16,8 +16,8 @@ import retrofit2.http.POST;
  */
 public interface IApiInterface {
     //TODO 1.0.0 uri et aures a mettre en parametre
-    String URI_PTS = "ffcpoints.php";
-    String URI_CLASSEMENT = "ffcclass.php";
+    public static final String URI_PTS = "ffcpoints.php";
+    public static final String URI_CLASSEMENT = "ffcclass.php";
 
     @POST(URI_PTS)
     Call<FFCPointsResponse> calcPts(@Header("uuid") String uuid, @Body FFCPointsRequest request);

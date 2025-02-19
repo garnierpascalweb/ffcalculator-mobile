@@ -105,11 +105,9 @@ public class VueApiClient {
             } catch (SwitchVueException sve) {
                 Log.e(TAG_NAME, "probleme sur le job SetVueRunnable", sve);
                 newVue = null;
-                //TODO 1.0.0 prendre en consideration la valeur null pour tout observe
             }catch (Exception e) {
                 Log.e(TAG_NAME, "probleme sur le job SetVueRunnable", e);
                 newVue = null;
-                //TODO 1.0.0 prendre en consideration la valeur null pour tout observe
             } finally {
                 mVue.postValue(newVue);
                 Log.i(TAG_NAME, "fin du job asynchrone SetVueRunnable");

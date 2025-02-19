@@ -31,12 +31,6 @@ public class ServicesManager {
     private static final String TAG_NAME = "ServicesManager";
 
     /**
-     * Pool de Thread keepAlive
-     *
-     * @since 1.0.0
-     */
-    private ExecutorService keepAliveThreadsExecutor = null;
-    /**
      * Service des vues
      */
 
@@ -144,55 +138,4 @@ public class ServicesManager {
         }
         return vueService;
     }
-
-    /**
-     * @return rend l'executorService du pool de Threads
-     * @since 1.0.0
-     */
-    public final ExecutorService getKeepAliveThreadsExecutor() {
-        if (keepAliveThreadsExecutor == null) {
-            keepAliveThreadsExecutor = Executors.newFixedThreadPool(12, Executors.defaultThreadFactory());
-        }
-        return keepAliveThreadsExecutor;
-    }
-
-    /**
-     * Flingue le service Manager
-     * C'est a dire tous les services, et kille les process en cours dans ExecutorService
-     *
-     * @since 1.0.0
-     */
-    public void unbindAndDie() {
-        //TODO 1.0.0 mettre tous les services a nill
-        if (keepAliveThreadsExecutor != null) {
-            killKeepAliveThreadExecutor();
-        }
-    }
-
-    /**
-     * @since 1.0.0
-     */
-    private void killKeepAliveThreadExecutor() {
-        if (keepAliveThreadsExecutor != null) {
-            keepAliveThreadsExecutor.shutdown(); // Disable new tasks from being submitted
-            try {// as long as your threads hasn't finished
-                while (!keepAliveThreadsExecutor.isTerminated()) {
-                    // Wait a while for existing tasks to terminate
-                    if (!keepAliveThreadsExecutor.awaitTermination(5, TimeUnit.SECONDS)) {
-                        // Cancel currently executing tasks
-                        keepAliveThreadsExecutor.shutdown();
-                        // Log.e("MyApp", "Probably a memory leak here");
-                    }
-                }
-            } catch (InterruptedException ie) {
-                // (Re-)Cancel if current thread also interrupted
-                keepAliveThreadsExecutor.shutdownNow();
-                keepAliveThreadsExecutor = null;
-                //Log.e("MyApp", "Probably a memory leak here too");
-            }
-        }
-        keepAliveThreadsExecutor = null;
-    }
-
-
 }

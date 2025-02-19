@@ -26,7 +26,7 @@ public class SimplePtsHttpService  implements IPtsHttpService {
         Log.i(TAG_NAME, "demande de calcul des points pour sur la course de <" + place + "> pour une place de <" + pos + "> sur <" + prts + "> sur la course de <" + place + "> en serie <" + classe + ">");
         Log.d(TAG_NAME, "construction de la requete");
         FFCPointsRequest request = new FFCPointsRequest();
-        //TODO 1.0.0 se premunir d'injections sql
+        // se premunir d'injections sql - cote backend
         request.place = place;
         request.code = classe;
         request.pos = pos;

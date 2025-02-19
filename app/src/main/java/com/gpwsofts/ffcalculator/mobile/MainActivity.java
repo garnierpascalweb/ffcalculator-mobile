@@ -40,15 +40,7 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
-        /*
-        vueViewModel.getVueLiveData().observe(getViewLifecycleOwner(), vue -> {
-            //TODO 1.0.0 uniformiser toutes les logs pour un changement de type observe
-            Log.i(TAG_NAME, "changement vue vers " + vue);
-            if (vue != null) {
-                Toast.makeText(this, getString(R.string.toast_update_vue_ok, vue.getName()), Toast.LENGTH_SHORT).show();
-            }
-        });
-        */
+        //TODO 1.0.0 uniformiser toutes les logs pour un changement de type observe
     }
 
     @Override
