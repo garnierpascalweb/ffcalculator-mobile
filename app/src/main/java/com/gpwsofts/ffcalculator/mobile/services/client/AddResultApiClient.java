@@ -37,6 +37,10 @@ import retrofit2.Response;
  */
 public class AddResultApiClient {
     private static final String TAG_NAME = "AddResultApiClient";
+    private static final String LABEL_LIEU = "Lieu";
+    private static final String LABEL_LIBELLE = "Libellé";
+    private static final String LABEL_POSITION = "Position";
+    private static final String LABEL_NB_PARTICIPANTS = "Nombre de participants";
     private static final int JOB_TIMEOUT = 5000;
     private static AddResultApiClient instance;
     private final SingleLiveEvent<Result> mResult;
@@ -177,13 +181,13 @@ public class AddResultApiClient {
             List<String> emptyFields = new ArrayList<String>();
             FFCPointsRequest request = new FFCPointsRequest();
             if (null == inplace || inplace.length() == 0)
-                emptyFields.add("Lieu");
+                emptyFields.add(LABEL_LIEU);
             if (null == inlibelle || inlibelle.length() == 0)
-                emptyFields.add("Libelle");
+                emptyFields.add(LABEL_LIBELLE);
             if (null == inpos || inpos.length() == 0)
-                emptyFields.add("Position");
+                emptyFields.add(LABEL_POSITION);
             if (null == inprts || inprts.length() == 0)
-                emptyFields.add("Nombre de Participants");
+                emptyFields.add(LABEL_NB_PARTICIPANTS);
             if (emptyFields.isEmpty()) {
                 try {
                     int pos;
