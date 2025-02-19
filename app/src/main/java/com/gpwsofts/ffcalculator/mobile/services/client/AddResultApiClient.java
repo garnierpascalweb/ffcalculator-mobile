@@ -115,6 +115,7 @@ public class AddResultApiClient {
                 request = createRequestFromInput(place,libelle,pos,prts);
                 boolean isWwwConnected = FFCalculatorApplication.instance.getServicesManager().getNetworkService().isWwwConnected();
                 if (isWwwConnected) {
+
                     // reseau disponible
                     Response response = null;
                     response = getPts(request).execute();
@@ -124,7 +125,7 @@ public class AddResultApiClient {
                     }
                     int responseCode = response.code();
                     Log.d(TAG_NAME, "responseCode du service des points = <" + responseCode + ">");
-                    if (response.code() == 200) {
+                    if (responseCode == 200) {
                         Double pts = ((FFCPointsResponse) response.body()).pts;
                         newResult = createResultFromDatas(request.code, request.place, libelle,request.pos, request.prts, pts);
                         message = "Nouveau résultat ajouté (+" + pts + " pts)";
@@ -139,6 +140,7 @@ public class AddResultApiClient {
                     }
                 } else {
                     // pas de reseau
+                    Log.e(TAG_NAME, "echec du calcul des points pour ce nouveau resultat - pas de reseau");
                     newResult = null;
                     message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_no_network);
                     //TODO 1.0.0 peut etre dérouler une implementation locale ?

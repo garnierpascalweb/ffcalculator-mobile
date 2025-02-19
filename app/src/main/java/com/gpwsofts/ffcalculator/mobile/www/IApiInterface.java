@@ -4,6 +4,8 @@ import com.gpwsofts.ffcalculator.mobile.services.pos.pojo.FFCPosRequest;
 import com.gpwsofts.ffcalculator.mobile.services.pos.pojo.FFCPosResponse;
 import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsRequest;
 import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsResponse;
+import com.gpwsofts.ffcalculator.mobile.services.report.pojo.FFCReportRequest;
+import com.gpwsofts.ffcalculator.mobile.services.report.pojo.FFCReportResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -18,10 +20,15 @@ public interface IApiInterface {
     //TODO 1.0.0 uri et aures a mettre en parametre
     public static final String URI_PTS = "ffcpoints.php";
     public static final String URI_CLASSEMENT = "ffcclass.php";
+    public static final String URI_CRASH_REPORT = "ffccrashreport.php";
 
     @POST(URI_PTS)
     Call<FFCPointsResponse> calcPts(@Header("uuid") String uuid, @Body FFCPointsRequest request);
 
     @POST(URI_CLASSEMENT)
     Call<FFCPosResponse> calcPos(@Header("uuid") String uuid, @Body FFCPosRequest request);
+
+    @POST(URI_CRASH_REPORT)
+    Call<FFCReportResponse> sendReport(@Header("uuid") String uuid, FFCReportRequest request);
+
 }

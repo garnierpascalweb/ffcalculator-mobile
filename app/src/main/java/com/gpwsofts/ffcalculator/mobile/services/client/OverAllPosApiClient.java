@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 
 import com.gpwsofts.ffcalculator.mobile.AppExecutors;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
+import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.common.SingleLiveEvent;
 import com.gpwsofts.ffcalculator.mobile.services.pos.pojo.FFCPosResponse;
 
@@ -75,29 +76,44 @@ public class OverAllPosApiClient {
             Response response = null;
             Integer pos = null;
             try {
-                Log.d(TAG_NAME, "appel synchrone au service des positions et recuperation de la reponse");
-                Log.d(TAG_NAME, " arguments : pts = <" + pts + ">, type de classement = <" + classType + ">");
-                response = getPos(pts, classType).execute();
-                if (cancelRequest) {
-                    Log.d(TAG_NAME, "cancelRequest true, retourne zboub");
-                    return;
-                }
-                int responseCode = response.code();
-                Log.d(TAG_NAME, "responseCode du service des positions = <" + responseCode + ">");
-                if (response.code() == 200) {
-                    pos = ((FFCPosResponse) response.body()).pos;
-                    Log.d(TAG_NAME, "succes du calcul de la position pour ce capital de points = <" + pos + ">");
-                    Log.d(TAG_NAME, "post de la nouvelle position en livedata");
+                boolean isWwwConnected = FFCalculatorApplication.instance.getServicesManager().getNetworkService().isWwwConnected();
+                if (isWwwConnected) {
+                    // reseau disponible
+                    Log.d(TAG_NAME, "appel synchrone au service des positions et recuperation de la reponse");
+                    Log.d(TAG_NAME, " arguments : pts = <" + pts + ">, type de classement = <" + classType + ">");
+
+                    response = getPos(pts, classType).execute();
+                    if (cancelRequest) {
+                        Log.d(TAG_NAME, "cancelRequest true, retourne zboub");
+                        return;
+                    }
+                    int responseCode = response.code();
+                    Log.d(TAG_NAME, "responseCode du service des positions = <" + responseCode + ">");
+                    if (responseCode == 200) {
+                        pos = ((FFCPosResponse) response.body()).pos;
+                        Log.d(TAG_NAME, "succes du calcul de la position pour ce capital de points = <" + pos + ">");
+                        Log.d(TAG_NAME, "post de la nouvelle position en livedata");
+                    } else {
+                        // reponse pas 200
+                        String error = response.errorBody().string();
+                        Log.e(TAG_NAME, "echec du calcul de la position pour ce capital de points");
+                        Log.e(TAG_NAME, "erreur " + error);
+                        Log.d(TAG_NAME, "pos rendue et postee = <null>");
+                        pos = null;
+                        //TODO 1.0.0 envoyer au backend ?
+                    }
                 } else {
-                    // reponse pas 200
-                    String error = response.errorBody().string();
-                    Log.e(TAG_NAME, "echec du calcul de la position pour ce capital de points");
-                    Log.e(TAG_NAME, "erreur " + error);
-                    Log.d(TAG_NAME, "pos rendue et postee = <null>");
+                    // pas de reseau
+                    Log.e(TAG_NAME, "echec du calcul de la position - pas de reseau");
                     pos = null;
+                    //TODO 1.0.0 peut etre dérouler une implementation locale ?
                 }
             } catch (IOException e) {
                 Log.e(TAG_NAME, "echec du calcul de la position pour ce capital de points");
+                pos = null;
+            } catch (Exception e) {
+                Log.e(TAG_NAME, "echec du calcul de la position pour ce capital de points", e);
+                pos = null;
             } finally {
                 mPos.postValue(pos);
                 Log.i(TAG_NAME, "fin du job asynchrone GetPosRunnable");
