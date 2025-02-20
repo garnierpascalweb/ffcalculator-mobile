@@ -77,7 +77,8 @@ public class FFCalculatorApplication extends Application {
     public void onLowMemory() {
         super.onLowMemory();
         if (null != servicesManager) {
-            servicesManager.unbindAndDie();
+            //TODO 1.0.0 reagir correctement a cet evenement
+           // servicesManager.unbindAndDie();
             servicesManager = null;
             servicesManagerAlreadyExist = false;
         }
