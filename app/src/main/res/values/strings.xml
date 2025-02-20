@@ -6,6 +6,7 @@
     <string name="hint_place_obtenue">Place Obtenue</string>
     <string name="hint_partants">Nombre de Partants</string>
     <string name="button_label_ajouter_resultat">Ajouter le résultat</string>
+    <string name="button_label_calcul_en_cours">Calcul en cours...</string>
     <string name="title_resultat">Résultat</string>
     <string name="title_saison">Saison</string>
     <string name="title_synthese">Synthèse</string>

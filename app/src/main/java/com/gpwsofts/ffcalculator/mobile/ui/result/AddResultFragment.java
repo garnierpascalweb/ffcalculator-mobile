@@ -120,6 +120,7 @@ public class AddResultFragment extends Fragment {
             Log.i(TAG_NAME, "debut observer getAddedResult = <" + result + ">");
             // reactivation du bouton ajouter quoi qu'il en soit
             buttonAjouter.setEnabled(true);
+            buttonAjouter.setText(R.string.button_label_ajouter_resultat);
             Log.d(TAG_NAME, "  nouveau resultat a ajouter " + result);
             // result peut etre null si un probleme technique survient au calcul des points (mResult.postValue(null))
             if (result != null) {
@@ -210,6 +211,7 @@ public class AddResultFragment extends Fragment {
         // desactivation du bouton le temps du calcul potentiellement long
         // on reactivera le bouton a l'observe de mResult, puisque cest ce que post addResultApiAsync
         buttonAjouter.setEnabled(false);
+        buttonAjouter.setText(R.string.button_label_calcul_en_cours);
         // recuperation des datas
         final Editable placeEditable = textInputEditTextPlace.getText();
         final Editable libelleEditable = autoCompleteTextViewClasses.getText();
