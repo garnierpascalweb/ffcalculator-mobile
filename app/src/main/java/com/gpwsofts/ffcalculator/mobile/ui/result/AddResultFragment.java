@@ -3,6 +3,7 @@ package com.gpwsofts.ffcalculator.mobile.ui.result;
 
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -100,6 +101,7 @@ public class AddResultFragment extends Fragment {
         autoCompleteTextViewClasses.setAdapter(classesRecyclerBaseAdapter);
         autoCompleteTextViewPos.setAdapter(posRecyclerBaseAdapter);
         autoCompleteTextViewPrts.setAdapter(prtsRecyclerBaseAdapter);
+
         // initialisation de l'écran par la vue
         onUpdatedVue(vueViewModel.getVueLiveData().getValue());
         // observation de la vue courante
@@ -116,6 +118,8 @@ public class AddResultFragment extends Fragment {
         // observation d'un nouveau resultat
         addResultViewModel.getAddedResultLiveData().observe(getViewLifecycleOwner(), result -> {
             Log.i(TAG_NAME, "debut observer getAddedResult = <" + result + ">");
+            // reactivation du bouton ajouter quoi qu'il en soit
+            buttonAjouter.setEnabled(true);
             Log.d(TAG_NAME, "  nouveau resultat a ajouter " + result);
             // result peut etre null si un probleme technique survient au calcul des points (mResult.postValue(null))
             if (result != null) {
@@ -199,10 +203,13 @@ public class AddResultFragment extends Fragment {
 
     /**
      * Demande de sauvegarde d'un resultat
-     *
+     * Déclenché par le click sur le bouton
      * @since 1.0.0
      */
     private void saveResult() {
+        // desactivation du bouton le temps du calcul potentiellement long
+        // on reactivera le bouton a l'observe de mResult, puisque cest ce que post addResultApiAsync
+        buttonAjouter.setEnabled(false);
         // recuperation des datas
         final Editable placeEditable = textInputEditTextPlace.getText();
         final Editable libelleEditable = autoCompleteTextViewClasses.getText();
@@ -237,6 +244,7 @@ public class AddResultFragment extends Fragment {
         textInputLayoutPos.setHelperText(hintPos);
         // Remettre les helper text a leur niveau
     }
+
 
     @Override
     public void onDestroyView() {

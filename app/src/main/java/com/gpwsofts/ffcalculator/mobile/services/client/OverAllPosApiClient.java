@@ -49,10 +49,12 @@ public class OverAllPosApiClient {
         if (getPosRunnable != null) {
             getPosRunnable = null;
         }
+        Log.d(TAG_NAME, "instantaition dun GetPosRunnable");
         getPosRunnable = new GetPosRunnable(pts, classType);
+        Log.d(TAG_NAME, "submit du runnable GetPosRunnable dans le pool de thread");
         final Future myHandler = AppExecutors.getInstance().networkIO().submit(getPosRunnable);
+        Log.d(TAG_NAME, "appel de cancel dans <" + JOB_TIMEOUT + "> ");
         AppExecutors.getInstance().networkIO().schedule(() -> {
-            // annuler l'appel a l'API
             myHandler.cancel(true);
         }, JOB_TIMEOUT, TimeUnit.MILLISECONDS);
         //TODO 1.0.0 revoir ce timeout
@@ -109,10 +111,10 @@ public class OverAllPosApiClient {
                     //TODO 1.0.0 peut etre dérouler une implementation locale ?
                 }
             } catch (IOException e) {
-                Log.e(TAG_NAME, "echec du calcul de la position pour ce capital de points");
+                Log.e(TAG_NAME, "echec du calcul de la position pour ce capital de points : " + e.getClass().getSimpleName(), e);
                 pos = null;
             } catch (Exception e) {
-                Log.e(TAG_NAME, "echec du calcul de la position pour ce capital de points", e);
+                Log.e(TAG_NAME, "echec du calcul de la position pour ce capital de points : " + e.getClass().getSimpleName(), e);
                 pos = null;
             } finally {
                 mPos.postValue(pos);
