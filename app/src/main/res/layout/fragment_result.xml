@@ -11,6 +11,7 @@
     <!-- TextField pour désigner le lieu de la course -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/idTILPlace"
+        app:startIconDrawable="@drawable/baseline_edit_location_24"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -34,6 +35,7 @@
     <!-- Liste déroulante des classes -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/idTILClasses"
+        app:startIconDrawable="@drawable/list_svgrepo_com"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -59,6 +61,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/idTILPos"
+        app:startIconDrawable="@drawable/checkered_flag_svgrepo_com"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -84,6 +87,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/idTILPrts"
+        app:startIconDrawable="@drawable/people_audience_svgrepo_com"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
