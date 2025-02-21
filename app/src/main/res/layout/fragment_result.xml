@@ -31,6 +31,30 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- TextField pour désigner le lieu de la course auto complete -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/idTILPlaceAutoComplete"
+        app:startIconDrawable="@drawable/baseline_edit_location_24"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        android:paddingTop="16dp"
+        android:hint="@string/hint_lieu_epreuve"
+        app:helperText=""
+        app:helperTextEnabled="true">
+
+        <AutoCompleteTextView
+            android:id="@+id/idTIETPlaceAutoComplete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textAutoComplete"
+            android:maxLength="30"
+            android:maxLines="1" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <!-- Liste déroulante des classes -->
     <com.google.android.material.textfield.TextInputLayout
@@ -116,5 +140,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/button_label_ajouter_resultat" />
+
+
+
+
 
 </LinearLayout>

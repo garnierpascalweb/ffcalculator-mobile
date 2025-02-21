@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
@@ -29,6 +30,7 @@ import com.gpwsofts.ffcalculator.mobile.ui.season.SeasonViewModel;
 import com.gpwsofts.ffcalculator.mobile.ui.view.VueViewModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -39,16 +41,20 @@ public class AddResultFragment extends Fragment {
     private static final List<Integer> INTEGER_LIST_1_50 = IntStream.rangeClosed(1, 50).boxed().collect(Collectors.toList());
     private static final List<Grid> EMPTY_GRID_LIST = new ArrayList<Grid>();
     private static final String VIDE = "";
+    private List<String> townsList;
     TextInputEditText textInputEditTextPlace;
     TextInputLayout textInputLayoutPlace;
+    TextInputLayout textInputLayoutPlaceAutoComplete;
     TextInputLayout textInputLayoutClasse;
     TextInputLayout textInputLayoutPos;
     TextInputLayout textInputLayoutPrts;
+    AutoCompleteTextView autoCompleteTextViewPlace;
     AutoCompleteTextView autoCompleteTextViewPos;
     AutoCompleteTextView autoCompleteTextViewPrts;
     AutoCompleteTextView autoCompleteTextViewClasses;
     Button buttonAjouter;
     private ClassesListAdapter classesListAdapter;
+    private ArrayAdapter<String> townsListAdapter;
     private ClassesRecyclerBaseAdapter classesRecyclerBaseAdapter;
     private IntegerRecyclerBaseAdapter posRecyclerBaseAdapter;
     private IntegerListAdapter posListAdapter;
@@ -70,6 +76,8 @@ public class AddResultFragment extends Fragment {
         resultViewModel = new ViewModelProvider(this).get(SeasonViewModel.class);
         addResultViewModel = new ViewModelProvider(this).get(AddResultViewModel.class);
         vueViewModel = new ViewModelProvider(this).get(VueViewModel.class);
+        townsList = new ArrayList<String>();
+        townsListAdapter = new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_spinner_item, townsList);
         classesListAdapter = new ClassesListAdapter(new ClassesListAdapter.ClassesDiff());
         classesRecyclerBaseAdapter = new ClassesRecyclerBaseAdapter(classesListAdapter);
         posListAdapter = new IntegerListAdapter(new IntegerListAdapter.IntDiff());
@@ -81,6 +89,8 @@ public class AddResultFragment extends Fragment {
         hintType = getResources().getString(R.string.hint_type_epreuve);
         hintPos = getResources().getString(R.string.hint_place_obtenue);
         hintPrts = getResources().getString(R.string.hint_partants);
+        //TODO 1.0.0 chargement des villes ici ?
+        addResultViewModel.loadTownChoicesAsync();
         Log.i(TAG_NAME, "fin appel de onCreate");
     }
 
@@ -94,10 +104,13 @@ public class AddResultFragment extends Fragment {
         textInputLayoutPos = binding.idTILPos;
         textInputLayoutPrts = binding.idTILPrts;
         textInputEditTextPlace = binding.idTIETPlace;
+        autoCompleteTextViewPlace = binding.idTIETPlaceAutoComplete;
         autoCompleteTextViewClasses = binding.idTVAutoClasses;
         autoCompleteTextViewPos = binding.idTVAutoPos;
         autoCompleteTextViewPrts = binding.idTVAutoPrts;
         buttonAjouter = binding.idBTAjouter;
+        autoCompleteTextViewPlace.setAdapter(townsListAdapter);
+        autoCompleteTextViewPlace.setThreshold(3);
         autoCompleteTextViewClasses.setAdapter(classesRecyclerBaseAdapter);
         autoCompleteTextViewPos.setAdapter(posRecyclerBaseAdapter);
         autoCompleteTextViewPrts.setAdapter(prtsRecyclerBaseAdapter);
@@ -115,6 +128,21 @@ public class AddResultFragment extends Fragment {
             }
             Log.i(TAG_NAME, "fin observer getVueLiveData = <" + vue + ">");
         });
+        // observation d'une liste de villes
+        addResultViewModel.getTownChoicesLiveData().observe(getViewLifecycleOwner(), towns -> {
+            Log.i(TAG_NAME, "debut observer towns");
+            if (towns != null) {
+                townsList.addAll(towns);
+                townsListAdapter.notifyDataSetChanged();
+                Log.i(TAG_NAME, "liste des villes envoyees dans l'adapter et notifyDataSetChanged");
+            } else {
+                // le live data result est null (probleme dans le job sous jacent)
+                Log.e(TAG_NAME, "probleme sur la lecture des villes");
+                //TODO 1.0.0 on fait quoi (non critique) Toast.makeText(getActivity(), getString(R.string.toast_add_result_ko), Toast.LENGTH_SHORT).show();
+            }
+            Log.i(TAG_NAME, "fin observer towns");
+        })
+        ;
         // observation d'un nouveau resultat
         addResultViewModel.getAddedResultLiveData().observe(getViewLifecycleOwner(), result -> {
             Log.i(TAG_NAME, "debut observer getAddedResult = <" + result + ">");

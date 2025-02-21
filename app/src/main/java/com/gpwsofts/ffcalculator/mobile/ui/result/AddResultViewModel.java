@@ -12,6 +12,7 @@ import com.gpwsofts.ffcalculator.mobile.model.Vue;
 import com.gpwsofts.ffcalculator.mobile.repository.AddResultRepository;
 import com.gpwsofts.ffcalculator.mobile.repository.DatabaseResultRepository;
 import com.gpwsofts.ffcalculator.mobile.repository.GridRepository;
+import com.gpwsofts.ffcalculator.mobile.repository.TownRepository;
 
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class AddResultViewModel extends AndroidViewModel {
     private final AddResultRepository addResultRepository;
     private final DatabaseResultRepository databaseResultRepository;
     private final GridRepository gridRepository;
+    private final TownRepository townRepository;
 
 
     public AddResultViewModel(Application application) {
@@ -32,6 +34,7 @@ public class AddResultViewModel extends AndroidViewModel {
         addResultRepository = AddResultRepository.getInstance();
         databaseResultRepository = DatabaseResultRepository.getInstance();
         gridRepository = GridRepository.getInstance();
+        townRepository = TownRepository.getInstance();
         Log.i(TAG_NAME, "Fin Instantiation de AddResultViewModel");
     }
 
@@ -43,6 +46,10 @@ public class AddResultViewModel extends AndroidViewModel {
         return gridRepository.getGridChoicesLiveData();
     }
 
+    public LiveData<List<String>> getTownChoicesLiveData() {
+        return townRepository.getTownChoicesLiveData();
+    }
+
     public LiveData<Result> getAddedResultLiveData() {
         return addResultRepository.getAddedResultLiveData();
     }
@@ -50,12 +57,17 @@ public class AddResultViewModel extends AndroidViewModel {
         return addResultRepository.getAddedResultMessageLiveData();
     }
 
+
     public void loadPosChoicesAsync(String itemValue) {
         gridRepository.loadPosChoicesAsync(itemValue);
     }
 
     public void loadGridChoicesAsync(Vue vue) {
         gridRepository.loadGridChoicesAsync(vue.getCode());
+    }
+
+    public void loadTownChoicesAsync() {
+        townRepository.loadTownChoicesAsync();
     }
 
     /**

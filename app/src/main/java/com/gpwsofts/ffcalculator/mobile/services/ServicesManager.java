@@ -14,6 +14,8 @@ import com.gpwsofts.ffcalculator.mobile.services.pos.IPosHttpService;
 import com.gpwsofts.ffcalculator.mobile.services.pos.SimplePosHttpService;
 import com.gpwsofts.ffcalculator.mobile.services.pts.IPtsHttpService;
 import com.gpwsofts.ffcalculator.mobile.services.pts.SimplePtsHttpService;
+import com.gpwsofts.ffcalculator.mobile.services.town.ITownService;
+import com.gpwsofts.ffcalculator.mobile.services.town.SimpleTownService;
 import com.gpwsofts.ffcalculator.mobile.services.vue.IVueService;
 import com.gpwsofts.ffcalculator.mobile.services.vue.VueService;
 
@@ -57,6 +59,7 @@ public class ServicesManager {
      *
      */
     private IGridService gridService = null;
+    private ITownService townService = null;
     /**
      * Service de vue
      * @since 1.0.0
@@ -123,6 +126,16 @@ public class ServicesManager {
             Log.d(TAG_NAME, "recuperation d'une instance existante de IGridService");
         }
         return gridService;
+    }
+
+    public final ITownService getTownService() {
+        if (null == townService) {
+            Log.i(TAG_NAME, "creation dune nouvelle instance de ITownService");
+            townService = new SimpleTownService();
+        } else {
+            Log.d(TAG_NAME, "recuperation d'une instance existante de IGridService");
+        }
+        return townService;
     }
 
     /**
