@@ -23,6 +23,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.R;
+import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentResultBinding;
 import com.gpwsofts.ffcalculator.mobile.model.Grid;
 import com.gpwsofts.ffcalculator.mobile.model.Vue;
@@ -144,11 +145,13 @@ public class AddResultFragment extends Fragment {
         })
         ;
         // observation d'un nouveau resultat
-        addResultViewModel.getAddedResultLiveData().observe(getViewLifecycleOwner(), result -> {
-            Log.i(TAG_NAME, "debut observer getAddedResult = <" + result + ">");
+        addResultViewModel.getAddedResultLiveData().observe(getViewLifecycleOwner(), addResultRunnableResponse -> {
+            Log.i(TAG_NAME, "debut observer addResultRunnableResponse");
             // reactivation du bouton ajouter quoi qu'il en soit
             buttonAjouter.setEnabled(true);
             buttonAjouter.setText(R.string.button_label_ajouter_resultat);
+            final Result result = addResultRunnableResponse.getResult();
+            final String message = addResultRunnableResponse.getMessage();
             Log.d(TAG_NAME, "  nouveau resultat a ajouter " + result);
             // result peut etre null si un probleme technique survient au calcul des points (mResult.postValue(null))
             if (result != null) {
@@ -161,20 +164,12 @@ public class AddResultFragment extends Fragment {
             } else {
                 // le live data result est null (probleme dans le job sous jacent)
                 Log.e(TAG_NAME, "probleme sur l'ajout d'un nouveau resultat");
-                Toast.makeText(getActivity(), getString(R.string.toast_add_result_ko), Toast.LENGTH_SHORT).show();
             }
-            Log.i(TAG_NAME, "fin observer getAddedResult = <" + result + ">");
-        });
-        // observation d'un message associé a un nouveau resultat
-        addResultViewModel.getAddedResultMessageLiveData().observe(getViewLifecycleOwner(), message -> {
-            if (message != null) {
+            if (message != null)
                 Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-            } else {
-                // le live data message est null (probleme dans le job sous jacent)
-                Log.e(TAG_NAME, "probleme sur l'ajout d'un nouveau resultat");
-                Toast.makeText(getActivity(), getString(R.string.toast_add_result_ko), Toast.LENGTH_SHORT).show();
-            }
+            Log.i(TAG_NAME, "fin observer addResultRunnableResponse");
         });
+
         // observation de la liste des grilles
         // update UI
         addResultViewModel.getGridChoicesLiveData().observe(getViewLifecycleOwner(), gridsList -> {

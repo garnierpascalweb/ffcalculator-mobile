@@ -2,6 +2,7 @@ package com.gpwsofts.ffcalculator.mobile.repository;
 
 import androidx.lifecycle.LiveData;
 
+import com.gpwsofts.ffcalculator.mobile.common.AddResultRunnableResponse;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.services.client.AddResultApiClient;
 
@@ -26,12 +27,8 @@ public class AddResultRepository {
         return instance;
     }
 
-    public LiveData<Result> getAddedResultLiveData() {
+    public LiveData<AddResultRunnableResponse> getAddedResultLiveData() {
         return addResultApiClient.getAddedResultLiveData();
-    }
-
-    public LiveData<String> getAddedResultMessageLiveData(){
-        return addResultApiClient.getAddedResultMessageLiveData();
     }
 
     public void addResultApiAsync(String place, String libelle, String pos, String prts) {

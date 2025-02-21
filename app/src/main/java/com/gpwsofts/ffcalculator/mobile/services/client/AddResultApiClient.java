@@ -12,6 +12,7 @@ import com.gpwsofts.ffcalculator.mobile.AppExecutors;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.InputLibelleFormatException;
 import com.gpwsofts.ffcalculator.mobile.R;
+import com.gpwsofts.ffcalculator.mobile.common.AddResultRunnableResponse;
 import com.gpwsofts.ffcalculator.mobile.common.SingleLiveEvent;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.model.Logo;
@@ -43,14 +44,12 @@ public class AddResultApiClient {
     private static final String LABEL_NB_PARTICIPANTS = "Nombre de participants";
     private static final int JOB_TIMEOUT = 5000;
     private static AddResultApiClient instance;
-    private final SingleLiveEvent<Result> mResult;
-    private final SingleLiveEvent<String> mMessage;
+    private final SingleLiveEvent<AddResultRunnableResponse> mResult;
     private AddResultRunnable addResultRunnable;
 
     private AddResultApiClient() {
         Log.i(TAG_NAME, "instanciation de AddResultApiClient");
-        mResult = new SingleLiveEvent<Result>();
-        mMessage = new SingleLiveEvent<String>();
+        mResult = new SingleLiveEvent<AddResultRunnableResponse>();
         Log.i(TAG_NAME, "fin instanciation de AddResultApiClient");
     }
 
@@ -60,12 +59,8 @@ public class AddResultApiClient {
         return instance;
     }
 
-    public LiveData<Result> getAddedResultLiveData() {
+    public LiveData<AddResultRunnableResponse> getAddedResultLiveData() {
         return mResult;
-    }
-
-    public LiveData<String> getAddedResultMessageLiveData() {
-        return mMessage;
     }
 
     public void addResultApiAsync(String place, String libelle, String pos, String prts) {
@@ -106,8 +101,10 @@ public class AddResultApiClient {
 
         @Override
         public void run() {
+            AddResultRunnableResponse runnableResponse = null;
             Result newResult = null;
             String message = null;
+            boolean isOk = false;
             FFCPointsRequest request;
             try {
                 Log.i(TAG_NAME, "debut du job asynchrone AddResultRunnable");
@@ -115,7 +112,6 @@ public class AddResultApiClient {
                 request = createRequestFromInput(place,libelle,pos,prts);
                 boolean isWwwConnected = FFCalculatorApplication.instance.getServicesManager().getNetworkService().isWwwConnected();
                 if (isWwwConnected) {
-
                     // reseau disponible
                     Response response = null;
                     response = getPts(request).execute();
@@ -128,7 +124,8 @@ public class AddResultApiClient {
                     if (responseCode == 200) {
                         Double pts = ((FFCPointsResponse) response.body()).pts;
                         newResult = createResultFromDatas(request.code, request.place, libelle,request.pos, request.prts, pts);
-                        message = "Nouveau résultat ajouté (+" + pts + " pts)";
+                        message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_add_result_ok);
+                        isOk = true;
                     } else {
                         // code retour http pas 200
                         Log.e(TAG_NAME, "echec du calcul des points pour ce nouveau resultat");
@@ -155,8 +152,11 @@ public class AddResultApiClient {
                 newResult = null;
                 message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_technical_problem);
             } finally {
-                mResult.postValue(newResult);
-                mMessage.postValue(message);
+                runnableResponse = new AddResultRunnableResponse();
+                runnableResponse.setResult(newResult);
+                runnableResponse.setMessage(message);
+                runnableResponse.setOk(isOk);
+                mResult.postValue(runnableResponse);
                 Log.i(TAG_NAME, "fin du job asynchrone AddResultRunnable");
             }
         }

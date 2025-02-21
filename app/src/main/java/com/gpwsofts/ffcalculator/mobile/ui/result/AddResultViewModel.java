@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.gpwsofts.ffcalculator.mobile.common.AddResultRunnableResponse;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.model.Grid;
 import com.gpwsofts.ffcalculator.mobile.model.Vue;
@@ -50,13 +51,9 @@ public class AddResultViewModel extends AndroidViewModel {
         return townRepository.getTownChoicesLiveData();
     }
 
-    public LiveData<Result> getAddedResultLiveData() {
+    public LiveData<AddResultRunnableResponse> getAddedResultLiveData() {
         return addResultRepository.getAddedResultLiveData();
     }
-    public LiveData<String> getAddedResultMessageLiveData(){
-        return addResultRepository.getAddedResultMessageLiveData();
-    }
-
 
     public void loadPosChoicesAsync(String itemValue) {
         gridRepository.loadPosChoicesAsync(itemValue);
