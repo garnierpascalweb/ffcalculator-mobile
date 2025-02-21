@@ -1,7 +1,5 @@
 package com.gpwsofts.ffcalculator.mobile.exception;
 
-import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
-
 public class SwitchVueException extends FFCalculatorException {
     public SwitchVueException() {
     }
