@@ -22,8 +22,11 @@
             android:exported="true"
             android:label="@string/app_name">
             <intent-filter>
+                <!-- Déclare cette activité comme l’écran de lancement -->
                 <action android:name="android.intent.action.MAIN" />
+                <!-- Cette activité fait partie du lanceur d’applications -->
                 <category android:name="android.intent.category.LAUNCHER" />
+                <!-- Ici, l'application apparaîtra dans le menu principal du téléphone et sera ouverte lorsqu'on appuie sur l'icône de l'application -->
             </intent-filter>
         </activity>
     </application>
