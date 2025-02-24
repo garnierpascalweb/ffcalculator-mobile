@@ -29,6 +29,9 @@ public class SeasonFragment extends Fragment {
     private VueViewModel vueViewModel;
     private TextView textViewPts;
     private TextView textViewPos;
+    private Double cachedPtsValue;
+    private Integer cachedPos;
+    private String cachedClassType;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,6 +39,8 @@ public class SeasonFragment extends Fragment {
         resultViewModel = new ViewModelProvider(this).get(SeasonViewModel.class);
         synthesisViewModel = new ViewModelProvider(this).get(SynthesisViewModel.class);
         vueViewModel = new ViewModelProvider(this).get(VueViewModel.class);
+        cachedPtsValue = Double.valueOf(0);
+        cachedPos = Integer.valueOf(0);
     }
 
     @Override
@@ -50,12 +55,10 @@ public class SeasonFragment extends Fragment {
         RecyclerView resultRV = root.findViewById(R.id.idRVCourse);
         final ResultListAdapter adapter = new ResultListAdapter(new ResultListAdapter.ResultDiff());
         final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
             }
-
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 Log.v(TAG_NAME, "demande de suppression de resultat par swipe");
@@ -79,9 +82,25 @@ public class SeasonFragment extends Fragment {
         synthesisViewModel.getAllPtsLiveData().observe(getViewLifecycleOwner(), pts -> {
             Log.i(TAG_NAME, "debut observer getPts");
             if (null != pts) {
-                textViewPts.setText(getString(R.string.label_total_pts, pts));
-                final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
-                searchPosApi(pts, classType);
+                if (Double.compare(pts, cachedPtsValue) !=0){
+                    final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
+                    textViewPos.setText(getString(R.string.label_classement_national_loading));
+                    searchPosApi(pts, classType);
+                    cachedPtsValue = pts;
+                } else {
+                    Log.v(TAG_NAME, "les points nont pas changé");
+                    // donc on reset le text comme sil avait pas changé
+                    // si ya pas de valeur en cache pour la position, calcule la
+                    if (null == cachedPos){
+                        Log.v(TAG_NAME, "ya pas de position en cache, on va calculer");
+                        final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
+                        synthesisViewModel.searchPosApi(pts,classType);
+                    } else {
+                        Log.v(TAG_NAME, "ya une position en cache, on va remettre");
+                        textViewPos.setText(getString(R.string.label_classement_national_ok, cachedClassType, cachedPos));
+                    }
+                }
+                textViewPts.setText(getString(R.string.label_total_pts_ok, pts));
             } else {
                 textViewPts.setText(getString(R.string.label_aucun_resultat));
                 textViewPos.setText("");
@@ -97,7 +116,9 @@ public class SeasonFragment extends Fragment {
             final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
             if (pos != null) {
                 // textViewPos.setText("Classement National : " + pos + " eme");
-                textViewPos.setText(getString(R.string.label_classement_national, classType, pos));
+                textViewPos.setText(getString(R.string.label_classement_national_ok, classType, pos));
+                cachedPos = pos;
+                cachedClassType = classType;
             } else {
                 textViewPos.setText(getString(R.string.label_classement_national_ko));
                 Log.w(TAG_NAME, "la valeur de pos est pas renseignee apres appel au service");

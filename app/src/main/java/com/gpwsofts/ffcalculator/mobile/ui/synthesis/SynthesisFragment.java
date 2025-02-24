@@ -24,12 +24,14 @@ public class SynthesisFragment extends Fragment {
     private VueViewModel vueViewModel;
     private TextView textViewPts;
     private TextView textViewPos;
+    private Double lastPtsValue;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         synthesisViewModel = new ViewModelProvider(this).get(SynthesisViewModel.class);
         vueViewModel = new ViewModelProvider(this).get(VueViewModel.class);
+        lastPtsValue = Double.valueOf(0);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,11 +44,18 @@ public class SynthesisFragment extends Fragment {
         // observation du total des points
         // Update UI
         synthesisViewModel.getAllPtsLiveData().observe(getViewLifecycleOwner(), pts -> {
-            Log.i(TAG_NAME, "debut observer getPts");
+            Log.i(TAG_NAME, "debut observer getPts hh");
             if (null != pts) {
-                textViewPts.setText(getString(R.string.label_total_pts, pts));
-                final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
-                searchPosApi(pts, classType);
+                int compare = Double.compare(pts, lastPtsValue);
+                Log.d(TAG_NAME, "la comparaison de <" + pts + "> et <" + lastPtsValue + "> a rendu <" + compare + ">");
+                if (compare != 0){
+                    textViewPts.setText(getString(R.string.label_total_pts_ok, pts));
+                    final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
+                    searchPosApi(pts, classType);
+                    lastPtsValue = pts;
+                } else {
+                    Log.d(TAG_NAME, "non non rien n'a changé tout tout a continué");
+                }
             } else {
                 textViewPts.setText(getString(R.string.label_aucun_resultat));
                 textViewPos.setText("");
@@ -61,7 +70,7 @@ public class SynthesisFragment extends Fragment {
             final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
             if (pos != null) {
                 // textViewPos.setText("Classement National : " + pos + " eme");
-                textViewPos.setText(getString(R.string.label_classement_national, classType, pos));
+                textViewPos.setText(getString(R.string.label_classement_national_ok, classType, pos));
             } else {
                 textViewPos.setText(getString(R.string.label_classement_national_ko));
                 Log.w(TAG_NAME, "la valeur de pos est pas renseignee apres appel au service");

@@ -117,7 +117,7 @@ public class AddResultFragment extends Fragment {
         autoCompleteTextViewPrts.setAdapter(prtsRecyclerBaseAdapter);
 
         // initialisation de l'écran par la vue
-        onUpdatedVue(vueViewModel.getVueLiveData().getValue());
+        //TODO 1.0.0 a mon avis ca se fait tout seul onUpdatedVue(vueViewModel.getVueLiveData().getValue());
         // observation de la vue courante
         vueViewModel.getVueLiveData().observe(getViewLifecycleOwner(), vue -> {
             Log.i(TAG_NAME, "debut observer getVueLiveData = <" + vue + ">");
@@ -138,8 +138,8 @@ public class AddResultFragment extends Fragment {
                 Log.i(TAG_NAME, "liste des villes envoyees dans l'adapter et notifyDataSetChanged");
             } else {
                 // le live data result est null (probleme dans le job sous jacent)
-                Log.e(TAG_NAME, "probleme sur la lecture des villes");
-                //TODO 1.0.0 on fait quoi (non critique) Toast.makeText(getActivity(), getString(R.string.toast_add_result_ko), Toast.LENGTH_SHORT).show();
+                // on s'en bat les couilles
+                Log.w(TAG_NAME, "probleme sur la lecture des villes");
             }
             Log.i(TAG_NAME, "fin observer towns");
         })
