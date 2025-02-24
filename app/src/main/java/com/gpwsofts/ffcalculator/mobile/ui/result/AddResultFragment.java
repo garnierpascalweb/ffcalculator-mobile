@@ -44,7 +44,6 @@ public class AddResultFragment extends Fragment {
     private static final String VIDE = "";
     private List<String> townsList;
     TextInputLayout textInputLayoutPlace;
-    TextInputLayout textInputLayoutPlaceAutoComplete;
     TextInputLayout textInputLayoutClasse;
     TextInputLayout textInputLayoutPos;
     TextInputLayout textInputLayoutPrts;
@@ -89,8 +88,7 @@ public class AddResultFragment extends Fragment {
         hintType = getResources().getString(R.string.hint_type_epreuve);
         hintPos = getResources().getString(R.string.hint_place_obtenue);
         hintPrts = getResources().getString(R.string.hint_partants);
-        //TODO 1.0.0 chargement des villes ici ?
-        addResultViewModel.loadTownChoicesAsync();
+
         Log.i(TAG_NAME, "fin appel de onCreate");
     }
 
@@ -99,6 +97,7 @@ public class AddResultFragment extends Fragment {
         Log.i(TAG_NAME, "appel de onCreateView");
         binding = FragmentResultBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
         textInputLayoutPlace = binding.idTILPlaceAutoComplete;
         textInputLayoutClasse = binding.idTILClasses;
         textInputLayoutPos = binding.idTILPos;
@@ -113,7 +112,8 @@ public class AddResultFragment extends Fragment {
         autoCompleteTextViewClasses.setAdapter(classesRecyclerBaseAdapter);
         autoCompleteTextViewPos.setAdapter(posRecyclerBaseAdapter);
         autoCompleteTextViewPrts.setAdapter(prtsRecyclerBaseAdapter);
-
+//TODO 1.0.0 chargement des villes ici ?
+        addResultViewModel.loadTownChoicesAsync();
         // initialisation de l'écran par la vue
         //TODO 1.0.0 a mon avis ca se fait tout seul onUpdatedVue(vueViewModel.getVueLiveData().getValue());
         // observation de la vue courante
@@ -133,7 +133,7 @@ public class AddResultFragment extends Fragment {
             if (towns != null) {
                 townsList.addAll(towns);
                 townsListAdapter.notifyDataSetChanged();
-                Log.i(TAG_NAME, "liste des villes envoyees dans l'adapter et notifyDataSetChanged");
+                Log.i(TAG_NAME, "liste des " + townsList.size() + " villes envoyees dans l'adapter et notifyDataSetChanged");
             } else {
                 // le live data result est null (probleme dans le job sous jacent)
                 // on s'en bat les couilles
