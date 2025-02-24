@@ -43,7 +43,6 @@ public class AddResultFragment extends Fragment {
     private static final List<Grid> EMPTY_GRID_LIST = new ArrayList<Grid>();
     private static final String VIDE = "";
     private List<String> townsList;
-    TextInputEditText textInputEditTextPlace;
     TextInputLayout textInputLayoutPlace;
     TextInputLayout textInputLayoutPlaceAutoComplete;
     TextInputLayout textInputLayoutClasse;
@@ -100,11 +99,10 @@ public class AddResultFragment extends Fragment {
         Log.i(TAG_NAME, "appel de onCreateView");
         binding = FragmentResultBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        textInputLayoutPlace = binding.idTILPlace;
+        textInputLayoutPlace = binding.idTILPlaceAutoComplete;
         textInputLayoutClasse = binding.idTILClasses;
         textInputLayoutPos = binding.idTILPos;
         textInputLayoutPrts = binding.idTILPrts;
-        textInputEditTextPlace = binding.idTIETPlace;
         autoCompleteTextViewPlace = binding.idTIETPlaceAutoComplete;
         autoCompleteTextViewClasses = binding.idTVAutoClasses;
         autoCompleteTextViewPos = binding.idTVAutoPos;
@@ -236,7 +234,7 @@ public class AddResultFragment extends Fragment {
         buttonAjouter.setEnabled(false);
         buttonAjouter.setText(R.string.button_label_calcul_en_cours);
         // recuperation des datas
-        final Editable placeEditable = textInputEditTextPlace.getText();
+        final Editable placeEditable = autoCompleteTextViewPlace.getText();
         final Editable libelleEditable = autoCompleteTextViewClasses.getText();
         final Editable posEditable = autoCompleteTextViewPos.getText();
         final Editable prtsEditable = autoCompleteTextViewPrts.getText();
@@ -258,7 +256,7 @@ public class AddResultFragment extends Fragment {
      * @since 1.0.0
      */
     private void reinit() {
-        textInputEditTextPlace.setText(VIDE);
+        autoCompleteTextViewPlace.setText(VIDE);
         autoCompleteTextViewClasses.setText(VIDE);
         autoCompleteTextViewPos.setText(VIDE);
         autoCompleteTextViewPrts.setText(VIDE);

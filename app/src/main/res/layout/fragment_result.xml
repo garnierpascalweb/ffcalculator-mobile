@@ -8,29 +8,6 @@
     android:orientation="vertical"
     tools:context=".ui.result.AddResultFragment">
 
-    <!-- TextField pour désigner le lieu de la course -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/idTILPlace"
-        app:startIconDrawable="@drawable/baseline_edit_location_24"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="16dp"
-        android:hint="@string/hint_lieu_epreuve"
-        app:helperText=""
-        app:helperTextEnabled="true">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/idTIETPlace"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:maxLength="30"
-            android:maxLines="1" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
     <!-- TextField pour désigner le lieu de la course auto complete -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/idTILPlaceAutoComplete"
@@ -43,7 +20,8 @@
         android:paddingTop="16dp"
         android:hint="@string/hint_lieu_epreuve"
         app:helperText=""
-        app:helperTextEnabled="true">
+        app:helperTextEnabled="true"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
         <AutoCompleteTextView
             android:id="@+id/idTIETPlaceAutoComplete"

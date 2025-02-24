@@ -79,7 +79,7 @@ public class ExampleInstrumentedTest {
             try {
                 result = getRandomResult(index);
                 Espresso.onView(withId(R.id.navigation_result)).perform(ViewActions.click());
-                Espresso.onView(withId(R.id.idTIETPlace)).perform(replaceText(result.place));
+                Espresso.onView(withId(R.id.idTIETPlaceAutoComplete)).perform(replaceText(result.place));
                 Espresso.onView(withId(R.id.idTVAutoClasses)).perform(replaceText(result.classe));
                 Espresso.onView(withId(R.id.idTVAutoPos)).perform(replaceText(String.valueOf(result.pos)));
                 Espresso.onView(withId(R.id.idTVAutoPrts)).perform(replaceText(String.valueOf(result.prts)));
