@@ -24,7 +24,7 @@ android {
     // Déclaration des saveurs
     productFlavors {
         dev {
-            buildConfigField "boolean", "ENABLE_LOGS", "false"
+            buildConfigField "boolean", "ENABLE_LOGS", "true"
             dimension "environment"
         }
         prod {
