@@ -93,7 +93,6 @@ public class AddResultFragment extends Fragment {
         IntegerListAdapter prtsListAdapter = new IntegerListAdapter(new IntegerListAdapter.IntDiff());
         IntegerRecyclerBaseAdapter prtsRecyclerBaseAdapter = new IntegerRecyclerBaseAdapter(prtsListAdapter);
         prtsListAdapter.submitList(INTEGER_LIST_1_200);
-        //TODO 1.0.0 chargement des villes ici ?
 
 
         textInputLayoutClasse.setHelperText(addResultViewModel.getCurrentListGridHelperText());
