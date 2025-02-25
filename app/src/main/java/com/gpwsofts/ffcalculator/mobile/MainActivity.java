@@ -44,16 +44,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        Log.i(TAG_NAME, "debut onCreateOptionsMenu");
+        Log.i(TAG_NAME, "debut onCreateOptionsMenu sur menu");
         MenuInflater menuInflater = this.getMenuInflater();
         menuInflater.inflate(R.menu.vues_menu, menu);
+        Log.d(TAG_NAME, "onCreateOptionsMenu sur menu - recuperation de la vue en LiveData");
+        //TODO 1.0.0 a ameliorer
         Vue currentVue = vueViewModel.getVueLiveData().getValue();
         if (currentVue != null) {
-            Log.i(TAG_NAME, "  setting check sur " + currentVue.getName());
+            Log.d(TAG_NAME, "onCreateOptionsMenu sur menu - selection de l'item correspondant a la vue courante = <" + currentVue.getCode() + ">");
             menu.getItem(currentVue.getIndexInComboMenu()).setChecked(true);
         }
-
-        Log.i(TAG_NAME, "fin onCreateOptionsMenu");
+        Log.i(TAG_NAME, "fin onCreateOptionsMenu sur menu");
         return true;
     }
 
