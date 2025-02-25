@@ -24,36 +24,48 @@ public class SeasonFragment extends Fragment {
 
     private static final String TAG_NAME = "SeasonFragment";
     private FragmentSeasonBinding binding;
-    private SeasonViewModel resultViewModel;
-    private SynthesisViewModel synthesisViewModel;
+    private SeasonViewModel seasonViewModel;
     private VueViewModel vueViewModel;
-    private TextView textViewPts;
-    private TextView textViewPos;
-    private Double cachedPtsValue;
-    private Integer cachedPos;
-    private String cachedClassType;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        resultViewModel = new ViewModelProvider(requireActivity()).get(SeasonViewModel.class);
-        synthesisViewModel = new ViewModelProvider(requireActivity()).get(SynthesisViewModel.class);
+        Log.i(TAG_NAME, "appel de onCreate");
+        seasonViewModel = new ViewModelProvider(requireActivity()).get(SeasonViewModel.class);
         vueViewModel = new ViewModelProvider(requireActivity()).get(VueViewModel.class);
-        cachedPtsValue = Double.valueOf(0);
-        cachedPos = Integer.valueOf(0);
+        Log.i(TAG_NAME, "fin appel de onCreate");
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // affecte le binding
+        Log.i(TAG_NAME, "appel de onCreateView");
         binding = FragmentSeasonBinding.inflate(inflater, container, false);
-        // binding donne la vue
-        View root = binding.getRoot();
-        textViewPts = binding.textAllpts;
-        textViewPos = binding.textMypos;
-        // RecyclerView
-        RecyclerView resultRV = root.findViewById(R.id.idRVCourse);
-        final ResultListAdapter adapter = new ResultListAdapter(new ResultListAdapter.ResultDiff());
+        Log.i(TAG_NAME, "fin appel de onCreateView");
+        return binding.getRoot();
+    }
+
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Log.i(TAG_NAME, "debut appel de onViewCreated");
+        super.onViewCreated(view, savedInstanceState);
+        /**
+         * Recuperation des elements graphiques
+         */
+        final TextView textViewPts = binding.textAllpts;
+        final TextView textViewPos = binding.textMypos;
+        final RecyclerView resultRV = binding.idRVCourse;
+        /**
+         * Fin recuperation des elements graphiques
+         */
+
+        /**
+         * Initialisation des adapters
+         */
+        final ResultListAdapter resultListAdapter = new ResultListAdapter(new ResultListAdapter.ResultDiff());
+        resultRV.setAdapter(resultListAdapter);
+        resultRV.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
+        resultRV.setHasFixedSize(true);
+
         final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -62,42 +74,54 @@ public class SeasonFragment extends Fragment {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 Log.v(TAG_NAME, "demande de suppression de resultat par swipe");
-                resultViewModel.delete(adapter.getItemFromAdapter(viewHolder.getAbsoluteAdapterPosition()));
+                seasonViewModel.delete(resultListAdapter.getItemFromAdapter(viewHolder.getAbsoluteAdapterPosition()));
             }
         });
         Log.i(TAG_NAME, "attachement a la recyclerView du itemTouchHelper ");
         itemTouchHelper.attachToRecyclerView(resultRV);
-        resultRV.setAdapter(adapter);
-        resultRV.setLayoutManager(new LinearLayoutManager(root.getContext(), LinearLayoutManager.VERTICAL, false));
-        resultRV.setHasFixedSize(true);
 
-        resultViewModel.getAllResultsLiveData().observe(getViewLifecycleOwner(), results -> {
-            Log.i(TAG_NAME, "debut observer getAllResults");
-            adapter.submitList(results);
-            Log.i(TAG_NAME, "fin observer getAllResults");
+
+        /**
+         * Observation d'un changement dans la liste des résultats
+         */
+        seasonViewModel.getAllResultsLiveData().observe(getViewLifecycleOwner(), results -> {
+            Log.i(TAG_NAME, "debut observer results");
+            if (results != null){
+                Log.d(TAG_NAME, "observer results - la liste chargee n'est pas nulle");
+                Log.d(TAG_NAME, "observer results - mise a jour de l'adapter de la liste des resultats (désormais <" + results.size() + "> élements)");
+                resultListAdapter.submitList(results);
+            }
+            Log.i(TAG_NAME, "fin observer results");
         });
+        /**
+         * Fin Observation d'un changement dans la liste des résultats
+         */
 
-        // observation du total des points
-        // Update UI
-        synthesisViewModel.getAllPtsLiveData().observe(getViewLifecycleOwner(), pts -> {
-            Log.i(TAG_NAME, "debut observer getPts");
+        /**
+         * Observation d'un changement du nombre total de points
+         */
+        seasonViewModel.getAllPtsLiveData().observe(getViewLifecycleOwner(), pts -> {
+            Log.i(TAG_NAME, "debut observer allPts");
             if (null != pts) {
-                if (Double.compare(pts, cachedPtsValue) !=0){
+                Log.d(TAG_NAME, "observer allPts - le resultat rendu n'est pas null");
+                if (Double.compare(pts, seasonViewModel.getCurrentPts()) !=0){
+                    Log.d(TAG_NAME, "observer allPts - la valeur rendue est differente de celle en cache");
                     final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
                     textViewPos.setText(getString(R.string.label_classement_national_loading));
-                    searchPosApi(pts, classType);
-                    cachedPtsValue = pts;
+                    Log.d(TAG_NAME, "observer allPts - envoi du job asynchrone de recherche de la position pour <" + pts +"> pts sur le classeemnt <" + classType + ">");
+                    seasonViewModel.searchPosApi(pts, classType);
+                    seasonViewModel.setCurrentPts(pts);
+                    seasonViewModel.setCurrentClassType(classType);
                 } else {
-                    Log.v(TAG_NAME, "les points nont pas changé");
-                    // donc on reset le text comme sil avait pas changé
-                    // si ya pas de valeur en cache pour la position, calcule la
-                    if (null == cachedPos){
-                        Log.v(TAG_NAME, "ya pas de position en cache, on va calculer");
+                    Log.d(TAG_NAME, "observer allPts - la valeur rendue est la meme que celle en cache");
+                    if (null == seasonViewModel.getCurrentPos()){
+                        Log.d(TAG_NAME, "observer allPts - pas de position en cache ");
                         final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
-                        synthesisViewModel.searchPosApi(pts,classType);
+                        Log.d(TAG_NAME, "observer allPts - envoi du job asynchrone de recherche de la position pour <" + pts +"> pts sur le classeemnt <" + classType + ">");
+                        seasonViewModel.searchPosApi(pts,classType);
                     } else {
-                        Log.v(TAG_NAME, "ya une position en cache, on va remettre");
-                        textViewPos.setText(getString(R.string.label_classement_national_ok, cachedClassType, cachedPos));
+                        Log.v(TAG_NAME, "observer allPts - conservation de la position en cache = <" + seasonViewModel.getCurrentPos() + ">");
+                        textViewPos.setText(getString(R.string.label_classement_national_ok, seasonViewModel.getCurrentClassType(), seasonViewModel.getCurrentPos()));
                     }
                 }
                 textViewPts.setText(getString(R.string.label_total_pts_ok, pts));
@@ -106,26 +130,31 @@ public class SeasonFragment extends Fragment {
                 textViewPos.setText("");
                 Log.w(TAG_NAME, "la valeur de pts est pas renseignee");
             }
-            Log.i(TAG_NAME, "fin observer getPts");
+            Log.i(TAG_NAME, "fin observer allPts");
         });
 
-        // observation du total des positions
-        // Update UI
-        synthesisViewModel.getOverAllPosLiveData().observe(getViewLifecycleOwner(), pos -> {
-            Log.i(TAG_NAME, "debut observer getPos");
+        /**
+         * Observation d'un changement sur la position au classement national
+         */
+        seasonViewModel.getOverAllPosLiveData().observe(getViewLifecycleOwner(), overAllPos -> {
+            Log.i(TAG_NAME, "debut observer overAllPos");
             final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
-            if (pos != null) {
-                // textViewPos.setText("Classement National : " + pos + " eme");
-                textViewPos.setText(getString(R.string.label_classement_national_ok, classType, pos));
-                cachedPos = pos;
-                cachedClassType = classType;
+            final String textFieldPosText;
+            if (overAllPos != null) {
+                Log.d(TAG_NAME, "observer allPts - la position rendue n'est pas null = <" + overAllPos + ">");
+                Log.d(TAG_NAME, "observer allPts - mise a jour du textField pour affichage de la position");
+                textFieldPosText = getString(R.string.label_classement_national_ok, classType, overAllPos);
+                Log.d(TAG_NAME, "observer allPts - mise en cache de la position et du type de classement");
+                seasonViewModel.setCurrentPos(overAllPos);
+                seasonViewModel.setCurrentClassType(classType);
             } else {
-                textViewPos.setText(getString(R.string.label_classement_national_ko));
-                Log.w(TAG_NAME, "la valeur de pos est pas renseignee apres appel au service");
+                Log.w(TAG_NAME, "observer allPts - la position rendue est null");
+                textFieldPosText = getString(R.string.label_classement_national_ko);
             }
-            Log.i(TAG_NAME, "fin observer getPos");
+            Log.d(TAG_NAME, "observer allPts - mise a jour du textField pour affichage de la position");
+            textViewPos.setText(textFieldPosText);
+            Log.i(TAG_NAME, "fin observer overAllPos");
         });
-        return root;
     }
 
     @Override
@@ -133,9 +162,4 @@ public class SeasonFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-
-    private void searchPosApi(double pts, String classType) {
-        synthesisViewModel.searchPosApi(pts, classType);
-    }
-
 }
