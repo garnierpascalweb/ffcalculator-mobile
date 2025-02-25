@@ -20,6 +20,19 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    flavorDimensions "environment"
+    // Déclaration des saveurs
+    productFlavors {
+        dev {
+            buildConfigField "boolean", "ENABLE_LOGS", "false"
+            dimension "environment"
+        }
+        prod {
+            buildConfigField "boolean", "ENABLE_LOGS", "false"
+            dimension "environment"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
