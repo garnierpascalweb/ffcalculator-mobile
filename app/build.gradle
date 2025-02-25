@@ -58,6 +58,7 @@ dependencies {
     // implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.mockito:mockito-core:1.10.19'
+    // selon l'IA, pour simuler un environnement dans les tests unitaires
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }

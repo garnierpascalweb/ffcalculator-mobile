@@ -140,12 +140,15 @@ public class AddResultApiClient {
                     //TODO 1.0.0 peut etre dérouler une implementation locale ?
                 }
             } catch (AddResultException e) {
+                Log.e(TAG_NAME, "AddResultException ", e);
                 newResult = null;
                 message = e.getToastMessage();
             } catch (IOException e) {
+                Log.e(TAG_NAME, "IOException ", e);
                 newResult = null;
                 message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_technical_problem);
             } catch (Exception e) {
+                Log.e(TAG_NAME, "Exception ", e);
                 newResult = null;
                 message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_technical_problem);
             } finally {
