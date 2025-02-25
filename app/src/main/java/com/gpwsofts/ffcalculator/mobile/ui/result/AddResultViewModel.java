@@ -17,6 +17,8 @@ import com.gpwsofts.ffcalculator.mobile.repository.TownRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * @since 1.0.0
@@ -24,11 +26,17 @@ import java.util.List;
  */
 public class AddResultViewModel extends AndroidViewModel {
     private static final String TAG_NAME = "AddResultViewModel";
+    private static final List<Integer> INTEGER_LIST_1_200 = IntStream.rangeClosed(1, 200).boxed().collect(Collectors.toList());
+    private static final List<Integer> INTEGER_LIST_1_50 = IntStream.rangeClosed(1, 50).boxed().collect(Collectors.toList());
+    private static final List<Grid> EMPTY_GRID_LIST = new ArrayList<Grid>();
+    private static final String VIDE = "";
     private final AddResultRepository addResultRepository;
     private final DatabaseResultRepository databaseResultRepository;
     private final GridRepository gridRepository;
     private final TownRepository townRepository;
     private String currentListGridHelperText;
+    private List<String> currentListTowns;
+
 
 
     public AddResultViewModel(Application application) {
@@ -38,6 +46,7 @@ public class AddResultViewModel extends AndroidViewModel {
         databaseResultRepository = DatabaseResultRepository.getInstance();
         gridRepository = GridRepository.getInstance();
         townRepository = TownRepository.getInstance();
+        currentListTowns = new ArrayList<String>();
         Log.i(TAG_NAME, "Fin Instantiation de AddResultViewModel");
     }
 
@@ -88,7 +97,7 @@ public class AddResultViewModel extends AndroidViewModel {
         return gridRepository.getGridChoicesLiveData().getValue();
     }
 
-    public List<String> getCurrentListTowns() {
+    public List<String> getCurrentListTownsFromLiveData() {
         return townRepository.getTownChoicesLiveData().getValue();
     }
 
@@ -98,5 +107,21 @@ public class AddResultViewModel extends AndroidViewModel {
 
     public void setCurrentListGridHelperText(String currentListGridHelperText) {
         this.currentListGridHelperText = currentListGridHelperText;
+    }
+
+    public List<Integer> getIntegerList200(){
+        return INTEGER_LIST_1_200;
+    }
+
+    public List<Integer> getIntegerList50(){
+        return INTEGER_LIST_1_50;
+    }
+
+    public List<String> getCurrentListTowns() {
+        return currentListTowns;
+    }
+
+    public void setCurrentListTowns(List<String> currentListTowns) {
+        this.currentListTowns = currentListTowns;
     }
 }

@@ -36,9 +36,9 @@ public class SeasonFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        resultViewModel = new ViewModelProvider(this).get(SeasonViewModel.class);
-        synthesisViewModel = new ViewModelProvider(this).get(SynthesisViewModel.class);
-        vueViewModel = new ViewModelProvider(this).get(VueViewModel.class);
+        resultViewModel = new ViewModelProvider(requireActivity()).get(SeasonViewModel.class);
+        synthesisViewModel = new ViewModelProvider(requireActivity()).get(SynthesisViewModel.class);
+        vueViewModel = new ViewModelProvider(requireActivity()).get(VueViewModel.class);
         cachedPtsValue = Double.valueOf(0);
         cachedPos = Integer.valueOf(0);
     }

@@ -29,8 +29,8 @@ public class SynthesisFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        synthesisViewModel = new ViewModelProvider(this).get(SynthesisViewModel.class);
-        vueViewModel = new ViewModelProvider(this).get(VueViewModel.class);
+        synthesisViewModel = new ViewModelProvider(requireActivity()).get(SynthesisViewModel.class);
+        vueViewModel = new ViewModelProvider(requireActivity()).get(VueViewModel.class);
         lastPtsValue = Double.valueOf(0);
     }
 
