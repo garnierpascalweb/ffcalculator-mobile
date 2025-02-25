@@ -15,6 +15,8 @@ import com.gpwsofts.ffcalculator.mobile.services.pts.IPtsHttpService;
 import com.gpwsofts.ffcalculator.mobile.services.pts.SimplePtsHttpService;
 import com.gpwsofts.ffcalculator.mobile.services.town.ITownService;
 import com.gpwsofts.ffcalculator.mobile.services.town.SimpleTownService;
+import com.gpwsofts.ffcalculator.mobile.services.update.IUpdateCheckerService;
+import com.gpwsofts.ffcalculator.mobile.services.update.SimpleUpdateCheckerService;
 import com.gpwsofts.ffcalculator.mobile.services.vue.IVueService;
 import com.gpwsofts.ffcalculator.mobile.services.vue.VueService;
 import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
@@ -56,11 +58,14 @@ public class ServicesManager {
      */
     private IGridService gridService = null;
     private ITownService townService = null;
+
     /**
      * Service de vue
      * @since 1.0.0
      */
     private IVueService vueService;
+
+    private IUpdateCheckerService updateCheckerService = null;
 
 
     /**
@@ -146,5 +151,15 @@ public class ServicesManager {
             LogUtils.d(TAG_NAME, "recuperation d'une instance existante de IVueService");
         }
         return vueService;
+    }
+
+    public final IUpdateCheckerService getUpdateCheckerService(){
+        if (null == updateCheckerService) {
+            LogUtils.i(TAG_NAME, "creation dune nouvelle instance de IUpdateCkeckerService");
+            updateCheckerService = new SimpleUpdateCheckerService();
+        } else {
+            LogUtils.d(TAG_NAME, "recuperation d'une instance existante de IUpdateCkeckerService");
+        }
+        return updateCheckerService;
     }
 }

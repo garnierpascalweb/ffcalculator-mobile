@@ -1,5 +1,9 @@
 package com.gpwsofts.ffcalculator.mobile.exception;
 
+/**
+ * Classe mere de toutes les exceptions
+ * @since 1.0.0
+ */
 public class FFCalculatorException extends Exception {
     protected String toastMessage;
 

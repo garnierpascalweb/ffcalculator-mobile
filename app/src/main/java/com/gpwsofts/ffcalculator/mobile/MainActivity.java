@@ -1,5 +1,9 @@
 package com.gpwsofts.ffcalculator.mobile;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.Menu;
@@ -40,12 +44,20 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
-        if (BuildConfig.DEBUG) {
-            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-                    .detectAll()
-                    .penaltyLog()
-                    .build());
-        }
+        //TODO 1.0.0 showUpdateDialog a appeler
+        /**
+         *  if (response.isSuccessful() && response.body() != null) {
+         *                     String jsonResponse = response.body().string();
+         *                     Gson gson = new Gson();
+         *                     UpdateInfo updateInfo = gson.fromJson(jsonResponse, UpdateInfo.class);
+         *
+         *                     int currentVersionCode = BuildConfig.VERSION_CODE;
+         *                     if (updateInfo.latest_version_code > currentVersionCode) {
+         *                         showUpdateDialog(context, updateInfo.download_url);
+         *                     }
+         *                 }
+         */
+        // showUpdateDialog(this, "https://www.villamonmo.com");
         //TODO 1.0.0 uniformiser toutes les logs pour un changement de type observe
     }
 
@@ -77,5 +89,19 @@ public class MainActivity extends AppCompatActivity {
         item.setChecked(true);
         LogUtils.i(TAG_NAME, "fin onOptionsItemSelected sur menuItem");
         return false;
+    }
+
+    private static void showUpdateDialog(Context context, String downloadUrl) {
+        new android.os.Handler(context.getMainLooper()).post(() -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle("Mise à jour disponible");
+            builder.setMessage("Une nouvelle version est disponible. Voulez-vous la télécharger ?");
+            builder.setPositiveButton("Télécharger", (dialog, which) -> {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(downloadUrl));
+                context.startActivity(browserIntent);
+            });
+            builder.setNegativeButton("Plus tard", null);
+            builder.show();
+        });
     }
 }

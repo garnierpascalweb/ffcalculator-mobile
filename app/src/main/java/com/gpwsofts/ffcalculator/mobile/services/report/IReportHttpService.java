@@ -12,4 +12,5 @@ import retrofit2.Call;
  */
 public interface IReportHttpService extends ICleanableService {
     Call<FFCReportResponse> sendReport(FFCReportRequest request);
+    //TODO 1.0.0 a implementer
 }

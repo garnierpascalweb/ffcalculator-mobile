@@ -113,7 +113,7 @@ public class AddResultApiClient {
                     Response response = null;
                     response = getPts(request).execute();
                     if (cancelRequest) {
-                        LogUtils.d(TAG_NAME, "cancelRequest true, retourne zboub");
+                        LogUtils.d(TAG_NAME, "cancelRequest true");
                         return;
                     }
                     int responseCode = response.code();
