@@ -15,6 +15,7 @@ import com.gpwsofts.ffcalculator.mobile.repository.DatabaseResultRepository;
 import com.gpwsofts.ffcalculator.mobile.repository.GridRepository;
 import com.gpwsofts.ffcalculator.mobile.repository.TownRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,6 +28,7 @@ public class AddResultViewModel extends AndroidViewModel {
     private final DatabaseResultRepository databaseResultRepository;
     private final GridRepository gridRepository;
     private final TownRepository townRepository;
+    private String currentListGridHelperText;
 
 
     public AddResultViewModel(Application application) {
@@ -80,5 +82,21 @@ public class AddResultViewModel extends AndroidViewModel {
 
     public void onNewResultCreated(Result newResult) {
         databaseResultRepository.insert(newResult);
+    }
+
+    public List<Grid> getCurrentListGrid() {
+        return gridRepository.getGridChoicesLiveData().getValue();
+    }
+
+    public List<String> getCurrentListTowns() {
+        return townRepository.getTownChoicesLiveData().getValue();
+    }
+
+    public String getCurrentListGridHelperText() {
+        return currentListGridHelperText;
+    }
+
+    public void setCurrentListGridHelperText(String currentListGridHelperText) {
+        this.currentListGridHelperText = currentListGridHelperText;
     }
 }

@@ -42,31 +42,12 @@ public class AddResultFragment extends Fragment {
     private static final List<Integer> INTEGER_LIST_1_50 = IntStream.rangeClosed(1, 50).boxed().collect(Collectors.toList());
     private static final List<Grid> EMPTY_GRID_LIST = new ArrayList<Grid>();
     private static final String VIDE = "";
-    private List<String> townsList;
-    TextInputLayout textInputLayoutPlace;
-    TextInputLayout textInputLayoutClasse;
-    TextInputLayout textInputLayoutPos;
-    TextInputLayout textInputLayoutPrts;
-    AutoCompleteTextView autoCompleteTextViewPlace;
-    AutoCompleteTextView autoCompleteTextViewPos;
-    AutoCompleteTextView autoCompleteTextViewPrts;
-    AutoCompleteTextView autoCompleteTextViewClasses;
-    Button buttonAjouter;
-    private ClassesListAdapter classesListAdapter;
-    private ArrayAdapter<String> townsListAdapter;
-    private ClassesRecyclerBaseAdapter classesRecyclerBaseAdapter;
-    private IntegerRecyclerBaseAdapter posRecyclerBaseAdapter;
-    private IntegerListAdapter posListAdapter;
-    private IntegerRecyclerBaseAdapter prtsRecyclerBaseAdapter;
-    private IntegerListAdapter prtsListAdapter;
+
+
     private SeasonViewModel resultViewModel;
     private AddResultViewModel addResultViewModel;
     private VueViewModel vueViewModel;
     private FragmentResultBinding binding;
-    private String hintPlace;
-    private String hintType;
-    private String hintPos;
-    private String hintPrts;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,20 +56,6 @@ public class AddResultFragment extends Fragment {
         resultViewModel = new ViewModelProvider(this).get(SeasonViewModel.class);
         addResultViewModel = new ViewModelProvider(this).get(AddResultViewModel.class);
         vueViewModel = new ViewModelProvider(this).get(VueViewModel.class);
-        townsList = new ArrayList<String>();
-        townsListAdapter = new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_spinner_item, townsList);
-        classesListAdapter = new ClassesListAdapter(new ClassesListAdapter.ClassesDiff());
-        classesRecyclerBaseAdapter = new ClassesRecyclerBaseAdapter(classesListAdapter);
-        posListAdapter = new IntegerListAdapter(new IntegerListAdapter.IntDiff());
-        posRecyclerBaseAdapter = new IntegerRecyclerBaseAdapter(posListAdapter);
-        prtsListAdapter = new IntegerListAdapter(new IntegerListAdapter.IntDiff());
-        prtsRecyclerBaseAdapter = new IntegerRecyclerBaseAdapter(prtsListAdapter);
-        prtsListAdapter.submitList(INTEGER_LIST_1_200);
-        hintPlace = getResources().getString(R.string.hint_lieu_epreuve);
-        hintType = getResources().getString(R.string.hint_type_epreuve);
-        hintPos = getResources().getString(R.string.hint_place_obtenue);
-        hintPrts = getResources().getString(R.string.hint_partants);
-
         Log.i(TAG_NAME, "fin appel de onCreate");
     }
 
@@ -96,52 +63,71 @@ public class AddResultFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.i(TAG_NAME, "appel de onCreateView");
         binding = FragmentResultBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
+        if (addResultViewModel.getCurrentListTowns() == null || addResultViewModel.getCurrentListTowns().isEmpty()) {
+            Log.v(TAG_NAME, "chargement de la liste des villes, pas encore fait");
+            addResultViewModel.loadTownChoicesAsync();
+        } else {
+            Log.v(TAG_NAME, "pas de chargement de la liste des villes, deja fait");
+        }
+        return binding.getRoot();
+    }
 
-        textInputLayoutPlace = binding.idTILPlaceAutoComplete;
-        textInputLayoutClasse = binding.idTILClasses;
-        textInputLayoutPos = binding.idTILPos;
-        textInputLayoutPrts = binding.idTILPrts;
-        autoCompleteTextViewPlace = binding.idTIETPlaceAutoComplete;
-        autoCompleteTextViewClasses = binding.idTVAutoClasses;
-        autoCompleteTextViewPos = binding.idTVAutoPos;
-        autoCompleteTextViewPrts = binding.idTVAutoPrts;
-        buttonAjouter = binding.idBTAjouter;
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        final TextInputLayout textInputLayoutPlace = binding.idTILPlace;
+        final TextInputLayout textInputLayoutClasse = binding.idTILClasses;
+        final TextInputLayout textInputLayoutPos = binding.idTILPos;
+        final TextInputLayout textInputLayoutPrts = binding.idTILPrts;
+        final AutoCompleteTextView autoCompleteTextViewPlace = binding.idTIETPlaceAutoComplete;
+        final AutoCompleteTextView autoCompleteTextViewClasses = binding.idTVAutoClasses;
+        final AutoCompleteTextView autoCompleteTextViewPos = binding.idTVAutoPos;
+        final AutoCompleteTextView autoCompleteTextViewPrts = binding.idTVAutoPrts;
+        final Button buttonAjouter = binding.idBTAjouter;
+        Log.i(TAG_NAME, "instantiotion adapter de la liste des villes a vide");
+        ArrayAdapter<String> townsListAdapter  = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, new ArrayList<String>());
+        ClassesListAdapter classesListAdapter = new ClassesListAdapter(new ClassesListAdapter.ClassesDiff());
+        ClassesRecyclerBaseAdapter classesRecyclerBaseAdapter = new ClassesRecyclerBaseAdapter(classesListAdapter);
+        IntegerListAdapter posListAdapter = new IntegerListAdapter(new IntegerListAdapter.IntDiff());
+        IntegerRecyclerBaseAdapter posRecyclerBaseAdapter = new IntegerRecyclerBaseAdapter(posListAdapter);
+        IntegerListAdapter prtsListAdapter = new IntegerListAdapter(new IntegerListAdapter.IntDiff());
+        IntegerRecyclerBaseAdapter prtsRecyclerBaseAdapter = new IntegerRecyclerBaseAdapter(prtsListAdapter);
+        prtsListAdapter.submitList(INTEGER_LIST_1_200);
+        //TODO 1.0.0 chargement des villes ici ?
+
+
+        textInputLayoutClasse.setHelperText(addResultViewModel.getCurrentListGridHelperText());
         autoCompleteTextViewPlace.setAdapter(townsListAdapter);
         autoCompleteTextViewPlace.setThreshold(3);
+
         autoCompleteTextViewClasses.setAdapter(classesRecyclerBaseAdapter);
         autoCompleteTextViewPos.setAdapter(posRecyclerBaseAdapter);
         autoCompleteTextViewPrts.setAdapter(prtsRecyclerBaseAdapter);
-//TODO 1.0.0 chargement des villes ici ?
-        addResultViewModel.loadTownChoicesAsync();
+        classesListAdapter.submitList(addResultViewModel.getCurrentListGrid());
+
+        //addResultViewModel.getGridChoicesLiveData();
         // initialisation de l'écran par la vue
         //TODO 1.0.0 a mon avis ca se fait tout seul onUpdatedVue(vueViewModel.getVueLiveData().getValue());
         // observation de la vue courante
         vueViewModel.getVueLiveData().observe(getViewLifecycleOwner(), vue -> {
             Log.i(TAG_NAME, "debut observer getVueLiveData = <" + vue + ">");
             if (vue != null) {
-                onUpdatedVue(vue);
+                addResultViewModel.loadGridChoicesAsync(vue);
                 Toast.makeText(getActivity(), getString(R.string.toast_update_vue_ok, vue.getName()), Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getActivity(), getString(R.string.toast_update_vue_ko), Toast.LENGTH_SHORT).show();
             }
             Log.i(TAG_NAME, "fin observer getVueLiveData = <" + vue + ">");
         });
-        // observation d'une liste de villes
+
         addResultViewModel.getTownChoicesLiveData().observe(getViewLifecycleOwner(), towns -> {
             Log.i(TAG_NAME, "debut observer towns");
-            if (towns != null) {
-                townsList.addAll(towns);
+                townsListAdapter.clear();
+                townsListAdapter.addAll(towns);
                 townsListAdapter.notifyDataSetChanged();
-                Log.i(TAG_NAME, "liste des " + townsList.size() + " villes envoyees dans l'adapter et notifyDataSetChanged");
-            } else {
-                // le live data result est null (probleme dans le job sous jacent)
-                // on s'en bat les couilles
-                Log.w(TAG_NAME, "probleme sur la lecture des villes");
-            }
-            Log.i(TAG_NAME, "fin observer towns");
-        })
-        ;
+            Log.i(TAG_NAME, "fin debut observer towns");
+        });
+
         // observation d'un nouveau resultat
         addResultViewModel.getAddedResultLiveData().observe(getViewLifecycleOwner(), addResultRunnableResponse -> {
             Log.i(TAG_NAME, "debut observer addResultRunnableResponse");
@@ -156,7 +142,7 @@ public class AddResultFragment extends Fragment {
                 // insertion en database (mais si ca merde on n'en sait rien ! )
                 addResultViewModel.onNewResultCreated(result);
                 // reinitialisation de l'écran
-                reinit();
+                // reinit();
                 // navigation au fragment de saison
                 Navigation.findNavController(binding.getRoot()).navigate(R.id.navigation_season);
             } else {
@@ -172,15 +158,21 @@ public class AddResultFragment extends Fragment {
         // update UI
         addResultViewModel.getGridChoicesLiveData().observe(getViewLifecycleOwner(), gridsList -> {
             Log.i(TAG_NAME, "debut observer getGridsChoices");
+            final String helperText;
             if (gridsList != null) {
-                classesListAdapter.submitList(gridsList);
-                textInputLayoutClasse.setHelperText(getString(R.string.combo_classes_helper_text_ok, vueViewModel.getVueLiveData().getValue().getName(), gridsList.size()));
+                helperText = getString(R.string.combo_classes_helper_text_ok, vueViewModel.getVueLiveData().getValue().getName(), gridsList.size());
             } else {
                 // le live data gridsList est null (probleme dans le job sous jacent)
                 Log.w(TAG_NAME, "probleme sur le chargement des grilles");
-                classesListAdapter.submitList(EMPTY_GRID_LIST);
+                gridsList = EMPTY_GRID_LIST;
                 textInputLayoutClasse.setHelperText(getString(R.string.combo_classes_helper_text_ko));
+                helperText = getString(R.string.combo_classes_helper_text_ko);
             }
+            classesListAdapter.submitList(gridsList);
+            classesListAdapter.notifyDataSetChanged();
+            textInputLayoutClasse.setHelperText(helperText);
+            //addResultViewModel.setCurrentListGrid(gridsList);
+            addResultViewModel.setCurrentListGridHelperText(helperText);
             Log.i(TAG_NAME, "fin observer getGridsChoices");
         });
 
@@ -205,7 +197,7 @@ public class AddResultFragment extends Fragment {
 
         // ecouteur de click sur la liste deroulante des classes (nouvel item selectionne)
         // update des choix de positions
-        autoCompleteTextViewClasses.setOnItemClickListener((parent, view, position, id) -> {
+        autoCompleteTextViewClasses.setOnItemClickListener((parent, maview, position, id) -> {
             Log.i(TAG_NAME, "selection d'une nouvelle classe de course");
             String itemValue = parent.getItemAtPosition(position).toString();
             addResultViewModel.loadPosChoicesAsync(itemValue);
@@ -213,61 +205,22 @@ public class AddResultFragment extends Fragment {
 
         // ecouteur de click sur le bouton ajouter
         // declenche une action de sauvegarde du resultat
-        buttonAjouter.setOnClickListener(vue -> saveResult());
+        buttonAjouter.setOnClickListener(vue -> {
+            buttonAjouter.setEnabled(false);
+            buttonAjouter.setText(R.string.button_label_calcul_en_cours);
+            final Editable placeEditable = autoCompleteTextViewPlace.getText();
+            final Editable libelleEditable = autoCompleteTextViewClasses.getText();
+            final Editable posEditable = autoCompleteTextViewPos.getText();
+            final Editable prtsEditable = autoCompleteTextViewPrts.getText();
+            // obtention des 4 variables telles que saisies
+            final String place = placeEditable == null ? null : String.valueOf(placeEditable);
+            final String libelle = libelleEditable == null ? null : String.valueOf(libelleEditable);
+            final String pos = posEditable == null ? null : String.valueOf(posEditable);
+            final String prts = prtsEditable == null ? null : String.valueOf(prtsEditable);
+            addResultViewModel.addResultApiAsync(place, libelle, pos, prts);
+        });
         Log.i(TAG_NAME, "fin appel de onCreateView");
-        return root;
     }
-
-    private void onUpdatedVue(Vue vue) {
-        addResultViewModel.loadGridChoicesAsync(vue);
-        reinit();
-    }
-
-    /**
-     * Demande de sauvegarde d'un resultat
-     * Déclenché par le click sur le bouton
-     * @since 1.0.0
-     */
-    private void saveResult() {
-        // desactivation du bouton le temps du calcul potentiellement long
-        // on reactivera le bouton a l'observe de mResult, puisque cest ce que post addResultApiAsync
-        buttonAjouter.setEnabled(false);
-        buttonAjouter.setText(R.string.button_label_calcul_en_cours);
-        // recuperation des datas
-        final Editable placeEditable = autoCompleteTextViewPlace.getText();
-        final Editable libelleEditable = autoCompleteTextViewClasses.getText();
-        final Editable posEditable = autoCompleteTextViewPos.getText();
-        final Editable prtsEditable = autoCompleteTextViewPrts.getText();
-        // obtention des 4 variables telles que saisies
-        final String place = placeEditable == null ? null : String.valueOf(placeEditable);
-        final String libelle = libelleEditable == null ? null : String.valueOf(libelleEditable);
-        final String pos = posEditable == null ? null : String.valueOf(posEditable);
-        final String prts = prtsEditable == null ? null : String.valueOf(prtsEditable);
-        addResultViewModel.addResultApiAsync(place, libelle, pos, prts);
-    }
-
-
-
-
-
-    /**
-     * Reinitialise l'écran (apres la validation d'un resultat)
-     *
-     * @since 1.0.0
-     */
-    private void reinit() {
-        autoCompleteTextViewPlace.setText(VIDE);
-        autoCompleteTextViewClasses.setText(VIDE);
-        autoCompleteTextViewPos.setText(VIDE);
-        autoCompleteTextViewPrts.setText(VIDE);
-        hintPlace = getResources().getString(R.string.hint_lieu_epreuve);
-        hintType = getResources().getString(R.string.hint_type_epreuve);
-        hintPos = getResources().getString(R.string.hint_place_obtenue);
-        hintPrts = getResources().getString(R.string.hint_partants);
-        textInputLayoutPos.setHelperText(hintPos);
-        // Remettre les helper text a leur niveau
-    }
-
 
     @Override
     public void onDestroyView() {
