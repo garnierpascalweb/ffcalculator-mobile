@@ -105,6 +105,7 @@ public class SeasonFragment extends Fragment {
             if (null != pts) {
                 Log.d(TAG_NAME, "observer allPts - le resultat rendu n'est pas null");
                 if (Double.compare(pts, seasonViewModel.getCurrentPts()) !=0){
+                    // valeur rendue differente de celle en cache, recalcul de la position au classement antional
                     Log.d(TAG_NAME, "observer allPts - la valeur rendue est differente de celle en cache");
                     final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
                     textViewPos.setText(getString(R.string.label_classement_national_loading));
@@ -113,9 +114,10 @@ public class SeasonFragment extends Fragment {
                     seasonViewModel.setCurrentPts(pts);
                     seasonViewModel.setCurrentClassType(classType);
                 } else {
+                    // valeur rendue egale a celle en cache, pas recalcul de la position au classement antional saud si indfini
                     Log.d(TAG_NAME, "observer allPts - la valeur rendue est la meme que celle en cache");
                     if (null == seasonViewModel.getCurrentPos()){
-                        Log.d(TAG_NAME, "observer allPts - pas de position en cache ");
+                        Log.d(TAG_NAME, "observer allPts - pas de position en cache");
                         final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
                         Log.d(TAG_NAME, "observer allPts - envoi du job asynchrone de recherche de la position pour <" + pts +"> pts sur le classeemnt <" + classType + ">");
                         seasonViewModel.searchPosApi(pts,classType);
@@ -126,6 +128,7 @@ public class SeasonFragment extends Fragment {
                 }
                 textViewPts.setText(getString(R.string.label_total_pts_ok, pts));
             } else {
+                Log.d(TAG_NAME, "observer allPts - le resultat rendu est null - aucun resultat");
                 textViewPts.setText(getString(R.string.label_aucun_resultat));
                 textViewPos.setText("");
                 Log.w(TAG_NAME, "la valeur de pts est pas renseignee");
