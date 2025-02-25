@@ -61,4 +61,11 @@ public class SimpleLogoService implements ILogoService {
     public Logo getUnknownLogo(){
         return logos.get(res.getString(R.string.logo_unknown));
     }
+
+    @Override
+    public void clean() {
+        if (logos != null){
+            logos.clear();
+        }
+    }
 }

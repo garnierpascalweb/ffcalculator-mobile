@@ -31,4 +31,9 @@ public class SimplePosHttpService  implements IPosHttpService {
         Log.d(TAG_NAME, "veritable appel http et call en retour");
         return FFCalculatorWebApi.getInstance().getApiService().calcPos(FFCalculatorSharedPrefs.id(), request);
     }
+
+    @Override
+    public void clean() {
+
+    }
 }

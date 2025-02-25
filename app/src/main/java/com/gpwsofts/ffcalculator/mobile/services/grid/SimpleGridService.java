@@ -5,7 +5,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
-import com.gpwsofts.ffcalculator.mobile.InputLibelleFormatException;
+import com.gpwsofts.ffcalculator.mobile.exception.InputLibelleFormatException;
 import com.gpwsofts.ffcalculator.mobile.model.Grid;
 
 import java.io.IOException;
@@ -84,6 +84,13 @@ public class SimpleGridService implements IGridService {
                     Log.w(TAG_NAME, "probleme lors de la fermeture dun flux");
                 }
             }
+        }
+    }
+
+    @Override
+    public void clean() {
+        if (grids != null){
+            grids.clear();
         }
     }
 }

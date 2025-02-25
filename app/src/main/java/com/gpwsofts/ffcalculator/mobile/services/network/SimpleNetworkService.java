@@ -17,4 +17,8 @@ public class SimpleNetworkService implements INetworkService {
         //TODO 1.0.0 methode depreciee
     }
 
+    @Override
+    public void clean() {
+
+    }
 }

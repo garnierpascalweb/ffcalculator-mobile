@@ -41,4 +41,9 @@ public class SimplePtsHttpService  implements IPtsHttpService {
         Log.d(TAG_NAME, "veritable appel http et call en retour");
         return FFCalculatorWebApi.getInstance().getApiService().calcPts(FFCalculatorSharedPrefs.id(),request);
     }
+
+    @Override
+    public void clean() {
+
+    }
 }

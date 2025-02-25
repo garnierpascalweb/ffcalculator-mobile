@@ -53,4 +53,10 @@ public class SimpleTownService implements ITownService {
             }
         }
     }
+
+    @Override
+    public void clean() {
+        if (towns != null)
+            towns.clear();
+    }
 }

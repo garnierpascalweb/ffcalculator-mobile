@@ -163,4 +163,10 @@ public class VueService implements IVueService {
         return codeVue.equals(U17);
     }
 
+    @Override
+    public void clean() {
+        if (vuesMapping != null){
+            vuesMapping.clear();
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package com.gpwsofts.ffcalculator.mobile;
+package com.gpwsofts.ffcalculator.mobile.exception;
 
 public class InputLibelleFormatException extends Exception {
     public InputLibelleFormatException(String inMessage){
