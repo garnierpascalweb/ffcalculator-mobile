@@ -59,15 +59,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Log.i(TAG_NAME, "  demande de changement de vue dans la menu");
+        Log.i(TAG_NAME, "debut onOptionsItemSelected sur menuItem");
+        Log.d(TAG_NAME, "onOptionsItemSelected sur menuItem - recuperation de l'index de l'item sélectionné");
         int itemId = item.getItemId();
         final String newCodeVue = FFCalculatorApplication.instance.getServicesManager().getVueService().getCodeVueFromMenuItem(itemId);
-        Log.i(TAG_NAME, "  mise a jour asynchrone vers la vue " + newCodeVue);
+        Log.d(TAG_NAME, "onOptionsItemSelected sur menuItem - selection de la vue <" + newCodeVue + "> - envoi du job asynchrone de mise a jour de la vue");
         vueViewModel.updateVue(newCodeVue);
-        Log.i(TAG_NAME, "  check de item courant ");
         // TODO 1.0.0 pas forcement, updateView etant asynchrone, peut etre que la vue a pas été mise a jour
         item.setChecked(true);
-        Log.i(TAG_NAME, "  fin de demande de changement de vue  = <" + newCodeVue + ">");
+        Log.i(TAG_NAME, "fin onOptionsItemSelected sur menuItem");
         return false;
     }
 }
