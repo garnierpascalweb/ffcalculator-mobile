@@ -3,11 +3,10 @@ package com.gpwsofts.ffcalculator.mobile;
 import android.app.Application;
 import android.net.ConnectivityManager;
 import android.os.Build;
-import android.util.Log;
 
 import com.gpwsofts.ffcalculator.mobile.services.ServicesManager;
 import com.gpwsofts.ffcalculator.mobile.sharedprefs.FFCalculatorSharedPrefs;
-
+import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
 
 
 /**
@@ -53,11 +52,11 @@ public class FFCalculatorApplication extends Application {
         instance = this;
         try{
             versionCode = BuildConfig.VERSION_CODE;
-            Log.i(TAG_NAME, "versionCode = <" + versionCode + ">");
+            LogUtils.i(TAG_NAME, "versionCode = <" + versionCode + ">");
             versionName = BuildConfig.VERSION_NAME;
-            Log.i(TAG_NAME, "versionName = <" + versionName + ">");
+            LogUtils.i(TAG_NAME, "versionName = <" + versionName + ">");
             apiLevel = Build.VERSION.SDK_INT;
-            Log.i(TAG_NAME, "apiLevel = <" + apiLevel + ">");
+            LogUtils.i(TAG_NAME, "apiLevel = <" + apiLevel + ">");
         } catch (Exception e){
             // version de code et nom pas identifiée
         }

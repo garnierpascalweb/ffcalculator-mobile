@@ -1,21 +1,21 @@
 package com.gpwsofts.ffcalculator.mobile.services.client;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
 import com.gpwsofts.ffcalculator.mobile.AddResultException;
 import com.gpwsofts.ffcalculator.mobile.AppExecutors;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
-import com.gpwsofts.ffcalculator.mobile.exception.InputLibelleFormatException;
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.common.AddResultRunnableResponse;
 import com.gpwsofts.ffcalculator.mobile.common.SingleLiveEvent;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
+import com.gpwsofts.ffcalculator.mobile.exception.InputLibelleFormatException;
 import com.gpwsofts.ffcalculator.mobile.model.Logo;
 import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsRequest;
 import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsResponse;
+import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -45,9 +45,9 @@ public class AddResultApiClient {
     private AddResultRunnable addResultRunnable;
 
     private AddResultApiClient() {
-        Log.i(TAG_NAME, "instanciation de AddResultApiClient");
+        LogUtils.i(TAG_NAME, "instanciation de AddResultApiClient");
         mResult = new SingleLiveEvent<AddResultRunnableResponse>();
-        Log.i(TAG_NAME, "fin instanciation de AddResultApiClient");
+        LogUtils.i(TAG_NAME, "fin instanciation de AddResultApiClient");
     }
 
     public static AddResultApiClient getInstance() {
@@ -104,7 +104,7 @@ public class AddResultApiClient {
             boolean isOk = false;
             FFCPointsRequest request;
             try {
-                Log.i(TAG_NAME, "debut du job asynchrone AddResultRunnable");
+                LogUtils.i(TAG_NAME, "debut du job asynchrone AddResultRunnable");
                 // construction de la requete a partir des donnees en entree
                 request = createRequestFromInput(place,libelle,pos,prts);
                 boolean isWwwConnected = FFCalculatorApplication.instance.getServicesManager().getNetworkService().isWwwConnected();
@@ -113,11 +113,11 @@ public class AddResultApiClient {
                     Response response = null;
                     response = getPts(request).execute();
                     if (cancelRequest) {
-                        Log.d(TAG_NAME, "cancelRequest true, retourne zboub");
+                        LogUtils.d(TAG_NAME, "cancelRequest true, retourne zboub");
                         return;
                     }
                     int responseCode = response.code();
-                    Log.d(TAG_NAME, "responseCode du service des points = <" + responseCode + ">");
+                    LogUtils.d(TAG_NAME, "responseCode du service des points = <" + responseCode + ">");
                     if (responseCode == 200) {
                         Double pts = ((FFCPointsResponse) response.body()).pts;
                         newResult = createResultFromDatas(request.code, request.place, libelle,request.pos, request.prts, pts);
@@ -125,30 +125,30 @@ public class AddResultApiClient {
                         isOk = true;
                     } else {
                         // code retour http pas 200
-                        Log.e(TAG_NAME, "echec du calcul des points pour ce nouveau resultat");
+                        LogUtils.e(TAG_NAME, "echec du calcul des points pour ce nouveau resultat");
                         String error = response.errorBody().string();
-                        Log.e(TAG_NAME, "erreur " + error);
+                        LogUtils.e(TAG_NAME, "erreur " + error);
                         newResult = null;
                         message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_add_result_ko);
                         //TODO 1.0.0 faudrait envoyer au backend la cause
                     }
                 } else {
                     // pas de reseau
-                    Log.e(TAG_NAME, "echec du calcul des points pour ce nouveau resultat - pas de reseau");
+                    LogUtils.e(TAG_NAME, "echec du calcul des points pour ce nouveau resultat - pas de reseau");
                     newResult = null;
                     message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_no_network);
                     //TODO 1.0.0 peut etre dérouler une implementation locale ?
                 }
             } catch (AddResultException e) {
-                Log.e(TAG_NAME, "AddResultException ", e);
+                LogUtils.e(TAG_NAME, "AddResultException ", e);
                 newResult = null;
                 message = e.getToastMessage();
             } catch (IOException e) {
-                Log.e(TAG_NAME, "IOException ", e);
+                LogUtils.e(TAG_NAME, "IOException ", e);
                 newResult = null;
                 message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_technical_problem);
             } catch (Exception e) {
-                Log.e(TAG_NAME, "Exception ", e);
+                LogUtils.e(TAG_NAME, "Exception ", e);
                 newResult = null;
                 message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_technical_problem);
             } finally {
@@ -157,7 +157,7 @@ public class AddResultApiClient {
                 runnableResponse.setMessage(message);
                 runnableResponse.setOk(isOk);
                 mResult.postValue(runnableResponse);
-                Log.i(TAG_NAME, "fin du job asynchrone AddResultRunnable");
+                LogUtils.i(TAG_NAME, "fin du job asynchrone AddResultRunnable");
             }
         }
 
@@ -166,7 +166,7 @@ public class AddResultApiClient {
         }
 
         private void cancelRequest() {
-            Log.v("TAGNAME", "annulation de la requete");
+            LogUtils.v("TAGNAME", "annulation de la requete");
             cancelRequest = true;
         }
 
@@ -253,16 +253,16 @@ public class AddResultApiClient {
          */
         protected Result createResultFromDatas(String inIdClasse, String inPlace, String inLibelle, int inPos, int inPrts, double inPts) throws IOException {
             Result newResult = new Result();
-            Log.v(TAG_NAME, "affectation des differents champs place, libelle, pos, prts");
+            LogUtils.v(TAG_NAME, "affectation des differents champs place, libelle, pos, prts");
             newResult.setIdClasse(inIdClasse);
             newResult.setPlace(inPlace);
             newResult.setLibelle(inLibelle);
             newResult.setPos(inPos);
             newResult.setPrts(inPrts);
-            Log.v(TAG_NAME, "affectation des pts calcules = <" + inPts + ">");
+            LogUtils.v(TAG_NAME, "affectation des pts calcules = <" + inPts + ">");
             newResult.setPts(inPts);
             final String idLogo = FFCalculatorApplication.instance.getServicesManager().getGridService().getGrids().stream().filter(grid -> grid.getCode().equals(inIdClasse)).map(grid -> grid.getLogo()).findAny().orElse(null);
-            Log.v(TAG_NAME, "calcul de Logo pour un idLogo <" + idLogo + ">");
+            LogUtils.v(TAG_NAME, "calcul de Logo pour un idLogo <" + idLogo + ">");
             // et si idLogo null, faudrait au moins mettre un logo par defaut
             // cette fonctionnalité est supportée par le service des logos, qui rend un logo par defaut "unknown" si idLogo est null ou si idLogo existe pas dans la map
             final Logo logo = FFCalculatorApplication.instance.getServicesManager().getLogoService(FFCalculatorApplication.instance.getResources()).getLogo(idLogo);

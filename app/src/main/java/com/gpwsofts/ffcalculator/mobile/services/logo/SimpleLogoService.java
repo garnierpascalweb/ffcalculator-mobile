@@ -1,10 +1,10 @@
 package com.gpwsofts.ffcalculator.mobile.services.logo;
 
 import android.content.res.Resources;
-import android.util.Log;
 
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.model.Logo;
+import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,12 +42,12 @@ public class SimpleLogoService implements ILogoService {
     public Logo getLogo(String idLogo) {
         Logo logo = null;
         if (null == idLogo){
-            Log.w(TAG_NAME, "idLogo null, renvoi du logo par defaut");
+            LogUtils.w(TAG_NAME, "idLogo null, renvoi du logo par defaut");
             logo = getUnknownLogo();
         } else {
             logo = logos.get(idLogo);
             if (null == logo){
-                Log.w(TAG_NAME, "aucun logo pour " + idLogo + ", renvoi du logo par defaut");
+                LogUtils.w(TAG_NAME, "aucun logo pour " + idLogo + ", renvoi du logo par defaut");
                 logo = getUnknownLogo();
             }
         }

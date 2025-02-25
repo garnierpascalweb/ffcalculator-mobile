@@ -3,8 +3,6 @@ package com.gpwsofts.ffcalculator.mobile.ui.result;
 
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,22 +17,16 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentResultBinding;
 import com.gpwsofts.ffcalculator.mobile.model.Grid;
-import com.gpwsofts.ffcalculator.mobile.model.Vue;
 import com.gpwsofts.ffcalculator.mobile.ui.season.SeasonViewModel;
 import com.gpwsofts.ffcalculator.mobile.ui.view.VueViewModel;
+import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class AddResultFragment extends Fragment {
     private static final String TAG_NAME = "ResultFragment";
@@ -46,16 +38,16 @@ public class AddResultFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i(TAG_NAME, "appel de onCreate");
+        LogUtils.i(TAG_NAME, "appel de onCreate");
         resultViewModel = new ViewModelProvider(requireActivity()).get(SeasonViewModel.class);
         addResultViewModel = new ViewModelProvider(requireActivity()).get(AddResultViewModel.class);
         vueViewModel = new ViewModelProvider(requireActivity()).get(VueViewModel.class);
-        Log.i(TAG_NAME, "fin appel de onCreate");
+        LogUtils.i(TAG_NAME, "fin appel de onCreate");
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.i(TAG_NAME, "appel de onCreateView");
+        LogUtils.i(TAG_NAME, "appel de onCreateView");
         binding = FragmentResultBinding.inflate(inflater, container, false);
         // initialisation de la liste des villes
         addResultViewModel.loadTownChoicesAsync();
@@ -66,7 +58,7 @@ public class AddResultFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        Log.i(TAG_NAME, "debut appel de onViewCreated");
+        LogUtils.i(TAG_NAME, "debut appel de onViewCreated");
         super.onViewCreated(view, savedInstanceState);
         /**
          * Recuperation des éléments graphiques
@@ -88,7 +80,7 @@ public class AddResultFragment extends Fragment {
          * Initialisation des Adapters
          */
         // Adapter towns
-        Log.d(TAG_NAME, "adapter towns - construction avec une liste de <" + addResultViewModel.getCurrentListTowns().size() + "> elements");
+        LogUtils.d(TAG_NAME, "adapter towns - construction avec une liste de <" + addResultViewModel.getCurrentListTowns().size() + "> elements");
         ArrayAdapter<String> townsListAdapter  = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, addResultViewModel.getCurrentListTowns());
         autoCompleteTextViewPlace.setAdapter(townsListAdapter);
         autoCompleteTextViewPlace.setThreshold(3);
@@ -116,112 +108,112 @@ public class AddResultFragment extends Fragment {
          * Observation d'un changement de vue
          */
         vueViewModel.getVueLiveData().observe(getViewLifecycleOwner(), vue -> {
-            Log.i(TAG_NAME, "debut observer vue");
+            LogUtils.i(TAG_NAME, "debut observer vue");
             if (vue != null) {
-                Log.d(TAG_NAME, "observer vue - la vue rendue n'est pas nulle - déclenchement du chargement des grilles associées a la vue <" + vue +"> et notification Toast ok");
+                LogUtils.d(TAG_NAME, "observer vue - la vue rendue n'est pas nulle - déclenchement du chargement des grilles associées a la vue <" + vue +"> et notification Toast ok");
                 addResultViewModel.loadGridChoicesAsync(vue);
                 Toast.makeText(getActivity(), getString(R.string.toast_update_vue_ok, vue.getName()), Toast.LENGTH_SHORT).show();
             } else {
-                Log.d(TAG_NAME, "observer vue - la vue rendue est nulle - notification Toast ko");
+                LogUtils.d(TAG_NAME, "observer vue - la vue rendue est nulle - notification Toast ko");
                 Toast.makeText(getActivity(), getString(R.string.toast_update_vue_ko), Toast.LENGTH_SHORT).show();
             }
-            Log.i(TAG_NAME, "fin observer vue");
+            LogUtils.i(TAG_NAME, "fin observer vue");
         });
 
         /**
          * Observation d'un chargement de liste de villes
          */
         addResultViewModel.getTownChoicesLiveData().observe(getViewLifecycleOwner(), towns -> {
-            Log.i(TAG_NAME, "debut observer towns");
+            LogUtils.i(TAG_NAME, "debut observer towns");
             if (towns != null){
-                Log.d(TAG_NAME, "observer towns - la liste chargee n'est pas nulle");
+                LogUtils.d(TAG_NAME, "observer towns - la liste chargee n'est pas nulle");
                 if (addResultViewModel.getCurrentListTowns().isEmpty()){
-                    Log.d(TAG_NAME, "observer towns - la liste en cache est vide - mise a jour de l'adapter");
-                    Log.d(TAG_NAME, "observer towns - appel de notifyDataSetChanged pour rechargement");
+                    LogUtils.d(TAG_NAME, "observer towns - la liste en cache est vide - mise a jour de l'adapter");
+                    LogUtils.d(TAG_NAME, "observer towns - appel de notifyDataSetChanged pour rechargement");
                     townsListAdapter.notifyDataSetChanged();
-                    Log.d(TAG_NAME, "observer towns - envoi de la liste des towns en cache dans viewmodel");
+                    LogUtils.d(TAG_NAME, "observer towns - envoi de la liste des towns en cache dans viewmodel");
                     addResultViewModel.setCurrentListTowns(towns);
                 } else {
-                    Log.d(TAG_NAME, "observer towns - la liste en cache est consistante - pas de mise a jour de l'adapter");
+                    LogUtils.d(TAG_NAME, "observer towns - la liste en cache est consistante - pas de mise a jour de l'adapter");
                 }
             }
-            Log.i(TAG_NAME, "fin debut observer towns");
+            LogUtils.i(TAG_NAME, "fin debut observer towns");
         });
 
         /**
          * Observation d'un nouveau résultat
          */
         addResultViewModel.getAddedResultLiveData().observe(getViewLifecycleOwner(), addResultRunnableResponse -> {
-            Log.i(TAG_NAME, "debut observer newResult");
-            Log.d(TAG_NAME, "observer newResult - reactivation du bouton ajouter et reprise de son label initial");
+            LogUtils.i(TAG_NAME, "debut observer newResult");
+            LogUtils.d(TAG_NAME, "observer newResult - reactivation du bouton ajouter et reprise de son label initial");
             buttonAjouter.setEnabled(true);
             buttonAjouter.setText(R.string.button_label_ajouter_resultat);
             final Result result = addResultRunnableResponse.getResult();
             final String message = addResultRunnableResponse.getMessage();
             if (result != null) {
-                Log.d(TAG_NAME, "observer newResult - le nouveau resultat nest pas null");
-                Log.d(TAG_NAME, "observer newResult - déclenchement de l'insertion en base de données et bascule sur le fragment Season");
+                LogUtils.d(TAG_NAME, "observer newResult - le nouveau resultat nest pas null");
+                LogUtils.d(TAG_NAME, "observer newResult - déclenchement de l'insertion en base de données et bascule sur le fragment Season");
                 addResultViewModel.onNewResultCreated(result);
                 Navigation.findNavController(binding.getRoot()).navigate(R.id.navigation_season);
             } else {
-                Log.e(TAG_NAME, "observer newResult - le nouveau resultat est null");
+                LogUtils.e(TAG_NAME, "observer newResult - le nouveau resultat est null");
             }
             if (message != null) {
-                Log.d(TAG_NAME, "observer newResult - le message associé au resultat nest pas null - affichage en toast");
+                LogUtils.d(TAG_NAME, "observer newResult - le message associé au resultat nest pas null - affichage en toast");
                 Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
             }
-            Log.i(TAG_NAME, "fin observer newResult");
+            LogUtils.i(TAG_NAME, "fin observer newResult");
         });
 
         /**
          * Observation d'un nouveau choix de grilles
          */
         addResultViewModel.getGridChoicesLiveData().observe(getViewLifecycleOwner(), gridsList -> {
-            Log.i(TAG_NAME, "debut observer gridsList");
+            LogUtils.i(TAG_NAME, "debut observer gridsList");
             final String helperText;
             if (gridsList != null) {
-                Log.d(TAG_NAME, "observer gridsList - la liste rendue n'est pas nulle");
+                LogUtils.d(TAG_NAME, "observer gridsList - la liste rendue n'est pas nulle");
                 helperText = getString(R.string.combo_classes_helper_text_ok, vueViewModel.getVueLiveData().getValue().getName(), gridsList.size());
             } else {
-                Log.w(TAG_NAME, "observer gridsList - la liste rendue est nulle (probleme lors du calcul)");
+                LogUtils.w(TAG_NAME, "observer gridsList - la liste rendue est nulle (probleme lors du calcul)");
                 gridsList = new ArrayList<Grid>();
                 textInputLayoutClasse.setHelperText(getString(R.string.combo_classes_helper_text_ko));
                 helperText = getString(R.string.combo_classes_helper_text_ko);
             }
-            Log.d(TAG_NAME, "observer gridsList - mise a jour de la liste des grilles par une nouvelle liste de taille <" + gridsList + ">");
+            LogUtils.d(TAG_NAME, "observer gridsList - mise a jour de la liste des grilles par une nouvelle liste de taille <" + gridsList + ">");
             classesListAdapter.submitList(gridsList);
-            Log.d(TAG_NAME, "observer gridsList - appel de notifyDataSetChanged pour rechargement");
+            LogUtils.d(TAG_NAME, "observer gridsList - appel de notifyDataSetChanged pour rechargement");
             classesListAdapter.notifyDataSetChanged();
-            Log.d(TAG_NAME, "observer gridsList - mise a jour du helperText en conséquence");
+            LogUtils.d(TAG_NAME, "observer gridsList - mise a jour du helperText en conséquence");
             textInputLayoutClasse.setHelperText(helperText);
-            Log.d(TAG_NAME, "observer gridsList - envoi du helperText en cache dans le viewmodel");
+            LogUtils.d(TAG_NAME, "observer gridsList - envoi du helperText en cache dans le viewmodel");
             addResultViewModel.setCurrentListGridHelperText(helperText);
-            Log.i(TAG_NAME, "fin observer gridsList");
+            LogUtils.i(TAG_NAME, "fin observer gridsList");
         });
 
         /**
          * Observation d'un nouveau choix de positions
          */
         addResultViewModel.getPosChoicesLiveData().observe(getViewLifecycleOwner(), posList -> {
-            Log.i(TAG_NAME, "debut observer posList");
+            LogUtils.i(TAG_NAME, "debut observer posList");
             final String helperText;
             if (posList != null) {
-                Log.d(TAG_NAME, "observer posList - la liste rendue n'est pas nulle");
+                LogUtils.d(TAG_NAME, "observer posList - la liste rendue n'est pas nulle");
                 helperText = getString(R.string.combo_pos_helper_text_ok, posList.size(), autoCompleteTextViewClasses.getText());
             } else {
-                Log.w(TAG_NAME, "observer posList - la liste rendue est nulle (probleme lors du calcul)");
+                LogUtils.w(TAG_NAME, "observer posList - la liste rendue est nulle (probleme lors du calcul)");
                 // le live data posList est null (probleme dans le job sous jacent)
                 posList = addResultViewModel.getIntegerList50();
                 helperText = getString(R.string.combo_pos_helper_text_ko, addResultViewModel.getIntegerList50().size(), autoCompleteTextViewClasses.getText());
             }
-            Log.d(TAG_NAME, "observer posList - mise a jour de la liste des pos par une nouvelle liste de taille <" + posList.size() + ">");
+            LogUtils.d(TAG_NAME, "observer posList - mise a jour de la liste des pos par une nouvelle liste de taille <" + posList.size() + ">");
             posListAdapter.submitList(posList);
-            Log.d(TAG_NAME, "observer posList - appel de notifyDataSetChanged pour rechargement");
+            LogUtils.d(TAG_NAME, "observer posList - appel de notifyDataSetChanged pour rechargement");
             posListAdapter.notifyDataSetChanged();
-            Log.d(TAG_NAME, "observer posList - mise a jour du helperText en conséquence");
+            LogUtils.d(TAG_NAME, "observer posList - mise a jour du helperText en conséquence");
             autoCompleteTextViewPos.setText("");
             textInputLayoutPos.setHelperText(helperText);
-            Log.i(TAG_NAME, "fin observer posList");
+            LogUtils.i(TAG_NAME, "fin observer posList");
         });
 
         /**
@@ -229,11 +221,11 @@ public class AddResultFragment extends Fragment {
          *   - déclenche la mise a jour de la liste des positions
          */
         autoCompleteTextViewClasses.setOnItemClickListener((parent, maview, position, id) -> {
-            Log.i(TAG_NAME, "debut onItemClick sur grid");
+            LogUtils.i(TAG_NAME, "debut onItemClick sur grid");
             String itemValue = parent.getItemAtPosition(position).toString();
-            Log.d(TAG_NAME, "onItemClick sur grid - valeur selectionnee = <" + itemValue + "> - envoi du job asynchrone de chargement des positions");
+            LogUtils.d(TAG_NAME, "onItemClick sur grid - valeur selectionnee = <" + itemValue + "> - envoi du job asynchrone de chargement des positions");
             addResultViewModel.loadPosChoicesAsync(itemValue);
-            Log.i(TAG_NAME, "fin onItemClick sur grid");
+            LogUtils.i(TAG_NAME, "fin onItemClick sur grid");
         });
 
         /**
@@ -244,11 +236,11 @@ public class AddResultFragment extends Fragment {
          *     - envoi du Job asynchrone d'ajout de résultat
          */
         buttonAjouter.setOnClickListener(event -> {
-            Log.i(TAG_NAME, "debut onClick sur bouton ajouter");
-            Log.d(TAG_NAME, "onClick sur bouton ajouter - desactivation du bouton et changement du label pour en cours");
+            LogUtils.i(TAG_NAME, "debut onClick sur bouton ajouter");
+            LogUtils.d(TAG_NAME, "onClick sur bouton ajouter - desactivation du bouton et changement du label pour en cours");
             buttonAjouter.setEnabled(false);
             buttonAjouter.setText(R.string.button_label_calcul_en_cours);
-            Log.d(TAG_NAME, "onClick sur bouton ajouter - recuperation et extraction des donnees du formulaire");
+            LogUtils.d(TAG_NAME, "onClick sur bouton ajouter - recuperation et extraction des donnees du formulaire");
             final Editable placeEditable = autoCompleteTextViewPlace.getText();
             final Editable libelleEditable = autoCompleteTextViewClasses.getText();
             final Editable posEditable = autoCompleteTextViewPos.getText();
@@ -258,11 +250,11 @@ public class AddResultFragment extends Fragment {
             final String libelle = libelleEditable == null ? null : String.valueOf(libelleEditable);
             final String pos = posEditable == null ? null : String.valueOf(posEditable);
             final String prts = prtsEditable == null ? null : String.valueOf(prtsEditable);
-            Log.d(TAG_NAME, "onClick sur bouton ajouter - envoi du job asynchrone de calcul des points");
+            LogUtils.d(TAG_NAME, "onClick sur bouton ajouter - envoi du job asynchrone de calcul des points");
             addResultViewModel.addResultApiAsync(place, libelle, pos, prts);
-            Log.i(TAG_NAME, "fin onClick sur bouton ajouter");
+            LogUtils.i(TAG_NAME, "fin onClick sur bouton ajouter");
         });
-        Log.i(TAG_NAME, "fin appel de onViewCreated");
+        LogUtils.i(TAG_NAME, "fin appel de onViewCreated");
     }
 
     @Override

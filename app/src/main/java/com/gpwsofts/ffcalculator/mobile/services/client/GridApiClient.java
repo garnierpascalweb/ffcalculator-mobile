@@ -1,7 +1,5 @@
 package com.gpwsofts.ffcalculator.mobile.services.client;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 
 import com.gpwsofts.ffcalculator.mobile.AppExecutors;
@@ -9,6 +7,7 @@ import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.common.SingleLiveEvent;
 import com.gpwsofts.ffcalculator.mobile.model.Grid;
 import com.gpwsofts.ffcalculator.mobile.services.grid.IGridService;
+import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
 
 import java.util.List;
 import java.util.concurrent.Future;
@@ -33,10 +32,10 @@ public class GridApiClient {
     private static final int JOB_TIMEOUT = 5000;
 
     private GridApiClient() {
-        Log.i(TAG_NAME, "instanciation de GridApiClient");
+        LogUtils.i(TAG_NAME, "instanciation de GridApiClient");
         mGridChoices = new SingleLiveEvent<List<Grid>>();
         mPosChoices = new SingleLiveEvent<List<Integer>>();
-        Log.i(TAG_NAME, "fin instanciation de GridApiClient");
+        LogUtils.i(TAG_NAME, "fin instanciation de GridApiClient");
     }
 
     public static GridApiClient getInstance() {
@@ -93,25 +92,25 @@ public class GridApiClient {
 
         @Override
         public void run() {
-            Log.i(TAG_NAME, "debut du job asynchrone LoadClassesChoicesRunnable selon la vue <" + vue + ">");
+            LogUtils.i(TAG_NAME, "debut du job asynchrone LoadClassesChoicesRunnable selon la vue <" + vue + ">");
             IGridService gridService = null;
             List<Grid> listGridsForMyVue = null;
             try {
                 List<Grid> grids = FFCalculatorApplication.instance.getServicesManager().getGridService().getGrids();
-                Log.d(TAG_NAME, " nombre de grilles <" + grids.size() + ">");
+                LogUtils.d(TAG_NAME, " nombre de grilles <" + grids.size() + ">");
                 listGridsForMyVue = FFCalculatorApplication.instance.getServicesManager().getGridService().getGrids().stream().filter(grid -> grid.getVues().contains(vue)).collect(Collectors.toList());
-                Log.d(TAG_NAME, " <" + listGridsForMyVue.size() + "> vues chargees pour la vue <" + vue + ">");
+                LogUtils.d(TAG_NAME, " <" + listGridsForMyVue.size() + "> vues chargees pour la vue <" + vue + ">");
             } catch (Exception e){
-                Log.e(TAG_NAME, "echec du chargement de la liste des classes de courses par rapport a la vue", e);
+                LogUtils.e(TAG_NAME, "echec du chargement de la liste des classes de courses par rapport a la vue", e);
                 listGridsForMyVue = null;
             } finally {
                 mGridChoices.postValue(listGridsForMyVue);
-                Log.i(TAG_NAME, "fin  du job asynchrone LoadClassesChoicesRunnable selon la vue <" + vue + ">");
+                LogUtils.i(TAG_NAME, "fin  du job asynchrone LoadClassesChoicesRunnable selon la vue <" + vue + ">");
             }
         }
 
         private void cancelRequest() {
-            Log.v(TAG_NAME, "annulation de la requete");
+            LogUtils.v(TAG_NAME, "annulation de la requete");
             cancelRequest = true;
         }
     }
@@ -131,7 +130,7 @@ public class GridApiClient {
 
         @Override
         public void run() {
-            Log.i(TAG_NAME, "debut du job asynchrone LoadPosChoicesRunnable selon le libelle <" + libelle + ">");
+            LogUtils.i(TAG_NAME, "debut du job asynchrone LoadPosChoicesRunnable selon le libelle <" + libelle + ">");
             List<Integer> posChoices = null;
             IGridService gridService = null;
             try{
@@ -143,16 +142,16 @@ public class GridApiClient {
                     posChoices = null;
                 }
             } catch (Exception e){
-                Log.e(TAG_NAME, "echec du chargement de la liste des ppositions possibles ", e);
+                LogUtils.e(TAG_NAME, "echec du chargement de la liste des ppositions possibles ", e);
                 posChoices = null;
             } finally {
                 mPosChoices.postValue(posChoices);
-                Log.i(TAG_NAME, "fin du job asynchrone LoadPosChoicesRunnable selon le libelle <" + libelle + ">");
+                LogUtils.i(TAG_NAME, "fin du job asynchrone LoadPosChoicesRunnable selon le libelle <" + libelle + ">");
             }
         }
 
         private void cancelRequest() {
-            Log.v("TAGNAME", "annulation de la requete");
+            LogUtils.v("TAGNAME", "annulation de la requete");
             cancelRequest = true;
         }
     }

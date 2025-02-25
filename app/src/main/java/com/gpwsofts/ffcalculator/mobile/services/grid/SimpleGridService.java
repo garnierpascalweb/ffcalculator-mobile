@@ -1,12 +1,11 @@
 package com.gpwsofts.ffcalculator.mobile.services.grid;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.exception.InputLibelleFormatException;
 import com.gpwsofts.ffcalculator.mobile.model.Grid;
+import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -60,28 +59,28 @@ public class SimpleGridService implements IGridService {
         String jsonDatas = null;
         Gson gson = null;
         try {
-            Log.i(TAG_NAME, "debut de chargement des grilles");
-            Log.d(TAG_NAME, "ouverture du flux sur <" + GRID_RELATIVE_PATH + ">");
+            LogUtils.i(TAG_NAME, "debut de chargement des grilles");
+            LogUtils.d(TAG_NAME, "ouverture du flux sur <" + GRID_RELATIVE_PATH + ">");
             is = FFCalculatorApplication.instance.getApplicationContext().getAssets().open(GRID_RELATIVE_PATH);
             int size = is.available();
-            Log.v(TAG_NAME, "<" + size + "> octets lus - creation dun buffer de cette taille");
+            LogUtils.v(TAG_NAME, "<" + size + "> octets lus - creation dun buffer de cette taille");
             byte[] buffer = new byte[size];
             is.read(buffer);
             listGridType = new TypeToken<List<Grid>>() {
             }.getType();
             jsonDatas = new String(buffer, StandardCharsets.UTF_8);
-            Log.v(TAG_NAME, "construction d'une instance de liste depuis Gson");
+            LogUtils.v(TAG_NAME, "construction d'une instance de liste depuis Gson");
             gson = new Gson();
             grids = gson.fromJson(jsonDatas, listGridType);
-            Log.v(TAG_NAME, "tri de la liste des grilles");
+            LogUtils.v(TAG_NAME, "tri de la liste des grilles");
             Collections.sort(grids);
-            Log.i(TAG_NAME, "fin du chargement des grilles - <" + grids.size() + "> grilles chargees");
+            LogUtils.i(TAG_NAME, "fin du chargement des grilles - <" + grids.size() + "> grilles chargees");
         } finally {
             if (is != null) {
                 try {
                     is.close();
                 } catch (IOException e) {
-                    Log.w(TAG_NAME, "probleme lors de la fermeture dun flux");
+                    LogUtils.w(TAG_NAME, "probleme lors de la fermeture dun flux");
                 }
             }
         }

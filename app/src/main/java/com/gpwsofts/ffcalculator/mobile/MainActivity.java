@@ -1,7 +1,6 @@
 package com.gpwsofts.ffcalculator.mobile;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +17,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.gpwsofts.ffcalculator.mobile.databinding.ActivityMainBinding;
 import com.gpwsofts.ffcalculator.mobile.model.Vue;
 import com.gpwsofts.ffcalculator.mobile.ui.view.VueViewModel;
+import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG_NAME = "MainActivity";
@@ -44,31 +44,31 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        Log.i(TAG_NAME, "debut onCreateOptionsMenu sur menu");
+        LogUtils.i(TAG_NAME, "debut onCreateOptionsMenu sur menu");
         MenuInflater menuInflater = this.getMenuInflater();
         menuInflater.inflate(R.menu.vues_menu, menu);
-        Log.d(TAG_NAME, "onCreateOptionsMenu sur menu - recuperation de la vue en LiveData");
+        LogUtils.d(TAG_NAME, "onCreateOptionsMenu sur menu - recuperation de la vue en LiveData");
         //TODO 1.0.0 a ameliorer
         Vue currentVue = vueViewModel.getVueLiveData().getValue();
         if (currentVue != null) {
-            Log.d(TAG_NAME, "onCreateOptionsMenu sur menu - selection de l'item correspondant a la vue courante = <" + currentVue.getCode() + ">");
+            LogUtils.d(TAG_NAME, "onCreateOptionsMenu sur menu - selection de l'item correspondant a la vue courante = <" + currentVue.getCode() + ">");
             menu.getItem(currentVue.getIndexInComboMenu()).setChecked(true);
         }
-        Log.i(TAG_NAME, "fin onCreateOptionsMenu sur menu");
+        LogUtils.i(TAG_NAME, "fin onCreateOptionsMenu sur menu");
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Log.i(TAG_NAME, "debut onOptionsItemSelected sur menuItem");
-        Log.d(TAG_NAME, "onOptionsItemSelected sur menuItem - recuperation de l'index de l'item sélectionné");
+        LogUtils.i(TAG_NAME, "debut onOptionsItemSelected sur menuItem");
+        LogUtils.d(TAG_NAME, "onOptionsItemSelected sur menuItem - recuperation de l'index de l'item sélectionné");
         int itemId = item.getItemId();
         final String newCodeVue = FFCalculatorApplication.instance.getServicesManager().getVueService().getCodeVueFromMenuItem(itemId);
-        Log.d(TAG_NAME, "onOptionsItemSelected sur menuItem - selection de la vue <" + newCodeVue + "> - envoi du job asynchrone de mise a jour de la vue");
+        LogUtils.d(TAG_NAME, "onOptionsItemSelected sur menuItem - selection de la vue <" + newCodeVue + "> - envoi du job asynchrone de mise a jour de la vue");
         vueViewModel.updateVue(newCodeVue);
         // TODO 1.0.0 pas forcement, updateView etant asynchrone, peut etre que la vue a pas été mise a jour
         item.setChecked(true);
-        Log.i(TAG_NAME, "fin onOptionsItemSelected sur menuItem");
+        LogUtils.i(TAG_NAME, "fin onOptionsItemSelected sur menuItem");
         return false;
     }
 }

@@ -1,7 +1,6 @@
 package com.gpwsofts.ffcalculator.mobile.ui.season;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -9,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.repository.DatabaseResultRepository;
 import com.gpwsofts.ffcalculator.mobile.repository.OverallPosRepository;
+import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
 
 import java.util.List;
 
@@ -27,13 +27,13 @@ public class SeasonViewModel extends AndroidViewModel {
 
     public SeasonViewModel(Application application) {
         super(application);
-        Log.i(TAG_NAME, "Instantiotion de SeasonViewModel");
+        LogUtils.i(TAG_NAME, "Instantiotion de SeasonViewModel");
         databaseResultRepository = DatabaseResultRepository.getInstance();
         posRepository = OverallPosRepository.getInstance();
         currentPts = Double.valueOf(0.0);
         currentPos = Integer.valueOf(0);
         currentClassType = new String();
-        Log.i(TAG_NAME, "Fin instantiotion de SeasonViewModel");
+        LogUtils.i(TAG_NAME, "Fin instantiotion de SeasonViewModel");
     }
 
     public LiveData<Double> getAllPtsLiveData() {
@@ -41,27 +41,27 @@ public class SeasonViewModel extends AndroidViewModel {
     }
 
     public void insert(Result result) {
-        Log.i(TAG_NAME, "Insertion d un nouveau resultat");
+        LogUtils.i(TAG_NAME, "Insertion d un nouveau resultat");
         databaseResultRepository.insert(result);
     }
 
     public void update(Result result) {
-        Log.i(TAG_NAME, "Mise a jour resultat");
+        LogUtils.i(TAG_NAME, "Mise a jour resultat");
         databaseResultRepository.update(result);
     }
 
     public void delete(Result result) {
-        Log.i(TAG_NAME, "Suppression d un resultat");
+        LogUtils.i(TAG_NAME, "Suppression d un resultat");
         databaseResultRepository.delete(result);
     }
 
     public void deleteAll() {
-        Log.i(TAG_NAME, "Suppression de tous les resultats");
+        LogUtils.i(TAG_NAME, "Suppression de tous les resultats");
         databaseResultRepository.deleteAll();
     }
 
     public LiveData<List<Result>> getAllResultsLiveData() {
-        Log.i(TAG_NAME, "Recuperation de la liste de tous les resultats");
+        LogUtils.i(TAG_NAME, "Recuperation de la liste de tous les resultats");
         return databaseResultRepository.getAllResultsLiveData();
     }
 

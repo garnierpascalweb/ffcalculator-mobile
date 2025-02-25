@@ -24,8 +24,8 @@ public class SimplePosHttpServiceTest {
     public void testCalcPos(){
         double pos = 42.3;
         String classType = "H";
-        Log.i(TAG_NAME,"test dun calcul de position");
+        LogUtils.i(TAG_NAME,"test dun calcul de position");
         Call<FFCPosResponse> response = service.calcPos(pos, classType);
-        Log.i(TAG_NAME,"bien fait !");
+        LogUtils.i(TAG_NAME,"bien fait !");
     }
 }

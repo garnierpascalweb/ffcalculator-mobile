@@ -1,6 +1,6 @@
 package com.gpwsofts.ffcalculator.mobile.www;
 
-import android.util.Log;
+import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -24,19 +24,19 @@ public class FFCalculatorWebApi {
     }
 
     private FFCalculatorWebApi(){
-        Log.i(TAG_NAME, "creation du singleton = FFCalculatorWebApi");
+        LogUtils.i(TAG_NAME, "creation du singleton = FFCalculatorWebApi");
         if (null == retrofit){
-            Log.i(TAG_NAME, "constuction de l'instance de retrofit - base url = <"+ API_BASE_URL + ">");
+            LogUtils.i(TAG_NAME, "constuction de l'instance de retrofit - base url = <"+ API_BASE_URL + ">");
             retrofit = new Retrofit.Builder()
                     .baseUrl(API_BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
-            Log.i(TAG_NAME, "creation de l'instance IApiInterface");
+            LogUtils.i(TAG_NAME, "creation de l'instance IApiInterface");
             apiService = retrofit.create(IApiInterface.class);
         } else {
-            Log.d(TAG_NAME, "apiService deja initialisée");
+            LogUtils.d(TAG_NAME, "apiService deja initialisée");
         }
-        Log.i(TAG_NAME, "fin creation du singleton = FFCalculatorWebApi");
+        LogUtils.i(TAG_NAME, "fin creation du singleton = FFCalculatorWebApi");
     }
 
     public IApiInterface getApiService(){

@@ -1,14 +1,12 @@
 package com.gpwsofts.ffcalculator.mobile.services.client;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 
 import com.gpwsofts.ffcalculator.mobile.AppExecutors;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
-import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.common.SingleLiveEvent;
 import com.gpwsofts.ffcalculator.mobile.services.pos.pojo.FFCPosResponse;
+import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
 
 import java.io.IOException;
 import java.util.concurrent.Future;
@@ -30,9 +28,9 @@ public class OverAllPosApiClient {
     private static final int JOB_TIMEOUT = 5000;
 
     private OverAllPosApiClient() {
-        Log.i(TAG_NAME, "instanciation de OverAllPosApiClient");
+        LogUtils.i(TAG_NAME, "instanciation de OverAllPosApiClient");
         mPos = new SingleLiveEvent<Integer>();
-        Log.i(TAG_NAME, "fin instanciation de OverAllPosApiClient");
+        LogUtils.i(TAG_NAME, "fin instanciation de OverAllPosApiClient");
     }
 
     public static OverAllPosApiClient getInstance() {
@@ -49,11 +47,11 @@ public class OverAllPosApiClient {
         if (getPosRunnable != null) {
             getPosRunnable = null;
         }
-        Log.d(TAG_NAME, "instantaition dun GetPosRunnable");
+        LogUtils.d(TAG_NAME, "instantaition dun GetPosRunnable");
         getPosRunnable = new GetPosRunnable(pts, classType);
-        Log.d(TAG_NAME, "submit du runnable GetPosRunnable dans le pool de thread");
+        LogUtils.d(TAG_NAME, "submit du runnable GetPosRunnable dans le pool de thread");
         final Future myHandler = AppExecutors.getInstance().networkIO().submit(getPosRunnable);
-        Log.d(TAG_NAME, "appel de cancel dans <" + JOB_TIMEOUT + "> ");
+        LogUtils.d(TAG_NAME, "appel de cancel dans <" + JOB_TIMEOUT + "> ");
         AppExecutors.getInstance().networkIO().schedule(() -> {
             myHandler.cancel(true);
         }, JOB_TIMEOUT, TimeUnit.MILLISECONDS);
@@ -74,51 +72,51 @@ public class OverAllPosApiClient {
 
         @Override
         public void run() {
-            Log.i(TAG_NAME, "debut du job asynchrone GetPosRunnable");
+            LogUtils.i(TAG_NAME, "debut du job asynchrone GetPosRunnable");
             Response response = null;
             Integer pos = null;
             try {
                 boolean isWwwConnected = FFCalculatorApplication.instance.getServicesManager().getNetworkService().isWwwConnected();
                 if (isWwwConnected) {
                     // reseau disponible
-                    Log.d(TAG_NAME, "appel synchrone au service des positions et recuperation de la reponse");
-                    Log.d(TAG_NAME, " arguments : pts = <" + pts + ">, type de classement = <" + classType + ">");
+                    LogUtils.d(TAG_NAME, "appel synchrone au service des positions et recuperation de la reponse");
+                    LogUtils.d(TAG_NAME, " arguments : pts = <" + pts + ">, type de classement = <" + classType + ">");
 
                     response = getPos(pts, classType).execute();
                     if (cancelRequest) {
-                        Log.d(TAG_NAME, "cancelRequest true, retourne zboub");
+                        LogUtils.d(TAG_NAME, "cancelRequest true, retourne zboub");
                         return;
                     }
                     int responseCode = response.code();
-                    Log.d(TAG_NAME, "responseCode du service des positions = <" + responseCode + ">");
+                    LogUtils.d(TAG_NAME, "responseCode du service des positions = <" + responseCode + ">");
                     if (responseCode == 200) {
                         pos = ((FFCPosResponse) response.body()).pos;
-                        Log.d(TAG_NAME, "succes du calcul de la position pour ce capital de points = <" + pos + ">");
-                        Log.d(TAG_NAME, "post de la nouvelle position en livedata");
+                        LogUtils.d(TAG_NAME, "succes du calcul de la position pour ce capital de points = <" + pos + ">");
+                        LogUtils.d(TAG_NAME, "post de la nouvelle position en livedata");
                     } else {
                         // reponse pas 200
                         String error = response.errorBody().string();
-                        Log.e(TAG_NAME, "echec du calcul de la position pour ce capital de points");
-                        Log.e(TAG_NAME, "erreur " + error);
-                        Log.d(TAG_NAME, "pos rendue et postee = <null>");
+                        LogUtils.e(TAG_NAME, "echec du calcul de la position pour ce capital de points");
+                        LogUtils.e(TAG_NAME, "erreur " + error);
+                        LogUtils.d(TAG_NAME, "pos rendue et postee = <null>");
                         pos = null;
                         //TODO 1.0.0 envoyer au backend ?
                     }
                 } else {
                     // pas de reseau
-                    Log.e(TAG_NAME, "echec du calcul de la position - pas de reseau");
+                    LogUtils.e(TAG_NAME, "echec du calcul de la position - pas de reseau");
                     pos = null;
                     //TODO 1.0.0 peut etre dérouler une implementation locale ?
                 }
             } catch (IOException e) {
-                Log.e(TAG_NAME, "echec du calcul de la position pour ce capital de points : " + e.getClass().getSimpleName(), e);
+                LogUtils.e(TAG_NAME, "echec du calcul de la position pour ce capital de points : " + e.getClass().getSimpleName(), e);
                 pos = null;
             } catch (Exception e) {
-                Log.e(TAG_NAME, "echec du calcul de la position pour ce capital de points : " + e.getClass().getSimpleName(), e);
+                LogUtils.e(TAG_NAME, "echec du calcul de la position pour ce capital de points : " + e.getClass().getSimpleName(), e);
                 pos = null;
             } finally {
                 mPos.postValue(pos);
-                Log.i(TAG_NAME, "fin du job asynchrone GetPosRunnable");
+                LogUtils.i(TAG_NAME, "fin du job asynchrone GetPosRunnable");
             }
         }
 
@@ -127,7 +125,7 @@ public class OverAllPosApiClient {
         }
 
         private void cancelRequest() {
-            Log.v(TAG_NAME, "annulation de la requete");
+            LogUtils.v(TAG_NAME, "annulation de la requete");
             cancelRequest = true;
         }
     }

@@ -1,7 +1,6 @@
 package com.gpwsofts.ffcalculator.mobile.ui.result;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -14,6 +13,7 @@ import com.gpwsofts.ffcalculator.mobile.repository.AddResultRepository;
 import com.gpwsofts.ffcalculator.mobile.repository.DatabaseResultRepository;
 import com.gpwsofts.ffcalculator.mobile.repository.GridRepository;
 import com.gpwsofts.ffcalculator.mobile.repository.TownRepository;
+import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,13 +41,13 @@ public class AddResultViewModel extends AndroidViewModel {
 
     public AddResultViewModel(Application application) {
         super(application);
-        Log.i(TAG_NAME, "Instantiation de AddResultViewModel");
+        LogUtils.i(TAG_NAME, "Instantiation de AddResultViewModel");
         addResultRepository = AddResultRepository.getInstance();
         databaseResultRepository = DatabaseResultRepository.getInstance();
         gridRepository = GridRepository.getInstance();
         townRepository = TownRepository.getInstance();
         currentListTowns = new ArrayList<String>();
-        Log.i(TAG_NAME, "Fin Instantiation de AddResultViewModel");
+        LogUtils.i(TAG_NAME, "Fin Instantiation de AddResultViewModel");
     }
 
     public LiveData<List<Integer>> getPosChoicesLiveData() {

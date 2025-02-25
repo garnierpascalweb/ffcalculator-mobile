@@ -2,9 +2,9 @@ package com.gpwsofts.ffcalculator.mobile.sharedprefs;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
+import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
 
 import java.util.UUID;
 
@@ -38,12 +38,12 @@ public class FFCalculatorSharedPrefs {
                 uniqueID = UUID.randomUUID().toString();
                 sharedPrefsEditor.putString(KEY_PREF_UNIQUE_ID, uniqueID);
                 sharedPrefsEditor.commit();
-                Log.i(TAG_NAME, "ecriture uuid = <" + uniqueID + ">");
+                LogUtils.i(TAG_NAME, "ecriture uuid = <" + uniqueID + ">");
             }
         } else {
-            Log.i(TAG_NAME, "lecture uuid = <" + uniqueID + ">");
+            LogUtils.i(TAG_NAME, "lecture uuid = <" + uniqueID + ">");
         }
-        Log.i(TAG_NAME, "renvoi uuid = <" + uniqueID + ">");
+        LogUtils.i(TAG_NAME, "renvoi uuid = <" + uniqueID + ">");
         return uniqueID;
     }
 

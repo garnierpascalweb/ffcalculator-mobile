@@ -1,10 +1,9 @@
 package com.gpwsofts.ffcalculator.mobile.services.pts;
 
-import android.util.Log;
-
 import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsRequest;
 import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsResponse;
 import com.gpwsofts.ffcalculator.mobile.sharedprefs.FFCalculatorSharedPrefs;
+import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
 import com.gpwsofts.ffcalculator.mobile.www.FFCalculatorWebApi;
 
 import retrofit2.Call;
@@ -23,22 +22,22 @@ public class SimplePtsHttpService  implements IPtsHttpService {
     @Override
     public Call<FFCPointsResponse> calcPts(String place, int pos, int prts, String classe) {
         // cest du retrofit !
-        Log.i(TAG_NAME, "demande de calcul des points pour sur la course de <" + place + "> pour une place de <" + pos + "> sur <" + prts + "> sur la course de <" + place + "> en serie <" + classe + ">");
-        Log.d(TAG_NAME, "construction de la requete");
+        LogUtils.i(TAG_NAME, "demande de calcul des points pour sur la course de <" + place + "> pour une place de <" + pos + "> sur <" + prts + "> sur la course de <" + place + "> en serie <" + classe + ">");
+        LogUtils.d(TAG_NAME, "construction de la requete");
         FFCPointsRequest request = new FFCPointsRequest();
         // se premunir d'injections sql - cote backend
         request.place = place;
         request.code = classe;
         request.pos = pos;
         request.prts = prts;
-        Log.d(TAG_NAME, "veritable appel http et call en retour");
+        LogUtils.d(TAG_NAME, "veritable appel http et call en retour");
         return FFCalculatorWebApi.getInstance().getApiService().calcPts(FFCalculatorSharedPrefs.id(),request);
     }
 
     @Override
     public Call<FFCPointsResponse> calcPts(FFCPointsRequest request) {
         // cest du retrofit !
-        Log.d(TAG_NAME, "veritable appel http et call en retour");
+        LogUtils.d(TAG_NAME, "veritable appel http et call en retour");
         return FFCalculatorWebApi.getInstance().getApiService().calcPts(FFCalculatorSharedPrefs.id(),request);
     }
 

@@ -15,6 +15,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.gpwsofts.ffcalculator.mobile.model.Grid;
+import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -140,16 +141,16 @@ public class ExampleInstrumentedTest {
             is = InstrumentationRegistry.getInstrumentation().getContext().getResources().getAssets().open("grids/grilles.json");
             //"grids/grilles.json"
             int size = is.available();
-            Log.v(TAG_NAME, "<" + size + "> octets lus - creation dun buffer de cette taille");
+            LogUtils.v(TAG_NAME, "<" + size + "> octets lus - creation dun buffer de cette taille");
             byte[] buffer = new byte[size];
             is.read(buffer);
             listGridType = new TypeToken<List<Grid>>() {
             }.getType();
             jsonDatas = new String(buffer, StandardCharsets.UTF_8);
-            Log.v(TAG_NAME, "construction d'une instance de liste depuis Gson");
+            LogUtils.v(TAG_NAME, "construction d'une instance de liste depuis Gson");
             gson = new Gson();
             grids = gson.fromJson(jsonDatas, listGridType);
-            Log.v(TAG_NAME, "tri de la liste des grilles");
+            LogUtils.v(TAG_NAME, "tri de la liste des grilles");
             Collections.sort(grids);
         } finally {
             if (is != null)

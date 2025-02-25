@@ -1,7 +1,6 @@
 package com.gpwsofts.ffcalculator.mobile.services;
 
 import android.content.res.Resources;
-import android.util.Log;
 
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.services.grid.IGridService;
@@ -18,10 +17,7 @@ import com.gpwsofts.ffcalculator.mobile.services.town.ITownService;
 import com.gpwsofts.ffcalculator.mobile.services.town.SimpleTownService;
 import com.gpwsofts.ffcalculator.mobile.services.vue.IVueService;
 import com.gpwsofts.ffcalculator.mobile.services.vue.VueService;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
 
 /**
  * Gestion des Services
@@ -80,60 +76,60 @@ public class ServicesManager {
 
     public final ILogoService getLogoService(Resources res) {
         if (null == logoService) {
-            Log.i(TAG_NAME, "creation dune nouvelle instance de ILogoService");
+            LogUtils.i(TAG_NAME, "creation dune nouvelle instance de ILogoService");
             logoService = new SimpleLogoService(res);
         } else {
-            Log.d(TAG_NAME, "recuperation dune instance existante de ILogoService");
+            LogUtils.d(TAG_NAME, "recuperation dune instance existante de ILogoService");
         }
         return logoService;
     }
 
     public final IPtsHttpService getPtsService() {
         if (null == ptsService) {
-            Log.i(TAG_NAME, "creation dune nouvelle instance de IPtsService");
+            LogUtils.i(TAG_NAME, "creation dune nouvelle instance de IPtsService");
             ptsService = new SimplePtsHttpService();
         } else {
-            Log.d(TAG_NAME, "recuperation dune instance existante de IPtsService");
+            LogUtils.d(TAG_NAME, "recuperation dune instance existante de IPtsService");
         }
         return ptsService;
     }
 
     public final IPosHttpService getPosService() {
         if (null == posService) {
-            Log.i(TAG_NAME, "creation dune nouvelle instance de IPosService");
+            LogUtils.i(TAG_NAME, "creation dune nouvelle instance de IPosService");
             posService = new SimplePosHttpService();
         } else {
-            Log.d(TAG_NAME, "recuperation d'une instance existante de IPosService");
+            LogUtils.d(TAG_NAME, "recuperation d'une instance existante de IPosService");
         }
         return posService;
     }
 
     public final INetworkService getNetworkService() {
         if (null == networkService) {
-            Log.i(TAG_NAME, "creation dune nouvelle instance de INetworkService");
+            LogUtils.i(TAG_NAME, "creation dune nouvelle instance de INetworkService");
             networkService = new SimpleNetworkService();
         } else {
-            Log.d(TAG_NAME, "recuperation d'une instance existante de INetworkService");
+            LogUtils.d(TAG_NAME, "recuperation d'une instance existante de INetworkService");
         }
         return networkService;
     }
 
     public final IGridService getGridService() {
         if (null == gridService) {
-            Log.i(TAG_NAME, "creation dune nouvelle instance de IGridService");
+            LogUtils.i(TAG_NAME, "creation dune nouvelle instance de IGridService");
             gridService = new SimpleGridService();
         } else {
-            Log.d(TAG_NAME, "recuperation d'une instance existante de IGridService");
+            LogUtils.d(TAG_NAME, "recuperation d'une instance existante de IGridService");
         }
         return gridService;
     }
 
     public final ITownService getTownService() {
         if (null == townService) {
-            Log.i(TAG_NAME, "creation dune nouvelle instance de ITownService");
+            LogUtils.i(TAG_NAME, "creation dune nouvelle instance de ITownService");
             townService = new SimpleTownService();
         } else {
-            Log.d(TAG_NAME, "recuperation d'une instance existante de IGridService");
+            LogUtils.d(TAG_NAME, "recuperation d'une instance existante de IGridService");
         }
         return townService;
     }
@@ -144,10 +140,10 @@ public class ServicesManager {
      */
     public final IVueService getVueService(){
         if (null == vueService) {
-            Log.i(TAG_NAME, "creation dune nouvelle instance de IVueService");
+            LogUtils.i(TAG_NAME, "creation dune nouvelle instance de IVueService");
             vueService = new VueService();
         } else {
-            Log.d(TAG_NAME, "recuperation d'une instance existante de IVueService");
+            LogUtils.d(TAG_NAME, "recuperation d'une instance existante de IVueService");
         }
         return vueService;
     }

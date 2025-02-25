@@ -1,7 +1,5 @@
 package com.gpwsofts.ffcalculator.mobile.model;
 
-import android.util.Log;
-
 /**
  * @since 1.0.0
  * Un model pour une vue
