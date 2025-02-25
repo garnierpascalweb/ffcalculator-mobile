@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentSeasonBinding;
-import com.gpwsofts.ffcalculator.mobile.ui.synthesis.SynthesisViewModel;
 import com.gpwsofts.ffcalculator.mobile.ui.view.VueViewModel;
 
 public class SeasonFragment extends Fragment {

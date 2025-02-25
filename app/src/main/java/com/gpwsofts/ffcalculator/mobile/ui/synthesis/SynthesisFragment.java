@@ -20,10 +20,17 @@ public class SynthesisFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater,container,savedInstanceState);
         binding = FragmentSynthesisBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view,savedInstanceState);
     }
 
     @Override
