@@ -3,6 +3,7 @@ package com.gpwsofts.ffcalculator.mobile.ui.result;
 
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import com.gpwsofts.ffcalculator.mobile.ui.view.VueViewModel;
 import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AddResultFragment extends Fragment {
     private static final String TAG_NAME = "ResultFragment";
@@ -34,6 +36,7 @@ public class AddResultFragment extends Fragment {
     private AddResultViewModel addResultViewModel;
     private VueViewModel vueViewModel;
     private FragmentResultBinding binding;
+    private AutoCompleteAdapter autoCompleteAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,9 +84,15 @@ public class AddResultFragment extends Fragment {
          */
         // Adapter towns
         LogUtils.d(TAG_NAME, "adapter towns - construction avec une liste de <" + addResultViewModel.getCurrentListTowns().size() + "> elements");
-        ArrayAdapter<String> townsListAdapter  = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, addResultViewModel.getCurrentListTowns());
-        autoCompleteTextViewPlace.setAdapter(townsListAdapter);
-        autoCompleteTextViewPlace.setThreshold(3);
+        //ArrayAdapter<String> townsListAdapter  = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, addResultViewModel.getCurrentListTowns());
+        //autoCompleteTextViewPlace.setAdapter(townsListAdapter);
+        // autoCompleteTextViewPlace.setThreshold(3);
+        StringListAdapter townsListAdapter = new StringListAdapter(new StringListAdapter.StringDiff());
+        StringRecyclerBaseAdapter stringRecyclerBaseAdapter = new StringRecyclerBaseAdapter(townsListAdapter);
+        //autoCompleteTextViewPlace.setAdapter(stringRecyclerBaseAdapter);
+        //autoCompleteTextViewPlace.setThreshold(3);
+
+
         // Adapter Classes
         ClassesListAdapter classesListAdapter = new ClassesListAdapter(new ClassesListAdapter.ClassesDiff());
         ClassesRecyclerBaseAdapter classesRecyclerBaseAdapter = new ClassesRecyclerBaseAdapter(classesListAdapter);
@@ -129,8 +138,13 @@ public class AddResultFragment extends Fragment {
                 LogUtils.d(TAG_NAME, "observer towns - la liste chargee n'est pas nulle");
                 if (addResultViewModel.getCurrentListTowns().isEmpty()){
                     LogUtils.d(TAG_NAME, "observer towns - la liste en cache est vide - mise a jour de l'adapter");
-                    LogUtils.d(TAG_NAME, "observer towns - appel de notifyDataSetChanged pour rechargement");
-                    townsListAdapter.notifyDataSetChanged();
+                    // LogUtils.d(TAG_NAME, "observer towns - appel de notifyDataSetChanged pour rechargement");
+                    // townsListAdapter.notifyDataSetChanged();
+                    // Met à jour l'adaptateur de RecyclerView
+                    townsListAdapter.submitList(towns);
+                    // Met à jour l'adaptateur de l'AutoCompleteTextView
+                    autoCompleteAdapter = new AutoCompleteAdapter(getContext(), towns);
+                    autoCompleteTextViewPlace.setAdapter(autoCompleteAdapter);
                     LogUtils.d(TAG_NAME, "observer towns - envoi de la liste des towns en cache dans viewmodel");
                     addResultViewModel.setCurrentListTowns(towns);
                 } else {
@@ -253,6 +267,20 @@ public class AddResultFragment extends Fragment {
             LogUtils.d(TAG_NAME, "onClick sur bouton ajouter - envoi du job asynchrone de calcul des points");
             addResultViewModel.addResultApiAsync(place, libelle, pos, prts);
             LogUtils.i(TAG_NAME, "fin onClick sur bouton ajouter");
+        });
+
+        autoCompleteTextViewPlace.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                if (autoCompleteAdapter != null)
+                    autoCompleteAdapter.getFilter().filter(charSequence);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
         });
         LogUtils.i(TAG_NAME, "fin appel de onViewCreated");
     }

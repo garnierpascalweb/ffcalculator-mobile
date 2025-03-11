@@ -91,6 +91,12 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
+    /**
+     * showUpdateDialog
+     * Methode appelée pour vérifier qu'il y a une nouvelle version disponible
+     * @param context
+     * @param downloadUrl
+     */
     private static void showUpdateDialog(Context context, String downloadUrl) {
         new android.os.Handler(context.getMainLooper()).post(() -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);

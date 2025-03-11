@@ -11,16 +11,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.gpwsofts.ffcalculator.mobile.R;
 
 /**
- * @since 1.0.0
- * Le ViewHolder est responsable de référencer les vues individuelles de chaque élément de la liste
+ * Reprend les elements qui ont été définis dans notre custom Layout : simple_spinner_item
  */
-public class TownsViewHolder extends RecyclerView.ViewHolder {
+public class StringViewHolder extends RecyclerView.ViewHolder {
     /**
-     * Le Text View de notre Item
+     * le textView de notre item
      */
     private final TextView spinnerItemTextView;
 
-    public TownsViewHolder(@NonNull View itemView) {
+    public StringViewHolder(@NonNull View itemView) {
         super(itemView);
         spinnerItemTextView = (TextView) itemView;
     }
@@ -31,16 +30,11 @@ public class TownsViewHolder extends RecyclerView.ViewHolder {
      * @param parent
      * @return
      */
-    static TownsViewHolder create(ViewGroup parent) {
+    static StringViewHolder create(ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.simple_spinner_item, parent, false);
-        return new TownsViewHolder(view);
+        return new StringViewHolder(view);
     }
 
-    /**
-     * Permet d'associer l'instance de l'item en cours (de type String) a l'objet graphique défini dans notre custom layout
-     *
-     * @param current
-     */
     public void bind(String current) {
         spinnerItemTextView.setText(current);
     }

@@ -7,27 +7,28 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 
 /**
- * L'Adapter prend la liste de String et les relie aux éléments de la RecyclerView.
+ * Adapter pour une liste déroulante de String (lieu ) (item objet Integer, rendu IntegerViewHolder)
  * @since 1.0.0
  */
-public class TownsListAdapter extends ListAdapter<String, TownsViewHolder> {
-    protected TownsListAdapter(@NonNull DiffUtil.ItemCallback<String> diffCallback) {
+public class StringListAdapter extends ListAdapter<String, StringViewHolder>  {
+
+    protected StringListAdapter(@NonNull DiffUtil.ItemCallback<String> diffCallback) {
         super(diffCallback);
     }
 
     @NonNull
     @Override
-    public TownsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return TownsViewHolder.create(parent);
+    public StringViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return StringViewHolder.create(parent);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TownsViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull StringViewHolder holder, int position) {
         String current = getItem(position);
         holder.bind(current);
     }
 
-    public static class TownsDiff extends DiffUtil.ItemCallback<String> {
+    public static class StringDiff extends DiffUtil.ItemCallback<String> {
 
         @Override
         public boolean areItemsTheSame(@NonNull String oldItem, @NonNull String newItem) {
@@ -36,8 +37,7 @@ public class TownsListAdapter extends ListAdapter<String, TownsViewHolder> {
 
         @Override
         public boolean areContentsTheSame(@NonNull String oldItem, @NonNull String newItem) {
-            boolean areTheSameContents = (oldItem.equals(newItem));
-            return areTheSameContents;
+            return oldItem.equals(newItem);
         }
     }
 }
