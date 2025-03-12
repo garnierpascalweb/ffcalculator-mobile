@@ -32,9 +32,7 @@ public class FFCalculatorApplication extends Application {
     private ServicesManager servicesManager;
     private ConnectivityManager connectivityManager;
     private FFCalculatorSharedPrefs sharedPrefs;
-    private int versionCode;
-    private String versionName;
-    private int apiLevel;
+
 
     /**
      * Flag pour l'existence du Service Manager
@@ -50,16 +48,6 @@ public class FFCalculatorApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        try{
-            versionCode = BuildConfig.VERSION_CODE;
-            LogUtils.i(TAG_NAME, "versionCode = <" + versionCode + ">");
-            versionName = BuildConfig.VERSION_NAME;
-            LogUtils.i(TAG_NAME, "versionName = <" + versionName + ">");
-            apiLevel = Build.VERSION.SDK_INT;
-            LogUtils.i(TAG_NAME, "apiLevel = <" + apiLevel + ">");
-        } catch (Exception e){
-            // version de code et nom pas identifiée
-        }
     }
 
     @Override

@@ -3,6 +3,8 @@ package com.gpwsofts.ffcalculator.mobile.services;
 import android.content.res.Resources;
 
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
+import com.gpwsofts.ffcalculator.mobile.services.device.IDeviceService;
+import com.gpwsofts.ffcalculator.mobile.services.device.SimpleDeviceService;
 import com.gpwsofts.ffcalculator.mobile.services.grid.IGridService;
 import com.gpwsofts.ffcalculator.mobile.services.grid.SimpleGridService;
 import com.gpwsofts.ffcalculator.mobile.services.logo.ILogoService;
@@ -59,14 +61,14 @@ public class ServicesManager {
     private IGridService gridService = null;
     private ITownService townService = null;
 
+
     /**
      * Service de vue
      * @since 1.0.0
      */
     private IVueService vueService;
-
     private IUpdateCheckerService updateCheckerService = null;
-
+    private IDeviceService deviceService = null;
 
     /**
      * Constructeur de ServiceManager
@@ -134,7 +136,7 @@ public class ServicesManager {
             LogUtils.i(TAG_NAME, "creation dune nouvelle instance de ITownService");
             townService = new SimpleTownService();
         } else {
-            LogUtils.d(TAG_NAME, "recuperation d'une instance existante de IGridService");
+            LogUtils.d(TAG_NAME, "recuperation d'une instance existante de ITownService");
         }
         return townService;
     }
@@ -162,4 +164,58 @@ public class ServicesManager {
         }
         return updateCheckerService;
     }
+
+    public final IDeviceService getDeviceService(){
+        if (null == deviceService){
+            LogUtils.i(TAG_NAME, "creation dune nouvelle instance de IDeviceService");
+            deviceService = new SimpleDeviceService();
+        } else {
+            LogUtils.d(TAG_NAME, "recuperation d'une instance existante de IDeviceService");
+        }
+        return deviceService;
+    }
+
+    /**
+     * @since 1.0.0
+     * Désallocation de tous les services
+     */
+    public final void unbindAll(){
+        if (logoService != null){
+            logoService.clean();
+            logoService = null;
+        }
+        if (ptsService != null){
+            ptsService.clean();
+            ptsService = null;
+        }
+        if (posService != null){
+            posService.clean();
+            posService = null;
+        }
+        if (networkService != null){
+            networkService.clean();
+            networkService = null;
+        }
+        if (gridService != null){
+            gridService.clean();
+            gridService = null;
+        }
+        if (townService != null){
+            townService.clean();
+            townService = null;
+        }
+        if (vueService != null){
+            vueService.clean();
+            vueService = null;
+        }
+        if (updateCheckerService != null){
+            updateCheckerService.clean();
+            updateCheckerService = null;
+        }
+        if (deviceService != null){
+            deviceService.clean();
+            deviceService = null;
+        }
+    }
+
 }

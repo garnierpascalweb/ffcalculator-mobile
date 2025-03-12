@@ -48,7 +48,7 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> {
                     // Lorsque le texte est vide, on rétablit toute la liste
                     results.count = initialItemList.size();
                     results.values = initialItemList;
-                    LogUtils.v(TAG_NAME, " texte tapé a vide <" + constraint + ">, retablissement de la liste initiale a <" + results.values + "> valeurs");
+                    LogUtils.d(TAG_NAME, " texte tapé a vide <" + constraint + ">, retablissement de la liste initiale a <" + results.values + "> valeurs");
                 } else {
                     List<String> filteredItems = new ArrayList<>();
                     for (String item : initialItemList) {
@@ -59,14 +59,14 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> {
                     results.count = filteredItems.size();
                     results.values = filteredItems;
                 }
-                LogUtils.v(TAG_NAME, " texte tapé <" + constraint + ">, application du filtre qui nous rend <" + results.count + "> valeurs, la recherche ayant ete effectuée sur <" + itemList.size() + "> items");
+                LogUtils.d(TAG_NAME, " texte tapé <" + constraint + ">, application du filtre qui nous rend <" + results.count + "> valeurs, la recherche ayant ete effectuée sur <" + itemList.size() + "> items");
                 return results;
             }
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
                 if (results != null && results.count > 0) {
-                    LogUtils.v(TAG_NAME, " publication des <" + results.count + "> resultats");
+                    LogUtils.d(TAG_NAME, " publication des <" + results.count + "> resultats");
                     clear();
                     addAll((List<String>) results.values);
                     notifyDataSetChanged();

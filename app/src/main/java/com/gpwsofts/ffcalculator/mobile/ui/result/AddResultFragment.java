@@ -84,11 +84,11 @@ public class AddResultFragment extends Fragment {
          */
         // Adapter towns
         LogUtils.d(TAG_NAME, "adapter towns - construction avec une liste de <" + addResultViewModel.getCurrentListTowns().size() + "> elements");
-        //ArrayAdapter<String> townsListAdapter  = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, addResultViewModel.getCurrentListTowns());
-        //autoCompleteTextViewPlace.setAdapter(townsListAdapter);
-        // autoCompleteTextViewPlace.setThreshold(3);
-        StringListAdapter townsListAdapter = new StringListAdapter(new StringListAdapter.StringDiff());
-        StringRecyclerBaseAdapter stringRecyclerBaseAdapter = new StringRecyclerBaseAdapter(townsListAdapter);
+        ArrayAdapter<String> townsArrayAdapter  = new ArrayAdapter<String>(getContext(), R.layout.simple_spinner_item, addResultViewModel.getCurrentListTowns());
+        autoCompleteTextViewPlace.setAdapter(townsArrayAdapter);
+        autoCompleteTextViewPlace.setThreshold(3);
+        //StringListAdapter townsListAdapter = new StringListAdapter(new StringListAdapter.StringDiff());
+        //StringRecyclerBaseAdapter stringRecyclerBaseAdapter = new StringRecyclerBaseAdapter(townsListAdapter);
         //autoCompleteTextViewPlace.setAdapter(stringRecyclerBaseAdapter);
         //autoCompleteTextViewPlace.setThreshold(3);
 
@@ -135,20 +135,17 @@ public class AddResultFragment extends Fragment {
         addResultViewModel.getTownChoicesLiveData().observe(getViewLifecycleOwner(), towns -> {
             LogUtils.i(TAG_NAME, "debut observer towns");
             if (towns != null){
-                LogUtils.d(TAG_NAME, "observer towns - la liste chargee n'est pas nulle");
+                LogUtils.d(TAG_NAME, "observer towns - liste chargee non nulle - contient <" + towns.size() + "> elements");
                 if (addResultViewModel.getCurrentListTowns().isEmpty()){
-                    LogUtils.d(TAG_NAME, "observer towns - la liste en cache est vide - mise a jour de l'adapter");
+                    LogUtils.d(TAG_NAME, "observer towns - liste en cache vide - mise a jour de l'adapter");
                     // LogUtils.d(TAG_NAME, "observer towns - appel de notifyDataSetChanged pour rechargement");
-                    // townsListAdapter.notifyDataSetChanged();
-                    // Met à jour l'adaptateur de RecyclerView
-                    townsListAdapter.submitList(towns);
-                    // Met à jour l'adaptateur de l'AutoCompleteTextView
-                    autoCompleteAdapter = new AutoCompleteAdapter(getContext(), towns);
-                    autoCompleteTextViewPlace.setAdapter(autoCompleteAdapter);
-                    LogUtils.d(TAG_NAME, "observer towns - envoi de la liste des towns en cache dans viewmodel");
+                    townsArrayAdapter.clear();
+                    townsArrayAdapter.addAll(towns);
+                    townsArrayAdapter.notifyDataSetChanged();
+                    LogUtils.d(TAG_NAME, "observer towns - mise a jour addResultViewModel <" + towns.size() + "> elements");
                     addResultViewModel.setCurrentListTowns(towns);
                 } else {
-                    LogUtils.d(TAG_NAME, "observer towns - la liste en cache est consistante - pas de mise a jour de l'adapter");
+                    LogUtils.d(TAG_NAME, "observer towns - la liste en cache est consistante de <" + addResultViewModel.getCurrentListTowns() + "> elements - pas de mise a jour de l'adapter");
                 }
             }
             LogUtils.i(TAG_NAME, "fin debut observer towns");
@@ -269,19 +266,7 @@ public class AddResultFragment extends Fragment {
             LogUtils.i(TAG_NAME, "fin onClick sur bouton ajouter");
         });
 
-        autoCompleteTextViewPlace.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {}
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                if (autoCompleteAdapter != null)
-                    autoCompleteAdapter.getFilter().filter(charSequence);
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {}
-        });
         LogUtils.i(TAG_NAME, "fin appel de onViewCreated");
     }
 
