@@ -102,19 +102,4 @@ public class FFCalculatorApplication extends Application {
         return sharedPrefs;
     }
 
-    /**
-     * @since 1.0.0
-     * @return la version du code
-     */
-    public final int getVersionCode(){
-        return this.versionCode;
-    }
-
-    /**
-     * @since 1.0.0
-     * @return le nom de la version
-     */
-    public final String getVersionName(){
-        return this.versionName;
-    }
 }

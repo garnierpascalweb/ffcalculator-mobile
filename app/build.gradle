@@ -24,10 +24,20 @@ android {
     // Déclaration des saveurs
     productFlavors {
         dev {
+            buildConfigField "String", "API_BASE_URL", '"https://garnierpascalweb.fr/app/ffcalculator/api/"'
+            buildConfigField "String", "API_URI_PTS", '"FFCPointsApi.php"'
+            buildConfigField "String", "API_URI_CLASS", '"FFCClassementApi.php"'
+            buildConfigField "String", "API_URI_REPORT", '"FFCReport.php"'
+            buildConfigField "String", "API_URI_LATEST_VERSION", '"latest-version.json"'
             buildConfigField "boolean", "ENABLE_LOGS", "true"
             dimension "environment"
         }
         prod {
+            buildConfigField "String", "API_BASE_URL", '"https://garnierpascalweb.fr/app/ffcalculator/api/"'
+            buildConfigField "String", "API_URI_PTS", '"FFCPointsApi.php"'
+            buildConfigField "String", "API_URI_CLASS", '"FFCClassementApi.php"'
+            buildConfigField "String", "API_URI_REPORT", '"FFCReport.php"'
+            buildConfigField "String", "API_URI_LATEST_VERSION", '"latest-version.json"'
             buildConfigField "boolean", "ENABLE_LOGS", "false"
             dimension "environment"
         }

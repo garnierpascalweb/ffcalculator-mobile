@@ -1,5 +1,6 @@
 package com.gpwsofts.ffcalculator.mobile.www;
 
+import com.gpwsofts.ffcalculator.mobile.BuildConfig;
 import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
 
 import retrofit2.Retrofit;
@@ -12,7 +13,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class FFCalculatorWebApi {
     private static final String TAG_NAME = "FFCalculatorWebApi";
     //TODO 1.0.0 cette url devrait etre quelque part en configuration
-    private static final String API_BASE_URL = "https://garnierpascalweb.fr/app/ffcalculator/api/v2/";
     private static FFCalculatorWebApi instance = null;
     private static Retrofit retrofit = null;
     private static IApiInterface apiService;
@@ -26,9 +26,9 @@ public class FFCalculatorWebApi {
     private FFCalculatorWebApi(){
         LogUtils.i(TAG_NAME, "creation du singleton = FFCalculatorWebApi");
         if (null == retrofit){
-            LogUtils.i(TAG_NAME, "constuction de l'instance de retrofit - base url = <"+ API_BASE_URL + ">");
+            LogUtils.i(TAG_NAME, "constuction de l'instance de retrofit - base url = <"+ BuildConfig.API_BASE_URL + ">");
             retrofit = new Retrofit.Builder()
-                    .baseUrl(API_BASE_URL)
+                    .baseUrl(BuildConfig.API_BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
             LogUtils.i(TAG_NAME, "creation de l'instance IApiInterface");

@@ -1,5 +1,6 @@
 package com.gpwsofts.ffcalculator.mobile.services.pts;
 
+import com.gpwsofts.ffcalculator.mobile.BuildConfig;
 import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsRequest;
 import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsResponse;
 import com.gpwsofts.ffcalculator.mobile.sharedprefs.FFCalculatorSharedPrefs;
@@ -31,14 +32,14 @@ public class SimplePtsHttpService  implements IPtsHttpService {
         request.pos = pos;
         request.prts = prts;
         LogUtils.d(TAG_NAME, "veritable appel http et call en retour");
-        return FFCalculatorWebApi.getInstance().getApiService().calcPts(FFCalculatorSharedPrefs.id(),request);
+        return FFCalculatorWebApi.getInstance().getApiService().calcPts(FFCalculatorSharedPrefs.id(), BuildConfig.FLAVOR,request);
     }
 
     @Override
     public Call<FFCPointsResponse> calcPts(FFCPointsRequest request) {
         // cest du retrofit !
         LogUtils.d(TAG_NAME, "veritable appel http et call en retour");
-        return FFCalculatorWebApi.getInstance().getApiService().calcPts(FFCalculatorSharedPrefs.id(),request);
+        return FFCalculatorWebApi.getInstance().getApiService().calcPts(FFCalculatorSharedPrefs.id(),BuildConfig.FLAVOR,request);
     }
 
     @Override

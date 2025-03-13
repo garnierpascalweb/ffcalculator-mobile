@@ -1,5 +1,6 @@
 package com.gpwsofts.ffcalculator.mobile.services.pos;
 
+import com.gpwsofts.ffcalculator.mobile.BuildConfig;
 import com.gpwsofts.ffcalculator.mobile.services.pos.pojo.FFCPosRequest;
 import com.gpwsofts.ffcalculator.mobile.services.pos.pojo.FFCPosResponse;
 import com.gpwsofts.ffcalculator.mobile.sharedprefs.FFCalculatorSharedPrefs;
@@ -28,7 +29,7 @@ public class SimplePosHttpService  implements IPosHttpService {
         request.pts = pts;
         request.classType = classType;
         LogUtils.d(TAG_NAME, "veritable appel http et call en retour");
-        return FFCalculatorWebApi.getInstance().getApiService().calcPos(FFCalculatorSharedPrefs.id(), request);
+        return FFCalculatorWebApi.getInstance().getApiService().calcPos(FFCalculatorSharedPrefs.id(), BuildConfig.FLAVOR, request);
     }
 
     @Override

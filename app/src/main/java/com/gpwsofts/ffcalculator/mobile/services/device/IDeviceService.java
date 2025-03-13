@@ -6,4 +6,6 @@ public interface IDeviceService extends ICleanableService {
     public int getApiLevel();
     public int getVersionCode();
     public String getVersionName();
+    public String getManufacturer();
+    public String getModel();
 }
