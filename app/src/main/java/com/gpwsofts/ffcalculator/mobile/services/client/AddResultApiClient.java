@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 
 import com.gpwsofts.ffcalculator.mobile.AddResultException;
 import com.gpwsofts.ffcalculator.mobile.AppExecutors;
+import com.gpwsofts.ffcalculator.mobile.BuildConfig;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.common.AddResultRunnableResponse;
@@ -15,7 +16,10 @@ import com.gpwsofts.ffcalculator.mobile.exception.InputLibelleFormatException;
 import com.gpwsofts.ffcalculator.mobile.model.Logo;
 import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsRequest;
 import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsResponse;
+import com.gpwsofts.ffcalculator.mobile.services.report.pojo.FFCReportRequestFactory;
+import com.gpwsofts.ffcalculator.mobile.sharedprefs.FFCalculatorSharedPrefs;
 import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
+import com.gpwsofts.ffcalculator.mobile.www.FFCalculatorWebApi;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -126,11 +130,11 @@ public class AddResultApiClient {
                     } else {
                         // code retour http pas 200
                         LogUtils.e(TAG_NAME, "echec du calcul des points pour ce nouveau resultat");
-                        String error = response.errorBody().string();
-                        LogUtils.e(TAG_NAME, "erreur " + error);
+                        final String error = response.errorBody().string();
+                        LogUtils.e(TAG_NAME, "erreur " + error + " - envoi de la cause au backend");
                         newResult = null;
                         message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_add_result_ko);
-                        //TODO 1.0.0 faudrait envoyer au backend la cause
+                        sendErrorToBackEnd(error);
                     }
                 } else {
                     // pas de reseau
@@ -143,14 +147,17 @@ public class AddResultApiClient {
                 LogUtils.e(TAG_NAME, "AddResultException ", e);
                 newResult = null;
                 message = e.getToastMessage();
+                sendErrorToBackEnd(e.getMessage());
             } catch (IOException e) {
                 LogUtils.e(TAG_NAME, "IOException ", e);
                 newResult = null;
                 message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_technical_problem);
+                sendErrorToBackEnd(e.getMessage());
             } catch (Exception e) {
                 LogUtils.e(TAG_NAME, "Exception ", e);
                 newResult = null;
                 message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_technical_problem);
+                sendErrorToBackEnd(e.getMessage());
             } finally {
                 runnableResponse = new AddResultRunnableResponse();
                 runnableResponse.setResult(newResult);
@@ -269,6 +276,19 @@ public class AddResultApiClient {
             newResult.setLogo(logo.getText());
             newResult.setLogoColor(logo.getColor());
             return newResult;
+        }
+
+        /**
+         * Envoi d'éventuelles erreurs au backend
+         * @since 1.0.0
+         * @param cause
+         */
+        protected void sendErrorToBackEnd(String cause){
+            try {
+                FFCalculatorWebApi.getInstance().getApiService().sendReport(FFCalculatorSharedPrefs.id(), BuildConfig.FLAVOR, FFCReportRequestFactory.createFFCReportRequest(cause));
+            } catch (Exception e){
+                LogUtils.w(TAG_NAME, "erreur non critique sur l'envoi d'un rapport de crash");
+            }
         }
     }
 }
