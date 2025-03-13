@@ -17,7 +17,7 @@ import java.util.concurrent.Executors;
  *
  * @since 1.0.0
  */
-@Database(entities = {Result.class}, version = 1)
+@Database(entities = {Result.class}, version = 1, exportSchema = false)
 public abstract class FFCalculatorDatabase extends RoomDatabase {
     private static final String TAG_NAME = "FFCalculatorDatabase";
     private static final String DATABASE_NAME = "ffcalculator_database";
