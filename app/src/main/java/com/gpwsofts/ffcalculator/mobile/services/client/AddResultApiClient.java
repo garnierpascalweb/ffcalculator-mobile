@@ -28,6 +28,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -50,7 +51,7 @@ public class AddResultApiClient {
 
     private AddResultApiClient() {
         LogUtils.i(TAG_NAME, "instanciation de AddResultApiClient");
-        mResult = new SingleLiveEvent<AddResultRunnableResponse>();
+        mResult = new SingleLiveEvent<>();
         LogUtils.i(TAG_NAME, "fin instanciation de AddResultApiClient");
     }
 
@@ -69,7 +70,7 @@ public class AddResultApiClient {
             addResultRunnable = null;
         }
         addResultRunnable = new AddResultRunnable(place, libelle, pos, prts);
-        final Future myHandler = AppExecutors.getInstance().networkIO().submit(addResultRunnable);
+        final Future<?> myHandler = AppExecutors.getInstance().networkIO().submit(addResultRunnable);
         AppExecutors.getInstance().networkIO().schedule(() -> {
             // annuler l'appel a l'API
             myHandler.cancel(true);
@@ -102,7 +103,7 @@ public class AddResultApiClient {
 
         @Override
         public void run() {
-            AddResultRunnableResponse runnableResponse = null;
+            AddResultRunnableResponse runnableResponse;
             Result newResult = null;
             String message = null;
             boolean isOk = false;
@@ -114,8 +115,7 @@ public class AddResultApiClient {
                 boolean isWwwConnected = FFCalculatorApplication.instance.getServicesManager().getNetworkService().isWwwConnected();
                 if (isWwwConnected) {
                     // reseau disponible
-                    Response response = null;
-                    response = getPts(request).execute();
+                    Response<FFCPointsResponse> response = getPts(request).execute();
                     if (cancelRequest) {
                         LogUtils.d(TAG_NAME, "cancelRequest true");
                         return;
@@ -123,34 +123,46 @@ public class AddResultApiClient {
                     int responseCode = response.code();
                     LogUtils.d(TAG_NAME, "responseCode du service des points = <" + responseCode + ">");
                     if (responseCode == 200) {
-                        Double pts = ((FFCPointsResponse) response.body()).pts;
-                        newResult = createResultFromDatas(request.code, request.place, libelle,request.pos, request.prts, pts);
-                        message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_add_result_ok);
-                        isOk = true;
+                        FFCPointsResponse body = response.body();
+                        if (body != null) {
+                            Double pts = body.pts;
+                            newResult = createResultFromDatas(request.code, request.place, libelle, request.pos, request.prts, pts);
+                            message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_add_result_ok);
+                            isOk = true;
+                        } else {
+                            final String myerror = "erreur - le body de reponse est null";
+                            LogUtils.e(TAG_NAME, myerror);
+                            sendErrorToBackEnd(myerror);
+                        }
                     } else {
                         // code retour http pas 200
                         LogUtils.e(TAG_NAME, "echec du calcul des points pour ce nouveau resultat");
-                        final String error = response.errorBody().string();
-                        LogUtils.e(TAG_NAME, "erreur " + error + " - envoi de la cause au backend");
-                        newResult = null;
-                        message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_add_result_ko);
-                        sendErrorToBackEnd(error);
+                        ResponseBody responseBody = response.errorBody();
+                        if (responseBody != null){
+                            final String error = responseBody.string();
+                            LogUtils.e(TAG_NAME, "erreur " + error + " - envoi de la cause au backend");
+                            // already null newResult = null;
+                            message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_add_result_ko);
+                            sendErrorToBackEnd(error);
+                        } else {
+                            LogUtils.w(TAG_NAME, "responseErorBody est null");
+                        }
                     }
                 } else {
                     // pas de reseau
                     LogUtils.e(TAG_NAME, "echec du calcul des points pour ce nouveau resultat - pas de reseau");
-                    newResult = null;
+                    // already null newResult = null;
                     message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_no_network);
                     //TODO 1.0.0 peut etre dérouler une implementation locale ?
                 }
             } catch (AddResultException e) {
                 LogUtils.e(TAG_NAME, "AddResultException ", e);
-                newResult = null;
+                // already null newResult = null;
                 message = e.getToastMessage();
                 sendErrorToBackEnd(e.getMessage());
             } catch (IOException e) {
                 LogUtils.e(TAG_NAME, "IOException ", e);
-                newResult = null;
+                // already null newResult = null;
                 message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_technical_problem);
                 sendErrorToBackEnd(e.getMessage());
             } catch (Exception e) {
@@ -179,39 +191,39 @@ public class AddResultApiClient {
 
         /**
          * creation de la requete depuis l'input sur le formulaire
-         * @param inplace
-         * @param inlibelle
-         * @param inpos
-         * @param inprts
+         * @param inplace lieu de lepreuve
+         * @param inlibelle libelle de lepreuve
+         * @param inpos position obtenue
+         * @param inprts partants
          * @return la liste des champs qui ont été saisis vides
          * @since 1.0.0
          */
         protected FFCPointsRequest createRequestFromInput(String inplace, String inlibelle, String inpos, String inprts) throws AddResultException {
-            List<String> emptyFields = new ArrayList<String>();
+            List<String> emptyFields = new ArrayList<>();
             FFCPointsRequest request = new FFCPointsRequest();
-            if (null == inplace || inplace.length() == 0)
+            if (null == inplace || inplace.isEmpty())
                 emptyFields.add(LABEL_LIEU);
-            if (null == inlibelle || inlibelle.length() == 0)
+            if (null == inlibelle || inlibelle.isEmpty())
                 emptyFields.add(LABEL_LIBELLE);
-            if (null == inpos || inpos.length() == 0)
+            if (null == inpos || inpos.isEmpty())
                 emptyFields.add(LABEL_POSITION);
-            if (null == inprts || inprts.length() == 0)
+            if (null == inprts || inprts.isEmpty())
                 emptyFields.add(LABEL_NB_PARTICIPANTS);
             if (emptyFields.isEmpty()) {
                 try {
                     int pos;
                     if (TextUtils.isDigitsOnly(inpos)) {
-                        pos = Integer.valueOf(inpos);
+                        pos = Integer.parseInt(inpos);
                     } else {
-                        AddResultException adex = new AddResultException("pas de type numérique : " + inpos + "");
+                        AddResultException adex = new AddResultException("pas de type numérique : " + inpos);
                         adex.setToastMessage(FFCalculatorApplication.instance.getResources().getString(R.string.toast_add_result_invalid_data, "position"));
                         throw adex;
                     }
                     int prts;
                     if (TextUtils.isDigitsOnly(inprts)) {
-                        prts = Integer.valueOf(inprts);
+                        prts = Integer.parseInt(inprts);
                     } else {
-                        AddResultException adex = new AddResultException("Une donnée nest pas de type numérique : " + inprts + "");
+                        AddResultException adex = new AddResultException("Une donnée nest pas de type numérique : " + inprts);
                         adex.setToastMessage(FFCalculatorApplication.instance.getResources().getString(R.string.toast_add_result_invalid_data, "Nombre de participants"));
                         throw adex;
                     }
@@ -228,11 +240,11 @@ public class AddResultApiClient {
                 } catch (AddResultException adex) {
                     throw adex;
                 } catch (NumberFormatException ne) {
-                    AddResultException adex = new AddResultException("Une donnée nest pas de type numérique : " + inpos + " ou " + inprts + "", ne);
+                    AddResultException adex = new AddResultException("Une donnée nest pas de type numérique : " + inpos + " ou " + inprts , ne);
                     adex.setToastMessage(FFCalculatorApplication.instance.getResources().getString(R.string.toast_add_result_invalid_data, "position"));
                     throw adex;
                 } catch (InputLibelleFormatException ie) {
-                    AddResultException adex = new AddResultException("Format de libelle incorrect : " + inlibelle + "", ie);
+                    AddResultException adex = new AddResultException("Format de libelle incorrect : " + inlibelle, ie);
                     adex.setToastMessage(FFCalculatorApplication.instance.getResources().getString(R.string.toast_technical_problem));
                     throw adex;
                 } catch (Exception e){
@@ -250,12 +262,12 @@ public class AddResultApiClient {
 
         /**
          * Factorisation du code de creation d'un resultat
-         * @param inIdClasse
-         * @param inPlace
-         * @param inLibelle
-         * @param inPos
-         * @param inPrts
-         * @param inPts
+         * @param inIdClasse classe de course
+         * @param inPlace lieu
+         * @param inLibelle libelle
+         * @param inPos position obtenue
+         * @param inPrts partants
+         * @param inPts points recoltes
          * @return une instance de Result
          */
         protected Result createResultFromDatas(String inIdClasse, String inPlace, String inLibelle, int inPos, int inPrts, double inPts) throws IOException {
@@ -281,13 +293,20 @@ public class AddResultApiClient {
         /**
          * Envoi d'éventuelles erreurs au backend
          * @since 1.0.0
-         * @param cause
+         * @param cause cause
          */
         protected void sendErrorToBackEnd(String cause){
             try {
-                FFCalculatorWebApi.getInstance().getApiService().sendReport(FFCalculatorSharedPrefs.id(), BuildConfig.FLAVOR, FFCReportRequestFactory.createFFCReportRequest(cause));
+                LogUtils.d(TAG_NAME, "envoi de la cause au backend");
+                if (FFCalculatorApplication.instance.getServicesManager().getNetworkService().isWwwConnected()) {
+                    FFCalculatorWebApi.getInstance().getApiService().sendReport(FFCalculatorSharedPrefs.id(), BuildConfig.FLAVOR, FFCReportRequestFactory.createFFCReportRequest(cause));
+                } else {
+                    LogUtils.d(TAG_NAME, "pas de reseau");
+                }
             } catch (Exception e){
                 LogUtils.w(TAG_NAME, "erreur non critique sur l'envoi d'un rapport de crash");
+            } finally {
+                LogUtils.d(TAG_NAME, "fin d'envoi de la cause au backend");
             }
         }
     }
