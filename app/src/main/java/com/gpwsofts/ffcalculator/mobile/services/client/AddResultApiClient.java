@@ -13,6 +13,7 @@ import com.gpwsofts.ffcalculator.mobile.common.AddResultRunnableResponse;
 import com.gpwsofts.ffcalculator.mobile.common.SingleLiveEvent;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.exception.InputLibelleFormatException;
+import com.gpwsofts.ffcalculator.mobile.model.Grid;
 import com.gpwsofts.ffcalculator.mobile.model.Logo;
 import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsRequest;
 import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsResponse;
@@ -280,7 +281,7 @@ public class AddResultApiClient {
             newResult.setPrts(inPrts);
             LogUtils.v(TAG_NAME, "affectation des pts calcules = <" + inPts + ">");
             newResult.setPts(inPts);
-            final String idLogo = FFCalculatorApplication.instance.getServicesManager().getGridService().getGrids().stream().filter(grid -> grid.getCode().equals(inIdClasse)).map(grid -> grid.getLogo()).findAny().orElse(null);
+            final String idLogo = FFCalculatorApplication.instance.getServicesManager().getGridService().getGrids().stream().filter(grid -> grid.getCode().equals(inIdClasse)).map(Grid::getLogo).findAny().orElse(null);
             LogUtils.v(TAG_NAME, "calcul de Logo pour un idLogo <" + idLogo + ">");
             // et si idLogo null, faudrait au moins mettre un logo par defaut
             // cette fonctionnalité est supportée par le service des logos, qui rend un logo par defaut "unknown" si idLogo est null ou si idLogo existe pas dans la map

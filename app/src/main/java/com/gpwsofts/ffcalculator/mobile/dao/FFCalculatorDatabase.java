@@ -23,13 +23,6 @@ public abstract class FFCalculatorDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "ffcalculator_database";
     private static final int NUMBER_OF_THREADS = 4;
     public static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
-    private static final RoomDatabase.Callback roomCallback = new RoomDatabase.Callback() {
-        @Override
-        public void onCreate(@NonNull SupportSQLiteDatabase db) {
-            super.onCreate(db);
-            // a activer en cas de populate new PopulateDbAsyncTask(instance).execute();
-        }
-    };
     private static volatile FFCalculatorDatabase instance;
 
     public static synchronized FFCalculatorDatabase getInstance() {

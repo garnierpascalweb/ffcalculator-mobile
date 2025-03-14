@@ -20,24 +20,16 @@ public class Grid implements Comparable {
     private List<Integer> pts;
 
     public Grid() {
-        vues = new ArrayList<String>();
-        pts = new ArrayList<Integer>();
+        vues = new ArrayList<>();
+        pts = new ArrayList<>();
     }
 
     public String getCode() {
         return code;
     }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
-
     public int getPriority() {
         return priority;
-    }
-
-    public void setPriority(int priority) {
-        this.priority = priority;
     }
 
     public String getLogo() {
@@ -60,10 +52,6 @@ public class Grid implements Comparable {
         return vues;
     }
 
-    public void setVues(List<String> vues) {
-        this.vues = vues;
-    }
-
     public String getType() {
         return type;
     }
@@ -72,28 +60,8 @@ public class Grid implements Comparable {
         this.type = type;
     }
 
-    public String getCal() {
-        return cal;
-    }
-
-    public void setCal(String cal) {
-        this.cal = cal;
-    }
-
     public int getMaxPos() {
         return maxPos;
-    }
-
-    public void setMaxPos(int maxPos) {
-        this.maxPos = maxPos;
-    }
-
-    public int getTotalpts() {
-        return totalpts;
-    }
-
-    public void setTotalpts(int totalpts) {
-        this.totalpts = totalpts;
     }
 
     public List<Integer> getPts() {

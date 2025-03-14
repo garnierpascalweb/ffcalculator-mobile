@@ -68,22 +68,18 @@ public class CheckForUpdatesApiClient {
                         LogUtils.e(TAG_NAME, "echec de la recuperation");
                         String error = response.errorBody().string();
                         LogUtils.e(TAG_NAME, "erreur " + error);
-                        latestVersion = null;
                         message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_add_result_ko);
                     }
                 } else {
                     // pas de reseau
                     LogUtils.e(TAG_NAME, "echec du checkUpdate - pas de reseau");
-                    latestVersion = null;
                     message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_no_network);
                 }
             } catch (IOException e) {
                 LogUtils.e(TAG_NAME, "IOException ", e);
-                latestVersion = null;
                 message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_technical_problem);
             } catch (Exception e) {
                 LogUtils.e(TAG_NAME, "Exception ", e);
-                latestVersion = null;
                 message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_technical_problem);
             } finally {
                 CheckUpdateRunnableResponse checkUpdateRunnableResponse = new CheckUpdateRunnableResponse();

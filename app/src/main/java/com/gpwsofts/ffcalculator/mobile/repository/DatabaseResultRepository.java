@@ -48,29 +48,21 @@ public class DatabaseResultRepository {
 
     public void insert(Result result) {
         LogUtils.i(TAG_NAME, "Envoi dans le pool Executor database dun ordre de insert");
-        FFCalculatorDatabase.databaseWriteExecutor.execute(() -> {
-            resultDao.insert(result);
-        });
+        FFCalculatorDatabase.databaseWriteExecutor.execute(() -> resultDao.insert(result));
     }
 
     public void update(Result result) {
         LogUtils.i(TAG_NAME, "Envoi dans le pool Executor database dun ordre de update");
-        FFCalculatorDatabase.databaseWriteExecutor.execute(() -> {
-            resultDao.update(result);
-        });
+        FFCalculatorDatabase.databaseWriteExecutor.execute(() -> resultDao.update(result));
     }
 
     public void delete(Result result) {
         LogUtils.i(TAG_NAME, "Envoi dans le pool Executor database dun ordre de delete");
-        FFCalculatorDatabase.databaseWriteExecutor.execute(() -> {
-            resultDao.delete(result);
-        });
+        FFCalculatorDatabase.databaseWriteExecutor.execute(() -> resultDao.delete(result));
     }
 
     public void deleteAll() {
         LogUtils.i(TAG_NAME, "Envoi dans le pool Executor database dun ordre de Delete All");
-        FFCalculatorDatabase.databaseWriteExecutor.execute(() -> {
-            resultDao.deleteAllResults();
-        });
+        FFCalculatorDatabase.databaseWriteExecutor.execute(() -> resultDao.deleteAllResults());
     }
 }
