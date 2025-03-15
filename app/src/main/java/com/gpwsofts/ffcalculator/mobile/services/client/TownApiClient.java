@@ -21,7 +21,7 @@ public class TownApiClient {
 
     private TownApiClient() {
         LogUtils.i(TAG_NAME, "instanciation de TownApiClient");
-        mTownChoices = new SingleLiveEvent<List<String>>();
+        mTownChoices = new SingleLiveEvent<>();
         LogUtils.i(TAG_NAME, "fin instanciation de TownApiClient");
     }
 
@@ -40,7 +40,7 @@ public class TownApiClient {
             loadTownChoicesRunnable = null;
         }
         loadTownChoicesRunnable = new TownApiClient.LoadTownsChoicesRunnable();
-        final Future myHandler = AppExecutors.getInstance().networkIO().submit(loadTownChoicesRunnable);
+        final Future<?> myHandler = AppExecutors.getInstance().networkIO().submit(loadTownChoicesRunnable);
         AppExecutors.getInstance().networkIO().schedule(() -> {
             myHandler.cancel(true);
         }, JOB_TIMEOUT, TimeUnit.MILLISECONDS);
@@ -62,7 +62,6 @@ public class TownApiClient {
         @Override
         public void run() {
             LogUtils.i(TAG_NAME, "debut du job asynchrone LoadTownsChoicesRunnable");
-            ITownService townService = null;
             List<String> towns = null;
             try {
                 towns = FFCalculatorApplication.instance.getServicesManager().getTownService().getTowns();

@@ -1,7 +1,6 @@
 package com.gpwsofts.ffcalculator.mobile.services.update;
 
 import com.gpwsofts.ffcalculator.mobile.services.ICleanableService;
-import com.gpwsofts.ffcalculator.mobile.services.update.pojo.FFCUpdateCheckerRequest;
 import com.gpwsofts.ffcalculator.mobile.services.update.pojo.FFCUpdateCkeckerResponse;
 
 import retrofit2.Call;

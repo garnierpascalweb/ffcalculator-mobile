@@ -27,7 +27,6 @@ public class FFCReportRequest {
         if (incause != null){
             Gson gson = new Gson();
             cause = gson.toJson(incause);
-            gson = null;
         }
     }
 }

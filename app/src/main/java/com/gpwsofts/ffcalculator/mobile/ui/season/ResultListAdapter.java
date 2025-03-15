@@ -45,7 +45,7 @@ public class ResultListAdapter extends ListAdapter<Result, ResultViewHolder> {
 
         @Override
         public boolean areContentsTheSame(@NonNull Result oldItem, @NonNull Result newItem) {
-            boolean areTheSameContents = (oldItem.idClasse.equals(newItem.idClasse)) &&
+            return (oldItem.idClasse.equals(newItem.idClasse)) &&
                     (oldItem.place.equals(newItem.place)) &&
                     (oldItem.logo.equals(newItem.logo)) &&
                     (oldItem.logoColor == newItem.logoColor) &&
@@ -53,7 +53,6 @@ public class ResultListAdapter extends ListAdapter<Result, ResultViewHolder> {
                     (oldItem.prts == newItem.prts) &&
                     (oldItem.pts == newItem.pts) &&
                     (oldItem.libelle.equals(newItem.libelle));
-            return areTheSameContents;
         }
     }
 }

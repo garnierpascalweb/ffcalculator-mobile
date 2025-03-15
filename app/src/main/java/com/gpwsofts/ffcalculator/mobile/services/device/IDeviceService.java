@@ -3,9 +3,9 @@ package com.gpwsofts.ffcalculator.mobile.services.device;
 import com.gpwsofts.ffcalculator.mobile.services.ICleanableService;
 
 public interface IDeviceService extends ICleanableService {
-    public int getApiLevel();
-    public int getVersionCode();
-    public String getVersionName();
-    public String getManufacturer();
-    public String getModel();
+    int getApiLevel();
+    int getVersionCode();
+    String getVersionName();
+    String getManufacturer();
+    String getModel();
 }

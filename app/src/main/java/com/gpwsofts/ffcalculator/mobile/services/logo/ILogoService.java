@@ -12,14 +12,14 @@ public interface ILogoService extends ICleanableService {
     /**
      * Rend une instance de Logo par rapport a une idClasse
      *
-     * @param idClasse
+     * @param idClasse id de la classe
      * @return
      */
     Logo getLogo(String idClasse);
 
     /**
      * Rend une instance de Logo inconnu
-     * @return
+     * @return une instance de logo
      */
     Logo getUnknownLogo();
 }

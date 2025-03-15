@@ -2,6 +2,9 @@ package com.gpwsofts.ffcalculator.mobile.services.logo;
 
 import android.content.res.Resources;
 
+import androidx.core.content.ContextCompat;
+
+import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.model.Logo;
 import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
@@ -19,20 +22,22 @@ public class SimpleLogoService implements ILogoService {
 
     public SimpleLogoService(Resources res) {
         this.res = res;
+        // FFCalculatorApplication.instance.getApplicationContext()
+
         logos = new HashMap<>();
-        logos.put(res.getString(R.string.logo_elite), new Logo(res.getColor(R.color.logo_elite), res.getString(R.string.logo_elite)));
-        logos.put(res.getString(R.string.logo_open_1_2_3), new Logo(res.getColor(R.color.logo_open_1_2_3), res.getString(R.string.logo_open_1_2_3)));
-        logos.put(res.getString(R.string.logo_open_1), new Logo(res.getColor(R.color.logo_open_1), res.getString(R.string.logo_open_1)));
-        logos.put(res.getString(R.string.logo_open_1_2), new Logo(res.getColor(R.color.logo_open_1_2), res.getString(R.string.logo_open_1_2)));
-        logos.put(res.getString(R.string.logo_open_2_3), new Logo(res.getColor(R.color.logo_open_2_3), res.getString(R.string.logo_open_2_3)));
-        logos.put(res.getString(R.string.logo_open_3), new Logo(res.getColor(R.color.logo_open_3), res.getString(R.string.logo_open_3)));
-        logos.put(res.getString(R.string.logo_u17), new Logo(res.getColor(R.color.logo_u17), res.getString(R.string.logo_u17)));
-        logos.put(res.getString(R.string.logo_u19), new Logo(res.getColor(R.color.logo_u19), res.getString(R.string.logo_u19)));
-        logos.put(res.getString(R.string.logo_u23), new Logo(res.getColor(R.color.logo_u23), res.getString(R.string.logo_u23)));
-        logos.put(res.getString(R.string.logo_cdfn1), new Logo(res.getColor(R.color.logo_cdfn1), res.getString(R.string.logo_cdfn1)));
-        logos.put(res.getString(R.string.logo_cdfn2), new Logo(res.getColor(R.color.logo_cdfn2), res.getString(R.string.logo_cdfn2)));
-        logos.put(res.getString(R.string.logo_cdfn3), new Logo(res.getColor(R.color.logo_cdfn3), res.getString(R.string.logo_cdfn3)));
-        logos.put(res.getString(R.string.logo_unknown), new Logo(res.getColor(R.color.logo_unknown), res.getString(R.string.logo_unknown)));
+        logos.put(res.getString(R.string.logo_elite), new Logo(ContextCompat.getColor(FFCalculatorApplication.instance.getApplicationContext(),R.color.logo_elite), res.getString(R.string.logo_elite)));
+        logos.put(res.getString(R.string.logo_open_1_2_3), new Logo(ContextCompat.getColor(FFCalculatorApplication.instance.getApplicationContext(),R.color.logo_open_1_2_3), res.getString(R.string.logo_open_1_2_3)));
+        logos.put(res.getString(R.string.logo_open_1), new Logo(ContextCompat.getColor(FFCalculatorApplication.instance.getApplicationContext(),R.color.logo_open_1), res.getString(R.string.logo_open_1)));
+        logos.put(res.getString(R.string.logo_open_1_2), new Logo(ContextCompat.getColor(FFCalculatorApplication.instance.getApplicationContext(),R.color.logo_open_1_2), res.getString(R.string.logo_open_1_2)));
+        logos.put(res.getString(R.string.logo_open_2_3), new Logo(ContextCompat.getColor(FFCalculatorApplication.instance.getApplicationContext(),R.color.logo_open_2_3), res.getString(R.string.logo_open_2_3)));
+        logos.put(res.getString(R.string.logo_open_3), new Logo(ContextCompat.getColor(FFCalculatorApplication.instance.getApplicationContext(),R.color.logo_open_3), res.getString(R.string.logo_open_3)));
+        logos.put(res.getString(R.string.logo_u17), new Logo(ContextCompat.getColor(FFCalculatorApplication.instance.getApplicationContext(),R.color.logo_u17), res.getString(R.string.logo_u17)));
+        logos.put(res.getString(R.string.logo_u19), new Logo(ContextCompat.getColor(FFCalculatorApplication.instance.getApplicationContext(),R.color.logo_u19), res.getString(R.string.logo_u19)));
+        logos.put(res.getString(R.string.logo_u23), new Logo(ContextCompat.getColor(FFCalculatorApplication.instance.getApplicationContext(),R.color.logo_u23), res.getString(R.string.logo_u23)));
+        logos.put(res.getString(R.string.logo_cdfn1), new Logo(ContextCompat.getColor(FFCalculatorApplication.instance.getApplicationContext(),R.color.logo_cdfn1), res.getString(R.string.logo_cdfn1)));
+        logos.put(res.getString(R.string.logo_cdfn2), new Logo(ContextCompat.getColor(FFCalculatorApplication.instance.getApplicationContext(),R.color.logo_cdfn2), res.getString(R.string.logo_cdfn2)));
+        logos.put(res.getString(R.string.logo_cdfn3), new Logo(ContextCompat.getColor(FFCalculatorApplication.instance.getApplicationContext(),R.color.logo_cdfn3), res.getString(R.string.logo_cdfn3)));
+        logos.put(res.getString(R.string.logo_unknown), new Logo(ContextCompat.getColor(FFCalculatorApplication.instance.getApplicationContext(),R.color.logo_unknown), res.getString(R.string.logo_unknown)));
     }
 
     /**
@@ -40,7 +45,7 @@ public class SimpleLogoService implements ILogoService {
      * @return une instance de Logo pour un idLogo
      */
     public Logo getLogo(String idLogo) {
-        Logo logo = null;
+        Logo logo;
         if (null == idLogo){
             LogUtils.w(TAG_NAME, "idLogo null, renvoi du logo par defaut");
             logo = getUnknownLogo();

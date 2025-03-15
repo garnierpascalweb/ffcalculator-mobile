@@ -38,8 +38,7 @@ public class ClassesListAdapter extends ListAdapter<Grid, ClassesViewHolder> {
 
         @Override
         public boolean areContentsTheSame(@NonNull Grid oldItem, @NonNull Grid newItem) {
-            boolean areTheSameContents = (oldItem.getCode().equals(newItem.getCode()));
-            return areTheSameContents;
+            return (oldItem.getCode().equals(newItem.getCode()));
         }
     }
 }

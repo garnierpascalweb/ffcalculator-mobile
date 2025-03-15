@@ -6,5 +6,5 @@ import java.io.IOException;
 import java.util.List;
 
 public interface ITownService extends ICleanableService {
-    public List<String> getTowns() throws IOException;
+    List<String> getTowns() throws IOException;
 }

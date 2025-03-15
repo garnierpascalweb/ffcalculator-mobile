@@ -3,7 +3,6 @@ package com.gpwsofts.ffcalculator.mobile.services.network;
 
 import android.net.Network;
 import android.net.NetworkCapabilities;
-import android.net.NetworkInfo;
 
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;

@@ -33,11 +33,6 @@ public class ServicesManager {
     private static final String TAG_NAME = "ServicesManager";
 
     /**
-     * Service des vues
-     */
-
-
-    /**
      * Service des logos
      */
     private ILogoService logoService = null;
@@ -73,7 +68,7 @@ public class ServicesManager {
     /**
      * Constructeur de ServiceManager
      *
-     * @param application
+     * @param application l'application
      */
     public ServicesManager(FFCalculatorApplication application) {
         if (application.isServicesManagerAlreadyExist()) {

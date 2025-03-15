@@ -255,7 +255,7 @@ public class AddResultApiClient {
                 }
             } else {
                 AddResultException adex = new AddResultException("champs vides " + emptyFields);
-                adex.setToastMessage(FFCalculatorApplication.instance.getResources().getString(R.string.toast_add_result_invalid_form, emptyFields.stream().collect(Collectors.joining(","))));
+                adex.setToastMessage(FFCalculatorApplication.instance.getResources().getString(R.string.toast_add_result_invalid_form, String.join(",", emptyFields)));
                 throw adex;
             }
             return request;

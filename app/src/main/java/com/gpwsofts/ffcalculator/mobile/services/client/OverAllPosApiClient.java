@@ -29,7 +29,7 @@ public class OverAllPosApiClient {
 
     private OverAllPosApiClient() {
         LogUtils.i(TAG_NAME, "instanciation de OverAllPosApiClient");
-        mPos = new SingleLiveEvent<Integer>();
+        mPos = new SingleLiveEvent<>();
         LogUtils.i(TAG_NAME, "fin instanciation de OverAllPosApiClient");
     }
 
@@ -50,7 +50,7 @@ public class OverAllPosApiClient {
         LogUtils.d(TAG_NAME, "instantaition dun GetPosRunnable");
         getPosRunnable = new GetPosRunnable(pts, classType);
         LogUtils.d(TAG_NAME, "submit du runnable GetPosRunnable dans le pool de thread");
-        final Future myHandler = AppExecutors.getInstance().networkIO().submit(getPosRunnable);
+        final Future<?> myHandler = AppExecutors.getInstance().networkIO().submit(getPosRunnable);
         LogUtils.d(TAG_NAME, "appel de cancel dans <" + JOB_TIMEOUT + "> ");
         AppExecutors.getInstance().networkIO().schedule(() -> {
             myHandler.cancel(true);
@@ -73,7 +73,7 @@ public class OverAllPosApiClient {
         @Override
         public void run() {
             LogUtils.i(TAG_NAME, "debut du job asynchrone GetPosRunnable");
-            Response response = null;
+            Response response;
             Integer pos = null;
             try {
                 boolean isWwwConnected = FFCalculatorApplication.instance.getServicesManager().getNetworkService().isWwwConnected();
@@ -90,30 +90,40 @@ public class OverAllPosApiClient {
                     int responseCode = response.code();
                     LogUtils.d(TAG_NAME, "responseCode du service des positions = <" + responseCode + ">");
                     if (responseCode == 200) {
-                        pos = ((FFCPosResponse) response.body()).pos;
-                        LogUtils.d(TAG_NAME, "succes du calcul de la position pour ce capital de points = <" + pos + ">");
-                        LogUtils.d(TAG_NAME, "post de la nouvelle position en livedata");
+                        if (response.body() != null) {
+                            pos = ((FFCPosResponse) response.body()).pos;
+                            LogUtils.d(TAG_NAME, "succes du calcul de la position pour ce capital de points = <" + pos + ">");
+                            LogUtils.d(TAG_NAME, "post de la nouvelle position en livedata");
+                        } else {
+                            // TODO 1.0.0 response body null
+                        }
+
                     } else {
                         // reponse pas 200
-                        String error = response.errorBody().string();
-                        LogUtils.e(TAG_NAME, "echec du calcul de la position pour ce capital de points");
-                        LogUtils.e(TAG_NAME, "erreur " + error);
-                        LogUtils.d(TAG_NAME, "pos rendue et postee = <null>");
-                        pos = null;
+                        String error;
+                        if (response.errorBody() != null) {
+                            error = response.errorBody().string();
+                            LogUtils.e(TAG_NAME, "echec du calcul de la position pour ce capital de points");
+                            LogUtils.e(TAG_NAME, "erreur " + error);
+                            LogUtils.d(TAG_NAME, "pos rendue et postee = <null>");
+                        } else {
+                            //TODO 1.0.0 errorBody null
+                        }
+                        // already assigned to this vakue pos = null;
                         //TODO 1.0.0 envoyer au backend ?
                     }
                 } else {
                     // pas de reseau
                     LogUtils.e(TAG_NAME, "echec du calcul de la position - pas de reseau");
-                    pos = null;
+                    // already assigned to this value pos = null;
                     //TODO 1.0.0 peut etre dérouler une implementation locale ?
                 }
             } catch (IOException e) {
                 LogUtils.e(TAG_NAME, "echec du calcul de la position pour ce capital de points : " + e.getClass().getSimpleName(), e);
-                pos = null;
+                // already assigned to this value pos = null;
             } catch (Exception e) {
                 LogUtils.e(TAG_NAME, "echec du calcul de la position pour ce capital de points : " + e.getClass().getSimpleName(), e);
-                pos = null;
+                // already assigned to this value pos = null;
             } finally {
                 mPos.postValue(pos);
                 LogUtils.i(TAG_NAME, "fin du job asynchrone GetPosRunnable");

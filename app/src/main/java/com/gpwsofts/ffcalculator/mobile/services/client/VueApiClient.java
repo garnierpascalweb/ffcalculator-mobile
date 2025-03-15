@@ -20,9 +20,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class VueApiClient {
     private static final String TAG_NAME = "VueApiClient";
-    private static final String SHARED_PREFS_APP_NAME = "FFCalculatorSharedPrefs";
     private static final String KEY_VUE = "vue";
-    private static final String DEFAULT_VUE_VALUE = "G";
     private static final int JOB_TIMEOUT = 5000;
     private static VueApiClient instance;
     private final SingleLiveEvent<Vue> mVue;
@@ -31,7 +29,7 @@ public class VueApiClient {
 
     private VueApiClient() {
         LogUtils.i(TAG_NAME, "instanciation de VueApiClient");
-        mVue = new SingleLiveEvent<Vue>();
+        mVue = new SingleLiveEvent<>();
         LogUtils.v(TAG_NAME, "recherche dans les shared prefs de la valeur de <" + KEY_VUE + ">");
         final String currentCodeVue = FFCalculatorApplication.instance.getSharedPrefs().getSharedPrefsVue();
         LogUtils.v(TAG_NAME, "set en liveData instance Vue = <" + currentCodeVue + ">");
@@ -55,7 +53,7 @@ public class VueApiClient {
             setVueRunnable = null;
         }
         setVueRunnable = new SetVueRunnable(vue);
-        final Future myHandler = AppExecutors.getInstance().networkIO().submit(setVueRunnable);
+        final Future<?> myHandler = AppExecutors.getInstance().networkIO().submit(setVueRunnable);
         AppExecutors.getInstance().networkIO().schedule(() -> {
             // annuler l'appel a l'API
             myHandler.cancel(true);
@@ -97,10 +95,10 @@ public class VueApiClient {
                 }
             } catch (SwitchVueException sve) {
                 LogUtils.e(TAG_NAME, "probleme sur le job SetVueRunnable", sve);
-                newVue = null;
+                // Already assigned to this value newVue = null;
             }catch (Exception e) {
                 LogUtils.e(TAG_NAME, "probleme sur le job SetVueRunnable", e);
-                newVue = null;
+                // Already assigned to this value newVue = null;
             } finally {
                 mVue.postValue(newVue);
                 LogUtils.i(TAG_NAME, "fin du job asynchrone SetVueRunnable");

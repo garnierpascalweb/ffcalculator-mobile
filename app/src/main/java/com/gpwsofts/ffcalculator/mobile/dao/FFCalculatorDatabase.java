@@ -1,10 +1,8 @@
 package com.gpwsofts.ffcalculator.mobile.dao;
 
-import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 
@@ -19,7 +17,6 @@ import java.util.concurrent.Executors;
  */
 @Database(entities = {Result.class}, version = 1, exportSchema = false)
 public abstract class FFCalculatorDatabase extends RoomDatabase {
-    private static final String TAG_NAME = "FFCalculatorDatabase";
     private static final String DATABASE_NAME = "ffcalculator_database";
     private static final int NUMBER_OF_THREADS = 4;
     public static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);

@@ -2,11 +2,9 @@ package com.gpwsofts.ffcalculator.mobile;
 
 import android.app.Application;
 import android.net.ConnectivityManager;
-import android.os.Build;
 
 import com.gpwsofts.ffcalculator.mobile.services.ServicesManager;
 import com.gpwsofts.ffcalculator.mobile.sharedprefs.FFCalculatorSharedPrefs;
-import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
 
 
 /**

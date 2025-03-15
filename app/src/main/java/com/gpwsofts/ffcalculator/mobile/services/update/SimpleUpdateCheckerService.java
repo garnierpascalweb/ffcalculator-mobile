@@ -5,10 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
-import com.gpwsofts.ffcalculator.mobile.services.pos.pojo.FFCPosRequest;
-import com.gpwsofts.ffcalculator.mobile.services.update.pojo.FFCUpdateCheckerRequest;
 import com.gpwsofts.ffcalculator.mobile.services.update.pojo.FFCUpdateCkeckerResponse;
-import com.gpwsofts.ffcalculator.mobile.sharedprefs.FFCalculatorSharedPrefs;
 import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
 import com.gpwsofts.ffcalculator.mobile.www.FFCalculatorWebApi;
 

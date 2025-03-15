@@ -27,7 +27,6 @@ public class ClassesViewHolder extends RecyclerView.ViewHolder {
 
     /**
      * Chargement depuis le layour que nous avons défini : simple_spinner_item
-     *
      * @param parent
      * @return
      */
@@ -38,7 +37,6 @@ public class ClassesViewHolder extends RecyclerView.ViewHolder {
 
     /**
      * Permet d'associer l'instance de l'item en cours (de type Grid) a l'objet graphique défini dans notre custom layout
-     *
      * @param current
      */
     public void bind(Grid current) {

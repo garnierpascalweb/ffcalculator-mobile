@@ -21,10 +21,10 @@ import java.util.List;
 public class SimpleGridService implements IGridService {
     private static final String TAG_NAME = "SimpleGridService";
     private static final String GRID_RELATIVE_PATH = "grids/grilles.json";
-    private List<Grid> grids = null;
+    private List<Grid> grids;
 
     public SimpleGridService() {
-        grids = new ArrayList<Grid>();
+        grids = new ArrayList<>();
     }
 
     public List<Grid> getGrids() throws IOException {
@@ -42,7 +42,7 @@ public class SimpleGridService implements IGridService {
             final int borneInf = libelle.indexOf("(") + 1;
             final int borneSup = libelle.indexOf(")");
             idClasse = libelle.substring(borneInf, borneSup);
-        } catch (IndexOutOfBoundsException ie){
+        } catch (IndexOutOfBoundsException ie) {
             throw new InputLibelleFormatException(" le libelle " + libelle + " nest pas au bon format", ie);
         }
         return idClasse;
@@ -50,14 +50,15 @@ public class SimpleGridService implements IGridService {
 
     /**
      * Chargement des grilles
+     *
+     * @throws IOException problème lors du chargement des grilles
      * @since 1.0.0
-     * @throws IOException
      */
     private void loadGridsFromLocalResource() throws IOException {
         InputStream is = null;
-        Type listGridType = null;
-        String jsonDatas = null;
-        Gson gson = null;
+        Type listGridType;
+        String jsonDatas;
+        Gson gson;
         try {
             LogUtils.i(TAG_NAME, "debut de chargement des grilles");
             LogUtils.d(TAG_NAME, "ouverture du flux sur <" + GRID_RELATIVE_PATH + ">");
@@ -65,9 +66,8 @@ public class SimpleGridService implements IGridService {
             int size = is.available();
             LogUtils.v(TAG_NAME, "<" + size + "> octets lus - creation dun buffer de cette taille");
             byte[] buffer = new byte[size];
-            is.read(buffer);
-            listGridType = new TypeToken<List<Grid>>() {
-            }.getType();
+            final int readed = is.read(buffer);
+            listGridType = new TypeToken<List<Grid>>() {}.getType();
             jsonDatas = new String(buffer, StandardCharsets.UTF_8);
             LogUtils.v(TAG_NAME, "construction d'une instance de liste depuis Gson");
             gson = new Gson();
@@ -88,7 +88,7 @@ public class SimpleGridService implements IGridService {
 
     @Override
     public void clean() {
-        if (grids != null){
+        if (grids != null) {
             grids.clear();
         }
     }

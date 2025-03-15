@@ -25,10 +25,10 @@ public class VueService implements IVueService {
      * Table de mapping entre un bouton id de menu et une vue
      * @since 1.0.0
      */
-    private Map<Integer,String> vuesMapping;
+    private final Map<Integer,String> vuesMapping;
 
     public VueService(){
-        vuesMapping = new HashMap<Integer,String>();
+        vuesMapping = new HashMap<>();
         vuesMapping.put(R.id.idMenuItemGeneral, VueService.GENERALE);
         vuesMapping.put(R.id.idMenuItemElite, VueService.ELITE);
         vuesMapping.put(R.id.idMenuItemOpen1, VueService.OPEN_1);
@@ -51,8 +51,8 @@ public class VueService implements IVueService {
 
     /**
      * Rend la vue a affecter selon le menu item de vue selectionnée, si non trouvé, générale
-     * @param menuItemId
-     * @return
+     * @param menuItemId l'id de l'item dans le menu
+     * @return le codeVue du menuItem
      */
     public String getCodeVueFromMenuItem(int menuItemId){
         String codeVue = vuesMapping.get(menuItemId);
@@ -62,7 +62,7 @@ public class VueService implements IVueService {
     }
 
     private int getIndexInMenu(String codeVue) {
-        int indexToSelect = 0;
+        int indexToSelect;
         switch (codeVue) {
             case ELITE: {
                 indexToSelect = 4;
@@ -104,7 +104,7 @@ public class VueService implements IVueService {
     }
 
     private String getName(String codeVue) {
-        String name = null;
+        String name;
         switch (codeVue) {
             case ELITE: {
                 name = "Elite";
@@ -146,16 +146,13 @@ public class VueService implements IVueService {
     }
 
     public String getClassToMap(String codeVue) {
-        String classToMap = "H";
-        switch (codeVue) {
-            case U17: {
-                classToMap = "U17";
-                break;
-            }
-            default: {
-                classToMap = "H";
-            }
+        String classToMap;
+        if (codeVue.equals(U17)) {
+            classToMap = "U17";
+        } else {
+            classToMap = "H";
         }
+        //TODO 1.0.0 H et U17 devraient etre des constantes ou des Strings.xml
         return classToMap;
     }
 

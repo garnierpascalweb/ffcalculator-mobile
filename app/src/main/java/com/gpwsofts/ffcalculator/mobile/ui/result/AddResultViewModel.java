@@ -28,8 +28,6 @@ public class AddResultViewModel extends AndroidViewModel {
     private static final String TAG_NAME = "AddResultViewModel";
     private static final List<Integer> INTEGER_LIST_1_200 = IntStream.rangeClosed(1, 200).boxed().collect(Collectors.toList());
     private static final List<Integer> INTEGER_LIST_1_50 = IntStream.rangeClosed(1, 50).boxed().collect(Collectors.toList());
-    private static final List<Grid> EMPTY_GRID_LIST = new ArrayList<Grid>();
-    private static final String VIDE = "";
     private final AddResultRepository addResultRepository;
     private final DatabaseResultRepository databaseResultRepository;
     private final GridRepository gridRepository;
@@ -46,7 +44,7 @@ public class AddResultViewModel extends AndroidViewModel {
         databaseResultRepository = DatabaseResultRepository.getInstance();
         gridRepository = GridRepository.getInstance();
         townRepository = TownRepository.getInstance();
-        currentListTowns = new ArrayList<String>();
+        currentListTowns = new ArrayList<>();
         LogUtils.i(TAG_NAME, "Fin Instantiation de AddResultViewModel");
     }
 
@@ -80,10 +78,10 @@ public class AddResultViewModel extends AndroidViewModel {
 
     /**
      * Declenche la creation d'un nouveau resultat
-     * @param place
-     * @param libelle
-     * @param pos
-     * @param prts
+     * @param place lieu de la course
+     * @param libelle libelle de la course
+     * @param pos position obtenue
+     * @param prts nombre de partants
      */
     public void addResultApiAsync(String place, String libelle, String pos, String prts) {
         addResultRepository.addResultApiAsync(place, libelle, pos, prts);
@@ -91,18 +89,6 @@ public class AddResultViewModel extends AndroidViewModel {
 
     public void onNewResultCreated(Result newResult) {
         databaseResultRepository.insert(newResult);
-    }
-
-    public List<Grid> getCurrentListGrid() {
-        return gridRepository.getGridChoicesLiveData().getValue();
-    }
-
-    public List<String> getCurrentListTownsFromLiveData() {
-        return townRepository.getTownChoicesLiveData().getValue();
-    }
-
-    public String getCurrentListGridHelperText() {
-        return currentListGridHelperText;
     }
 
     public void setCurrentListGridHelperText(String currentListGridHelperText) {

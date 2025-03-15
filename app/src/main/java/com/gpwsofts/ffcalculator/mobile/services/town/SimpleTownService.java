@@ -25,7 +25,7 @@ public class SimpleTownService implements ITownService {
         InputStream is = null;
         try {
             LogUtils.i(TAG_NAME, "debut de chargement des villes");
-            towns = new ArrayList<String>();
+            towns = new ArrayList<>();
             LogUtils.d(TAG_NAME, "ouverture du flux sur <" + TOWN_RELATIVE_PATH + ">");
             is = FFCalculatorApplication.instance.getApplicationContext().getAssets().open(TOWN_RELATIVE_PATH);
             final Scanner scanner = new Scanner(is);
