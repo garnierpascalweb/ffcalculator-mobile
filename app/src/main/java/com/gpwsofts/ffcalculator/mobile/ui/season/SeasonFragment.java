@@ -47,24 +47,20 @@ public class SeasonFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         LogUtils.i(TAG_NAME, "debut appel de onViewCreated");
         super.onViewCreated(view, savedInstanceState);
-        /**
-         * Recuperation des elements graphiques
-         */
+        // RECUPERATION DES ELEMENTS GRAPHIQUES
         final TextView textViewPts = binding.textAllpts;
         final TextView textViewPos = binding.textMypos;
         final RecyclerView resultRV = binding.idRVCourse;
-        /**
-         * Fin recuperation des elements graphiques
-         */
+        // FIN RECUPERATION DES ELEMENTS GRAPHIQUES
 
-        /**
-         * Initialisation des adapters
-         */
+        // INITIALISATION DES ADAPTERS
         final ResultListAdapter resultListAdapter = new ResultListAdapter(new ResultListAdapter.ResultDiff());
         resultRV.setAdapter(resultListAdapter);
         resultRV.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
         resultRV.setHasFixedSize(true);
+        // FIN INITIALISATION DES ADAPTERS
 
+        // DEFINITION DE ItemTouchHelper POUR LE SWITCH SUPPRESSION
         final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -78,11 +74,9 @@ public class SeasonFragment extends Fragment {
         });
         LogUtils.i(TAG_NAME, "attachement a la recyclerView du itemTouchHelper ");
         itemTouchHelper.attachToRecyclerView(resultRV);
+        // FIN DEFINITION DE ItemTouchHelper POUR LE SWITCH SUPPRESSION
 
-
-        /**
-         * Observation d'un changement dans la liste des résultats
-         */
+        // OBSERVATION DUN CHANGEMENT DANS LA LISTE DE RESULTATS
         seasonViewModel.getAllResultsLiveData().observe(getViewLifecycleOwner(), results -> {
             LogUtils.i(TAG_NAME, "debut observer results");
             if (results != null){
@@ -92,13 +86,9 @@ public class SeasonFragment extends Fragment {
             }
             LogUtils.i(TAG_NAME, "fin observer results");
         });
-        /**
-         * Fin Observation d'un changement dans la liste des résultats
-         */
+        // FIN OBSERVATION DUN CHANGEMENT DANS LA LISTE DE RESULTATS
 
-        /**
-         * Observation d'un changement du nombre total de points
-         */
+        // OBSERVATION DUN CHANGEMENT DANS LE NOMBRE DE POINTS
         seasonViewModel.getAllPtsLiveData().observe(getViewLifecycleOwner(), pts -> {
             LogUtils.i(TAG_NAME, "debut observer allPts");
             if (null != pts) {
@@ -134,10 +124,9 @@ public class SeasonFragment extends Fragment {
             }
             LogUtils.i(TAG_NAME, "fin observer allPts");
         });
+        // FIN OBSERVATION DUN CHANGEMENT DANS LE NOMBRE DE POINTS
 
-        /**
-         * Observation d'un changement sur la position au classement national
-         */
+        // OBSERVATION DUN CHANGEMENT DANS LA POSITION AU CLASSEMENT NATIONAL
         seasonViewModel.getOverAllPosLiveData().observe(getViewLifecycleOwner(), overAllPos -> {
             LogUtils.i(TAG_NAME, "debut observer overAllPos");
             final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
@@ -157,6 +146,7 @@ public class SeasonFragment extends Fragment {
             textViewPos.setText(textFieldPosText);
             LogUtils.i(TAG_NAME, "fin observer overAllPos");
         });
+        // FIN OBSERVATION DUN CHANGEMENT DANS LA POSITION AU CLASSEMENT NATIONAL
     }
 
     @Override

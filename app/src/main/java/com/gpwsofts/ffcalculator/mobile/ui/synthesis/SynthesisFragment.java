@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentSynthesisBinding;
-
+//TODO 1.0.0 fragment a supprimer
 public class SynthesisFragment extends Fragment {
     private static final String TAG_NAME = "SynthesisFragment";
     private FragmentSynthesisBinding binding;

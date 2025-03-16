@@ -33,7 +33,7 @@ public class VueApiClient {
         LogUtils.v(TAG_NAME, "recherche dans les shared prefs de la valeur de <" + KEY_VUE + ">");
         final String currentCodeVue = FFCalculatorApplication.instance.getSharedPrefs().getSharedPrefsVue();
         LogUtils.v(TAG_NAME, "set en liveData instance Vue = <" + currentCodeVue + ">");
-        final Vue currentVue = FFCalculatorApplication.instance.getServicesManager().getVueService().createVue(currentCodeVue);
+        final Vue currentVue = FFCalculatorApplication.instance.getServicesManager().getVueService().getVueInstance(currentCodeVue);
         mVue.setValue(currentVue);
         LogUtils.i(TAG_NAME, "fin instanciation de VueApiClient");
     }
@@ -86,7 +86,7 @@ public class VueApiClient {
                 LogUtils.d(TAG_NAME, "envoi de la cle valeur en shared prefs - <" + KEY_VUE + "> <" + codeVue + ">");
                 // sharedPrefsEditor.putString(KEY_VUE, vue);
                 if (FFCalculatorApplication.instance.getSharedPrefs().setSharedPrefsVue(codeVue)){
-                    newVue = FFCalculatorApplication.instance.getServicesManager().getVueService().createVue(codeVue);
+                    newVue = FFCalculatorApplication.instance.getServicesManager().getVueService().getVueInstance(codeVue);
                     mVue.postValue(newVue);
                 } else {
                     SwitchVueException sve = new SwitchVueException(FFCalculatorApplication.instance.getResources().getString(R.string.toast_update_vue_ko));

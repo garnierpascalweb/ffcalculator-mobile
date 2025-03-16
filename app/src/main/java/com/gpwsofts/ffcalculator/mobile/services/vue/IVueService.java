@@ -4,7 +4,7 @@ import com.gpwsofts.ffcalculator.mobile.model.Vue;
 import com.gpwsofts.ffcalculator.mobile.services.ICleanableService;
 
 public interface IVueService extends ICleanableService {
-    Vue createVue(String codeVue);
+    Vue getVueInstance(String codeVue);
     String getCodeVueFromMenuItem(int menuItemId);
     boolean isU17(String codeVue);
 }

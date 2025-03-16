@@ -30,9 +30,9 @@ public class SeasonViewModel extends AndroidViewModel {
         LogUtils.i(TAG_NAME, "Instantiotion de SeasonViewModel");
         databaseResultRepository = DatabaseResultRepository.getInstance();
         posRepository = OverallPosRepository.getInstance();
-        currentPts = Double.valueOf(0.0);
-        currentPos = Integer.valueOf(0);
-        currentClassType = new String();
+        currentPts = 0.0;
+        currentPos = 0;
+        currentClassType = "";
         LogUtils.i(TAG_NAME, "Fin instantiotion de SeasonViewModel");
     }
 
@@ -40,24 +40,9 @@ public class SeasonViewModel extends AndroidViewModel {
         return databaseResultRepository.getAllPtsLiveData();
     }
 
-    public void insert(Result result) {
-        LogUtils.i(TAG_NAME, "Insertion d un nouveau resultat");
-        databaseResultRepository.insert(result);
-    }
-
-    public void update(Result result) {
-        LogUtils.i(TAG_NAME, "Mise a jour resultat");
-        databaseResultRepository.update(result);
-    }
-
     public void delete(Result result) {
         LogUtils.i(TAG_NAME, "Suppression d un resultat");
         databaseResultRepository.delete(result);
-    }
-
-    public void deleteAll() {
-        LogUtils.i(TAG_NAME, "Suppression de tous les resultats");
-        databaseResultRepository.deleteAll();
     }
 
     public LiveData<List<Result>> getAllResultsLiveData() {

@@ -20,10 +20,10 @@ import retrofit2.http.POST;
  * Interface de la couche cliente API
  */
 public interface IApiInterface {
-    public static final String URI_PTS = BuildConfig.API_URI_PTS;
-    public static final String URI_CLASSEMENT = BuildConfig.API_URI_CLASS;
-    public static final String URI_CRASH_REPORT = BuildConfig.API_URI_REPORT;
-    public static final String URI_LATEST_VERSION = BuildConfig.API_URI_LATEST_VERSION;
+    String URI_PTS = BuildConfig.API_URI_PTS;
+    String URI_CLASSEMENT = BuildConfig.API_URI_CLASS;
+    String URI_CRASH_REPORT = BuildConfig.API_URI_REPORT;
+    String URI_LATEST_VERSION = BuildConfig.API_URI_LATEST_VERSION;
 
     @POST(URI_PTS)
     Call<FFCPointsResponse> calcPts(@Header("uuid") String uuid, @Header("env") String env, @Body FFCPointsRequest request);

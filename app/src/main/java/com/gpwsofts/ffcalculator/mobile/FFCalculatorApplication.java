@@ -55,10 +55,6 @@ public class FFCalculatorApplication extends Application {
 
 
     @Override
-    /**
-     * On reagit au callback onLowMemory
-     * @since 1.0.0
-     */
     public void onLowMemory() {
         super.onLowMemory();
         if (null != servicesManager) {
@@ -66,6 +62,7 @@ public class FFCalculatorApplication extends Application {
            // servicesManager.unbindAndDie();
             servicesManager = null;
             servicesManagerAlreadyExist = false;
+            //TODO 1.0.0 reagir a onLowMemory
         }
     }
 

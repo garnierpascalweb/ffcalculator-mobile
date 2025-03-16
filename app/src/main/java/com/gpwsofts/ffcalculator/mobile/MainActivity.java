@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
          *                     String jsonResponse = response.body().string();
          *                     Gson gson = new Gson();
          *                     UpdateInfo updateInfo = gson.fromJson(jsonResponse, UpdateInfo.class);
-         *
          *                     int currentVersionCode = BuildConfig.VERSION_CODE;
          *                     if (updateInfo.latest_version_code > currentVersionCode) {
          *                         showUpdateDialog(context, updateInfo.download_url);

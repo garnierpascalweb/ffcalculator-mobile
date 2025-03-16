@@ -1,5 +1,7 @@
 package com.gpwsofts.ffcalculator.mobile.ui.season;
 
+import static android.provider.Settings.System.getString;
+
 import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,7 +49,8 @@ public class ResultViewHolder extends RecyclerView.ViewHolder {
         logoTextView.getBackground().setColorFilter(logoColor, PorterDuff.Mode.SRC_ATOP);
         placeTextView.setText(place);
         libelleTextView.setText(libelle);
-        resultPosPrtsTextView.setText(pos + "e sur " + prts);
+        //TODO Verifier que ca marche
+        resultPosPrtsTextView.setText(itemView.getContext().getString(R.string.label_resultat_detail, pos, prts));
         resultPtsView.setText(String.valueOf(pts));
 
     }
