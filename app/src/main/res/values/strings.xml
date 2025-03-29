@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FFCalculatorMobile</string>
+    <string name="app_name">FFCalculator</string>
     <string name="vide"></string>
     <string name="hint_lieu_epreuve">Lieu ou Nom d\'épreuve</string>
     <string name="hint_type_epreuve">Type d\'épreuve</string>
