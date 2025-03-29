@@ -24,11 +24,6 @@ public class SimpleReportHttpService implements IReportHttpService {
             if (FFCalculatorApplication.instance.getServicesManager().getNetworkService().isWwwConnected()) {
                 call = FFCalculatorWebApi.getInstance().getApiService().sendReport(FFCalculatorSharedPrefs.id(), BuildConfig.FLAVOR, request);
                 final Response<Void> response = call.execute();
-                if (response != null) {
-                    LogUtils.d(TAG_NAME, " http <" + response.code() + ">");
-                } else {
-
-                }
             } else {
                 LogUtils.d(TAG_NAME, "pas de reseau");
             }

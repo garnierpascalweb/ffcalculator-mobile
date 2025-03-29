@@ -40,10 +40,7 @@ public class FFCalculatorSharedPrefs {
                 sharedPrefsEditor.commit();
                 LogUtils.i(TAG_NAME, "ecriture uuid = <" + uniqueID + ">");
             }
-        } else {
-            LogUtils.i(TAG_NAME, "lecture uuid = <" + uniqueID + ">");
         }
-        LogUtils.i(TAG_NAME, "renvoi uuid = <" + uniqueID + ">");
         return uniqueID;
     }
 
