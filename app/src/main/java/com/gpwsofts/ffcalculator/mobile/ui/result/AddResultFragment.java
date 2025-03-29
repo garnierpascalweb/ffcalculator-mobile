@@ -104,6 +104,9 @@ public class AddResultFragment extends Fragment {
             LogUtils.i(TAG_NAME, "debut observer vue");
             if (vue != null) {
                 LogUtils.d(TAG_NAME, "observer vue - la vue rendue n'est pas nulle - déclenchement du chargement des grilles associées a la vue <" + vue +"> et notification Toast ok");
+                // effacement de la saisie en cours
+                autoCompleteTextViewClasses.setText(R.string.vide);
+                autoCompleteTextViewPos.clearListSelection();
                 addResultViewModel.loadGridChoicesAsync(vue);
                 Toast.makeText(getActivity(), getString(R.string.toast_update_vue_ok, vue.getName()), Toast.LENGTH_SHORT).show();
             } else {
