@@ -6,7 +6,6 @@ import androidx.lifecycle.LiveData;
 
 import com.gpwsofts.ffcalculator.mobile.AddResultException;
 import com.gpwsofts.ffcalculator.mobile.AppExecutors;
-import com.gpwsofts.ffcalculator.mobile.BuildConfig;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.common.AddResultRunnableResponse;
@@ -17,17 +16,13 @@ import com.gpwsofts.ffcalculator.mobile.model.Grid;
 import com.gpwsofts.ffcalculator.mobile.model.Logo;
 import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsRequest;
 import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsResponse;
-import com.gpwsofts.ffcalculator.mobile.services.report.pojo.FFCReportRequestFactory;
-import com.gpwsofts.ffcalculator.mobile.sharedprefs.FFCalculatorSharedPrefs;
 import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
-import com.gpwsofts.ffcalculator.mobile.www.FFCalculatorWebApi;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -39,7 +34,7 @@ import retrofit2.Response;
  * Appelé par AddResultRepository
  * Rend un LiveData<Result>
  */
-public class AddResultApiClient {
+public class AddResultApiClient extends AbstractApiClient {
     private static final String TAG_NAME = "AddResultApiClient";
     private static final String LABEL_LIEU = "Lieu";
     private static final String LABEL_LIBELLE = "Libellé";
@@ -131,20 +126,19 @@ public class AddResultApiClient {
                             message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_add_result_ok);
                             isOk = true;
                         } else {
-                            final String myerror = "erreur - le body de reponse est null";
-                            LogUtils.e(TAG_NAME, myerror);
-                            sendErrorToBackEnd(myerror);
+                            AddResultException ade = new AddResultException("probleme sur le calcul des points - reponse serveur non exploitable - null");
+                            ade.setToastMessage(FFCalculatorApplication.instance.getResources().getString(R.string.toast_technical_problem));
+                            throw ade;
                         }
                     } else {
                         // code retour http pas 200
                         LogUtils.e(TAG_NAME, "echec du calcul des points pour ce nouveau resultat");
                         ResponseBody responseBody = response.errorBody();
                         if (responseBody != null){
-                            final String error = responseBody.string();
-                            LogUtils.e(TAG_NAME, "erreur " + error + " - envoi de la cause au backend");
-                            // already null newResult = null;
-                            message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_add_result_ko);
-                            sendErrorToBackEnd(error);
+                            final String errorBodyContent = responseBody.string();
+                            AddResultException ade = new AddResultException(errorBodyContent);
+                            ade.setToastMessage(FFCalculatorApplication.instance.getResources().getString(R.string.toast_add_result_ko));
+                            throw ade;
                         } else {
                             LogUtils.w(TAG_NAME, "responseErorBody est null");
                         }
@@ -160,17 +154,11 @@ public class AddResultApiClient {
                 LogUtils.e(TAG_NAME, "AddResultException ", e);
                 // already null newResult = null;
                 message = e.getToastMessage();
-                sendErrorToBackEnd(e.getMessage());
-            } catch (IOException e) {
-                LogUtils.e(TAG_NAME, "IOException ", e);
-                // already null newResult = null;
+                sendErrorToBackEnd(TAG_NAME, e);
+            } catch (IOException ioe) {
+                LogUtils.e(TAG_NAME, "IOException ", ioe);
                 message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_technical_problem);
-                sendErrorToBackEnd(e.getMessage());
-            } catch (Exception e) {
-                LogUtils.e(TAG_NAME, "Exception ", e);
-                newResult = null;
-                message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_technical_problem);
-                sendErrorToBackEnd(e.getMessage());
+                sendErrorToBackEnd(TAG_NAME, ioe);
             } finally {
                 runnableResponse = new AddResultRunnableResponse();
                 runnableResponse.setResult(newResult);
@@ -271,44 +259,33 @@ public class AddResultApiClient {
          * @param inPts points recoltes
          * @return une instance de Result
          */
-        protected Result createResultFromDatas(String inIdClasse, String inPlace, String inLibelle, int inPos, int inPrts, double inPts) throws IOException {
-            Result newResult = new Result();
-            LogUtils.v(TAG_NAME, "affectation des differents champs place, libelle, pos, prts");
-            newResult.setIdClasse(inIdClasse);
-            newResult.setPlace(inPlace);
-            newResult.setLibelle(inLibelle);
-            newResult.setPos(inPos);
-            newResult.setPrts(inPrts);
-            LogUtils.v(TAG_NAME, "affectation des pts calcules = <" + inPts + ">");
-            newResult.setPts(inPts);
-            final String idLogo = FFCalculatorApplication.instance.getServicesManager().getGridService().getGrids().stream().filter(grid -> grid.getCode().equals(inIdClasse)).map(Grid::getLogo).findAny().orElse(null);
-            LogUtils.v(TAG_NAME, "calcul de Logo pour un idLogo <" + idLogo + ">");
-            // et si idLogo null, faudrait au moins mettre un logo par defaut
-            // cette fonctionnalité est supportée par le service des logos, qui rend un logo par defaut "unknown" si idLogo est null ou si idLogo existe pas dans la map
-            final Logo logo = FFCalculatorApplication.instance.getServicesManager().getLogoService(FFCalculatorApplication.instance.getResources()).getLogo(idLogo);
-            newResult.setLogo(logo.getText());
-            newResult.setLogoColor(logo.getColor());
-            return newResult;
-        }
-
-        /**
-         * Envoi d'éventuelles erreurs au backend
-         * @since 1.0.0
-         * @param cause cause
-         */
-        protected void sendErrorToBackEnd(String cause){
+        protected Result createResultFromDatas(String inIdClasse, String inPlace, String inLibelle, int inPos, int inPrts, double inPts) throws AddResultException {
+            Result newResult;
             try {
-                LogUtils.d(TAG_NAME, "envoi de la cause au backend");
-                if (FFCalculatorApplication.instance.getServicesManager().getNetworkService().isWwwConnected()) {
-                    FFCalculatorWebApi.getInstance().getApiService().sendReport(FFCalculatorSharedPrefs.id(), BuildConfig.FLAVOR, FFCReportRequestFactory.createFFCReportRequest(cause));
-                } else {
-                    LogUtils.d(TAG_NAME, "pas de reseau");
-                }
-            } catch (Exception e){
-                LogUtils.w(TAG_NAME, "erreur non critique sur l'envoi d'un rapport de crash");
+                newResult = new Result();
+                LogUtils.v(TAG_NAME, "affectation des differents champs place, libelle, pos, prts");
+                newResult.setIdClasse(inIdClasse);
+                newResult.setPlace(inPlace);
+                newResult.setLibelle(inLibelle);
+                newResult.setPos(inPos);
+                newResult.setPrts(inPrts);
+                LogUtils.v(TAG_NAME, "affectation des pts calcules = <" + inPts + ">");
+                newResult.setPts(inPts);
+                final String idLogo = FFCalculatorApplication.instance.getServicesManager().getGridService().getGrids().stream().filter(grid -> grid.getCode().equals(inIdClasse)).map(Grid::getLogo).findAny().orElse(null);
+                LogUtils.v(TAG_NAME, "calcul de Logo pour un idLogo <" + idLogo + ">");
+                // et si idLogo null, faudrait au moins mettre un logo par defaut
+                // cette fonctionnalité est supportée par le service des logos, qui rend un logo par defaut "unknown" si idLogo est null ou si idLogo existe pas dans la map
+                final Logo logo = FFCalculatorApplication.instance.getServicesManager().getLogoService(FFCalculatorApplication.instance.getResources()).getLogo(idLogo);
+                newResult.setLogo(logo.getText());
+                newResult.setLogoColor(logo.getColor());
+            } catch (IOException e) {
+                AddResultException are = new AddResultException("probleme sur la creation d'un resultat", e);
+                are.setToastMessage(FFCalculatorApplication.instance.getResources().getString(R.string.toast_technical_problem));
+                throw are;
             } finally {
-                LogUtils.d(TAG_NAME, "fin d'envoi de la cause au backend");
+
             }
+            return newResult;
         }
     }
 }

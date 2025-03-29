@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  * Api Cliente pour le définition asynchrone de la vue
  * Appelé par VueRepository
  */
-public class VueApiClient {
+public class VueApiClient extends AbstractApiClient {
     private static final String TAG_NAME = "VueApiClient";
     private static final String KEY_VUE = "vue";
     private static final int JOB_TIMEOUT = 5000;
@@ -48,11 +48,11 @@ public class VueApiClient {
         return mVue;
     }
 
-    public void setVueApiAsync(String vue) {
+    public void setVueApiAsync(String codeVue) {
         if (setVueRunnable != null) {
             setVueRunnable = null;
         }
-        setVueRunnable = new SetVueRunnable(vue);
+        setVueRunnable = new SetVueRunnable(codeVue);
         final Future<?> myHandler = AppExecutors.getInstance().networkIO().submit(setVueRunnable);
         AppExecutors.getInstance().networkIO().schedule(() -> {
             // annuler l'appel a l'API
@@ -95,9 +95,11 @@ public class VueApiClient {
                 }
             } catch (SwitchVueException sve) {
                 LogUtils.e(TAG_NAME, "probleme sur le job SetVueRunnable", sve);
+                sendErrorToBackEnd(TAG_NAME, sve);
                 // Already assigned to this value newVue = null;
             }catch (Exception e) {
                 LogUtils.e(TAG_NAME, "probleme sur le job SetVueRunnable", e);
+                sendErrorToBackEnd(TAG_NAME, e);
                 // Already assigned to this value newVue = null;
             } finally {
                 mVue.postValue(newVue);

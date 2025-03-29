@@ -29,23 +29,24 @@ public class SeasonFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        LogUtils.d(TAG_NAME, "appel de onCreate");
         super.onCreate(savedInstanceState);
         LogUtils.i(TAG_NAME, "appel de onCreate");
         seasonViewModel = new ViewModelProvider(requireActivity()).get(SeasonViewModel.class);
         vueViewModel = new ViewModelProvider(requireActivity()).get(VueViewModel.class);
-        LogUtils.i(TAG_NAME, "fin appel de onCreate");
+        LogUtils.d(TAG_NAME, "fin appel de onCreate");
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        LogUtils.i(TAG_NAME, "appel de onCreateView");
+        LogUtils.d(TAG_NAME, "appel de onCreateView");
         binding = FragmentSeasonBinding.inflate(inflater, container, false);
-        LogUtils.i(TAG_NAME, "fin appel de onCreateView");
+        LogUtils.d(TAG_NAME, "fin appel de onCreateView");
         return binding.getRoot();
     }
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        LogUtils.i(TAG_NAME, "debut appel de onViewCreated");
+        LogUtils.d(TAG_NAME, "appel de onViewCreated");
         super.onViewCreated(view, savedInstanceState);
         // RECUPERATION DES ELEMENTS GRAPHIQUES
         final TextView textViewPts = binding.textAllpts;
@@ -147,6 +148,7 @@ public class SeasonFragment extends Fragment {
             LogUtils.i(TAG_NAME, "fin observer overAllPos");
         });
         // FIN OBSERVATION DUN CHANGEMENT DANS LA POSITION AU CLASSEMENT NATIONAL
+        LogUtils.d(TAG_NAME, "fin appel de onViewCreated");
     }
 
     @Override

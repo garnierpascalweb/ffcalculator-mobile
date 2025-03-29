@@ -22,8 +22,6 @@ public class SimpleLogoService implements ILogoService {
 
     public SimpleLogoService(Resources res) {
         this.res = res;
-        // FFCalculatorApplication.instance.getApplicationContext()
-
         logos = new HashMap<>();
         logos.put(res.getString(R.string.logo_elite), new Logo(ContextCompat.getColor(FFCalculatorApplication.instance.getApplicationContext(),R.color.logo_elite), res.getString(R.string.logo_elite)));
         logos.put(res.getString(R.string.logo_open_1_2_3), new Logo(ContextCompat.getColor(FFCalculatorApplication.instance.getApplicationContext(),R.color.logo_open_1_2_3), res.getString(R.string.logo_open_1_2_3)));

@@ -15,7 +15,7 @@ import java.io.IOException;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class CheckForUpdatesApiClient {
+public class CheckForUpdatesApiClient extends AbstractApiClient {
     private static final String TAG_NAME = "CheckForUpdatesApiClient";
     private static CheckForUpdatesApiClient instance;
     private final SingleLiveEvent<CheckUpdateRunnableResponse> mCheckUpdateRunnableResponse;
@@ -78,9 +78,11 @@ public class CheckForUpdatesApiClient {
             } catch (IOException e) {
                 LogUtils.e(TAG_NAME, "IOException ", e);
                 message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_technical_problem);
+                sendErrorToBackEnd(TAG_NAME, e);
             } catch (Exception e) {
                 LogUtils.e(TAG_NAME, "Exception ", e);
                 message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_technical_problem);
+                sendErrorToBackEnd(TAG_NAME,e);
             } finally {
                 CheckUpdateRunnableResponse checkUpdateRunnableResponse = new CheckUpdateRunnableResponse();
                 checkUpdateRunnableResponse.setOk(isOk);
@@ -96,7 +98,6 @@ public class CheckForUpdatesApiClient {
         }
 
         private void cancelRequest() {
-            LogUtils.v("TAGNAME", "annulation de la requete");
             cancelRequest = true;
         }
 

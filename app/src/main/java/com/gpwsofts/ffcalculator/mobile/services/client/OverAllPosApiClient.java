@@ -20,7 +20,7 @@ import retrofit2.Response;
  * Api Cliente pour le calcul asynchrone de la position au classement national
  * Appelé par OverAllPosRepository
  */
-public class OverAllPosApiClient {
+public class OverAllPosApiClient extends AbstractApiClient {
     private static final String TAG_NAME = "OverAllPosApiClient";
     private static OverAllPosApiClient instance;
     private final SingleLiveEvent<Integer> mPos;
@@ -121,9 +121,11 @@ public class OverAllPosApiClient {
             } catch (IOException e) {
                 LogUtils.e(TAG_NAME, "echec du calcul de la position pour ce capital de points : " + e.getClass().getSimpleName(), e);
                 // already assigned to this value pos = null;
+                sendErrorToBackEnd(TAG_NAME, e);
             } catch (Exception e) {
                 LogUtils.e(TAG_NAME, "echec du calcul de la position pour ce capital de points : " + e.getClass().getSimpleName(), e);
                 // already assigned to this value pos = null;
+                sendErrorToBackEnd(TAG_NAME, e);
             } finally {
                 mPos.postValue(pos);
                 LogUtils.i(TAG_NAME, "fin du job asynchrone GetPosRunnable");

@@ -1,13 +1,9 @@
 package com.gpwsofts.ffcalculator.mobile.services.pos;
 
-import android.util.Log;
-
-import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.services.pos.pojo.FFCPosResponse;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import retrofit2.Call;
 

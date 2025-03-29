@@ -30,4 +30,5 @@ public class FFCalculatorException extends Exception {
     public void setToastMessage(String toastMessage) {
         this.toastMessage = toastMessage;
     }
+
 }

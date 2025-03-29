@@ -5,4 +5,6 @@ package com.gpwsofts.ffcalculator.mobile.common;
  * @since 1.0.0
  */
 public interface IRunnableResponse {
+    String getMessage();
+    public boolean isOk();
 }

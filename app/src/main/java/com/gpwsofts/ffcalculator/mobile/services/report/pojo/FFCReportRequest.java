@@ -11,22 +11,32 @@ import com.gpwsofts.ffcalculator.mobile.BuildConfig;
  * POJO pour une requete de report de bug
  */
 public class FFCReportRequest {
-    @SerializedName("versionRelease")
-    public String versionRelease;
-    @SerializedName("appVersion")
-    public String appVersion;
     @SerializedName("model")
     public String model;
-    @SerializedName("cause")
-    public String cause;
+    @SerializedName("osVersion")
+    public String osVersion;
+    @SerializedName("appVersion")
+    public String appVersion;
+    @SerializedName("tagName")
+    public String tagName;
+    @SerializedName("typeError")
+    public String typeError;
+    @SerializedName("causeError")
+    public String causeError;
 
-    protected FFCReportRequest(String incause){
-        versionRelease = Build.VERSION.RELEASE;
-        appVersion = BuildConfig.VERSION_NAME;
+    protected FFCReportRequest(String intagname, Exception e){
         model = Build.MODEL;
+        osVersion = Build.VERSION.RELEASE;
+        appVersion = BuildConfig.VERSION_NAME;
+        tagName = intagname;
+        final String incause = e.getMessage();
         if (incause != null){
             Gson gson = new Gson();
-            cause = gson.toJson(incause);
+            causeError = gson.toJson(incause);
+        }
+        final String inType = e.getClass().getSimpleName();
+        if (inType != null){
+            typeError = inType;
         }
     }
 }

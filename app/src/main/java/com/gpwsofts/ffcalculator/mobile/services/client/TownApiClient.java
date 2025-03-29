@@ -5,14 +5,13 @@ import androidx.lifecycle.LiveData;
 import com.gpwsofts.ffcalculator.mobile.AppExecutors;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.common.SingleLiveEvent;
-import com.gpwsofts.ffcalculator.mobile.services.town.ITownService;
 import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
 
 import java.util.List;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-public class TownApiClient {
+public class TownApiClient extends AbstractApiClient {
     private static final String TAG_NAME = "TownApiClient";
     private static TownApiClient instance;
     private final SingleLiveEvent<List<String>> mTownChoices;
@@ -69,6 +68,7 @@ public class TownApiClient {
             } catch (Exception e){
                 LogUtils.e(TAG_NAME, "echec du chargement de la liste des villes", e);
                 towns = null;
+                sendErrorToBackEnd(TAG_NAME, e);
             } finally {
                 mTownChoices.postValue(towns);
                 LogUtils.i(TAG_NAME, "fin  du job asynchrone LoadTownsChoicesRunnable");

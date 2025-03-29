@@ -4,7 +4,6 @@ import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.model.Vue;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

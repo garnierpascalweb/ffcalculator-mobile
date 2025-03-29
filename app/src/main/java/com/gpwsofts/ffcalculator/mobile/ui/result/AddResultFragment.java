@@ -21,8 +21,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentResultBinding;
-import com.gpwsofts.ffcalculator.mobile.model.Grid;
-import com.gpwsofts.ffcalculator.mobile.ui.season.SeasonViewModel;
 import com.gpwsofts.ffcalculator.mobile.ui.view.VueViewModel;
 import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
 
@@ -36,28 +34,29 @@ public class AddResultFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        LogUtils.d(TAG_NAME, "appel de onCreate");
         super.onCreate(savedInstanceState);
-        LogUtils.i(TAG_NAME, "appel de onCreate");
         addResultViewModel = new ViewModelProvider(requireActivity()).get(AddResultViewModel.class);
         vueViewModel = new ViewModelProvider(requireActivity()).get(VueViewModel.class);
-        LogUtils.i(TAG_NAME, "fin appel de onCreate");
+        LogUtils.d(TAG_NAME, "fin appel de onCreate");
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        LogUtils.i(TAG_NAME, "appel de onCreateView");
+        LogUtils.d(TAG_NAME, "appel de onCreateView");
         binding = FragmentResultBinding.inflate(inflater, container, false);
         // initialisation de la liste des villes
         addResultViewModel.loadTownChoicesAsync();
         // initialisation de la liste des épreuves en fonction de la vue
         addResultViewModel.loadGridChoicesAsync(vueViewModel.getVueLiveData().getValue());
         //TODO 1.0.0 attention vueViewModel.getVueLiveData().getValue() peut etre nill
+        LogUtils.d(TAG_NAME, "fin appel de onCreateView");
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        LogUtils.i(TAG_NAME, "debut appel de onViewCreated");
+        LogUtils.d(TAG_NAME, "appel de onViewCreated");
         super.onViewCreated(view, savedInstanceState);
         // final TextInputLayout textInputLayoutPlace = binding.idTILPlace;
         final TextInputLayout textInputLayoutClasse = binding.idTILClasses;
@@ -236,7 +235,7 @@ public class AddResultFragment extends Fragment {
             LogUtils.i(TAG_NAME, "fin onClick sur bouton ajouter");
         });
         // FIN ECOUTEUR - BOUTON AJOUT RESULTAT
-        LogUtils.i(TAG_NAME, "fin appel de onViewCreated");
+        LogUtils.d(TAG_NAME, "fin appel de onViewCreated");
     }
 
     @Override

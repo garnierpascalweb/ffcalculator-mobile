@@ -1,7 +1,5 @@
 package com.gpwsofts.ffcalculator.mobile.ui.season;
 
-import static android.provider.Settings.System.getString;
-
 import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;

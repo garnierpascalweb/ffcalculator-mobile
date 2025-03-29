@@ -17,7 +17,7 @@ public class VueViewModel extends ViewModel {
         return vueRepository.getVueLiveData();
     }
 
-    public void updateVue(String vue) {
-        vueRepository.setVueApi(vue);
+    public void updateVue(String codeVue) {
+        vueRepository.setVueApi(codeVue);
     }
 }

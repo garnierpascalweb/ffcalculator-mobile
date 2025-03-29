@@ -6,7 +6,6 @@ import com.gpwsofts.ffcalculator.mobile.AppExecutors;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.common.SingleLiveEvent;
 import com.gpwsofts.ffcalculator.mobile.model.Grid;
-import com.gpwsofts.ffcalculator.mobile.services.grid.IGridService;
 import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
 
 import java.util.List;
@@ -22,7 +21,7 @@ import java.util.stream.IntStream;
  * Appelé par GridRepository
  *
  */
-public class GridApiClient {
+public class GridApiClient extends AbstractApiClient {
     private static final String TAG_NAME = "GridApiClient";
     private static GridApiClient instance;
     private final SingleLiveEvent<List<Grid>> mGridChoices;
@@ -102,6 +101,7 @@ public class GridApiClient {
             } catch (Exception e){
                 LogUtils.e(TAG_NAME, "echec du chargement de la liste des classes de courses par rapport a la vue", e);
                 listGridsForMyVue = null;
+                sendErrorToBackEnd(TAG_NAME, e);
             } finally {
                 mGridChoices.postValue(listGridsForMyVue);
                 LogUtils.i(TAG_NAME, "fin  du job asynchrone LoadClassesChoicesRunnable selon la vue <" + vue + ">");
@@ -140,8 +140,8 @@ public class GridApiClient {
                     // Already assigned to this value posChoices = null;
                 }
             } catch (Exception e){
-                LogUtils.e(TAG_NAME, "echec du chargement de la liste des ppositions possibles ", e);
-                // Already assigned to this value posChoices = null;
+                LogUtils.e(TAG_NAME, "echec du chargement de la liste des positions possibles ", e);
+                sendErrorToBackEnd(TAG_NAME, e);
             } finally {
                 mPosChoices.postValue(posChoices);
                 LogUtils.i(TAG_NAME, "fin du job asynchrone LoadPosChoicesRunnable selon le libelle <" + libelle + ">");

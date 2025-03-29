@@ -8,8 +8,8 @@ import com.gpwsofts.ffcalculator.mobile.exception.FFCalculatorException;
  */
 public class AddResultException extends FFCalculatorException {
     public AddResultException() {
-    }
 
+    }
     public AddResultException(String message) {
         super(message);
     }
