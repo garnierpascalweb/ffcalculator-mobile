@@ -5,4 +5,5 @@ package com.gpwsofts.ffcalculator.mobile.services.report.pojo;
  * POJO pour une requete de report de bug
  */
 public class FFCReportResponse {
+
 }

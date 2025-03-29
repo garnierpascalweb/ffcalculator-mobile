@@ -15,6 +15,8 @@ import com.gpwsofts.ffcalculator.mobile.services.pos.IPosHttpService;
 import com.gpwsofts.ffcalculator.mobile.services.pos.SimplePosHttpService;
 import com.gpwsofts.ffcalculator.mobile.services.pts.IPtsHttpService;
 import com.gpwsofts.ffcalculator.mobile.services.pts.SimplePtsHttpService;
+import com.gpwsofts.ffcalculator.mobile.services.report.IReportHttpService;
+import com.gpwsofts.ffcalculator.mobile.services.report.SimpleReportHttpService;
 import com.gpwsofts.ffcalculator.mobile.services.town.ITownService;
 import com.gpwsofts.ffcalculator.mobile.services.town.SimpleTownService;
 import com.gpwsofts.ffcalculator.mobile.services.update.IUpdateCheckerService;
@@ -64,6 +66,7 @@ public class ServicesManager {
     private IVueService vueService;
     private IUpdateCheckerService updateCheckerService = null;
     private IDeviceService deviceService = null;
+    private IReportHttpService reportService = null;
 
     /**
      * Constructeur de ServiceManager
@@ -170,6 +173,16 @@ public class ServicesManager {
         return deviceService;
     }
 
+    public final IReportHttpService getReportService(){
+        if (null == reportService){
+            LogUtils.i(TAG_NAME, "creation dune nouvelle instance de IReportService");
+            reportService = new SimpleReportHttpService();
+        } else {
+            LogUtils.d(TAG_NAME, "recuperation d'une instance existante de IReportService");
+        }
+        return reportService;
+    }
+
     /**
      * @since 1.0.0
      * Désallocation de tous les services
@@ -210,6 +223,10 @@ public class ServicesManager {
         if (deviceService != null){
             deviceService.clean();
             deviceService = null;
+        }
+        if (reportService != null){
+            reportService.clean();
+            reportService = null;
         }
     }
 

@@ -16,6 +16,7 @@ import com.gpwsofts.ffcalculator.mobile.model.Grid;
 import com.gpwsofts.ffcalculator.mobile.model.Logo;
 import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsRequest;
 import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsResponse;
+import com.gpwsofts.ffcalculator.mobile.services.report.pojo.FFCReportRequestFactory;
 import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
 
 import java.io.IOException;
@@ -125,6 +126,12 @@ public class AddResultApiClient extends AbstractApiClient {
                             newResult = createResultFromDatas(request.code, request.place, libelle, request.pos, request.prts, pts);
                             message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_add_result_ok);
                             isOk = true;
+                            // TODO 1.0.0 simple testicule
+                            AddResultException ade = new AddResultException("message fake exception");
+                            ade.setToastMessage("toast message");
+                            //FFCalculatorWebApi.getInstance().getApiService().sendReport(FFCalculatorSharedPrefs.id(), BuildConfig.FLAVOR, FFCReportRequestFactory.createFFCReportRequest(TAG_NAME,ade));
+                            sendErrorToBackEnd(TAG_NAME, ade);
+                            FFCalculatorApplication.instance.getServicesManager().getReportService().sendReport(FFCReportRequestFactory.createFFCReportRequest(TAG_NAME,ade));
                         } else {
                             AddResultException ade = new AddResultException("probleme sur le calcul des points - reponse serveur non exploitable - null");
                             ade.setToastMessage(FFCalculatorApplication.instance.getResources().getString(R.string.toast_technical_problem));
