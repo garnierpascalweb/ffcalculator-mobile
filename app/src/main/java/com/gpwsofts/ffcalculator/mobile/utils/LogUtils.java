@@ -4,6 +4,10 @@ import android.util.Log;
 
 import com.gpwsofts.ffcalculator.mobile.BuildConfig;
 
+/**
+ * Classe utilitaire pour centraliser les logs
+ * @since 1.0.0
+ */
 public class LogUtils {
     private static final boolean ENABLE_LOGS = BuildConfig.ENABLE_LOGS;
 
