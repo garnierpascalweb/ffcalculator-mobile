@@ -9,11 +9,9 @@
     <string name="button_label_calcul_en_cours">Calcul en cours...</string>
     <string name="title_resultat">Résultat</string>
     <string name="title_saison">Saison</string>
-    <string name="title_synthese">Synthèse</string>
+    <string name="title_aide">Aide</string>
     <string name="test_idclasse">1.24.2</string>
     <string name="test_libelle">Open 2/3</string>
-    <string name="test_modifier">Modifier</string>
-    <string name="test_supprimer">Supprimer</string>
     <string name="label_vue_generale">Vue Générale</string>
     <string name="label_vue_elite">Vue Elite</string>
     <string name="label_vue_open1">Vue Open 1</string>
@@ -34,7 +32,6 @@
     <string name="vue_access">A</string>
 
     <string name="sample_logo_open_2">Open 2/3</string>
-
 
     <!-- Texte des logos -->
     <string name="logo_elite">Elite</string>
@@ -77,7 +74,4 @@
     <string name="label_classement_national_ko">Classement National : Echec du calcul de la position</string>
     <string name="label_classement_national_loading">Classement National : calcul en cours ...</string>
     <string name="label_resultat_detail">%1$d e sur %2$d prts</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_aide">Aide</string>
 </resources>
