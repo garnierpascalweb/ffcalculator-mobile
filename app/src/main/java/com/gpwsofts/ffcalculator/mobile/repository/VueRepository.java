@@ -33,9 +33,7 @@ public class VueRepository {
         vueApiClient.loadVueAsync();
     }
 
-    public void setVueApi(String codeVue) {
-        vueApiClient.setVueApiAsync(codeVue);
+    public void updateVueFromMenuAsync(int itemId){
+        vueApiClient.updateVueFromMenuAsync(itemId);
     }
-
-
 }

@@ -55,11 +55,11 @@ public class VueApiClient extends AbstractApiClient {
         }, JOB_TIMEOUT, TimeUnit.MILLISECONDS);
     }
 
-    public void setVueApiAsync(String codeVue) {
+    public void updateVueFromMenuAsync(int itemId) {
         if (setVueRunnable != null) {
             setVueRunnable = null;
         }
-        setVueRunnable = new SetVueRunnable(codeVue);
+        setVueRunnable = new SetVueRunnable(itemId);
         final Future<?> myHandler = AppExecutors.getInstance().networkIO().submit(setVueRunnable);
         AppExecutors.getInstance().networkIO().schedule(() -> {
             myHandler.cancel(true);
@@ -72,19 +72,20 @@ public class VueApiClient extends AbstractApiClient {
      * Job permettant de mettre a jour la vue en shared preferences
      */
     private class SetVueRunnable implements Runnable {
-        private final String codeVue;
+        private final int itemId;
         boolean cancelRequest;
 
-        public SetVueRunnable(String codeVue) {
-            this.codeVue = codeVue;
+        public SetVueRunnable(int itemId) {
+            this.itemId = itemId;
         }
 
         @Override
         public void run() {
             Vue newVue = null;
             try {
-                LogUtils.d(TAG_NAME, "debut du job asynchrone SetVueRunnable");
-                LogUtils.d(TAG_NAME, "envoi de la cle valeur en shared prefs - <" + KEY_VUE + "> <" + codeVue + ">");
+                LogUtils.d(TAG_NAME, "debut job asynchrone SetVueRunnable - itemId selectionne <" + itemId + ">");
+                final String codeVue = FFCalculatorApplication.instance.getServicesManager().getVueService().getCodeVueFromMenuItem(itemId);
+                LogUtils.d(TAG_NAME, "envoi en shared prefs du code vue associée - <" + KEY_VUE + "> <" + codeVue + ">");
                 if (FFCalculatorApplication.instance.getSharedPrefs().setSharedPrefsVue(codeVue)){
                     newVue = FFCalculatorApplication.instance.getServicesManager().getVueService().getVueInstance(codeVue);
                     mVue.postValue(newVue);

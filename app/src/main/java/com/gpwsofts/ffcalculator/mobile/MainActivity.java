@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,12 +28,13 @@ import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG_NAME = "MainActivity";
     private ActivityMainBinding binding;
-
     private VueViewModel vueViewModel;
+    private int itemIdSelected = 0;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        LogUtils.i(TAG_NAME, "appel de onCreate");
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -43,50 +46,47 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
-        //TODO 1.0.0 showUpdateDialog a appeler
-        /**
-         *  if (response.isSuccessful() && response.body() != null) {
-         *                     String jsonResponse = response.body().string();
-         *                     Gson gson = new Gson();
-         *                     UpdateInfo updateInfo = gson.fromJson(jsonResponse, UpdateInfo.class);
-         *                     int currentVersionCode = BuildConfig.VERSION_CODE;
-         *                     if (updateInfo.latest_version_code > currentVersionCode) {
-         *                         showUpdateDialog(context, updateInfo.download_url);
-         *                     }
-         *                 }
-         */
-        // showUpdateDialog(this, "https://www.villamonmo.com");
-        //TODO 1.0.0 uniformiser toutes les logs pour un changement de type observe
+        if (vueViewModel.getVueLiveData() == null)
+            vueViewModel.loadVueAsync();
+        vueViewModel.getVueLiveData().observe(this, vue -> {
+            try{
+                LogUtils.i(TAG_NAME, "debut observer vue");
+                if (vue != null) {
+                    itemIdSelected = vue.getIndexInComboMenu();
+                    LogUtils.d(TAG_NAME, "vue selectionnee <" + vue.getCode() + "> - itemId correspondant <" + itemIdSelected + "> - appel invalidateOptionsMenu()");
+                    invalidateOptionsMenu();
+                } else {
+                    LogUtils.w(TAG_NAME, "vue null");
+                }
+            } catch (Exception e) {
+                LogUtils.e(TAG_NAME, "observer vue - probleme sur observer vue, envoi report ", e);
+                FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
+            } finally {
+                LogUtils.i(TAG_NAME, "fin observer vue");
+            }
+        });
+        LogUtils.i(TAG_NAME, "fin appel de onCreate");
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        LogUtils.i(TAG_NAME, "debut onCreateOptionsMenu sur menu");
+        LogUtils.i(TAG_NAME, "debut onCreateOptionsMenu");
         MenuInflater menuInflater = this.getMenuInflater();
         menuInflater.inflate(R.menu.vues_menu, menu);
-        LogUtils.d(TAG_NAME, "onCreateOptionsMenu sur menu - recuperation de la vue en LiveData");
-        //TODO 1.0.0 a ameliorer
-        Vue currentVue = vueViewModel.getVueLiveData().getValue();
-        if (currentVue != null) {
-            LogUtils.d(TAG_NAME, "onCreateOptionsMenu sur menu - selection de l'item correspondant a la vue courante = <" + currentVue.getCode() + ">");
-            menu.getItem(currentVue.getIndexInComboMenu()).setChecked(true);
-        }
-        LogUtils.i(TAG_NAME, "fin onCreateOptionsMenu sur menu");
+        LogUtils.d(TAG_NAME, "onCreateOptionsMenu - check index <" + itemIdSelected + ">");
+        menu.getItem(itemIdSelected).setChecked(true);
+        LogUtils.i(TAG_NAME, "fin onCreateOptionsMenu");
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        LogUtils.i(TAG_NAME, "debut onOptionsItemSelected sur menuItem");
-        LogUtils.d(TAG_NAME, "onOptionsItemSelected sur menuItem - recuperation de l'index de l'item sélectionné");
+        LogUtils.i(TAG_NAME, "debut onOptionsItemSelected");
         int itemId = item.getItemId();
-        final String newCodeVue = FFCalculatorApplication.instance.getServicesManager().getVueService().getCodeVueFromMenuItem(itemId);
-        LogUtils.d(TAG_NAME, "onOptionsItemSelected sur menuItem - selection de la vue <" + newCodeVue + "> - envoi du job asynchrone de mise a jour de la vue");
-        vueViewModel.updateVue(newCodeVue);
-        // TODO 1.0.0 pas forcement, updateView etant asynchrone, peut etre que la vue a pas été mise a jour
-        item.setChecked(true);
-        LogUtils.i(TAG_NAME, "fin onOptionsItemSelected sur menuItem");
-        return false;
+        LogUtils.d(TAG_NAME, "onOptionsItemSelected - update asynchrone de la vue selon itenId selectionne = <" + itemId + ">");
+        vueViewModel.updateVueFromMenuAsync(itemId);
+        LogUtils.i(TAG_NAME, "fin onOptionsItemSelected");
+        return true;
     }
 
     /**

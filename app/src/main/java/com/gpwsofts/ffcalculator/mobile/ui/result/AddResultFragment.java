@@ -120,7 +120,6 @@ public class AddResultFragment extends Fragment {
             } finally {
                 LogUtils.i(TAG_NAME, "fin observer vue");
             }
-
         });
         // FIN OBSERVATION DUN CHANGEMENT DE VUE
 

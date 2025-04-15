@@ -21,7 +21,7 @@ public class VueViewModel extends ViewModel {
         vueRepository.loadVueAsync();
     }
 
-    public void updateVue(String codeVue) {
-        vueRepository.setVueApi(codeVue);
+    public void updateVueFromMenuAsync(int itemId){
+        vueRepository.updateVueFromMenuAsync(itemId);
     }
 }
