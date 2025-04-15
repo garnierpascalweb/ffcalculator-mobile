@@ -25,16 +25,13 @@ public class VueApiClient extends AbstractApiClient {
     private static VueApiClient instance;
     private final SingleLiveEvent<Vue> mVue;
     private SetVueRunnable setVueRunnable;
+    private GetVueRunnable getVueRunnable;
 
 
     private VueApiClient() {
         LogUtils.i(TAG_NAME, "instanciation de VueApiClient");
         mVue = new SingleLiveEvent<>();
-        LogUtils.v(TAG_NAME, "recherche dans les shared prefs de la valeur de <" + KEY_VUE + ">");
-        final String currentCodeVue = FFCalculatorApplication.instance.getSharedPrefs().getSharedPrefsVue();
-        LogUtils.v(TAG_NAME, "set en liveData instance Vue = <" + currentCodeVue + ">");
-        final Vue currentVue = FFCalculatorApplication.instance.getServicesManager().getVueService().getVueInstance(currentCodeVue);
-        mVue.setValue(currentVue);
+        loadVueApiAsync();
         LogUtils.i(TAG_NAME, "fin instanciation de VueApiClient");
     }
 
@@ -48,6 +45,17 @@ public class VueApiClient extends AbstractApiClient {
         return mVue;
     }
 
+    private void loadVueApiAsync(){
+       if (getVueRunnable != null){
+           getVueRunnable = null;
+       }
+        getVueRunnable = new GetVueRunnable();
+        final Future<?> myHandler = AppExecutors.getInstance().networkIO().submit(getVueRunnable);
+        AppExecutors.getInstance().networkIO().schedule(() -> {
+            myHandler.cancel(true);
+        }, JOB_TIMEOUT, TimeUnit.MILLISECONDS);
+    }
+
     public void setVueApiAsync(String codeVue) {
         if (setVueRunnable != null) {
             setVueRunnable = null;
@@ -55,7 +63,6 @@ public class VueApiClient extends AbstractApiClient {
         setVueRunnable = new SetVueRunnable(codeVue);
         final Future<?> myHandler = AppExecutors.getInstance().networkIO().submit(setVueRunnable);
         AppExecutors.getInstance().networkIO().schedule(() -> {
-            // annuler l'appel a l'API
             myHandler.cancel(true);
         }, JOB_TIMEOUT, TimeUnit.MILLISECONDS);
     }
@@ -77,9 +84,8 @@ public class VueApiClient extends AbstractApiClient {
         public void run() {
             Vue newVue = null;
             try {
-                LogUtils.i(TAG_NAME, "debut du job asynchrone SetVueRunnable");
+                LogUtils.d(TAG_NAME, "debut du job asynchrone SetVueRunnable");
                 LogUtils.d(TAG_NAME, "envoi de la cle valeur en shared prefs - <" + KEY_VUE + "> <" + codeVue + ">");
-                // sharedPrefsEditor.putString(KEY_VUE, vue);
                 if (FFCalculatorApplication.instance.getSharedPrefs().setSharedPrefsVue(codeVue)){
                     newVue = FFCalculatorApplication.instance.getServicesManager().getVueService().getVueInstance(codeVue);
                     mVue.postValue(newVue);
@@ -96,13 +102,29 @@ public class VueApiClient extends AbstractApiClient {
                 sendErrorToBackEnd(TAG_NAME, e);
             } finally {
                 mVue.postValue(newVue);
-                LogUtils.i(TAG_NAME, "fin du job asynchrone SetVueRunnable");
+                LogUtils.d(TAG_NAME, "fin du job asynchrone SetVueRunnable");
             }
         }
 
         private void cancelRequest() {
             LogUtils.v(TAG_NAME, "annulation de la requete");
             cancelRequest = true;
+        }
+    }
+
+    private class GetVueRunnable implements Runnable {
+        public GetVueRunnable(){
+
+        }
+        @Override
+        public void run() {
+            LogUtils.d(TAG_NAME, "debut du job asynchrone GetVueRunnable");
+            LogUtils.v(TAG_NAME, "recherche dans les shared prefs de la valeur de <" + KEY_VUE + ">");
+            final String currentCodeVue = FFCalculatorApplication.instance.getSharedPrefs().getSharedPrefsVue();
+            LogUtils.v(TAG_NAME, "valeur = <" + currentCodeVue + "> - instanciation de la Vue correspondante et publication en livedata");
+            final Vue currentVue = FFCalculatorApplication.instance.getServicesManager().getVueService().getVueInstance(currentCodeVue);
+            mVue.setValue(currentVue);
+            LogUtils.d(TAG_NAME, "fin du job asynchrone GetVueRunnable");
         }
     }
 }

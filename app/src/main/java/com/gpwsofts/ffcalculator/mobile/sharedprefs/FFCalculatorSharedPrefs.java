@@ -38,7 +38,6 @@ public class FFCalculatorSharedPrefs {
                 uniqueID = UUID.randomUUID().toString();
                 sharedPrefsEditor.putString(KEY_PREF_UNIQUE_ID, uniqueID);
                 sharedPrefsEditor.commit();
-                LogUtils.i(TAG_NAME, "ecriture uuid = <" + uniqueID + ">");
             }
         }
         return uniqueID;

@@ -46,9 +46,9 @@ public class SimpleTownService implements ITownService {
                     towns.add(line);
                 }
             }
-            LogUtils.v(TAG_NAME, "fin de chargement de la liste des villes - <" + towns.size() + "> villes chargées");
+            LogUtils.v(TAG_NAME, "fin chargement de la liste des villes - <" + towns.size() + "> villes chargées");
         } finally {
-            LogUtils.d(TAG_NAME, "fin de chargement de la liste des villes");
+            LogUtils.d(TAG_NAME, "fin chargement de la liste des villes");
         }
     }
 
