@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData;
 import com.gpwsofts.ffcalculator.mobile.AppExecutors;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.R;
-import com.gpwsofts.ffcalculator.mobile.common.SingleLiveEvent;
 import com.gpwsofts.ffcalculator.mobile.exception.SwitchVueException;
 import com.gpwsofts.ffcalculator.mobile.model.Vue;
 import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
