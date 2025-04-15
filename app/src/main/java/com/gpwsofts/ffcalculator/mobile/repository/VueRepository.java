@@ -29,6 +29,10 @@ public class VueRepository {
         return vueApiClient.getVueLiveData();
     }
 
+    public void loadVueAsync(){
+        vueApiClient.loadVueAsync();
+    }
+
     public void setVueApi(String codeVue) {
         vueApiClient.setVueApiAsync(codeVue);
     }

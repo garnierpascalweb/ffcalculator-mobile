@@ -47,8 +47,9 @@ public class FFCalculatorSharedPrefs {
         return sharedPrefs.getString(KEY_VUE, DEFAULT_VALUE_VUE);
     }
 
-    public boolean setSharedPrefsVue(String vue){
-        sharedPrefsEditor.putString(KEY_VUE, vue);
+    public boolean setSharedPrefsVue(String codeVue){
+        LogUtils.d(TAG_NAME, "sharedPreds - demande affectation <" + KEY_VUE + "> => <" + codeVue + ">");
+        sharedPrefsEditor.putString(KEY_VUE, codeVue);
         return sharedPrefsEditor.commit();
     }
 }

@@ -31,7 +31,6 @@ public class VueApiClient extends AbstractApiClient {
     private VueApiClient() {
         LogUtils.i(TAG_NAME, "instanciation de VueApiClient");
         mVue = new SingleLiveEvent<>();
-        loadVueApiAsync();
         LogUtils.i(TAG_NAME, "fin instanciation de VueApiClient");
     }
 
@@ -45,7 +44,7 @@ public class VueApiClient extends AbstractApiClient {
         return mVue;
     }
 
-    private void loadVueApiAsync(){
+    public void loadVueAsync(){
        if (getVueRunnable != null){
            getVueRunnable = null;
        }
