@@ -27,13 +27,13 @@ public class SeasonViewModel extends AndroidViewModel {
 
     public SeasonViewModel(Application application) {
         super(application);
-        LogUtils.i(TAG_NAME, "Instantiotion de SeasonViewModel");
+        LogUtils.i(TAG_NAME, "Instantiation de SeasonViewModel");
         databaseResultRepository = DatabaseResultRepository.getInstance();
         posRepository = OverallPosRepository.getInstance();
         currentPts = 0.0;
         currentPos = 0;
         currentClassType = "";
-        LogUtils.i(TAG_NAME, "Fin instantiotion de SeasonViewModel");
+        LogUtils.i(TAG_NAME, "Fin instantiation de SeasonViewModel");
     }
 
     public LiveData<Double> getAllPtsLiveData() {
@@ -41,12 +41,10 @@ public class SeasonViewModel extends AndroidViewModel {
     }
 
     public void delete(Result result) {
-        LogUtils.i(TAG_NAME, "Suppression d un resultat");
         databaseResultRepository.delete(result);
     }
 
     public LiveData<List<Result>> getAllResultsLiveData() {
-        LogUtils.i(TAG_NAME, "Recuperation de la liste de tous les resultats");
         return databaseResultRepository.getAllResultsLiveData();
     }
 

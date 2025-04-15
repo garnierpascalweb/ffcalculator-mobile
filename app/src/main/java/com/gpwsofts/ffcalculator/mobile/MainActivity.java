@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG_NAME = "MainActivity";
     private ActivityMainBinding binding;
     private VueViewModel vueViewModel;
-    private int itemIdSelected = 0;
+    private int indexInComboMenuSelected = 0;
 
 
     @Override
@@ -46,15 +46,24 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
-        if (vueViewModel.getVueLiveData() == null)
+
+        if (vueViewModel.getCurrentCodeVue() == null)
             vueViewModel.loadVueAsync();
+
         vueViewModel.getVueLiveData().observe(this, vue -> {
             try{
                 LogUtils.i(TAG_NAME, "debut observer vue");
                 if (vue != null) {
-                    itemIdSelected = vue.getIndexInComboMenu();
-                    LogUtils.d(TAG_NAME, "vue selectionnee <" + vue.getCode() + "> - itemId correspondant <" + itemIdSelected + "> - appel invalidateOptionsMenu()");
-                    invalidateOptionsMenu();
+                    final String newCodeVue = vue.getCode();
+                    if (newCodeVue.equals(vueViewModel.getCurrentCodeVue())){
+                        LogUtils.d(TAG_NAME, "vue selectionnee identique en cache");
+                    } else {
+                        indexInComboMenuSelected = vue.getIndexInComboMenu();
+                        LogUtils.d(TAG_NAME, "nouvelle vue selectionnee <" + newCodeVue + "> - indexInComboMenuSelected correspondant <" + indexInComboMenuSelected + "> - appel invalidateOptionsMenu()");
+                        vueViewModel.setCurrentCodeVue(newCodeVue);
+                        invalidateOptionsMenu();
+                        Toast.makeText(this, getString(R.string.toast_update_vue_ok, vue.getName()), Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     LogUtils.w(TAG_NAME, "vue null");
                 }
@@ -73,8 +82,8 @@ public class MainActivity extends AppCompatActivity {
         LogUtils.i(TAG_NAME, "debut onCreateOptionsMenu");
         MenuInflater menuInflater = this.getMenuInflater();
         menuInflater.inflate(R.menu.vues_menu, menu);
-        LogUtils.d(TAG_NAME, "onCreateOptionsMenu - check index <" + itemIdSelected + ">");
-        menu.getItem(itemIdSelected).setChecked(true);
+        LogUtils.d(TAG_NAME, "onCreateOptionsMenu - cochage indexInComboMenuSelected <" + indexInComboMenuSelected + ">");
+        menu.getItem(indexInComboMenuSelected).setChecked(true);
         LogUtils.i(TAG_NAME, "fin onCreateOptionsMenu");
         return true;
     }

@@ -8,6 +8,7 @@ import com.gpwsofts.ffcalculator.mobile.repository.VueRepository;
 
 public class VueViewModel extends ViewModel {
     private final VueRepository vueRepository;
+    private String currentCodeVue;
 
     public VueViewModel() {
         vueRepository = VueRepository.getInstance();
@@ -23,5 +24,13 @@ public class VueViewModel extends ViewModel {
 
     public void updateVueFromMenuAsync(int itemId){
         vueRepository.updateVueFromMenuAsync(itemId);
+    }
+
+    public String getCurrentCodeVue() {
+        return currentCodeVue;
+    }
+
+    public void setCurrentCodeVue(String currentCodeVue) {
+        this.currentCodeVue = currentCodeVue;
     }
 }

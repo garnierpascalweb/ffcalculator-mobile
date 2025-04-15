@@ -47,8 +47,10 @@ public class AddResultFragment extends Fragment {
         LogUtils.i(TAG_NAME, "appel de onCreateView");
         binding = FragmentResultBinding.inflate(inflater, container, false);
         // initialisation de la vue
-        LogUtils.d(TAG_NAME, "onCreateView - chargement asynchrone vue");
-        vueViewModel.loadVueAsync();
+        if (vueViewModel.getCurrentCodeVue() == null) {
+            LogUtils.d(TAG_NAME, "onCreateView - chargement asynchrone vue");
+            vueViewModel.loadVueAsync();
+        }
         // initialisation de la liste des villes
         LogUtils.d(TAG_NAME, "onCreateView - chargement asynchrone towns");
         addResultViewModel.loadTownChoicesAsync();
@@ -108,11 +110,8 @@ public class AddResultFragment extends Fragment {
                     autoCompleteTextViewPos.clearListSelection();
                     LogUtils.d(TAG_NAME, "observer vue - rechargement asynchrone liste des classe selon vue");
                     addResultViewModel.loadGridChoicesAsync(vue);
-                    LogUtils.d(TAG_NAME, "observer vue - affichage toast bascule vue");
-                    Toast.makeText(getActivity(), getString(R.string.toast_update_vue_ok, vue.getName()), Toast.LENGTH_SHORT).show();
-                } else {
-                    LogUtils.w(TAG_NAME, "observer vue - vue rendue null");
-                    Toast.makeText(getActivity(), getString(R.string.toast_update_vue_ko), Toast.LENGTH_SHORT).show();
+                    // LogUtils.d(TAG_NAME, "observer vue - affichage toast bascule vue");
+                     // Toast.makeText(getActivity(), getString(R.string.toast_update_vue_ok, vue.getName()), Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
                 LogUtils.e(TAG_NAME, "observer vue - probleme sur observer vue, envoi report ", e);

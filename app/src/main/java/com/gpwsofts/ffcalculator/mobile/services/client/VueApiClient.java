@@ -1,6 +1,7 @@
 package com.gpwsofts.ffcalculator.mobile.services.client;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.gpwsofts.ffcalculator.mobile.AppExecutors;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
@@ -23,14 +24,15 @@ public class VueApiClient extends AbstractApiClient {
     private static final String KEY_VUE = "vue";
     private static final int JOB_TIMEOUT = 5000;
     private static VueApiClient instance;
-    private final SingleLiveEvent<Vue> mVue;
+    // private final SingleLiveEvent<Vue> mVue;
+    private final MutableLiveData<Vue> mVue;
     private SetVueRunnable setVueRunnable;
     private GetVueRunnable getVueRunnable;
 
 
     private VueApiClient() {
         LogUtils.i(TAG_NAME, "instanciation de VueApiClient");
-        mVue = new SingleLiveEvent<>();
+        mVue = new MutableLiveData<>();
         LogUtils.i(TAG_NAME, "fin instanciation de VueApiClient");
     }
 
@@ -85,7 +87,7 @@ public class VueApiClient extends AbstractApiClient {
             try {
                 LogUtils.d(TAG_NAME, "debut job asynchrone SetVueRunnable - itemId selectionne <" + itemId + ">");
                 final String codeVue = FFCalculatorApplication.instance.getServicesManager().getVueService().getCodeVueFromMenuItem(itemId);
-                LogUtils.d(TAG_NAME, "envoi en shared prefs du code vue associée - <" + KEY_VUE + "> <" + codeVue + ">");
+                LogUtils.d(TAG_NAME, "envoi en shared prefs du code vue associée au idemId <" + itemId + "> - <" + KEY_VUE + "> <" + codeVue + ">");
                 if (FFCalculatorApplication.instance.getSharedPrefs().setSharedPrefsVue(codeVue)){
                     newVue = FFCalculatorApplication.instance.getServicesManager().getVueService().getVueInstance(codeVue);
                     mVue.postValue(newVue);
@@ -123,7 +125,7 @@ public class VueApiClient extends AbstractApiClient {
             final String currentCodeVue = FFCalculatorApplication.instance.getSharedPrefs().getSharedPrefsVue();
             LogUtils.v(TAG_NAME, "valeur = <" + currentCodeVue + "> - instanciation de la Vue correspondante et publication en livedata");
             final Vue currentVue = FFCalculatorApplication.instance.getServicesManager().getVueService().getVueInstance(currentCodeVue);
-            mVue.setValue(currentVue);
+            mVue.postValue(currentVue);
             LogUtils.d(TAG_NAME, "fin du job asynchrone GetVueRunnable");
         }
     }

@@ -30,19 +30,20 @@ public class SeasonFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        LogUtils.d(TAG_NAME, "appel de onCreate");
-        super.onCreate(savedInstanceState);
         LogUtils.i(TAG_NAME, "appel de onCreate");
+        super.onCreate(savedInstanceState);
         seasonViewModel = new ViewModelProvider(requireActivity()).get(SeasonViewModel.class);
         vueViewModel = new ViewModelProvider(requireActivity()).get(VueViewModel.class);
-        LogUtils.d(TAG_NAME, "fin appel de onCreate");
+        LogUtils.i(TAG_NAME, "fin appel de onCreate");
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        LogUtils.d(TAG_NAME, "appel de onCreateView");
+        LogUtils.i(TAG_NAME, "appel de onCreateView");
         binding = FragmentSeasonBinding.inflate(inflater, container, false);
-        LogUtils.d(TAG_NAME, "fin appel de onCreateView");
+        LogUtils.d(TAG_NAME, "onCreateView - chargement asynchrone vue");
+        vueViewModel.loadVueAsync();
+        LogUtils.i(TAG_NAME, "fin appel de onCreateView");
         return binding.getRoot();
     }
 
@@ -71,26 +72,47 @@ public class SeasonFragment extends Fragment {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 try {
-                    LogUtils.v(TAG_NAME, "demande de suppression de resultat par swipe");
+                    LogUtils.d(TAG_NAME, "demande suppression de resultat par swipe");
                     seasonViewModel.delete(resultListAdapter.getItemFromAdapter(viewHolder.getAbsoluteAdapterPosition()));
                 } catch (Exception e) {
+                    LogUtils.e(TAG_NAME, "probleme suppression de resultat par swipe");
                     FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
                 } finally {
-                    LogUtils.v(TAG_NAME, "fin de demande de suppression de resultat par swipe");
+                    LogUtils.d(TAG_NAME, "fin demande suppression de resultat par swipe");
                 }
             }
         });
-        LogUtils.i(TAG_NAME, "attachement a la recyclerView du itemTouchHelper ");
+        LogUtils.d(TAG_NAME, "attachement recyclerView du itemTouchHelper ");
         itemTouchHelper.attachToRecyclerView(resultRV);
         // FIN DEFINITION DE ItemTouchHelper POUR LE SWITCH SUPPRESSION
+
+        // OBSERVATION DUN CHANGEMENT DE VUE
+        vueViewModel.getVueLiveData().observe(getViewLifecycleOwner(), vue -> {
+            try{
+                LogUtils.i(TAG_NAME, "debut observer vue");
+                // si on a changé de type de classement, faut recalculer
+                final String vueClassType = vue.getMapClass();
+                if (vueClassType.equals(seasonViewModel.getCurrentClassType())){
+                    LogUtils.d(TAG_NAME, "type classement nouvelle vue <" + vue.getCode() + "> identique en cache <" + vueClassType + "> - pas de recalcul");
+                } else {
+                    LogUtils.d(TAG_NAME, "type classement nouvelle vue <" + vue.getCode() + "> (" + vueClassType + ") different du cache <" + seasonViewModel.getCurrentClassType() + "> - recalcul");
+                    seasonViewModel.searchPosApi(seasonViewModel.getCurrentPts(), vueClassType);
+                    seasonViewModel.setCurrentClassType(vueClassType);
+                }
+            } catch (Exception e) {
+                LogUtils.e(TAG_NAME, "observer vue - probleme sur observer vue, envoi report ", e);
+                FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
+            } finally {
+                LogUtils.i(TAG_NAME, "fin observer vue");
+            }
+        });
 
         // OBSERVATION DUN CHANGEMENT DANS LA LISTE DE RESULTATS
         seasonViewModel.getAllResultsLiveData().observe(getViewLifecycleOwner(), results -> {
             try {
                 LogUtils.i(TAG_NAME, "debut observer results");
                 if (results != null) {
-                    LogUtils.d(TAG_NAME, "observer results - la liste chargee n'est pas nulle");
-                    LogUtils.d(TAG_NAME, "observer results - mise a jour de l'adapter de la liste des resultats (désormais <" + results.size() + "> élements)");
+                    LogUtils.d(TAG_NAME, "observer results - update liste resultats (désormais <" + results.size() + "> élements)");
                     resultListAdapter.submitList(results);
                 }
             } catch (Exception e) {
@@ -106,23 +128,19 @@ public class SeasonFragment extends Fragment {
             try {
                 LogUtils.i(TAG_NAME, "debut observer allPts");
                 if (null != pts) {
-                    LogUtils.d(TAG_NAME, "observer allPts - le resultat rendu n'est pas null");
                     if (Double.compare(pts, seasonViewModel.getCurrentPts()) != 0) {
                         // valeur rendue differente de celle en cache, recalcul de la position au classement antional
-                        LogUtils.d(TAG_NAME, "observer allPts - la valeur rendue est differente de celle en cache");
                         final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
                         textViewPos.setText(getString(R.string.label_classement_national_loading));
-                        LogUtils.d(TAG_NAME, "observer allPts - envoi du job asynchrone de recherche de la position pour <" + pts + "> pts sur le classeemnt <" + classType + ">");
+                        LogUtils.d(TAG_NAME, "observer allPts - envoi job asynchrone recherche position pour <" + pts + "> pts sur le classement <" + classType + ">");
                         seasonViewModel.searchPosApi(pts, classType);
                         seasonViewModel.setCurrentPts(pts);
                         seasonViewModel.setCurrentClassType(classType);
                     } else {
-                        // valeur rendue egale a celle en cache, pas recalcul de la position au classement antional saud si indfini
-                        LogUtils.d(TAG_NAME, "observer allPts - la valeur rendue est la meme que celle en cache");
+                        LogUtils.d(TAG_NAME, "observer allPts - valeur identique au cache <" + pts + "> - pas de recalcul");
                         if (null == seasonViewModel.getCurrentPos()) {
-                            LogUtils.d(TAG_NAME, "observer allPts - pas de position en cache");
                             final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
-                            LogUtils.d(TAG_NAME, "observer allPts - envoi du job asynchrone de recherche de la position pour <" + pts + "> pts sur le classeemnt <" + classType + ">");
+                            LogUtils.d(TAG_NAME, "observer allPts - envoi job asynchrone recherche position pour <" + pts + "> pts sur le classeemnt <" + classType + ">");
                             seasonViewModel.searchPosApi(pts, classType);
                         } else {
                             LogUtils.v(TAG_NAME, "observer allPts - conservation de la position en cache = <" + seasonViewModel.getCurrentPos() + ">");
@@ -131,12 +149,11 @@ public class SeasonFragment extends Fragment {
                     }
                     textViewPts.setText(getString(R.string.label_total_pts_ok, pts));
                 } else {
-                    LogUtils.d(TAG_NAME, "observer allPts - le resultat rendu est null - aucun resultat");
                     textViewPts.setText(getString(R.string.label_aucun_resultat));
                     textViewPos.setText("");
-                    LogUtils.w(TAG_NAME, "la valeur de pts est pas renseignee");
                 }
             } catch (Exception e) {
+                LogUtils.e(TAG_NAME, "observer allPts - probleme technique",e);
                 FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
             } finally {
                 LogUtils.i(TAG_NAME, "fin observer allPts");
