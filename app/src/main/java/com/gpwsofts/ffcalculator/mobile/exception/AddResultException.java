@@ -1,6 +1,4 @@
-package com.gpwsofts.ffcalculator.mobile;
-
-import com.gpwsofts.ffcalculator.mobile.exception.FFCalculatorException;
+package com.gpwsofts.ffcalculator.mobile.exception;
 
 /**
  * Exception à l'ajout d'un resultat

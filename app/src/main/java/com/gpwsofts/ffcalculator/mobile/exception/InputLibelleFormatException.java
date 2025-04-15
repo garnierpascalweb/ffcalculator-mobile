@@ -1,6 +1,6 @@
 package com.gpwsofts.ffcalculator.mobile.exception;
 
-public class InputLibelleFormatException extends Exception {
+public class InputLibelleFormatException extends FFCalculatorException {
     public InputLibelleFormatException(String inMessage){
         super(inMessage);
     }

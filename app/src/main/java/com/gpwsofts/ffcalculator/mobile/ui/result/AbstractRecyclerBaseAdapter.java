@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public abstract class AbstractRecyclerBaseAdapter<VH extends RecyclerView.ViewHolder>
         extends BaseAdapter implements Filterable {
-    private static final String TAG_NAME = "RecyclerBaseAdapter";
+
     protected final RecyclerView.Adapter<VH> mAdapter;
 
     public AbstractRecyclerBaseAdapter(RecyclerView.Adapter<VH> adapter) {

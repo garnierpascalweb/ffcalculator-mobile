@@ -53,33 +53,28 @@ public class TownApiClient extends AbstractApiClient {
      */
     private class LoadTownsChoicesRunnable implements Runnable {
         boolean cancelRequest;
-
         public LoadTownsChoicesRunnable() {
 
         }
-
         @Override
         public void run() {
             LogUtils.i(TAG_NAME, "debut du job asynchrone LoadTownsChoicesRunnable");
             List<String> towns = null;
             try {
                 towns = FFCalculatorApplication.instance.getServicesManager().getTownService().getTowns();
-                LogUtils.d(TAG_NAME, " nombre de towns <" + towns.size() + ">");
+                LogUtils.d(TAG_NAME, "succes du chargement de la liste des villes - <" + towns.size() + "> villes chargées");
             } catch (Exception e){
                 LogUtils.e(TAG_NAME, "echec du chargement de la liste des villes", e);
                 towns = null;
                 sendErrorToBackEnd(TAG_NAME, e);
             } finally {
                 mTownChoices.postValue(towns);
-                LogUtils.i(TAG_NAME, "fin  du job asynchrone LoadTownsChoicesRunnable");
+                LogUtils.i(TAG_NAME, "fin du job asynchrone LoadTownsChoicesRunnable");
             }
         }
 
         private void cancelRequest() {
-            LogUtils.v(TAG_NAME, "annulation de la requete");
             cancelRequest = true;
         }
     }
-
-
 }

@@ -26,7 +26,7 @@ public class VueService implements IVueService {
      * String : le code de la vue (exemple O2)
      * Vue : l'instance de la vue
      */
-    private Map<String,Vue> listVues;
+    private final Map<String,Vue> listVues;
 
     /**
      * Table de mapping entre un bouton id de menu et une vue

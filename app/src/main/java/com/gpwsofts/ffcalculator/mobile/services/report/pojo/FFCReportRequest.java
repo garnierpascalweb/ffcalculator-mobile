@@ -34,9 +34,6 @@ public class FFCReportRequest {
             Gson gson = new Gson();
             causeError = gson.toJson(incause);
         }
-        final String inType = e.getClass().getSimpleName();
-        if (inType != null){
-            typeError = inType;
-        }
+        typeError = e.getClass().getSimpleName();
     }
 }

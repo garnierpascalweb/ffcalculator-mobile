@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentResultBinding;
@@ -27,7 +28,7 @@ import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
 import java.util.ArrayList;
 
 public class AddResultFragment extends Fragment {
-    private static final String TAG_NAME = "ResultFragment";
+    private static final String TAG_NAME = "AddResultFragment";
     private AddResultViewModel addResultViewModel;
     private VueViewModel vueViewModel;
     private FragmentResultBinding binding;
@@ -101,141 +102,179 @@ public class AddResultFragment extends Fragment {
 
         // OBSERVATION DUN CHANGEMENT DE VUE
         vueViewModel.getVueLiveData().observe(getViewLifecycleOwner(), vue -> {
-            LogUtils.i(TAG_NAME, "debut observer vue");
-            if (vue != null) {
-                LogUtils.d(TAG_NAME, "observer vue - la vue rendue n'est pas nulle - déclenchement du chargement des grilles associées a la vue <" + vue +"> et notification Toast ok");
-                // effacement de la saisie en cours
-                autoCompleteTextViewClasses.setText(R.string.vide);
-                autoCompleteTextViewPos.clearListSelection();
-                addResultViewModel.loadGridChoicesAsync(vue);
-                Toast.makeText(getActivity(), getString(R.string.toast_update_vue_ok, vue.getName()), Toast.LENGTH_SHORT).show();
-            } else {
-                LogUtils.d(TAG_NAME, "observer vue - la vue rendue est nulle - notification Toast ko");
-                Toast.makeText(getActivity(), getString(R.string.toast_update_vue_ko), Toast.LENGTH_SHORT).show();
+            try{
+                LogUtils.i(TAG_NAME, "debut observer vue");
+                if (vue != null) {
+                    LogUtils.d(TAG_NAME, "observer vue - la vue rendue n'est pas nulle - déclenchement du chargement des grilles associées a la vue <" + vue +"> et notification Toast ok");
+                    // effacement de la saisie en cours
+                    autoCompleteTextViewClasses.setText(R.string.vide);
+                    autoCompleteTextViewPos.clearListSelection();
+                    addResultViewModel.loadGridChoicesAsync(vue);
+                    Toast.makeText(getActivity(), getString(R.string.toast_update_vue_ok, vue.getName()), Toast.LENGTH_SHORT).show();
+                } else {
+                    LogUtils.d(TAG_NAME, "observer vue - la vue rendue est nulle - notification Toast ko");
+                    Toast.makeText(getActivity(), getString(R.string.toast_update_vue_ko), Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception e) {
+                FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
+            } finally {
+                LogUtils.i(TAG_NAME, "fin observer vue");
             }
-            LogUtils.i(TAG_NAME, "fin observer vue");
+
         });
         // FIN OBSERVATION DUN CHANGEMENT DE VUE
 
         // OBSERVATION DUN CHANGEMENT DE LISTE DE VILLES
         addResultViewModel.getTownChoicesLiveData().observe(getViewLifecycleOwner(), towns -> {
-            LogUtils.i(TAG_NAME, "debut observer towns");
-            if (towns != null){
-                LogUtils.d(TAG_NAME, "observer towns - liste chargee non nulle - contient <" + towns.size() + "> elements");
-                if (addResultViewModel.getCurrentListTowns().isEmpty()){
-                    LogUtils.d(TAG_NAME, "observer towns - liste en cache vide - mise a jour de l'adapter");
-                    // LogUtils.d(TAG_NAME, "observer towns - appel de notifyDataSetChanged pour rechargement");
-                    townsArrayAdapter.clear();
-                    townsArrayAdapter.addAll(towns);
-                    townsArrayAdapter.notifyDataSetChanged();
-                    LogUtils.d(TAG_NAME, "observer towns - mise a jour addResultViewModel <" + towns.size() + "> elements");
-                    addResultViewModel.setCurrentListTowns(towns);
-                } else {
-                    LogUtils.d(TAG_NAME, "observer towns - la liste en cache est consistante de <" + addResultViewModel.getCurrentListTowns() + "> elements - pas de mise a jour de l'adapter");
+            try {
+                LogUtils.i(TAG_NAME, "debut observer towns");
+                if (towns != null) {
+                    LogUtils.d(TAG_NAME, "observer towns - liste chargee non nulle - contient <" + towns.size() + "> elements");
+                    if (addResultViewModel.getCurrentListTowns().isEmpty()) {
+                        LogUtils.d(TAG_NAME, "observer towns - liste en cache vide - mise a jour de l'adapter");
+                        // LogUtils.d(TAG_NAME, "observer towns - appel de notifyDataSetChanged pour rechargement");
+                        townsArrayAdapter.clear();
+                        townsArrayAdapter.addAll(towns);
+                        townsArrayAdapter.notifyDataSetChanged();
+                        LogUtils.d(TAG_NAME, "observer towns - mise a jour addResultViewModel <" + towns.size() + "> elements");
+                        addResultViewModel.setCurrentListTowns(towns);
+                    } else {
+                        LogUtils.d(TAG_NAME, "observer towns - la liste en cache est consistante de <" + addResultViewModel.getCurrentListTowns() + "> elements - pas de mise a jour de l'adapter");
+                    }
                 }
+            } catch (Exception e) {
+                FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
+            } finally {
+                LogUtils.i(TAG_NAME, "fin debut observer towns");
             }
-            LogUtils.i(TAG_NAME, "fin debut observer towns");
         });
         // FIN OBSERVATION DUN CHANGEMENT DE LISTE DE VILLES
 
         // OBSERVATION DUN NOUVEAU RESULTAT
         addResultViewModel.getAddedResultLiveData().observe(getViewLifecycleOwner(), addResultRunnableResponse -> {
-            LogUtils.i(TAG_NAME, "debut observer newResult");
-            LogUtils.d(TAG_NAME, "observer newResult - reactivation du bouton ajouter et reprise de son label initial");
-            buttonAjouter.setEnabled(true);
-            buttonAjouter.setText(R.string.button_label_ajouter_resultat);
-            final Result result = addResultRunnableResponse.getResult();
-            final String message = addResultRunnableResponse.getMessage();
-            if (result != null) {
-                LogUtils.d(TAG_NAME, "observer newResult - le nouveau resultat nest pas null");
-                LogUtils.d(TAG_NAME, "observer newResult - déclenchement de l'insertion en base de données et bascule sur le fragment Season");
-                addResultViewModel.onNewResultCreated(result);
-                Navigation.findNavController(binding.getRoot()).navigate(R.id.navigation_season);
-            } else {
-                LogUtils.e(TAG_NAME, "observer newResult - le nouveau resultat est null");
+            try {
+                LogUtils.i(TAG_NAME, "debut observer newResult");
+                LogUtils.d(TAG_NAME, "observer newResult - reactivation du bouton ajouter et reprise de son label initial");
+                buttonAjouter.setEnabled(true);
+                buttonAjouter.setText(R.string.button_label_ajouter_resultat);
+                final Result result = addResultRunnableResponse.getResult();
+                final String message = addResultRunnableResponse.getMessage();
+                if (result != null) {
+                    LogUtils.d(TAG_NAME, "observer newResult - le nouveau resultat nest pas null");
+                    LogUtils.d(TAG_NAME, "observer newResult - déclenchement de l'insertion en base de données et bascule sur le fragment Season");
+                    addResultViewModel.onNewResultCreated(result);
+                    Navigation.findNavController(binding.getRoot()).navigate(R.id.navigation_season);
+                } else {
+                    LogUtils.e(TAG_NAME, "observer newResult - le nouveau resultat est null");
+                }
+                if (message != null) {
+                    LogUtils.d(TAG_NAME, "observer newResult - le message associé au resultat nest pas null - affichage en toast");
+                    Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception e) {
+                FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
+            } finally {
+                LogUtils.i(TAG_NAME, "fin observer newResult");
             }
-            if (message != null) {
-                LogUtils.d(TAG_NAME, "observer newResult - le message associé au resultat nest pas null - affichage en toast");
-                Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-            }
-            LogUtils.i(TAG_NAME, "fin observer newResult");
         });
         // FIN OBSERVATION DUN NOUVEAU RESULTAT
 
         // OBSERVATION DUNE NOUVELLE LISTE DE CHOIX DANS LA LISTE DEROULANTE DES CLASSES DE COURSES
         addResultViewModel.getGridChoicesLiveData().observe(getViewLifecycleOwner(), gridsList -> {
-            LogUtils.i(TAG_NAME, "debut observer gridsList");
-            final String helperText;
-            if (gridsList != null) {
-                LogUtils.d(TAG_NAME, "observer gridsList - la liste rendue n'est pas nulle");
-                helperText = getString(R.string.combo_classes_helper_text_ok, vueViewModel.getVueLiveData().getValue().getName(), gridsList.size());
-            } else {
-                LogUtils.w(TAG_NAME, "observer gridsList - la liste rendue est nulle (probleme lors du calcul)");
-                gridsList = new ArrayList<>();
-                textInputLayoutClasse.setHelperText(getString(R.string.combo_classes_helper_text_ko));
-                helperText = getString(R.string.combo_classes_helper_text_ko);
+            try {
+                LogUtils.i(TAG_NAME, "debut observer gridsList");
+                final String helperText;
+                if (gridsList != null) {
+                    LogUtils.d(TAG_NAME, "observer gridsList - la liste rendue n'est pas nulle");
+                    helperText = getString(R.string.combo_classes_helper_text_ok, vueViewModel.getVueLiveData().getValue().getName(), gridsList.size());
+                } else {
+                    LogUtils.w(TAG_NAME, "observer gridsList - la liste rendue est nulle (probleme lors du calcul)");
+                    gridsList = new ArrayList<>();
+                    textInputLayoutClasse.setHelperText(getString(R.string.combo_classes_helper_text_ko));
+                    helperText = getString(R.string.combo_classes_helper_text_ko);
+                }
+                LogUtils.d(TAG_NAME, "observer gridsList - mise a jour de la liste des grilles par une nouvelle liste de taille <" + gridsList + ">");
+                classesListAdapter.submitList(gridsList);
+                LogUtils.d(TAG_NAME, "observer gridsList - mise a jour du helperText en conséquence");
+                textInputLayoutClasse.setHelperText(helperText);
+                //LogUtils.d(TAG_NAME, "observer gridsList - envoi du helperText en cache dans le viewmodel");
+                //addResultViewModel.setCurrentListGridHelperText(helperText);
+                LogUtils.d(TAG_NAME, "observer gridsList - remise a vide du helperText des positions");
+                textInputLayoutPos.setHelperText(getString(R.string.vide));
+            } catch (Exception e) {
+                FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
+            } finally {
+                LogUtils.i(TAG_NAME, "fin observer gridsList");
             }
-            LogUtils.d(TAG_NAME, "observer gridsList - mise a jour de la liste des grilles par une nouvelle liste de taille <" + gridsList + ">");
-            classesListAdapter.submitList(gridsList);
-            LogUtils.d(TAG_NAME, "observer gridsList - mise a jour du helperText en conséquence");
-            textInputLayoutClasse.setHelperText(helperText);
-            LogUtils.d(TAG_NAME, "observer gridsList - envoi du helperText en cache dans le viewmodel");
-            addResultViewModel.setCurrentListGridHelperText(helperText);
-            LogUtils.i(TAG_NAME, "fin observer gridsList");
         });
         // FIN OBSERVATION DUNE NOUVELLE LISTE DE CHOIX DANS LA LISTE DEROULANTE DES CLASSES DE COURSES
 
         // OBSERVATION DUNE NOUVELLE LISTE DE CHOIX DANS LA LISTE DEROULANTE DES POSITIONS
         addResultViewModel.getPosChoicesLiveData().observe(getViewLifecycleOwner(), posList -> {
-            LogUtils.i(TAG_NAME, "debut observer posList");
-            final String helperText;
-            if (posList != null) {
-                LogUtils.d(TAG_NAME, "observer posList - la liste rendue n'est pas nulle");
-                helperText = getString(R.string.combo_pos_helper_text_ok, posList.size(), autoCompleteTextViewClasses.getText());
-            } else {
-                LogUtils.w(TAG_NAME, "observer posList - la liste rendue est nulle (probleme lors du calcul)");
-                // le live data posList est null (probleme dans le job sous jacent)
-                posList = addResultViewModel.getIntegerList50();
-                helperText = getString(R.string.combo_pos_helper_text_ko, addResultViewModel.getIntegerList50().size(), autoCompleteTextViewClasses.getText());
+            try {
+                LogUtils.i(TAG_NAME, "debut observer posList");
+                final String helperText;
+                if (posList != null) {
+                    LogUtils.d(TAG_NAME, "observer posList - la liste rendue n'est pas nulle");
+                    helperText = getString(R.string.combo_pos_helper_text_ok, posList.size(), autoCompleteTextViewClasses.getText());
+                } else {
+                    LogUtils.w(TAG_NAME, "observer posList - la liste rendue est nulle (probleme lors du calcul)");
+                    // le live data posList est null (probleme dans le job sous jacent)
+                    posList = addResultViewModel.getIntegerList50();
+                    helperText = getString(R.string.combo_pos_helper_text_ko, addResultViewModel.getIntegerList50().size(), autoCompleteTextViewClasses.getText());
+                }
+                LogUtils.d(TAG_NAME, "observer posList - mise a jour de la liste des pos par une nouvelle liste de taille <" + posList.size() + ">");
+                posListAdapter.submitList(posList);
+                LogUtils.d(TAG_NAME, "observer posList - mise a jour du helperText en conséquence");
+                autoCompleteTextViewPos.setText("");
+                textInputLayoutPos.setHelperText(helperText);
+            } catch (Exception e) {
+                FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
+            } finally {
+                LogUtils.i(TAG_NAME, "fin observer posList");
             }
-            LogUtils.d(TAG_NAME, "observer posList - mise a jour de la liste des pos par une nouvelle liste de taille <" + posList.size() + ">");
-            posListAdapter.submitList(posList);
-            LogUtils.d(TAG_NAME, "observer posList - mise a jour du helperText en conséquence");
-            autoCompleteTextViewPos.setText("");
-            textInputLayoutPos.setHelperText(helperText);
-            LogUtils.i(TAG_NAME, "fin observer posList");
         });
         // FIN OBSERVATION DUNE NOUVELLE LISTE DE CHOIX DANS LA LISTE DEROULANTE DES POSITIONS
 
         // ECOUTEUR - SELECTION DUNE NOUVELLE CLASSE DE COURSE
         autoCompleteTextViewClasses.setOnItemClickListener((parent, maview, position, id) -> {
-            LogUtils.i(TAG_NAME, "debut onItemClick sur grid");
-            String itemValue = parent.getItemAtPosition(position).toString();
-            LogUtils.d(TAG_NAME, "onItemClick sur grid - valeur selectionnee = <" + itemValue + "> - envoi du job asynchrone de chargement des positions");
-            addResultViewModel.loadPosChoicesAsync(itemValue);
-            LogUtils.i(TAG_NAME, "fin onItemClick sur grid");
+            try {
+                LogUtils.i(TAG_NAME, "debut onItemClick sur grid");
+                String itemValue = parent.getItemAtPosition(position).toString();
+                LogUtils.d(TAG_NAME, "onItemClick sur grid - valeur selectionnee = <" + itemValue + "> - envoi du job asynchrone de chargement des positions");
+                addResultViewModel.loadPosChoicesAsync(itemValue);
+            } catch (Exception e) {
+                FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
+            } finally {
+                LogUtils.i(TAG_NAME, "fin onItemClick sur grid");
+            }
         });
         // FIN ECOUTEUR - SELECTION DUNE NOUVELLE CLASSE DE COURSE
 
         // ECOUTEUR - BOUTON AJOUT RESULTAT
         buttonAjouter.setOnClickListener(event -> {
-            LogUtils.i(TAG_NAME, "debut onClick sur bouton ajouter");
-            LogUtils.d(TAG_NAME, "onClick sur bouton ajouter - desactivation du bouton et changement du label pour en cours");
-            buttonAjouter.setEnabled(false);
-            buttonAjouter.setText(R.string.button_label_calcul_en_cours);
-            LogUtils.d(TAG_NAME, "onClick sur bouton ajouter - recuperation et extraction des donnees du formulaire");
-            final Editable placeEditable = autoCompleteTextViewPlace.getText();
-            final Editable libelleEditable = autoCompleteTextViewClasses.getText();
-            final Editable posEditable = autoCompleteTextViewPos.getText();
-            final Editable prtsEditable = autoCompleteTextViewPrts.getText();
-            // obtention des 4 variables telles que saisies
-            final String place = placeEditable == null ? null : String.valueOf(placeEditable);
-            final String libelle = libelleEditable == null ? null : String.valueOf(libelleEditable);
-            final String pos = posEditable == null ? null : String.valueOf(posEditable);
-            final String prts = prtsEditable == null ? null : String.valueOf(prtsEditable);
-            LogUtils.d(TAG_NAME, "onClick sur bouton ajouter - envoi du job asynchrone de calcul des points");
-            addResultViewModel.addResultApiAsync(place, libelle, pos, prts);
-            LogUtils.i(TAG_NAME, "fin onClick sur bouton ajouter");
+            try {
+                LogUtils.i(TAG_NAME, "debut onClick sur bouton ajouter");
+                LogUtils.d(TAG_NAME, "onClick sur bouton ajouter - desactivation du bouton et changement du label pour en cours");
+                buttonAjouter.setEnabled(false);
+                buttonAjouter.setText(R.string.button_label_calcul_en_cours);
+                LogUtils.d(TAG_NAME, "onClick sur bouton ajouter - recuperation et extraction des donnees du formulaire");
+                final Editable placeEditable = autoCompleteTextViewPlace.getText();
+                final Editable libelleEditable = autoCompleteTextViewClasses.getText();
+                final Editable posEditable = autoCompleteTextViewPos.getText();
+                final Editable prtsEditable = autoCompleteTextViewPrts.getText();
+                // obtention des 4 variables telles que saisies
+                final String place = placeEditable == null ? null : String.valueOf(placeEditable);
+                final String libelle = libelleEditable == null ? null : String.valueOf(libelleEditable);
+                final String pos = posEditable == null ? null : String.valueOf(posEditable);
+                final String prts = prtsEditable == null ? null : String.valueOf(prtsEditable);
+                LogUtils.d(TAG_NAME, "onClick sur bouton ajouter - envoi du job asynchrone de calcul des points");
+                addResultViewModel.addResultApiAsync(place, libelle, pos, prts);
+            } catch (Exception e) {
+                FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
+            } finally {
+                LogUtils.i(TAG_NAME, "fin onClick sur bouton ajouter");
+            }
         });
         // FIN ECOUTEUR - BOUTON AJOUT RESULTAT
         LogUtils.d(TAG_NAME, "fin appel de onViewCreated");

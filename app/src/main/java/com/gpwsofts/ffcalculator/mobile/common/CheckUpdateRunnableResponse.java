@@ -2,6 +2,9 @@ package com.gpwsofts.ffcalculator.mobile.common;
 
 import com.gpwsofts.ffcalculator.mobile.model.LatestVersion;
 
+/**
+ * @deprecated  1.0.0 inutilisé
+ */
 public class CheckUpdateRunnableResponse extends AbstractRunnableResponse {
     private LatestVersion latestVersion;
 

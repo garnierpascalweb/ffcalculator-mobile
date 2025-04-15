@@ -11,7 +11,6 @@ import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
 import java.util.List;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -136,8 +135,6 @@ public class GridApiClient extends AbstractApiClient {
                 final Grid myGrid = FFCalculatorApplication.instance.getServicesManager().getGridService().getGrids().stream().filter(grid -> grid.getCode().equals(idClasse)).findAny().orElse(null);
                 if (myGrid != null) {
                     posChoices = IntStream.rangeClosed(1, myGrid.getMaxPos()).boxed().collect(Collectors.toList());
-                } else {
-                    // Already assigned to this value posChoices = null;
                 }
             } catch (Exception e){
                 LogUtils.e(TAG_NAME, "echec du chargement de la liste des positions possibles ", e);
@@ -154,10 +151,4 @@ public class GridApiClient extends AbstractApiClient {
         }
     }
 
-    private class GridToLibelleFunction implements Function<Grid, String> {
-        @Override
-        public String apply(Grid grid) {
-            return grid.getLibelle() + " (" + grid.getCode() + ")";
-        }
-    }
 }

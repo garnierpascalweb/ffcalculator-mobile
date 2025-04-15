@@ -8,6 +8,7 @@ import retrofit2.Call;
 /**
  * @since 1.0.0
  * Service permettant de checker l'existence d'une nouvelle version
+ * @deprecated 1.0.0 pas encore implémenté
  */
 public interface IUpdateCheckerService extends ICleanableService {
     Call<FFCUpdateCkeckerResponse> checkForUpdates();

@@ -7,21 +7,21 @@ import android.net.Uri;
 
 import com.gpwsofts.ffcalculator.mobile.services.update.pojo.FFCUpdateCkeckerResponse;
 import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
-import com.gpwsofts.ffcalculator.mobile.www.FFCalculatorWebApi;
 
 import retrofit2.Call;
 
 /**
  * Implementation du service de check de version
  * @since 1.0.0
+ * @deprecated 1.0.0 pas encore implémenté
  */
 public class SimpleUpdateCheckerService implements IUpdateCheckerService {
     private static final String TAG_NAME = "SimpleUpdateCheckerService";
     @Override
     public Call<FFCUpdateCkeckerResponse> checkForUpdates() {
         LogUtils.i(TAG_NAME, "checkForUpdates");
-        LogUtils.d(TAG_NAME, "veritable appel http et call en retour");
-        return FFCalculatorWebApi.getInstance().getApiService().checkForUpdates();
+        // return FFCalculatorWebApi.getInstance().getApiService().checkForUpdates();
+        throw new UnsupportedOperationException("operation non supportee dans cette version");
     }
 
     private static void showUpdateDialog(Context context, String downloadUrl) {

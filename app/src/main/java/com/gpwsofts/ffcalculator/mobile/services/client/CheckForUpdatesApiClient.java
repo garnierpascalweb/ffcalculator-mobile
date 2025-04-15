@@ -15,6 +15,10 @@ import java.io.IOException;
 import retrofit2.Call;
 import retrofit2.Response;
 
+/**
+ * @since 1.0.0
+ * @deprecated 1.0.0 pas encore utilisé
+ */
 public class CheckForUpdatesApiClient extends AbstractApiClient {
     private static final String TAG_NAME = "CheckForUpdatesApiClient";
     private static CheckForUpdatesApiClient instance;
@@ -94,7 +98,8 @@ public class CheckForUpdatesApiClient extends AbstractApiClient {
         }
 
         private Call<FFCUpdateCkeckerResponse> checkForUpdate() {
-            return FFCalculatorApplication.instance.getServicesManager().getUpdateCheckerService().checkForUpdates();
+            // return FFCalculatorApplication.instance.getServicesManager().getUpdateCheckerService().checkForUpdates();
+            return null;
         }
 
         private void cancelRequest() {

@@ -6,11 +6,9 @@ import com.gpwsofts.ffcalculator.mobile.services.pos.pojo.FFCPosResponse;
 import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsRequest;
 import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsResponse;
 import com.gpwsofts.ffcalculator.mobile.services.report.pojo.FFCReportRequest;
-import com.gpwsofts.ffcalculator.mobile.services.update.pojo.FFCUpdateCkeckerResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 
@@ -30,6 +28,4 @@ public interface IApiInterface {
     Call<FFCPosResponse> calcPos(@Header("uuid") String uuid, @Header("env") String env, @Body FFCPosRequest request);
     @POST(URI_CRASH_REPORT)
     Call<Void> sendReport(@Header("uuid") String uuid, @Header("env") String env, @Body FFCReportRequest request);
-    @GET(URI_LATEST_VERSION)
-    Call<FFCUpdateCkeckerResponse> checkForUpdates();
 }

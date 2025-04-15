@@ -4,19 +4,18 @@ import android.text.TextUtils;
 
 import androidx.lifecycle.LiveData;
 
-import com.gpwsofts.ffcalculator.mobile.AddResultException;
 import com.gpwsofts.ffcalculator.mobile.AppExecutors;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.common.AddResultRunnableResponse;
 import com.gpwsofts.ffcalculator.mobile.common.SingleLiveEvent;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
+import com.gpwsofts.ffcalculator.mobile.exception.AddResultException;
 import com.gpwsofts.ffcalculator.mobile.exception.InputLibelleFormatException;
 import com.gpwsofts.ffcalculator.mobile.model.Grid;
 import com.gpwsofts.ffcalculator.mobile.model.Logo;
 import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsRequest;
 import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsResponse;
-import com.gpwsofts.ffcalculator.mobile.services.report.pojo.FFCReportRequestFactory;
 import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
 
 import java.io.IOException;
@@ -149,7 +148,7 @@ public class AddResultApiClient extends AbstractApiClient {
                     LogUtils.e(TAG_NAME, "echec du calcul des points pour ce nouveau resultat - pas de reseau");
                     // already null newResult = null;
                     message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_no_network);
-                    //TODO 1.0.0 peut etre dérouler une implementation locale ?
+                    //TODO 1.0.0 Mettre en place une implementation locale de calcul
                 }
             } catch (AddResultException e) {
                 LogUtils.e(TAG_NAME, "AddResultException ", e);

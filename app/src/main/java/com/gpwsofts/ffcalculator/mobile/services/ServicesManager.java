@@ -15,12 +15,11 @@ import com.gpwsofts.ffcalculator.mobile.services.pos.IPosHttpService;
 import com.gpwsofts.ffcalculator.mobile.services.pos.SimplePosHttpService;
 import com.gpwsofts.ffcalculator.mobile.services.pts.IPtsHttpService;
 import com.gpwsofts.ffcalculator.mobile.services.pts.SimplePtsHttpService;
+import com.gpwsofts.ffcalculator.mobile.services.report.AsyncReportHttpService;
 import com.gpwsofts.ffcalculator.mobile.services.report.IReportHttpService;
 import com.gpwsofts.ffcalculator.mobile.services.report.SimpleReportHttpService;
 import com.gpwsofts.ffcalculator.mobile.services.town.ITownService;
 import com.gpwsofts.ffcalculator.mobile.services.town.SimpleTownService;
-import com.gpwsofts.ffcalculator.mobile.services.update.IUpdateCheckerService;
-import com.gpwsofts.ffcalculator.mobile.services.update.SimpleUpdateCheckerService;
 import com.gpwsofts.ffcalculator.mobile.services.vue.IVueService;
 import com.gpwsofts.ffcalculator.mobile.services.vue.VueService;
 import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
@@ -64,9 +63,9 @@ public class ServicesManager {
      * @since 1.0.0
      */
     private IVueService vueService;
-    private IUpdateCheckerService updateCheckerService = null;
     private IDeviceService deviceService = null;
     private IReportHttpService reportService = null;
+    private IReportHttpService asyncReportService = null;
 
     /**
      * Constructeur de ServiceManager
@@ -153,16 +152,6 @@ public class ServicesManager {
         return vueService;
     }
 
-    public final IUpdateCheckerService getUpdateCheckerService(){
-        if (null == updateCheckerService) {
-            LogUtils.i(TAG_NAME, "creation dune nouvelle instance de IUpdateCkeckerService");
-            updateCheckerService = new SimpleUpdateCheckerService();
-        } else {
-            LogUtils.d(TAG_NAME, "recuperation d'une instance existante de IUpdateCkeckerService");
-        }
-        return updateCheckerService;
-    }
-
     public final IDeviceService getDeviceService(){
         if (null == deviceService){
             LogUtils.i(TAG_NAME, "creation dune nouvelle instance de IDeviceService");
@@ -175,12 +164,22 @@ public class ServicesManager {
 
     public final IReportHttpService getReportService(){
         if (null == reportService){
-            LogUtils.i(TAG_NAME, "creation dune nouvelle instance de IReportService");
+            LogUtils.i(TAG_NAME, "creation dune nouvelle instance SimpleReportHttpService de IReportService");
             reportService = new SimpleReportHttpService();
         } else {
-            LogUtils.d(TAG_NAME, "recuperation d'une instance existante de IReportService");
+            LogUtils.d(TAG_NAME, "recuperation d'une instance existante SimpleReportHttpService de IReportService");
         }
         return reportService;
+    }
+
+    public final IReportHttpService getAsyncReportService(){
+        if (null == asyncReportService){
+            LogUtils.i(TAG_NAME, "creation dune nouvelle instance asyncReportService de IReportService");
+            asyncReportService = new AsyncReportHttpService();
+        } else {
+            LogUtils.d(TAG_NAME, "recuperation d'une instance existante asyncReportService de IReportService");
+        }
+        return asyncReportService;
     }
 
     /**
@@ -215,10 +214,6 @@ public class ServicesManager {
         if (vueService != null){
             vueService.clean();
             vueService = null;
-        }
-        if (updateCheckerService != null){
-            updateCheckerService.clean();
-            updateCheckerService = null;
         }
         if (deviceService != null){
             deviceService.clean();

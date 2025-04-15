@@ -59,7 +59,7 @@ public class SimpleLogoService implements ILogoService {
 
     /**
      * le logo par defaut unknown
-     * @return
+     * @return une instance de logo inconnu
      */
     public Logo getUnknownLogo(){
         return logos.get(res.getString(R.string.logo_unknown));

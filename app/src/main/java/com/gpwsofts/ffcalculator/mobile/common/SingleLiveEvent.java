@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * https://stackoverflow.com/questions/59840883/when-i-go-back-to-a-fragment-the-observer-is-immediately-called
- *
+ * @since 1.0.0
  * @param <T>
  */
 public class SingleLiveEvent<T> extends MutableLiveData<T> {

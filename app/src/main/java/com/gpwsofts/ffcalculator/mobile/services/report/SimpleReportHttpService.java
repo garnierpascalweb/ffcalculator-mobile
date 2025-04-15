@@ -18,7 +18,7 @@ public class SimpleReportHttpService implements IReportHttpService {
 
     @Override
     public void sendReport(FFCReportRequest request) {
-        Call<Void> call = null;
+        Call<Void> call;
         try {
             LogUtils.d(TAG_NAME, "envoi de la cause au backend");
             if (FFCalculatorApplication.instance.getServicesManager().getNetworkService().isWwwConnected()) {
@@ -32,6 +32,11 @@ public class SimpleReportHttpService implements IReportHttpService {
         } finally {
             LogUtils.d(TAG_NAME, "fin d'envoi de la cause au backend");
         }
+    }
+
+    @Override
+    public void sendReportAsync(String tagName, Exception e) {
+
     }
 
     @Override

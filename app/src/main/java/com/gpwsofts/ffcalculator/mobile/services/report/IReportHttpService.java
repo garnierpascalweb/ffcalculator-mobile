@@ -9,4 +9,5 @@ import com.gpwsofts.ffcalculator.mobile.services.report.pojo.FFCReportRequest;
  */
 public interface IReportHttpService extends ICleanableService {
     void sendReport(FFCReportRequest request);
+    void sendReportAsync(String tagName, Exception e);
 }

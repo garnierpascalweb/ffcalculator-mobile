@@ -78,11 +78,6 @@ public class VueApiClient extends AbstractApiClient {
             Vue newVue = null;
             try {
                 LogUtils.i(TAG_NAME, "debut du job asynchrone SetVueRunnable");
-                // TODO 1.0.0 est ce que la vue selectionnee est compatible avec la liste des courses en cours ?
-                //  Pas de bascule U17 si Open et inversement
-                // Pas de bascule Open si y'a des courses U17
-                // Pas de bascule U17 si ya des courses Open
-                // FFCalculatorDatabase.getInstance().resultDao().getAllResults().getValue().stream().allMatch(result -> FFCalculatorApplication.instance.getServicesManager().getGridService().getGrids().stream().filter(grid -> grid.getCode().equals(result.getIdClasse())).
                 LogUtils.d(TAG_NAME, "envoi de la cle valeur en shared prefs - <" + KEY_VUE + "> <" + codeVue + ">");
                 // sharedPrefsEditor.putString(KEY_VUE, vue);
                 if (FFCalculatorApplication.instance.getSharedPrefs().setSharedPrefsVue(codeVue)){
@@ -96,11 +91,9 @@ public class VueApiClient extends AbstractApiClient {
             } catch (SwitchVueException sve) {
                 LogUtils.e(TAG_NAME, "probleme sur le job SetVueRunnable", sve);
                 sendErrorToBackEnd(TAG_NAME, sve);
-                // Already assigned to this value newVue = null;
-            }catch (Exception e) {
+            } catch (Exception e) {
                 LogUtils.e(TAG_NAME, "probleme sur le job SetVueRunnable", e);
                 sendErrorToBackEnd(TAG_NAME, e);
-                // Already assigned to this value newVue = null;
             } finally {
                 mVue.postValue(newVue);
                 LogUtils.i(TAG_NAME, "fin du job asynchrone SetVueRunnable");

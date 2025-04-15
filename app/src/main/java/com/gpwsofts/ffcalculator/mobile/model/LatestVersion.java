@@ -3,6 +3,7 @@ package com.gpwsofts.ffcalculator.mobile.model;
 /**
  * POJO pour la requete de check des nouvelles versions
  * @since 1.0.0
+ * @deprecated  1.0.0 pas encore utilisé
  */
 public class LatestVersion {
     private int latestVersionCode;

@@ -3,12 +3,20 @@ package com.gpwsofts.ffcalculator.mobile.services.town;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Service de chargement de la liste des villes
+ * @since 1.0.0
+ */
 public class SimpleTownService implements ITownService {
     private static final String TAG_NAME = "SimpleTownService";
     private static final String TOWN_RELATIVE_PATH = "towns/towns.txt";
@@ -21,35 +29,34 @@ public class SimpleTownService implements ITownService {
         return towns;
     }
 
+    /**
+     * Methode de chargement de la liste des villes
+     * Doit etre appelé dans un contexte asynchrone
+     * @throws IOException
+     */
     private void loadTownsFromLocalResource() throws IOException {
-        InputStream is = null;
         try {
-            LogUtils.i(TAG_NAME, "debut de chargement des villes");
+            LogUtils.d(TAG_NAME, "debut chargement de la liste des villes");
             towns = new ArrayList<>();
-            LogUtils.d(TAG_NAME, "ouverture du flux sur <" + TOWN_RELATIVE_PATH + ">");
-            is = FFCalculatorApplication.instance.getApplicationContext().getAssets().open(TOWN_RELATIVE_PATH);
-            final Scanner scanner = new Scanner(is);
-            while (scanner.hasNextLine()){
-                final String town = scanner.nextLine();
-                if (town != null && !town.isEmpty()){
-                    towns.add(town);
+            LogUtils.v(TAG_NAME, "ouverture du flux sur <" + TOWN_RELATIVE_PATH + "> et lecture ligne par ligne pour construction de la liste des villes");
+            try (InputStream is = FFCalculatorApplication.instance.getApplicationContext().getAssets().open(TOWN_RELATIVE_PATH);
+                 BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    towns.add(line);
                 }
             }
-            LogUtils.i(TAG_NAME, "fin du chargement des villes - <" + towns.size() + "> villes chargees");
+            LogUtils.v(TAG_NAME, "fin de chargement de la liste des villes - <" + towns.size() + "> villes chargées");
         } finally {
-            if (is != null) {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    LogUtils.w(TAG_NAME, "probleme lors de la fermeture dun flux");
-                }
-            }
+            LogUtils.d(TAG_NAME, "fin de chargement de la liste des villes");
         }
     }
 
     @Override
     public void clean() {
-        if (towns != null)
+        if (towns != null) {
+            LogUtils.v(TAG_NAME, "nettoyage de la liste des villes");
             towns.clear();
+        }
     }
 }

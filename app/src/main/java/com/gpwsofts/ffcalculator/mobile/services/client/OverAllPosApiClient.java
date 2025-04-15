@@ -5,10 +5,10 @@ import androidx.lifecycle.LiveData;
 import com.gpwsofts.ffcalculator.mobile.AppExecutors;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.common.SingleLiveEvent;
+import com.gpwsofts.ffcalculator.mobile.exception.UnreadableBodyException;
 import com.gpwsofts.ffcalculator.mobile.services.pos.pojo.FFCPosResponse;
 import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
 
-import java.io.IOException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
@@ -95,7 +95,7 @@ public class OverAllPosApiClient extends AbstractApiClient {
                             LogUtils.d(TAG_NAME, "succes du calcul de la position pour ce capital de points = <" + pos + ">");
                             LogUtils.d(TAG_NAME, "post de la nouvelle position en livedata");
                         } else {
-                            // TODO 1.0.0 response body null
+                            throw new UnreadableBodyException("impossible de lire le body de la reponse - code http " + responseCode);
                         }
 
                     } else {
@@ -107,10 +107,8 @@ public class OverAllPosApiClient extends AbstractApiClient {
                             LogUtils.e(TAG_NAME, "erreur " + error);
                             LogUtils.d(TAG_NAME, "pos rendue et postee = <null>");
                         } else {
-                            //TODO 1.0.0 errorBody null
+                            throw new UnreadableBodyException("impossible de lire le errorbody de la reponse - code http " + responseCode);
                         }
-                        // already assigned to this vakue pos = null;
-                        //TODO 1.0.0 envoyer au backend ?
                     }
                 } else {
                     // pas de reseau
@@ -118,11 +116,7 @@ public class OverAllPosApiClient extends AbstractApiClient {
                     // already assigned to this value pos = null;
                     //TODO 1.0.0 peut etre dérouler une implementation locale ?
                 }
-            } catch (IOException e) {
-                LogUtils.e(TAG_NAME, "echec du calcul de la position pour ce capital de points : " + e.getClass().getSimpleName(), e);
-                // already assigned to this value pos = null;
-                sendErrorToBackEnd(TAG_NAME, e);
-            } catch (Exception e) {
+            }  catch (Exception e) {
                 LogUtils.e(TAG_NAME, "echec du calcul de la position pour ce capital de points : " + e.getClass().getSimpleName(), e);
                 // already assigned to this value pos = null;
                 sendErrorToBackEnd(TAG_NAME, e);
@@ -141,4 +135,6 @@ public class OverAllPosApiClient extends AbstractApiClient {
             cancelRequest = true;
         }
     }
+
+
 }

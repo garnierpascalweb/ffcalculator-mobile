@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentSeasonBinding;
 import com.gpwsofts.ffcalculator.mobile.ui.view.VueViewModel;
@@ -69,8 +70,14 @@ public class SeasonFragment extends Fragment {
             }
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                LogUtils.v(TAG_NAME, "demande de suppression de resultat par swipe");
-                seasonViewModel.delete(resultListAdapter.getItemFromAdapter(viewHolder.getAbsoluteAdapterPosition()));
+                try {
+                    LogUtils.v(TAG_NAME, "demande de suppression de resultat par swipe");
+                    seasonViewModel.delete(resultListAdapter.getItemFromAdapter(viewHolder.getAbsoluteAdapterPosition()));
+                } catch (Exception e) {
+                    FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
+                } finally {
+                    LogUtils.v(TAG_NAME, "fin de demande de suppression de resultat par swipe");
+                }
             }
         });
         LogUtils.i(TAG_NAME, "attachement a la recyclerView du itemTouchHelper ");
@@ -79,73 +86,88 @@ public class SeasonFragment extends Fragment {
 
         // OBSERVATION DUN CHANGEMENT DANS LA LISTE DE RESULTATS
         seasonViewModel.getAllResultsLiveData().observe(getViewLifecycleOwner(), results -> {
-            LogUtils.i(TAG_NAME, "debut observer results");
-            if (results != null){
-                LogUtils.d(TAG_NAME, "observer results - la liste chargee n'est pas nulle");
-                LogUtils.d(TAG_NAME, "observer results - mise a jour de l'adapter de la liste des resultats (désormais <" + results.size() + "> élements)");
-                resultListAdapter.submitList(results);
+            try {
+                LogUtils.i(TAG_NAME, "debut observer results");
+                if (results != null) {
+                    LogUtils.d(TAG_NAME, "observer results - la liste chargee n'est pas nulle");
+                    LogUtils.d(TAG_NAME, "observer results - mise a jour de l'adapter de la liste des resultats (désormais <" + results.size() + "> élements)");
+                    resultListAdapter.submitList(results);
+                }
+            } catch (Exception e) {
+                FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
+            } finally {
+                LogUtils.i(TAG_NAME, "fin observer results");
             }
-            LogUtils.i(TAG_NAME, "fin observer results");
         });
         // FIN OBSERVATION DUN CHANGEMENT DANS LA LISTE DE RESULTATS
 
         // OBSERVATION DUN CHANGEMENT DANS LE NOMBRE DE POINTS
         seasonViewModel.getAllPtsLiveData().observe(getViewLifecycleOwner(), pts -> {
-            LogUtils.i(TAG_NAME, "debut observer allPts");
-            if (null != pts) {
-                LogUtils.d(TAG_NAME, "observer allPts - le resultat rendu n'est pas null");
-                if (Double.compare(pts, seasonViewModel.getCurrentPts()) !=0){
-                    // valeur rendue differente de celle en cache, recalcul de la position au classement antional
-                    LogUtils.d(TAG_NAME, "observer allPts - la valeur rendue est differente de celle en cache");
-                    final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
-                    textViewPos.setText(getString(R.string.label_classement_national_loading));
-                    LogUtils.d(TAG_NAME, "observer allPts - envoi du job asynchrone de recherche de la position pour <" + pts +"> pts sur le classeemnt <" + classType + ">");
-                    seasonViewModel.searchPosApi(pts, classType);
-                    seasonViewModel.setCurrentPts(pts);
-                    seasonViewModel.setCurrentClassType(classType);
-                } else {
-                    // valeur rendue egale a celle en cache, pas recalcul de la position au classement antional saud si indfini
-                    LogUtils.d(TAG_NAME, "observer allPts - la valeur rendue est la meme que celle en cache");
-                    if (null == seasonViewModel.getCurrentPos()){
-                        LogUtils.d(TAG_NAME, "observer allPts - pas de position en cache");
+            try {
+                LogUtils.i(TAG_NAME, "debut observer allPts");
+                if (null != pts) {
+                    LogUtils.d(TAG_NAME, "observer allPts - le resultat rendu n'est pas null");
+                    if (Double.compare(pts, seasonViewModel.getCurrentPts()) != 0) {
+                        // valeur rendue differente de celle en cache, recalcul de la position au classement antional
+                        LogUtils.d(TAG_NAME, "observer allPts - la valeur rendue est differente de celle en cache");
                         final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
-                        LogUtils.d(TAG_NAME, "observer allPts - envoi du job asynchrone de recherche de la position pour <" + pts +"> pts sur le classeemnt <" + classType + ">");
-                        seasonViewModel.searchPosApi(pts,classType);
+                        textViewPos.setText(getString(R.string.label_classement_national_loading));
+                        LogUtils.d(TAG_NAME, "observer allPts - envoi du job asynchrone de recherche de la position pour <" + pts + "> pts sur le classeemnt <" + classType + ">");
+                        seasonViewModel.searchPosApi(pts, classType);
+                        seasonViewModel.setCurrentPts(pts);
+                        seasonViewModel.setCurrentClassType(classType);
                     } else {
-                        LogUtils.v(TAG_NAME, "observer allPts - conservation de la position en cache = <" + seasonViewModel.getCurrentPos() + ">");
-                        textViewPos.setText(getString(R.string.label_classement_national_ok, seasonViewModel.getCurrentClassType(), seasonViewModel.getCurrentPos()));
+                        // valeur rendue egale a celle en cache, pas recalcul de la position au classement antional saud si indfini
+                        LogUtils.d(TAG_NAME, "observer allPts - la valeur rendue est la meme que celle en cache");
+                        if (null == seasonViewModel.getCurrentPos()) {
+                            LogUtils.d(TAG_NAME, "observer allPts - pas de position en cache");
+                            final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
+                            LogUtils.d(TAG_NAME, "observer allPts - envoi du job asynchrone de recherche de la position pour <" + pts + "> pts sur le classeemnt <" + classType + ">");
+                            seasonViewModel.searchPosApi(pts, classType);
+                        } else {
+                            LogUtils.v(TAG_NAME, "observer allPts - conservation de la position en cache = <" + seasonViewModel.getCurrentPos() + ">");
+                            textViewPos.setText(getString(R.string.label_classement_national_ok, seasonViewModel.getCurrentClassType(), seasonViewModel.getCurrentPos()));
+                        }
                     }
+                    textViewPts.setText(getString(R.string.label_total_pts_ok, pts));
+                } else {
+                    LogUtils.d(TAG_NAME, "observer allPts - le resultat rendu est null - aucun resultat");
+                    textViewPts.setText(getString(R.string.label_aucun_resultat));
+                    textViewPos.setText("");
+                    LogUtils.w(TAG_NAME, "la valeur de pts est pas renseignee");
                 }
-                textViewPts.setText(getString(R.string.label_total_pts_ok, pts));
-            } else {
-                LogUtils.d(TAG_NAME, "observer allPts - le resultat rendu est null - aucun resultat");
-                textViewPts.setText(getString(R.string.label_aucun_resultat));
-                textViewPos.setText("");
-                LogUtils.w(TAG_NAME, "la valeur de pts est pas renseignee");
+            } catch (Exception e) {
+                FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
+            } finally {
+                LogUtils.i(TAG_NAME, "fin observer allPts");
             }
-            LogUtils.i(TAG_NAME, "fin observer allPts");
         });
         // FIN OBSERVATION DUN CHANGEMENT DANS LE NOMBRE DE POINTS
 
         // OBSERVATION DUN CHANGEMENT DANS LA POSITION AU CLASSEMENT NATIONAL
         seasonViewModel.getOverAllPosLiveData().observe(getViewLifecycleOwner(), overAllPos -> {
-            LogUtils.i(TAG_NAME, "debut observer overAllPos");
-            final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
-            final String textFieldPosText;
-            if (overAllPos != null) {
-                LogUtils.d(TAG_NAME, "observer allPts - la position rendue n'est pas null = <" + overAllPos + ">");
+            try {
+                LogUtils.i(TAG_NAME, "debut observer overAllPos");
+                final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
+                final String textFieldPosText;
+                if (overAllPos != null) {
+                    LogUtils.d(TAG_NAME, "observer allPts - la position rendue n'est pas null = <" + overAllPos + ">");
+                    LogUtils.d(TAG_NAME, "observer allPts - mise a jour du textField pour affichage de la position");
+                    textFieldPosText = getString(R.string.label_classement_national_ok, classType, overAllPos);
+                    LogUtils.d(TAG_NAME, "observer allPts - mise en cache de la position et du type de classement");
+                    seasonViewModel.setCurrentPos(overAllPos);
+                    seasonViewModel.setCurrentClassType(classType);
+                } else {
+                    LogUtils.w(TAG_NAME, "observer allPts - la position rendue est null");
+                    textFieldPosText = getString(R.string.label_classement_national_ko);
+                }
                 LogUtils.d(TAG_NAME, "observer allPts - mise a jour du textField pour affichage de la position");
-                textFieldPosText = getString(R.string.label_classement_national_ok, classType, overAllPos);
-                LogUtils.d(TAG_NAME, "observer allPts - mise en cache de la position et du type de classement");
-                seasonViewModel.setCurrentPos(overAllPos);
-                seasonViewModel.setCurrentClassType(classType);
-            } else {
-                LogUtils.w(TAG_NAME, "observer allPts - la position rendue est null");
-                textFieldPosText = getString(R.string.label_classement_national_ko);
+                textViewPos.setText(textFieldPosText);
+            } catch (Exception e) {
+                FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
+            } finally {
+                LogUtils.i(TAG_NAME, "fin observer overAllPos");
             }
-            LogUtils.d(TAG_NAME, "observer allPts - mise a jour du textField pour affichage de la position");
-            textViewPos.setText(textFieldPosText);
-            LogUtils.i(TAG_NAME, "fin observer overAllPos");
         });
         // FIN OBSERVATION DUN CHANGEMENT DANS LA POSITION AU CLASSEMENT NATIONAL
         LogUtils.d(TAG_NAME, "fin appel de onViewCreated");

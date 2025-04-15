@@ -61,4 +61,10 @@ public class Vue {
     public void setName(String name) {
         this.name = name;
     }
+
+    public boolean isU17(){
+        if (null == code)
+            return false;
+        return code.equals("U17");
+    }
 }

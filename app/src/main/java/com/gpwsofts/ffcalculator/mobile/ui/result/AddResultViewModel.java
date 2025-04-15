@@ -32,10 +32,7 @@ public class AddResultViewModel extends AndroidViewModel {
     private final DatabaseResultRepository databaseResultRepository;
     private final GridRepository gridRepository;
     private final TownRepository townRepository;
-    private String currentListGridHelperText;
     private List<String> currentListTowns;
-
-
 
     public AddResultViewModel(Application application) {
         super(application);
@@ -89,10 +86,6 @@ public class AddResultViewModel extends AndroidViewModel {
 
     public void onNewResultCreated(Result newResult) {
         databaseResultRepository.insert(newResult);
-    }
-
-    public void setCurrentListGridHelperText(String currentListGridHelperText) {
-        this.currentListGridHelperText = currentListGridHelperText;
     }
 
     public List<Integer> getIntegerList200(){
