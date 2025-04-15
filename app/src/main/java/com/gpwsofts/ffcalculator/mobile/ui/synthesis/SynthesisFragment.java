@@ -27,14 +27,6 @@ public class SynthesisFragment extends Fragment {
         super.onCreateView(inflater,container,savedInstanceState);
         binding = FragmentSynthesisBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        // binding
-        WebView myWebView = binding.webview;
-        // Activer JavaScript dans la WebView
-        myWebView.getSettings().setJavaScriptEnabled(true);
-        // Charger une URL
-        myWebView.loadUrl("https://garnierpascalweb.fr/app/ffcalculator/");
-        // Optionnel : Pour ouvrir les liens dans la même WebView au lieu du navigateur
-        myWebView.setWebViewClient(new WebViewClient());
         return root;
     }
 

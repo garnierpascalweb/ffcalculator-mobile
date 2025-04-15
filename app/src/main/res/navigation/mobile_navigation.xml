@@ -18,8 +18,8 @@
         tools:layout="@layout/fragment_season" />
 
     <fragment
-        android:id="@+id/navigation_synthesis"
-        android:name="com.gpwsofts.ffcalculator.mobile.ui.synthesis.SynthesisFragment"
-        android:label="@string/title_synthese"
-        tools:layout="@layout/fragment_synthesis" />
+        android:id="@+id/navigation_help"
+        android:name="com.gpwsofts.ffcalculator.mobile.ui.help.HelpFragment"
+        android:label="@string/title_aide"
+        tools:layout="@layout/fragment_help" />
 </navigation>

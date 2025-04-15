@@ -11,8 +11,7 @@
         android:title="@string/title_saison" />
 
     <item
-        android:id="@+id/navigation_synthesis"
-        android:icon="@drawable/baseline_emoji_events_24"
-        android:title="@string/title_synthese" />
-
+        android:id="@+id/navigation_help"
+        android:icon="@drawable/baseline_help_24"
+        android:title="@string/title_aide" />
 </menu>
