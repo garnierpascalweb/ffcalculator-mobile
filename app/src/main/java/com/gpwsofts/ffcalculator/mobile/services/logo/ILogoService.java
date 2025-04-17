@@ -1,5 +1,6 @@
 package com.gpwsofts.ffcalculator.mobile.services.logo;
 
+import com.gpwsofts.ffcalculator.mobile.model.logo.ILogo;
 import com.gpwsofts.ffcalculator.mobile.model.logo.Logo;
 import com.gpwsofts.ffcalculator.mobile.services.ICleanableService;
 
@@ -15,11 +16,11 @@ public interface ILogoService extends ICleanableService {
      * @param idClasse id de la classe
      * @return
      */
-    Logo getLogo(String idClasse);
+    ILogo getLogo(String idClasse);
 
     /**
      * Rend une instance de Logo inconnu
      * @return une instance de logo
      */
-    Logo getUnknownLogo();
+    ILogo getUnknownLogo();
 }

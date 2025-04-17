@@ -9,6 +9,7 @@ import com.gpwsofts.ffcalculator.mobile.common.executor.AppExecutors;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.model.grid.IGrid;
+import com.gpwsofts.ffcalculator.mobile.model.logo.ILogo;
 import com.gpwsofts.ffcalculator.mobile.services.pts.api.response.AddResultRunnableResponse;
 import com.gpwsofts.ffcalculator.mobile.common.SingleLiveEvent;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
@@ -277,7 +278,7 @@ public class AddResultApiClient extends AbstractApiClient {
                 LogUtils.v(TAG_NAME, "calcul de Logo pour un idLogo <" + idLogo + ">");
                 // et si idLogo null, faudrait au moins mettre un logo par defaut
                 // cette fonctionnalité est supportée par le service des logos, qui rend un logo par defaut "unknown" si idLogo est null ou si idLogo existe pas dans la map
-                final Logo logo = FFCalculatorApplication.instance.getServicesManager().getLogoService(FFCalculatorApplication.instance.getResources()).getLogo(idLogo);
+                final ILogo logo = FFCalculatorApplication.instance.getServicesManager().getLogoService(FFCalculatorApplication.instance.getResources()).getLogo(idLogo);
                 newResult.setLogo(logo.getText());
                 newResult.setLogoColor(logo.getColor());
             } catch (IOException e) {

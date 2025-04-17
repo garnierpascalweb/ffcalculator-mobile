@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.R;
+import com.gpwsofts.ffcalculator.mobile.model.logo.ILogo;
 import com.gpwsofts.ffcalculator.mobile.model.logo.Logo;
 import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
 
@@ -42,8 +43,8 @@ public class SimpleLogoService implements ILogoService {
      * @param idLogo id de logo, s'il est null, renvoi un logo par defaut
      * @return une instance de Logo pour un idLogo
      */
-    public Logo getLogo(String idLogo) {
-        Logo logo;
+    public ILogo getLogo(String idLogo) {
+        ILogo logo;
         if (null == idLogo){
             LogUtils.w(TAG_NAME, "idLogo null, renvoi du logo par defaut");
             logo = getUnknownLogo();
@@ -61,7 +62,7 @@ public class SimpleLogoService implements ILogoService {
      * le logo par defaut unknown
      * @return une instance de logo inconnu
      */
-    public Logo getUnknownLogo(){
+    public ILogo getUnknownLogo(){
         return logos.get(res.getString(R.string.logo_unknown));
     }
 
