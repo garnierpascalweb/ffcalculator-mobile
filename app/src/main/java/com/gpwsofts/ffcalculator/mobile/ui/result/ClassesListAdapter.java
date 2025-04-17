@@ -7,13 +7,14 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 
 import com.gpwsofts.ffcalculator.mobile.model.grid.Grid;
+import com.gpwsofts.ffcalculator.mobile.model.grid.IGrid;
 
 /**
  * @since 1.0.0
  * Adapter pour la liste déroulante des classes (item objet Grid, rendu ClassesViewHolder)
  */
-public class ClassesListAdapter extends ListAdapter<Grid, ClassesViewHolder> {
-    protected ClassesListAdapter(@NonNull DiffUtil.ItemCallback<Grid> diffCallback) {
+public class ClassesListAdapter extends ListAdapter<IGrid, ClassesViewHolder> {
+    protected ClassesListAdapter(@NonNull DiffUtil.ItemCallback<IGrid> diffCallback) {
         super(diffCallback);
     }
 
@@ -25,19 +26,19 @@ public class ClassesListAdapter extends ListAdapter<Grid, ClassesViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ClassesViewHolder holder, int position) {
-        Grid current = getItem(position);
+        IGrid current = getItem(position);
         holder.bind(current);
     }
 
-    public static class ClassesDiff extends DiffUtil.ItemCallback<Grid> {
+    public static class ClassesDiff extends DiffUtil.ItemCallback<IGrid> {
 
         @Override
-        public boolean areItemsTheSame(@NonNull Grid oldItem, @NonNull Grid newItem) {
+        public boolean areItemsTheSame(@NonNull IGrid oldItem, @NonNull IGrid newItem) {
             return oldItem == newItem;
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull Grid oldItem, @NonNull Grid newItem) {
+        public boolean areContentsTheSame(@NonNull IGrid oldItem, @NonNull IGrid newItem) {
             return (oldItem.getCode().equals(newItem.getCode()));
         }
     }

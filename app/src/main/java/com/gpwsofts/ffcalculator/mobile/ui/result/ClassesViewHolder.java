@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.model.grid.Grid;
+import com.gpwsofts.ffcalculator.mobile.model.grid.IGrid;
 
 /**
  * Reprend les elements qui ont été définis dans notre custom Layout : simple_spinner_item
@@ -39,7 +40,7 @@ public class ClassesViewHolder extends RecyclerView.ViewHolder {
      * Permet d'associer l'instance de l'item en cours (de type Grid) a l'objet graphique défini dans notre custom layout
      * @param current
      */
-    public void bind(Grid current) {
+    public void bind(IGrid current) {
         spinnerItemTextView.setText(current.getSpinnerItemValue());
     }
 }

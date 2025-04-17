@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import com.gpwsofts.ffcalculator.mobile.common.reader.ReaderProvider;
 import com.gpwsofts.ffcalculator.mobile.model.grid.Grid;
 import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
+import com.gpwsofts.ffcalculator.mobile.model.grid.IGrid;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -23,7 +24,7 @@ public class SimpleGridService extends AbstractGridService {
         super(readerProvider);
     }
 
-    public List<Grid> getGrids() throws IOException {
+    public List<IGrid> getGrids() throws IOException {
         if (null == grids || grids.isEmpty())
             loadGridsFromLocalResource();
         return grids;
@@ -43,7 +44,7 @@ public class SimpleGridService extends AbstractGridService {
         try {
             LogUtils.i(TAG_NAME, "debut de chargement des grilles");
             LogUtils.d(TAG_NAME, "ouverture du flux sur <" + GRID_RELATIVE_PATH + ">");
-            listGridType = new TypeToken<List<Grid>>() {}.getType();
+            listGridType = new TypeToken<List<IGrid>>() {}.getType();
             LogUtils.v(TAG_NAME, "construction d'une instance de liste depuis Gson");
             gson = new Gson();
             grids = gson.fromJson(readerProvider.openReader(GRID_RELATIVE_PATH), listGridType);

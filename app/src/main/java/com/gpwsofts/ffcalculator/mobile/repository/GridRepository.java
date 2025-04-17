@@ -3,6 +3,7 @@ package com.gpwsofts.ffcalculator.mobile.repository;
 import androidx.lifecycle.LiveData;
 
 import com.gpwsofts.ffcalculator.mobile.model.grid.Grid;
+import com.gpwsofts.ffcalculator.mobile.model.grid.IGrid;
 import com.gpwsofts.ffcalculator.mobile.services.grid.api.GridApiClient;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class GridRepository {
         return instance;
     }
 
-    public LiveData<List<Grid>> getGridChoicesLiveData() {
+    public LiveData<List<IGrid>> getGridChoicesLiveData() {
         return gridApiClient.getGridChoicesLiveData();
     }
 

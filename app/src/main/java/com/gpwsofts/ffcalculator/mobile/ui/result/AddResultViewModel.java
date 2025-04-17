@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.gpwsofts.ffcalculator.mobile.model.grid.IGrid;
 import com.gpwsofts.ffcalculator.mobile.services.pts.api.response.AddResultRunnableResponse;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.model.grid.Grid;
@@ -49,7 +50,7 @@ public class AddResultViewModel extends AndroidViewModel {
         return gridRepository.getPosChoicesLiveData();
     }
 
-    public LiveData<List<Grid>> getGridChoicesLiveData() {
+    public LiveData<List<IGrid>> getGridChoicesLiveData() {
         return gridRepository.getGridChoicesLiveData();
     }
 

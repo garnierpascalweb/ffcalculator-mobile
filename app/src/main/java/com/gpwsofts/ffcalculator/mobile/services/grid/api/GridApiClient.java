@@ -8,6 +8,7 @@ import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.common.SingleLiveEvent;
 import com.gpwsofts.ffcalculator.mobile.model.grid.Grid;
 import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
+import com.gpwsofts.ffcalculator.mobile.model.grid.IGrid;
 
 import java.util.List;
 import java.util.concurrent.Future;
@@ -24,7 +25,7 @@ import java.util.stream.IntStream;
 public class GridApiClient extends AbstractApiClient {
     private static final String TAG_NAME = "GridApiClient";
     private static GridApiClient instance;
-    private final SingleLiveEvent<List<Grid>> mGridChoices;
+    private final SingleLiveEvent<List<IGrid>> mGridChoices;
     private final SingleLiveEvent<List<Integer>> mPosChoices;
     private LoadClassesChoicesRunnable loadClassesChoicesRunnable;
     private LoadPosChoicesRunnable loadPosChoicesRunnable;
@@ -43,7 +44,7 @@ public class GridApiClient extends AbstractApiClient {
         return instance;
     }
 
-    public LiveData<List<Grid>> getGridChoicesLiveData() {
+    public LiveData<List<IGrid>> getGridChoicesLiveData() {
         return mGridChoices;
     }
 
@@ -92,9 +93,9 @@ public class GridApiClient extends AbstractApiClient {
         @Override
         public void run() {
             LogUtils.i(TAG_NAME, "debut du job asynchrone LoadClassesChoicesRunnable selon la vue <" + vue + ">");
-            List<Grid> listGridsForMyVue = null;
+            List<IGrid> listGridsForMyVue = null;
             try {
-                List<Grid> grids = FFCalculatorApplication.instance.getServicesManager().getGridService().getGrids();
+                List<IGrid> grids = FFCalculatorApplication.instance.getServicesManager().getGridService().getGrids();
                 LogUtils.d(TAG_NAME, " nombre de grilles <" + grids.size() + ">");
                 listGridsForMyVue = FFCalculatorApplication.instance.getServicesManager().getGridService().getGrids().stream().filter(grid -> grid.getVues().contains(vue)).collect(Collectors.toList());
                 LogUtils.d(TAG_NAME, " <" + listGridsForMyVue.size() + "> vues chargees pour la vue <" + vue + ">");
@@ -133,7 +134,7 @@ public class GridApiClient extends AbstractApiClient {
             List<Integer> posChoices = null;
             try{
                 final String idClasse = FFCalculatorApplication.instance.getServicesManager().getGridService().getIdClasseFromLibelle(libelle);
-                final Grid myGrid = FFCalculatorApplication.instance.getServicesManager().getGridService().getGrids().stream().filter(grid -> grid.getCode().equals(idClasse)).findAny().orElse(null);
+                final IGrid myGrid = FFCalculatorApplication.instance.getServicesManager().getGridService().getGrids().stream().filter(grid -> grid.getCode().equals(idClasse)).findAny().orElse(null);
                 if (myGrid != null) {
                     posChoices = IntStream.rangeClosed(1, myGrid.getMaxPos()).boxed().collect(Collectors.toList());
                 }

@@ -3,13 +3,14 @@ package com.gpwsofts.ffcalculator.mobile.services.grid;
 import com.gpwsofts.ffcalculator.mobile.common.reader.ReaderProvider;
 import com.gpwsofts.ffcalculator.mobile.common.exception.InputLibelleFormatException;
 import com.gpwsofts.ffcalculator.mobile.model.grid.Grid;
+import com.gpwsofts.ffcalculator.mobile.model.grid.IGrid;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractGridService implements IGridService {
     protected final ReaderProvider readerProvider;
-    protected List<Grid> grids;
+    protected List<IGrid> grids;
     public AbstractGridService(ReaderProvider readerProvider) {
         this.grids = new ArrayList<>();
         this.readerProvider = readerProvider;

@@ -6,7 +6,7 @@ import java.util.List;
  * Interface grille
  * @since 1.0.0
  */
-public interface IGrid {
+public interface IGrid extends Comparable<IGrid> {
     public String getCode();
     public int getPriority();
     public String getLogo();

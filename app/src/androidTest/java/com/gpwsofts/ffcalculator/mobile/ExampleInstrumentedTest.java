@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.gpwsofts.ffcalculator.mobile.model.grid.Grid;
 import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
+import com.gpwsofts.ffcalculator.mobile.model.grid.IGrid;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -52,7 +53,7 @@ public class ExampleInstrumentedTest {
     /**
      *
      */
-    private List<Grid> grids;
+    private List<IGrid> grids;
 
     /**
      * Configuration du test
@@ -111,7 +112,7 @@ public class ExampleInstrumentedTest {
         int gridsSize = grids.size();
         int communesSize = communes.size();
         Random rand = new Random();
-        Grid grid = grids.get(index);
+        IGrid grid = grids.get(index);
         int maxPos = grid.getMaxPos();
         String place = new StringBuilder().append(communes.get(rand.nextInt(communesSize - 1))).append(" (").append(index).append(")").toString();
         String spinnerItemValue = grid.getSpinnerItemValue();
