@@ -3,6 +3,7 @@ package com.gpwsofts.ffcalculator.mobile.services.grid;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
+import com.gpwsofts.ffcalculator.mobile.common.reader.ReaderProvider;
 import com.gpwsofts.ffcalculator.mobile.exception.InputLibelleFormatException;
 import com.gpwsofts.ffcalculator.mobile.model.Grid;
 import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
@@ -18,13 +19,13 @@ import java.util.List;
 /**
  * @since 1.0.0
  */
-public class SimpleGridService implements IGridService {
+public class SimpleGridService extends AbstractGridService {
     private static final String TAG_NAME = "SimpleGridService";
     private static final String GRID_RELATIVE_PATH = "grids/grilles.json";
-    private List<Grid> grids;
 
-    public SimpleGridService() {
-        grids = new ArrayList<>();
+
+    public SimpleGridService(ReaderProvider readerProvider) {
+        super(readerProvider);
     }
 
     public List<Grid> getGrids() throws IOException {
@@ -33,20 +34,7 @@ public class SimpleGridService implements IGridService {
         return grids;
     }
 
-    @Override
-    public String getIdClasseFromLibelle(String libelle) throws InputLibelleFormatException {
-        String idClasse;
-        if (null == libelle)
-            throw new InputLibelleFormatException("libelle est null");
-        try {
-            final int borneInf = libelle.indexOf("(") + 1;
-            final int borneSup = libelle.indexOf(")");
-            idClasse = libelle.substring(borneInf, borneSup);
-        } catch (IndexOutOfBoundsException ie) {
-            throw new InputLibelleFormatException(" le libelle " + libelle + " nest pas au bon format", ie);
-        }
-        return idClasse;
-    }
+
 
     /**
      * Chargement des grilles
@@ -55,34 +43,20 @@ public class SimpleGridService implements IGridService {
      * @since 1.0.0
      */
     private void loadGridsFromLocalResource() throws IOException {
-        InputStream is = null;
         Type listGridType;
-        String jsonDatas;
         Gson gson;
         try {
             LogUtils.i(TAG_NAME, "debut de chargement des grilles");
             LogUtils.d(TAG_NAME, "ouverture du flux sur <" + GRID_RELATIVE_PATH + ">");
-            is = FFCalculatorApplication.instance.getApplicationContext().getAssets().open(GRID_RELATIVE_PATH);
-            int size = is.available();
-            LogUtils.v(TAG_NAME, "<" + size + "> octets lus - creation dun buffer de cette taille");
-            byte[] buffer = new byte[size];
-            final int readed = is.read(buffer);
             listGridType = new TypeToken<List<Grid>>() {}.getType();
-            jsonDatas = new String(buffer, StandardCharsets.UTF_8);
             LogUtils.v(TAG_NAME, "construction d'une instance de liste depuis Gson");
             gson = new Gson();
-            grids = gson.fromJson(jsonDatas, listGridType);
+            grids = gson.fromJson(readerProvider.openReader(GRID_RELATIVE_PATH), listGridType);
             LogUtils.v(TAG_NAME, "tri de la liste des grilles");
             Collections.sort(grids);
             LogUtils.i(TAG_NAME, "fin du chargement des grilles - <" + grids.size() + "> grilles chargees");
         } finally {
-            if (is != null) {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    LogUtils.w(TAG_NAME, "probleme lors de la fermeture dun flux");
-                }
-            }
+
         }
     }
 

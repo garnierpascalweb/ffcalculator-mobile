@@ -3,6 +3,7 @@ package com.gpwsofts.ffcalculator.mobile.services;
 import android.content.res.Resources;
 
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
+import com.gpwsofts.ffcalculator.mobile.common.reader.AssetReaderProvider;
 import com.gpwsofts.ffcalculator.mobile.services.device.IDeviceService;
 import com.gpwsofts.ffcalculator.mobile.services.device.SimpleDeviceService;
 import com.gpwsofts.ffcalculator.mobile.services.grid.IGridService;
@@ -121,7 +122,7 @@ public class ServicesManager {
     public final IGridService getGridService() {
         if (null == gridService) {
             LogUtils.i(TAG_NAME, "creation dune nouvelle instance de IGridService");
-            gridService = new SimpleGridService();
+            gridService = new SimpleGridService(new AssetReaderProvider(FFCalculatorApplication.instance.getApplicationContext()));
         } else {
             LogUtils.d(TAG_NAME, "recuperation d'une instance existante de IGridService");
         }
@@ -131,7 +132,7 @@ public class ServicesManager {
     public final ITownService getTownService() {
         if (null == townService) {
             LogUtils.i(TAG_NAME, "creation dune nouvelle instance de ITownService");
-            townService = new SimpleTownService();
+            townService = new SimpleTownService(new AssetReaderProvider(FFCalculatorApplication.instance.getApplicationContext()));
         } else {
             LogUtils.d(TAG_NAME, "recuperation d'une instance existante de ITownService");
         }
