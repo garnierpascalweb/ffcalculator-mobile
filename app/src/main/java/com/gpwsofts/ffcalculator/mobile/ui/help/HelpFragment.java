@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.gpwsofts.ffcalculator.mobile.BuildConfig;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentHelpBinding;
 
 /**
@@ -36,7 +37,7 @@ public class HelpFragment extends Fragment {
         // Activer JavaScript dans la WebView
         myWebView.getSettings().setJavaScriptEnabled(true);
         // Charger une URL
-        myWebView.loadUrl("https://garnierpascalweb.fr/app/ffcalculator/");
+        myWebView.loadUrl(BuildConfig.HELP_BASE_URL);
         // Optionnel : Pour ouvrir les liens dans la même WebView au lieu du navigateur
         myWebView.setWebViewClient(new WebViewClient());
         return root;

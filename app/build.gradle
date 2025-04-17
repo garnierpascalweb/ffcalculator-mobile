@@ -15,7 +15,9 @@ android {
         // Specifies the API level used to test the app
         // 34 est Android 14
         targetSdk 34
+        // Entier qui augmente à chaque mise à jour (nouvelle release). Utilisé par Google Play pour savoir si une version est plus récente.
         versionCode 1
+        // Chaîne lisible par les humains, ex : "1.0.3" ou "2.0-beta"
         versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -24,15 +26,18 @@ android {
     // Déclaration des saveurs
     productFlavors {
         dev {
+            buildConfigField "String", "HELP_BASE_URL", '"https://garnierpascalweb.fr/app/ffcalculator/webview/"'
             buildConfigField "String", "API_BASE_URL", '"https://garnierpascalweb.fr/app/ffcalculator/api/"'
             buildConfigField "String", "API_URI_PTS", '"FFCPointsApi.php"'
             buildConfigField "String", "API_URI_CLASS", '"FFCClassementApi.php"'
             buildConfigField "String", "API_URI_REPORT", '"FFCReportApi.php"'
             buildConfigField "String", "API_URI_LATEST_VERSION", '"latest-version.json"'
             buildConfigField "boolean", "ENABLE_LOGS", "true"
+            versionNameSuffix "-dev" // sert à ajouter un suffixe à la version visible de l’app (versionName), par exemple "1.0-dev"
             dimension "environment"
         }
         prod {
+            buildConfigField "String", "HELP_BASE_URL", '"https://garnierpascalweb.fr/app/ffcalculator/webview/"'
             buildConfigField "String", "API_BASE_URL", '"https://garnierpascalweb.fr/app/ffcalculator/api/"'
             buildConfigField "String", "API_URI_PTS", '"FFCPointsApi.php"'
             buildConfigField "String", "API_URI_CLASS", '"FFCClassementApi.php"'

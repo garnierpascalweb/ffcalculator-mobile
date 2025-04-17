@@ -188,6 +188,7 @@ public class ServicesManager {
      * Désallocation de tous les services
      */
     public final void unbindAll(){
+        LogUtils.d(TAG_NAME, "demande de désallocation de tous les services");
         if (logoService != null){
             logoService.clean();
             logoService = null;
@@ -224,6 +225,7 @@ public class ServicesManager {
             reportService.clean();
             reportService = null;
         }
+        LogUtils.d(TAG_NAME, "fin demande de désallocation de tous les services");
     }
 
 }
