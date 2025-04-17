@@ -23,7 +23,7 @@ import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentResultBinding;
 import com.gpwsofts.ffcalculator.mobile.ui.view.VueViewModel;
-import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
+import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
 
 import java.util.ArrayList;
 
@@ -110,8 +110,6 @@ public class AddResultFragment extends Fragment {
                     autoCompleteTextViewPos.clearListSelection();
                     LogUtils.d(TAG_NAME, "observer vue - rechargement asynchrone liste des classe selon vue");
                     addResultViewModel.loadGridChoicesAsync(vue);
-                    // LogUtils.d(TAG_NAME, "observer vue - affichage toast bascule vue");
-                     // Toast.makeText(getActivity(), getString(R.string.toast_update_vue_ok, vue.getName()), Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
                 LogUtils.e(TAG_NAME, "observer vue - probleme sur observer vue, envoi report ", e);

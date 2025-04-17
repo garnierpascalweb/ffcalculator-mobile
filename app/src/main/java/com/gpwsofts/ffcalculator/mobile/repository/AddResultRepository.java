@@ -2,8 +2,8 @@ package com.gpwsofts.ffcalculator.mobile.repository;
 
 import androidx.lifecycle.LiveData;
 
-import com.gpwsofts.ffcalculator.mobile.common.AddResultRunnableResponse;
-import com.gpwsofts.ffcalculator.mobile.services.client.AddResultApiClient;
+import com.gpwsofts.ffcalculator.mobile.services.pts.api.response.AddResultRunnableResponse;
+import com.gpwsofts.ffcalculator.mobile.services.pts.api.AddResultApiClient;
 
 /**
  * Repository pour l'ajout d'un nouveau resultat

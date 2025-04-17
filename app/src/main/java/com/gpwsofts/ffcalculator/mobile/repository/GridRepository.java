@@ -2,8 +2,8 @@ package com.gpwsofts.ffcalculator.mobile.repository;
 
 import androidx.lifecycle.LiveData;
 
-import com.gpwsofts.ffcalculator.mobile.model.Grid;
-import com.gpwsofts.ffcalculator.mobile.services.client.GridApiClient;
+import com.gpwsofts.ffcalculator.mobile.model.grid.Grid;
+import com.gpwsofts.ffcalculator.mobile.services.grid.api.GridApiClient;
 
 import java.util.List;
 

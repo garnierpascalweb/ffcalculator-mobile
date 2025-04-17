@@ -2,17 +2,12 @@ package com.gpwsofts.ffcalculator.mobile.services.grid;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.common.reader.ReaderProvider;
-import com.gpwsofts.ffcalculator.mobile.exception.InputLibelleFormatException;
-import com.gpwsofts.ffcalculator.mobile.model.Grid;
-import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
+import com.gpwsofts.ffcalculator.mobile.model.grid.Grid;
+import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 

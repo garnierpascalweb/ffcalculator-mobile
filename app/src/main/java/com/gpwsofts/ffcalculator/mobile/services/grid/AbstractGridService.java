@@ -1,8 +1,8 @@
 package com.gpwsofts.ffcalculator.mobile.services.grid;
 
 import com.gpwsofts.ffcalculator.mobile.common.reader.ReaderProvider;
-import com.gpwsofts.ffcalculator.mobile.exception.InputLibelleFormatException;
-import com.gpwsofts.ffcalculator.mobile.model.Grid;
+import com.gpwsofts.ffcalculator.mobile.common.exception.InputLibelleFormatException;
+import com.gpwsofts.ffcalculator.mobile.model.grid.Grid;
 
 import java.util.ArrayList;
 import java.util.List;

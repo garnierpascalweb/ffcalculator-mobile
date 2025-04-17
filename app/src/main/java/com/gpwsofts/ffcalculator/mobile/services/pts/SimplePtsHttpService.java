@@ -3,9 +3,9 @@ package com.gpwsofts.ffcalculator.mobile.services.pts;
 import com.gpwsofts.ffcalculator.mobile.BuildConfig;
 import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsRequest;
 import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsResponse;
-import com.gpwsofts.ffcalculator.mobile.sharedprefs.FFCalculatorSharedPrefs;
-import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
-import com.gpwsofts.ffcalculator.mobile.www.FFCalculatorWebApi;
+import com.gpwsofts.ffcalculator.mobile.common.sharedprefs.FFCalculatorSharedPrefs;
+import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
+import com.gpwsofts.ffcalculator.mobile.common.www.FFCalculatorWebApi;
 
 import retrofit2.Call;
 

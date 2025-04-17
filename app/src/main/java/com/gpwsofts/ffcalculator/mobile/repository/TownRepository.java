@@ -2,7 +2,7 @@ package com.gpwsofts.ffcalculator.mobile.repository;
 
 import androidx.lifecycle.LiveData;
 
-import com.gpwsofts.ffcalculator.mobile.services.client.TownApiClient;
+import com.gpwsofts.ffcalculator.mobile.services.town.api.TownApiClient;
 
 import java.util.List;
 

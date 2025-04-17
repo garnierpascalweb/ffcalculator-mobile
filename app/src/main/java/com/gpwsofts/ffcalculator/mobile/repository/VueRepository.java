@@ -2,8 +2,8 @@ package com.gpwsofts.ffcalculator.mobile.repository;
 
 import androidx.lifecycle.LiveData;
 
-import com.gpwsofts.ffcalculator.mobile.model.Vue;
-import com.gpwsofts.ffcalculator.mobile.services.client.VueApiClient;
+import com.gpwsofts.ffcalculator.mobile.model.vue.Vue;
+import com.gpwsofts.ffcalculator.mobile.services.vue.api.VueApiClient;
 
 /**
  * Repository pour la vue en cours

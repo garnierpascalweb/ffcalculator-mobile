@@ -6,8 +6,8 @@ import androidx.core.content.ContextCompat;
 
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.R;
-import com.gpwsofts.ffcalculator.mobile.model.Logo;
-import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
+import com.gpwsofts.ffcalculator.mobile.model.logo.Logo;
+import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
 
 import java.util.HashMap;
 import java.util.Map;

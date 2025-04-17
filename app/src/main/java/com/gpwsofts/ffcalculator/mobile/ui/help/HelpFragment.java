@@ -13,6 +13,10 @@ import androidx.fragment.app.Fragment;
 
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentHelpBinding;
 
+/**
+ * Fragment Aide
+ * @since 1.0.0
+ */
 public class HelpFragment extends Fragment {
     private static final String TAG_NAME = "HelpFragment";
     private FragmentHelpBinding binding;

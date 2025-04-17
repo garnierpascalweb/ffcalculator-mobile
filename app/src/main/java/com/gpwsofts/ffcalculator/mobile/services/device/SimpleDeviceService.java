@@ -3,7 +3,7 @@ package com.gpwsofts.ffcalculator.mobile.services.device;
 import android.os.Build;
 
 import com.gpwsofts.ffcalculator.mobile.BuildConfig;
-import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
+import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
 
 /**
  * Service permettant la récupération d'informations sur le device

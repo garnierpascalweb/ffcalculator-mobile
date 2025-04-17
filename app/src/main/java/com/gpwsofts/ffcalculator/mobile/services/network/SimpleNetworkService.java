@@ -5,7 +5,7 @@ import android.net.Network;
 import android.net.NetworkCapabilities;
 
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
-import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
+import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
 
 public class SimpleNetworkService implements INetworkService {
     private static final String TAG_NAME = "SimpleNetworkService";

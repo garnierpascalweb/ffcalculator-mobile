@@ -11,6 +11,5 @@ import retrofit2.Call;
  * Interface de calcul des points
  */
 public interface IPtsHttpService extends ICleanableService {
-    Call<FFCPointsResponse> calcPts(String place, int pos, int prts, String classe);
     Call<FFCPointsResponse> calcPts(FFCPointsRequest request);
 }

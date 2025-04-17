@@ -2,7 +2,7 @@ package com.gpwsofts.ffcalculator.mobile.repository;
 
 import androidx.lifecycle.LiveData;
 
-import com.gpwsofts.ffcalculator.mobile.services.client.OverAllPosApiClient;
+import com.gpwsofts.ffcalculator.mobile.services.pos.api.OverAllPosApiClient;
 
 /**
  * Repository pour la position au classement national

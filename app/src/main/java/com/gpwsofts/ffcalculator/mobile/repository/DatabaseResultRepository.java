@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData;
 import com.gpwsofts.ffcalculator.mobile.dao.FFCalculatorDatabase;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.dao.ResultDao;
-import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
+import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
 
 import java.util.List;
 

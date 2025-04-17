@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gpwsofts.ffcalculator.mobile.R;
-import com.gpwsofts.ffcalculator.mobile.model.Grid;
+import com.gpwsofts.ffcalculator.mobile.model.grid.Grid;
 
 /**
  * Reprend les elements qui ont été définis dans notre custom Layout : simple_spinner_item

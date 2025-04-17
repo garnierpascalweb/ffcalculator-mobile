@@ -7,7 +7,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
-import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
+import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -39,7 +39,6 @@ public class SingleLiveEvent<T> extends MutableLiveData<T> {
             }
         });
     }
-
 
     @MainThread
     public void setValue(@Nullable T t) {

@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 
 import com.gpwsofts.ffcalculator.mobile.services.update.pojo.FFCUpdateCkeckerResponse;
-import com.gpwsofts.ffcalculator.mobile.utils.LogUtils;
+import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
 
 import retrofit2.Call;
 

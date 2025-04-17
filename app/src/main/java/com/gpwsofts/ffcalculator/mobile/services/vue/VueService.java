@@ -1,7 +1,7 @@
 package com.gpwsofts.ffcalculator.mobile.services.vue;
 
 import com.gpwsofts.ffcalculator.mobile.R;
-import com.gpwsofts.ffcalculator.mobile.model.Vue;
+import com.gpwsofts.ffcalculator.mobile.model.vue.Vue;
 
 import java.util.HashMap;
 import java.util.Map;
