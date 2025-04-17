@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 
-import com.gpwsofts.ffcalculator.mobile.model.grid.Grid;
 import com.gpwsofts.ffcalculator.mobile.model.grid.IGrid;
 
 /**

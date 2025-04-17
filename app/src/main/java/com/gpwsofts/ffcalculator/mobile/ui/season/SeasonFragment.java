@@ -16,9 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.R;
+import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentSeasonBinding;
 import com.gpwsofts.ffcalculator.mobile.ui.view.VueViewModel;
-import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
 
 public class SeasonFragment extends Fragment {
 

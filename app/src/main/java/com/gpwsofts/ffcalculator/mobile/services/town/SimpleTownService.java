@@ -1,7 +1,7 @@
 package com.gpwsofts.ffcalculator.mobile.services.town;
 
-import com.gpwsofts.ffcalculator.mobile.common.reader.ReaderProvider;
 import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
+import com.gpwsofts.ffcalculator.mobile.common.reader.ReaderProvider;
 
 import java.io.BufferedReader;
 import java.io.IOException;

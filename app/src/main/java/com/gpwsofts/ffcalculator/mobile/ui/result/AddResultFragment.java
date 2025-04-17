@@ -20,10 +20,10 @@ import androidx.navigation.Navigation;
 import com.google.android.material.textfield.TextInputLayout;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.R;
+import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentResultBinding;
 import com.gpwsofts.ffcalculator.mobile.ui.view.VueViewModel;
-import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
 
 import java.util.ArrayList;
 

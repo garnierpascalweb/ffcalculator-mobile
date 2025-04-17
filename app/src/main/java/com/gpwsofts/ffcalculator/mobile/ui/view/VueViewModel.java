@@ -3,7 +3,7 @@ package com.gpwsofts.ffcalculator.mobile.ui.view;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.gpwsofts.ffcalculator.mobile.model.vue.Vue;
+import com.gpwsofts.ffcalculator.mobile.model.vue.IVue;
 import com.gpwsofts.ffcalculator.mobile.repository.VueRepository;
 
 public class VueViewModel extends ViewModel {
@@ -14,7 +14,7 @@ public class VueViewModel extends ViewModel {
         vueRepository = VueRepository.getInstance();
     }
 
-    public LiveData<Vue> getVueLiveData() {
+    public LiveData<IVue> getVueLiveData() {
         return vueRepository.getVueLiveData();
     }
 

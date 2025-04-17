@@ -4,22 +4,20 @@ import android.text.TextUtils;
 
 import androidx.lifecycle.LiveData;
 
-import com.gpwsofts.ffcalculator.mobile.common.api.AbstractApiClient;
-import com.gpwsofts.ffcalculator.mobile.common.executor.AppExecutors;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.R;
+import com.gpwsofts.ffcalculator.mobile.common.SingleLiveEvent;
+import com.gpwsofts.ffcalculator.mobile.common.api.AbstractApiClient;
+import com.gpwsofts.ffcalculator.mobile.common.exception.AddResultException;
+import com.gpwsofts.ffcalculator.mobile.common.exception.InputLibelleFormatException;
+import com.gpwsofts.ffcalculator.mobile.common.executor.AppExecutors;
+import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
+import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.model.grid.IGrid;
 import com.gpwsofts.ffcalculator.mobile.model.logo.ILogo;
 import com.gpwsofts.ffcalculator.mobile.services.pts.api.response.AddResultRunnableResponse;
-import com.gpwsofts.ffcalculator.mobile.common.SingleLiveEvent;
-import com.gpwsofts.ffcalculator.mobile.dao.Result;
-import com.gpwsofts.ffcalculator.mobile.common.exception.AddResultException;
-import com.gpwsofts.ffcalculator.mobile.common.exception.InputLibelleFormatException;
-import com.gpwsofts.ffcalculator.mobile.model.grid.Grid;
-import com.gpwsofts.ffcalculator.mobile.model.logo.Logo;
 import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsRequest;
 import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsResponse;
-import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;

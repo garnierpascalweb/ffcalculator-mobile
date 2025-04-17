@@ -2,7 +2,7 @@ package com.gpwsofts.ffcalculator.mobile.repository;
 
 import androidx.lifecycle.LiveData;
 
-import com.gpwsofts.ffcalculator.mobile.model.vue.Vue;
+import com.gpwsofts.ffcalculator.mobile.model.vue.IVue;
 import com.gpwsofts.ffcalculator.mobile.services.vue.api.VueApiClient;
 
 /**
@@ -25,7 +25,7 @@ public class VueRepository {
         return instance;
     }
 
-    public LiveData<Vue> getVueLiveData() {
+    public LiveData<IVue> getVueLiveData() {
         return vueApiClient.getVueLiveData();
     }
 

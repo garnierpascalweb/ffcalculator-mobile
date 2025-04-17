@@ -5,10 +5,10 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.repository.DatabaseResultRepository;
 import com.gpwsofts.ffcalculator.mobile.repository.OverallPosRepository;
-import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
 
 import java.util.List;
 

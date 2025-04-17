@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gpwsofts.ffcalculator.mobile.R;
-import com.gpwsofts.ffcalculator.mobile.model.grid.Grid;
 import com.gpwsofts.ffcalculator.mobile.model.grid.IGrid;
 
 /**

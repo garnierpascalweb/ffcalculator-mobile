@@ -2,13 +2,13 @@ package com.gpwsofts.ffcalculator.mobile.services.pos.api;
 
 import androidx.lifecycle.LiveData;
 
-import com.gpwsofts.ffcalculator.mobile.common.executor.AppExecutors;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.common.SingleLiveEvent;
-import com.gpwsofts.ffcalculator.mobile.common.exception.UnreadableBodyException;
 import com.gpwsofts.ffcalculator.mobile.common.api.AbstractApiClient;
-import com.gpwsofts.ffcalculator.mobile.services.pos.pojo.FFCPosResponse;
+import com.gpwsofts.ffcalculator.mobile.common.exception.UnreadableBodyException;
+import com.gpwsofts.ffcalculator.mobile.common.executor.AppExecutors;
 import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
+import com.gpwsofts.ffcalculator.mobile.services.pos.pojo.FFCPosResponse;
 
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;

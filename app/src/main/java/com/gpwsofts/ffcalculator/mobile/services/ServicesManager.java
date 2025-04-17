@@ -3,6 +3,7 @@ package com.gpwsofts.ffcalculator.mobile.services;
 import android.content.res.Resources;
 
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
+import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
 import com.gpwsofts.ffcalculator.mobile.common.reader.AssetReaderProvider;
 import com.gpwsofts.ffcalculator.mobile.services.device.IDeviceService;
 import com.gpwsofts.ffcalculator.mobile.services.device.SimpleDeviceService;
@@ -23,7 +24,6 @@ import com.gpwsofts.ffcalculator.mobile.services.town.ITownService;
 import com.gpwsofts.ffcalculator.mobile.services.town.SimpleTownService;
 import com.gpwsofts.ffcalculator.mobile.services.vue.IVueService;
 import com.gpwsofts.ffcalculator.mobile.services.vue.VueService;
-import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
 
 /**
  * Gestion des Services

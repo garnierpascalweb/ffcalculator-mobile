@@ -1,11 +1,11 @@
 package com.gpwsofts.ffcalculator.mobile.services.pos;
 
 import com.gpwsofts.ffcalculator.mobile.BuildConfig;
+import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
+import com.gpwsofts.ffcalculator.mobile.common.sharedprefs.FFCalculatorSharedPrefs;
+import com.gpwsofts.ffcalculator.mobile.common.www.FFCalculatorWebApi;
 import com.gpwsofts.ffcalculator.mobile.services.pos.pojo.FFCPosRequest;
 import com.gpwsofts.ffcalculator.mobile.services.pos.pojo.FFCPosResponse;
-import com.gpwsofts.ffcalculator.mobile.common.sharedprefs.FFCalculatorSharedPrefs;
-import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
-import com.gpwsofts.ffcalculator.mobile.common.www.FFCalculatorWebApi;
 
 import retrofit2.Call;
 

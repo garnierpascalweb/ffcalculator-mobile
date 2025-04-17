@@ -1,7 +1,6 @@
 package com.gpwsofts.ffcalculator.mobile.services.logo;
 
 import com.gpwsofts.ffcalculator.mobile.model.logo.ILogo;
-import com.gpwsofts.ffcalculator.mobile.model.logo.Logo;
 import com.gpwsofts.ffcalculator.mobile.services.ICleanableService;
 
 /**

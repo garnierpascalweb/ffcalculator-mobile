@@ -5,16 +5,15 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.gpwsofts.ffcalculator.mobile.model.grid.IGrid;
-import com.gpwsofts.ffcalculator.mobile.services.pts.api.response.AddResultRunnableResponse;
+import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
-import com.gpwsofts.ffcalculator.mobile.model.grid.Grid;
-import com.gpwsofts.ffcalculator.mobile.model.vue.Vue;
+import com.gpwsofts.ffcalculator.mobile.model.grid.IGrid;
+import com.gpwsofts.ffcalculator.mobile.model.vue.IVue;
 import com.gpwsofts.ffcalculator.mobile.repository.AddResultRepository;
 import com.gpwsofts.ffcalculator.mobile.repository.DatabaseResultRepository;
 import com.gpwsofts.ffcalculator.mobile.repository.GridRepository;
 import com.gpwsofts.ffcalculator.mobile.repository.TownRepository;
-import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
+import com.gpwsofts.ffcalculator.mobile.services.pts.api.response.AddResultRunnableResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +65,7 @@ public class AddResultViewModel extends AndroidViewModel {
         gridRepository.loadPosChoicesAsync(itemValue);
     }
 
-    public void loadGridChoicesAsync(Vue vue) {
+    public void loadGridChoicesAsync(IVue vue) {
         gridRepository.loadGridChoicesAsync(vue.getCode());
     }
 

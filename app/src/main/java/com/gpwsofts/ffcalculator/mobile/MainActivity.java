@@ -19,9 +19,9 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
 import com.gpwsofts.ffcalculator.mobile.databinding.ActivityMainBinding;
 import com.gpwsofts.ffcalculator.mobile.ui.view.VueViewModel;
-import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG_NAME = "MainActivity";

@@ -1,6 +1,7 @@
 package com.gpwsofts.ffcalculator.mobile.services.vue;
 
 import com.gpwsofts.ffcalculator.mobile.R;
+import com.gpwsofts.ffcalculator.mobile.model.vue.IVue;
 import com.gpwsofts.ffcalculator.mobile.model.vue.Vue;
 
 import java.util.HashMap;
@@ -26,7 +27,7 @@ public class VueService implements IVueService {
      * String : le code de la vue (exemple O2)
      * Vue : l'instance de la vue
      */
-    private final Map<String,Vue> listVues;
+    private final Map<String,IVue> listVues;
 
     /**
      * Table de mapping entre un bouton id de menu et une vue
@@ -48,8 +49,8 @@ public class VueService implements IVueService {
         listVues = new HashMap<>();
     }
 
-    public Vue getVueInstance(String codeVue){
-        Vue vue = listVues.get(codeVue);
+    public IVue getVueInstance(String codeVue){
+        IVue vue = listVues.get(codeVue);
         if (null == vue) {
             vue = new Vue();
             vue.setCode(codeVue);
