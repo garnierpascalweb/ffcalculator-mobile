@@ -30,7 +30,8 @@
             android:inputType="textAutoComplete"
             android:maxLength="30"
             android:maxLines="1"
-            android:minHeight="48dp"/>
+            android:minHeight="48dp"
+            android:labelFor="@+id/idTILPlace"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -58,10 +59,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="none"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            android:labelFor="@+id/idTILClasses"/>
 
     </com.google.android.material.textfield.TextInputLayout>
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/idTILPos"
         app:startIconDrawable="@drawable/checkered_flag_svgrepo_com"
@@ -76,7 +77,6 @@
         android:focusableInTouchMode="false"
         android:hint="@string/hint_place_obtenue"
         android:inputType="none"
-
         app:helperText=""
         app:helperTextEnabled="true">
 
@@ -85,9 +85,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="none"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            android:labelFor="@+id/idTILPos"/>
     </com.google.android.material.textfield.TextInputLayout>
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/idTILPrts"
         app:startIconDrawable="@drawable/people_audience_svgrepo_com"
@@ -110,18 +110,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="none"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            android:labelFor="@+id/idTILPrts"/>
     </com.google.android.material.textfield.TextInputLayout>
-
     <Button
         android:id="@+id/idBTAjouter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/button_label_ajouter_resultat" />
-
-
-
-
-
 </LinearLayout>
