@@ -5,12 +5,12 @@ package com.gpwsofts.ffcalculator.mobile.model.vue;
  * @since 1.0.0
  */
 public interface IVue {
-    public String getCode();
-    public void setCode(String code);
-    public int getIndexInComboMenu();
-    public void setIndexInComboMenu(int indexInComboMenu);
-    public String getMapClass();
-    public void setMapClass(String mapClass);
-    public String getName();
-    public void setName(String name);
+    String getCode();
+    void setCode(String code);
+    int getIndexInComboMenu();
+    void setIndexInComboMenu(int indexInComboMenu);
+    String getMapClass();
+    void setMapClass(String mapClass);
+    String getName();
+    void setName(String name);
 }

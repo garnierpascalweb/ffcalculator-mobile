@@ -11,7 +11,6 @@ import java.util.List;
  * Repository pour la manipulation des grilles
  */
 public class GridRepository {
-    private static final String TAG_NAME = "GridRepository";
     private static GridRepository instance;
     private final GridApiClient gridApiClient;
 

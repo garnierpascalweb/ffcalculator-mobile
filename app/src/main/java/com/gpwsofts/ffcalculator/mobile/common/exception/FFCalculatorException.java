@@ -15,10 +15,6 @@ public class FFCalculatorException extends Exception {
         super(message);
     }
 
-    public FFCalculatorException(Throwable cause) {
-        super(cause);
-    }
-
     public FFCalculatorException() {
 
     }

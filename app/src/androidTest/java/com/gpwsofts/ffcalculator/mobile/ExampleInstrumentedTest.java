@@ -3,6 +3,7 @@ package com.gpwsofts.ffcalculator.mobile;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
@@ -96,7 +97,7 @@ public class ExampleInstrumentedTest {
 
             }
         }
-        assertEquals("il y a des erreurs pour " + errors.size() + " resultats : " + errors, true, errors.isEmpty());
+        assertTrue("il y a des erreurs pour " + errors.size() + " resultats : " + errors, errors.isEmpty());
     }
 
 
@@ -108,13 +109,12 @@ public class ExampleInstrumentedTest {
      * @param index
      * @return une instance de RandomResult, résultat aléatoire
      */
-    protected RandomResult getRandomResult(int index) {
-        int gridsSize = grids.size();
+    private RandomResult getRandomResult(int index) {
         int communesSize = communes.size();
         Random rand = new Random();
         IGrid grid = grids.get(index);
         int maxPos = grid.getMaxPos();
-        String place = new StringBuilder().append(communes.get(rand.nextInt(communesSize - 1))).append(" (").append(index).append(")").toString();
+        String place = communes.get(rand.nextInt(communesSize - 1)) + " (" + index + ")";
         String spinnerItemValue = grid.getSpinnerItemValue();
         int pos = 1 + rand.nextInt(maxPos);
         int prts = pos + rand.nextInt(100);
@@ -133,9 +133,9 @@ public class ExampleInstrumentedTest {
      */
     protected void loadGridsFromFile() throws IOException {
         InputStream is = null;
-        Type listGridType = null;
-        String jsonDatas = null;
-        Gson gson = null;
+        Type listGridType;
+        String jsonDatas;
+        Gson gson;
         try {
             is = InstrumentationRegistry.getInstrumentation().getContext().getResources().getAssets().open("grids/grilles.json");
             //"grids/grilles.json"
@@ -184,7 +184,7 @@ public class ExampleInstrumentedTest {
     /**
      * inner class pour encapsuler les données d'un resultat
      */
-    private class RandomResult {
+    private static class RandomResult {
         String place;
         String classe;
         int pos;
@@ -193,9 +193,11 @@ public class ExampleInstrumentedTest {
         @Override
         public String toString(){
             StringBuilder sb = new StringBuilder();
-            sb.append(place + " - classe = <"  + classe + "> - position = <" + pos + "> - prts = <" + prts + ">");
+            //sb.append(place + " - classe = <"  + classe + "> - position = <" + pos + "> - prts = <" + prts + ">");
+            sb.append(place).append(" - classe = <").append(classe).append("> - position = <").append(pos).append("> - prts = <").append(prts);// " - classe = <"  + classe + "> - position = <" + pos + "> - prts = <" + prts + ">");
             if (e != null){
-                sb.append(" - exception de type <" + e.getClass().getSimpleName() + "> - message = <" + e.getMessage()+ ">");
+                // sb.append(" - exception de type <" + e.getClass().getSimpleName() + "> - message = <" + e.getMessage()+ ">");
+                sb.append(" - exception de type <").append(e.getClass().getSimpleName()).append("> - message = <").append(e.getMessage());
             } else sb.append("exception null");
             return sb.toString();
         }

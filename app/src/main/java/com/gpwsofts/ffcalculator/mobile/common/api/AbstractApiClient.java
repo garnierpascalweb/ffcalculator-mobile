@@ -3,16 +3,16 @@ package com.gpwsofts.ffcalculator.mobile.common.api;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.services.report.pojo.FFCReportRequestFactory;
 
+
 /**
- * Méthodes communes a toutes les API CLientes HTTP
- * @since 1.0.0
+ *
  */
 public abstract class AbstractApiClient implements IApiClient {
-    private static final String TAG_NAME = "AbstractApiClient";
+
+
     /**
-     * Envoi d'éventuelles erreurs au backend
-     * @since 1.0.0
-     * @param cause cause la cause de l'erreur
+     * @param tagName
+     * @param currentException
      */
     @Override
     public void sendErrorToBackEnd(String tagName, Exception currentException){

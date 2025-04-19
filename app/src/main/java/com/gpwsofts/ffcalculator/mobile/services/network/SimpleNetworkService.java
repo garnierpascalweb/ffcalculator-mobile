@@ -11,10 +11,6 @@ public class SimpleNetworkService implements INetworkService {
     private static final String TAG_NAME = "SimpleNetworkService";
     @Override
     public boolean isWwwConnected() {
-        return isNetworkAvailable();
-    }
-
-    private boolean isNetworkAvailable() {
         boolean networkAvailable = false;
         Network network = FFCalculatorApplication.instance.getConnectivityManager().getActiveNetwork();
         if (network != null) {
@@ -22,7 +18,7 @@ public class SimpleNetworkService implements INetworkService {
             boolean wifi = networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI);
             boolean datas = networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR);
             LogUtils.d(TAG_NAME," wifi = <" + wifi + ">, datas = <" + datas + ">");
-            networkAvailable =  networkCapabilities != null && (wifi || datas);
+            networkAvailable =  (wifi || datas);
         }
         LogUtils.d(TAG_NAME," reseau disponible = <" + networkAvailable + ">");
         return networkAvailable;

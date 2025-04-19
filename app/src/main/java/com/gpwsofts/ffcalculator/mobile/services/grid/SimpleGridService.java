@@ -53,7 +53,7 @@ public class SimpleGridService extends AbstractGridService {
             Collections.sort(grids);
             LogUtils.i(TAG_NAME, "fin du chargement des grilles - <" + grids.size() + "> grilles chargees");
         } finally {
-
+            LogUtils.i(TAG_NAME, "fin de chargement des grilles");
         }
     }
 

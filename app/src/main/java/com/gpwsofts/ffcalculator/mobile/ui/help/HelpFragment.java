@@ -19,7 +19,6 @@ import com.gpwsofts.ffcalculator.mobile.databinding.FragmentHelpBinding;
  * @since 1.0.0
  */
 public class HelpFragment extends Fragment {
-    private static final String TAG_NAME = "HelpFragment";
     private FragmentHelpBinding binding;
 
     @Override

@@ -51,6 +51,10 @@ public class DatabaseResultRepository {
         FFCalculatorDatabase.databaseWriteExecutor.execute(() -> resultDao.insert(result));
     }
 
+    /**
+     * non utilisée en 1.0.0
+     * @param result
+     */
     public void update(Result result) {
         LogUtils.i(TAG_NAME, "Envoi dans le pool Executor database dun ordre de update");
         FFCalculatorDatabase.databaseWriteExecutor.execute(() -> resultDao.update(result));
@@ -61,6 +65,9 @@ public class DatabaseResultRepository {
         FFCalculatorDatabase.databaseWriteExecutor.execute(() -> resultDao.delete(result));
     }
 
+    /**
+     * non utilisé en 1.0.0
+     */
     public void deleteAll() {
         LogUtils.i(TAG_NAME, "Envoi dans le pool Executor database dun ordre de Delete All");
         FFCalculatorDatabase.databaseWriteExecutor.execute(() -> resultDao.deleteAllResults());

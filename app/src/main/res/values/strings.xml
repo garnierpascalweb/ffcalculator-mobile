@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">FFCalculator</string>
-    <string name="vide"></string>
+    <string name="vide"/>
     <string name="hint_lieu_epreuve">Lieu ou Nom d\'épreuve</string>
     <string name="hint_type_epreuve">Type d\'épreuve</string>
     <string name="hint_place_obtenue">Place Obtenue</string>
     <string name="hint_partants">Nombre de Partants</string>
     <string name="button_label_ajouter_resultat">Ajouter le résultat</string>
-    <string name="button_label_calcul_en_cours">Calcul en cours...</string>
+    <string name="button_label_calcul_en_cours">Calcul en cours…</string>
     <string name="title_resultat">Résultat</string>
     <string name="title_saison">Saison</string>
     <string name="title_aide">Aide</string>
@@ -68,10 +68,10 @@
     <!-- labels -->
     <string name="label_total_pts_ok">Total des points : %1$.2f pts</string>
     <string name="label_total_pts_ko">Total des points : erreur</string>
-    <string name="label_total_pts_loading">Total des points : calcul en cours ...</string>
+    <string name="label_total_pts_loading">Total des points : calcul en cours …</string>
     <string name="label_aucun_resultat">Aucun Résultat</string>
     <string name="label_classement_national_ok">Classement National %1$s : %2$d eme</string>
     <string name="label_classement_national_ko">Classement National : Echec du calcul de la position</string>
-    <string name="label_classement_national_loading">Classement National : calcul en cours ...</string>
+    <string name="label_classement_national_loading">Classement National : calcul en cours …</string>
     <string name="label_resultat_detail">%1$d e sur %2$d prts</string>
 </resources>

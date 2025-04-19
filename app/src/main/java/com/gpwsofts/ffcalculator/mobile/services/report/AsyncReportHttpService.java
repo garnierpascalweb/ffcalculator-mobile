@@ -46,9 +46,9 @@ public class AsyncReportHttpService implements IReportHttpService {
     }
 
     private static class SendReportRunnable implements Runnable {
-        Exception exceptionToReport;
-        String initialTagName;
-        boolean cancelRequest;
+        final Exception exceptionToReport;
+        final String initialTagName;
+        final boolean cancelRequest;
 
         public SendReportRunnable(String inInitialTagName, Exception inExceptionToReport){
             this.initialTagName = inInitialTagName;
@@ -65,7 +65,8 @@ public class AsyncReportHttpService implements IReportHttpService {
                 request = FFCReportRequestFactory.createFFCReportRequest(initialTagName, exceptionToReport);
                 if (FFCalculatorApplication.instance.getServicesManager().getNetworkService().isWwwConnected()) {
                     call = FFCalculatorWebApi.getInstance().getApiService().sendReport(FFCalculatorSharedPrefs.id(), BuildConfig.FLAVOR, request);
-                    final Response<Void> response = call.execute();
+                    // 1.0.0 pas d'interpretation dela reponse final Response<Void> response = call.execute();
+                    call.execute();
                 } else {
                     LogUtils.d(TAG_NAME, "pas de reseau");
                 }

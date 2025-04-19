@@ -174,11 +174,6 @@ public class AddResultApiClient extends AbstractApiClient {
             return FFCalculatorApplication.instance.getServicesManager().getPtsService().calcPts(request);
         }
 
-        private void cancelRequest() {
-            LogUtils.v("TAGNAME", "annulation de la requete");
-            cancelRequest = true;
-        }
-
         /**
          * creation de la requete depuis l'input sur le formulaire
          * @param inplace lieu de lepreuve
@@ -284,7 +279,7 @@ public class AddResultApiClient extends AbstractApiClient {
                 are.setToastMessage(FFCalculatorApplication.instance.getResources().getString(R.string.toast_technical_problem));
                 throw are;
             } finally {
-
+                LogUtils.v(TAG_NAME, "fin affectation des differents champs place, libelle, pos, prts");
             }
             return newResult;
         }

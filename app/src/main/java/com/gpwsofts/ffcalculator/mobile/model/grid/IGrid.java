@@ -7,17 +7,17 @@ import java.util.List;
  * @since 1.0.0
  */
 public interface IGrid extends Comparable<IGrid> {
-    public String getCode();
-    public int getPriority();
-    public String getLogo();
-    public void setLogo(String logo);
-    public String getLibelle();
-    public void setLibelle(String libelle);
-    public List<String> getVues();
-    public String getType();
-    public void setType(String type);
-    public int getMaxPos();
-    public List<Integer> getPts();
-    public void setPts(List<Integer> pts);
-    public String getSpinnerItemValue();
+    String getCode();
+    int getPriority();
+    String getLogo();
+    void setLogo(String logo);
+    String getLibelle();
+    void setLibelle(String libelle);
+    List<String> getVues();
+    String getType();
+    void setType(String type);
+    int getMaxPos();
+    List<Integer> getPts();
+    void setPts(List<Integer> pts);
+    String getSpinnerItemValue();
 }

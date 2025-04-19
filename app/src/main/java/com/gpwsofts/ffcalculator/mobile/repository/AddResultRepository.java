@@ -12,7 +12,6 @@ import com.gpwsofts.ffcalculator.mobile.services.pts.api.response.AddResultRunna
  * @since 1.0.0
  */
 public class AddResultRepository {
-    private static final String TAG_NAME = "AddResultRepository";
     private static AddResultRepository instance;
     private final AddResultApiClient addResultApiClient;
 
