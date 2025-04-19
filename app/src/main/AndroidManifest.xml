@@ -20,7 +20,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name">
+            >
             <intent-filter>
                 <!-- Déclare cette activité comme l’écran de lancement -->
                 <action android:name="android.intent.action.MAIN" />

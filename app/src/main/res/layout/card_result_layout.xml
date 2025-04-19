@@ -73,7 +73,6 @@
                 android:layout_marginTop="2dp"
                 android:maxLines="1"
                 android:text="14eme sur 144" />
-            />
         </LinearLayout>
 
         <LinearLayout
