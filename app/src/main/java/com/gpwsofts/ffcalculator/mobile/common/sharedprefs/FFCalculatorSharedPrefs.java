@@ -37,7 +37,8 @@ public class FFCalculatorSharedPrefs {
             if (null == uniqueID) {
                 uniqueID = UUID.randomUUID().toString();
                 sharedPrefsEditor.putString(KEY_PREF_UNIQUE_ID, uniqueID);
-                sharedPrefsEditor.commit();
+                final boolean status = sharedPrefsEditor.commit();
+                LogUtils.i(TAG_NAME, "affectation <" + KEY_PREF_UNIQUE_ID + "> = <" + uniqueID + "> - status = <" + status + ">");
             }
         }
         return uniqueID;
@@ -48,8 +49,9 @@ public class FFCalculatorSharedPrefs {
     }
 
     public boolean setSharedPrefsVue(String codeVue){
-        LogUtils.d(TAG_NAME, "sharedPreds - demande affectation <" + KEY_VUE + "> => <" + codeVue + ">");
         sharedPrefsEditor.putString(KEY_VUE, codeVue);
-        return sharedPrefsEditor.commit();
+        final boolean status = sharedPrefsEditor.commit();
+        LogUtils.i(TAG_NAME, "affectation <" + KEY_VUE + "> = <" + codeVue + "> - status = <" + status + ">");
+        return status;
     }
 }

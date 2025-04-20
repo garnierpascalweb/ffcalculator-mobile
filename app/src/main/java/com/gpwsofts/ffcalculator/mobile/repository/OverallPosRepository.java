@@ -11,7 +11,6 @@ import com.gpwsofts.ffcalculator.mobile.services.pos.api.OverAllPosApiClient;
  * @since 1.0.0
  */
 public class OverallPosRepository {
-    private static final String TAG_NAME = "OverallPosRepository";
     private static OverallPosRepository instance;
     private final OverAllPosApiClient posApiClient;
 

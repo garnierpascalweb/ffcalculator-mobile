@@ -47,9 +47,7 @@ public class AddResultApiClient extends AbstractApiClient {
     private AddResultRunnable addResultRunnable;
 
     private AddResultApiClient() {
-        LogUtils.i(TAG_NAME, "instanciation de AddResultApiClient");
         mResult = new SingleLiveEvent<>();
-        LogUtils.i(TAG_NAME, "fin instanciation de AddResultApiClient");
     }
 
     public static AddResultApiClient getInstance() {
@@ -67,10 +65,10 @@ public class AddResultApiClient extends AbstractApiClient {
             addResultRunnable = null;
         }
         addResultRunnable = new AddResultRunnable(place, libelle, pos, prts);
-        final Future<?> myHandler = AppExecutors.getInstance().networkIO().submit(addResultRunnable);
+        final Future<?> addResultRunnableFuture = AppExecutors.getInstance().networkIO().submit(addResultRunnable);
         AppExecutors.getInstance().networkIO().schedule(() -> {
             // annuler l'appel a l'API
-            myHandler.cancel(true);
+            addResultRunnableFuture.cancel(true);
         }, JOB_TIMEOUT, TimeUnit.MILLISECONDS);
     }
 
@@ -106,19 +104,17 @@ public class AddResultApiClient extends AbstractApiClient {
             boolean isOk = false;
             FFCPointsRequest request;
             try {
-                LogUtils.i(TAG_NAME, "debut du job asynchrone AddResultRunnable");
+                LogUtils.d(TAG_NAME, "debut job asynchrone AddResultRunnable - place = <" + place + "> libelle = <" + libelle + "> - <" + pos + "> - <" + prts + ">");
                 // construction de la requete a partir des donnees en entree
                 request = createRequestFromInput(place,libelle,pos,prts);
                 boolean isWwwConnected = FFCalculatorApplication.instance.getServicesManager().getNetworkService().isWwwConnected();
                 if (isWwwConnected) {
-                    // reseau disponible
-                    Response<FFCPointsResponse> response = getPts(request).execute();
+                    Response<FFCPointsResponse> response = FFCalculatorApplication.instance.getServicesManager().getPtsService().calcPts(request).execute();
                     if (cancelRequest) {
                         LogUtils.d(TAG_NAME, "cancelRequest true");
                         return;
                     }
                     int responseCode = response.code();
-                    LogUtils.d(TAG_NAME, "responseCode du service des points = <" + responseCode + ">");
                     if (responseCode == 200) {
                         FFCPointsResponse body = response.body();
                         if (body != null) {
@@ -132,8 +128,6 @@ public class AddResultApiClient extends AbstractApiClient {
                             throw ade;
                         }
                     } else {
-                        // code retour http pas 200
-                        LogUtils.e(TAG_NAME, "echec du calcul des points pour ce nouveau resultat");
                         ResponseBody responseBody = response.errorBody();
                         if (responseBody != null){
                             final String errorBodyContent = responseBody.string();
@@ -141,12 +135,12 @@ public class AddResultApiClient extends AbstractApiClient {
                             ade.setToastMessage(FFCalculatorApplication.instance.getResources().getString(R.string.toast_add_result_ko));
                             throw ade;
                         } else {
-                            LogUtils.w(TAG_NAME, "responseErorBody est null");
+                            ;
                         }
                     }
                 } else {
                     // pas de reseau
-                    LogUtils.e(TAG_NAME, "echec du calcul des points pour ce nouveau resultat - pas de reseau");
+                    LogUtils.e(TAG_NAME, "echec du calcul du resultat - pas de reseau");
                     // already null newResult = null;
                     message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_no_network);
                     //TODO 1.0.0 Mettre en place une implementation locale de calcul
@@ -166,12 +160,8 @@ public class AddResultApiClient extends AbstractApiClient {
                 runnableResponse.setMessage(message);
                 runnableResponse.setOk(isOk);
                 mResult.postValue(runnableResponse);
-                LogUtils.i(TAG_NAME, "fin du job asynchrone AddResultRunnable");
+                LogUtils.i(TAG_NAME, "fin job asynchrone AddResultRunnable - place = <" + place + "> libelle = <" + libelle + "> - <" + pos + "> - <" + prts + "> - nouveau resultat calculé = <" + isOk + ">");
             }
-        }
-
-        private Call<FFCPointsResponse> getPts(FFCPointsRequest request) {
-            return FFCalculatorApplication.instance.getServicesManager().getPtsService().calcPts(request);
         }
 
         /**

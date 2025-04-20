@@ -36,13 +36,11 @@ public class AddResultViewModel extends AndroidViewModel {
 
     public AddResultViewModel(Application application) {
         super(application);
-        LogUtils.i(TAG_NAME, "Instantiation de AddResultViewModel");
         addResultRepository = AddResultRepository.getInstance();
         databaseResultRepository = DatabaseResultRepository.getInstance();
         gridRepository = GridRepository.getInstance();
         townRepository = TownRepository.getInstance();
         currentListTowns = new ArrayList<>();
-        LogUtils.i(TAG_NAME, "Fin Instantiation de AddResultViewModel");
     }
 
     public LiveData<List<Integer>> getPosChoicesLiveData() {

@@ -10,7 +10,6 @@ import com.gpwsofts.ffcalculator.mobile.services.vue.api.VueApiClient;
  * Branché sur l'API Cliente VueApiClient
  */
 public class VueRepository {
-    private static final String TAG_NAME = "VueRepository";
     private static VueRepository instance;
 
     private final VueApiClient vueApiClient;

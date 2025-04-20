@@ -20,15 +20,15 @@ public class SimpleDeviceService implements IDeviceService {
     public SimpleDeviceService(){
         try{
             versionCode = BuildConfig.VERSION_CODE;
-            LogUtils.i(TAG_NAME, "versionCode = <" + versionCode + ">");
+            LogUtils.d(TAG_NAME, "versionCode = <" + versionCode + ">");
             versionName = BuildConfig.VERSION_NAME;
-            LogUtils.i(TAG_NAME, "versionName = <" + versionName + ">");
+            LogUtils.d(TAG_NAME, "versionName = <" + versionName + ">");
             apiLevel = Build.VERSION.SDK_INT;
-            LogUtils.i(TAG_NAME, "apiLevel = <" + apiLevel + ">");
+            LogUtils.d(TAG_NAME, "apiLevel = <" + apiLevel + ">");
             manufacturer = Build.MANUFACTURER;
-            LogUtils.i(TAG_NAME, "manufacturer = <" + manufacturer + ">");
+            LogUtils.d(TAG_NAME, "manufacturer = <" + manufacturer + ">");
             model = Build.MODEL;
-            LogUtils.i(TAG_NAME, "model = <" + model + ">");
+            LogUtils.d(TAG_NAME, "model = <" + model + ">");
         } catch (Exception e){
             LogUtils.w(TAG_NAME, "probleme sur la recuperation des informations relatives au device");
         }

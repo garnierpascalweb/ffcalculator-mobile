@@ -35,16 +35,16 @@ public class AddResultFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        LogUtils.i(TAG_NAME, "appel de onCreate");
+        LogUtils.onCreateBegin(TAG_NAME);
         super.onCreate(savedInstanceState);
         addResultViewModel = new ViewModelProvider(requireActivity()).get(AddResultViewModel.class);
         vueViewModel = new ViewModelProvider(requireActivity()).get(VueViewModel.class);
-        LogUtils.i(TAG_NAME, "fin appel de onCreate");
+        LogUtils.onCreateEnd(TAG_NAME);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        LogUtils.i(TAG_NAME, "appel de onCreateView");
+        LogUtils.onCreateViewBegin(TAG_NAME);
         binding = FragmentResultBinding.inflate(inflater, container, false);
         // initialisation de la vue
         if (vueViewModel.getCurrentCodeVue() == null) {
@@ -56,13 +56,13 @@ public class AddResultFragment extends Fragment {
         addResultViewModel.loadTownChoicesAsync();
         // initialisation de la liste des épreuves en fonction de la vue
         // ca va se faire dans le observation du changement de vue addResultViewModel.loadGridChoicesAsync(vueViewModel.getVueLiveData().getValue());
-        LogUtils.i(TAG_NAME, "fin appel de onCreateView");
+        LogUtils.onCreateViewEnd(TAG_NAME);
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        LogUtils.i(TAG_NAME, "appel de onViewCreated");
+        LogUtils.onViewCreatedBegin(TAG_NAME);
         super.onViewCreated(view, savedInstanceState);
         // final TextInputLayout textInputLayoutPlace = binding.idTILPlace;
         final TextInputLayout textInputLayoutClasse = binding.idTILClasses;
@@ -77,22 +77,23 @@ public class AddResultFragment extends Fragment {
 
         // INITIALISATION DES ADAPTERS
         // Adapter towns
-        LogUtils.d(TAG_NAME, "onViewCreated - construction liste des villes");
-        ArrayAdapter<String> townsArrayAdapter  = new ArrayAdapter<>(getContext(), R.layout.simple_spinner_item, addResultViewModel.getCurrentListTowns());
+
+        // selon l'IA, requireContext() est parfaitement sur dans onViewCreated
+        ArrayAdapter<String> townsArrayAdapter  = new ArrayAdapter<>(requireContext(), R.layout.simple_spinner_item, addResultViewModel.getCurrentListTowns());
         autoCompleteTextViewPlace.setAdapter(townsArrayAdapter);
         autoCompleteTextViewPlace.setThreshold(3);
         // Adapter Classes
-        LogUtils.d(TAG_NAME, "onViewCreated - construction liste des classes");
+
         ClassesListAdapter classesListAdapter = new ClassesListAdapter(new ClassesListAdapter.ClassesDiff());
         ClassesRecyclerBaseAdapter classesRecyclerBaseAdapter = new ClassesRecyclerBaseAdapter(classesListAdapter);
         autoCompleteTextViewClasses.setAdapter(classesRecyclerBaseAdapter);
         // Adapter pos
-        LogUtils.d(TAG_NAME, "onViewCreated - construction liste des pos");
+
         IntegerListAdapter posListAdapter = new IntegerListAdapter(new IntegerListAdapter.IntDiff());
         IntegerRecyclerBaseAdapter posRecyclerBaseAdapter = new IntegerRecyclerBaseAdapter(posListAdapter);
         autoCompleteTextViewPos.setAdapter(posRecyclerBaseAdapter);
         // Adapter prts
-        LogUtils.d(TAG_NAME, "onViewCreated - construction liste des prts");
+
         IntegerListAdapter prtsListAdapter = new IntegerListAdapter(new IntegerListAdapter.IntDiff());
         IntegerRecyclerBaseAdapter prtsRecyclerBaseAdapter = new IntegerRecyclerBaseAdapter(prtsListAdapter);
         prtsListAdapter.submitList(addResultViewModel.getIntegerList200());
@@ -102,7 +103,7 @@ public class AddResultFragment extends Fragment {
         // OBSERVATION DUN CHANGEMENT DE VUE
         vueViewModel.getVueLiveData().observe(getViewLifecycleOwner(), vue -> {
             try{
-                LogUtils.i(TAG_NAME, "debut observer vue");
+                LogUtils.d(TAG_NAME, "debut observer vue");
                 if (vue != null) {
                     LogUtils.d(TAG_NAME, "observer vue - suppression saisie en cours");
                     autoCompleteTextViewClasses.setText(R.string.vide);
@@ -115,7 +116,7 @@ public class AddResultFragment extends Fragment {
                 LogUtils.e(TAG_NAME, "observer vue - probleme sur observer vue, envoi report ", e);
                 FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
             } finally {
-                LogUtils.i(TAG_NAME, "fin observer vue");
+                LogUtils.d(TAG_NAME, "fin observer vue");
             }
         });
         // FIN OBSERVATION DUN CHANGEMENT DE VUE
@@ -123,7 +124,7 @@ public class AddResultFragment extends Fragment {
         // OBSERVATION DUN CHANGEMENT DE LISTE DE VILLES
         addResultViewModel.getTownChoicesLiveData().observe(getViewLifecycleOwner(), towns -> {
             try {
-                LogUtils.i(TAG_NAME, "debut observer towns");
+                LogUtils.d(TAG_NAME, "debut observer towns");
                 if (towns != null) {
                     if (addResultViewModel.getCurrentListTowns().isEmpty()) {
                         LogUtils.d(TAG_NAME, "observer towns - liste en cache vide - mise a jour de l'adapter");
@@ -142,7 +143,7 @@ public class AddResultFragment extends Fragment {
                 LogUtils.e(TAG_NAME, "probleme sur observer towns, envoi report ", e);
                 FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
             } finally {
-                LogUtils.i(TAG_NAME, "fin observer towns");
+                LogUtils.d(TAG_NAME, "fin observer towns");
             }
         });
         // FIN OBSERVATION DUN CHANGEMENT DE LISTE DE VILLES
@@ -150,7 +151,7 @@ public class AddResultFragment extends Fragment {
         // OBSERVATION DUN NOUVEAU RESULTAT
         addResultViewModel.getAddedResultLiveData().observe(getViewLifecycleOwner(), addResultRunnableResponse -> {
             try {
-                LogUtils.i(TAG_NAME, "debut observer newResult");
+                LogUtils.d(TAG_NAME, "debut observer newResult");
                 LogUtils.d(TAG_NAME, "observer newResult - reactivation du bouton ajouter resultat");
                 buttonAjouter.setEnabled(true);
                 buttonAjouter.setText(R.string.button_label_ajouter_resultat);
@@ -172,7 +173,7 @@ public class AddResultFragment extends Fragment {
                 LogUtils.e(TAG_NAME, "probleme sur observer newResult, envoi report ", e);
                 FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
             } finally {
-                LogUtils.i(TAG_NAME, "fin observer newResult");
+                LogUtils.d(TAG_NAME, "fin observer newResult");
             }
         });
         // FIN OBSERVATION DUN NOUVEAU RESULTAT
@@ -180,7 +181,7 @@ public class AddResultFragment extends Fragment {
         // OBSERVATION DUNE NOUVELLE LISTE DE CHOIX DANS LA LISTE DEROULANTE DES CLASSES DE COURSES
         addResultViewModel.getGridChoicesLiveData().observe(getViewLifecycleOwner(), gridsList -> {
             try {
-                LogUtils.i(TAG_NAME, "debut observer gridsList");
+                LogUtils.d(TAG_NAME, "debut observer gridsList");
                 final String helperText;
                 if (gridsList != null) {
                     helperText = getString(R.string.combo_classes_helper_text_ok, vueViewModel.getVueLiveData().getValue().getName(), gridsList.size());
@@ -199,7 +200,7 @@ public class AddResultFragment extends Fragment {
                 LogUtils.e(TAG_NAME, "probleme sur observer gridsList, envoi report ", e);
                 FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
             } finally {
-                LogUtils.i(TAG_NAME, "fin observer gridsList");
+                LogUtils.d(TAG_NAME, "fin observer gridsList");
             }
         });
         // FIN OBSERVATION DUNE NOUVELLE LISTE DE CHOIX DANS LA LISTE DEROULANTE DES CLASSES DE COURSES
@@ -207,7 +208,7 @@ public class AddResultFragment extends Fragment {
         // OBSERVATION DUNE NOUVELLE LISTE DE CHOIX DANS LA LISTE DEROULANTE DES POSITIONS
         addResultViewModel.getPosChoicesLiveData().observe(getViewLifecycleOwner(), posList -> {
             try {
-                LogUtils.i(TAG_NAME, "debut observer posList");
+                LogUtils.d(TAG_NAME, "debut observer posList");
                 final String helperText;
                 if (posList != null) {
                     helperText = getString(R.string.combo_pos_helper_text_ok, posList.size(), autoCompleteTextViewClasses.getText());
@@ -225,7 +226,7 @@ public class AddResultFragment extends Fragment {
                 LogUtils.e(TAG_NAME, "probleme sur observer posList, envoi report ", e);
                 FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
             } finally {
-                LogUtils.i(TAG_NAME, "fin observer posList");
+                LogUtils.d(TAG_NAME, "fin observer posList");
             }
         });
         // FIN OBSERVATION DUNE NOUVELLE LISTE DE CHOIX DANS LA LISTE DEROULANTE DES POSITIONS
@@ -233,7 +234,7 @@ public class AddResultFragment extends Fragment {
         // ECOUTEUR - SELECTION DUNE NOUVELLE CLASSE DE COURSE
         autoCompleteTextViewClasses.setOnItemClickListener((parent, maview, position, id) -> {
             try {
-                LogUtils.i(TAG_NAME, "debut selection itemGrid");
+                LogUtils.d(TAG_NAME, "debut selection itemGrid");
                 String itemValue = parent.getItemAtPosition(position).toString();
                 LogUtils.d(TAG_NAME, "selection itemGrid - selection = <" + itemValue + "> - envoi du job asynchrone de chargement des positions");
                 addResultViewModel.loadPosChoicesAsync(itemValue);
@@ -241,7 +242,7 @@ public class AddResultFragment extends Fragment {
                 LogUtils.e(TAG_NAME, "selection itemGrid - probleme sur observer posList, envoi report ", e);
                 FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
             } finally {
-                LogUtils.i(TAG_NAME, "fin selection itemGrid");
+                LogUtils.d(TAG_NAME, "fin selection itemGrid");
             }
         });
         // FIN ECOUTEUR - SELECTION DUNE NOUVELLE CLASSE DE COURSE
@@ -249,7 +250,7 @@ public class AddResultFragment extends Fragment {
         // ECOUTEUR - BOUTON AJOUT RESULTAT
         buttonAjouter.setOnClickListener(event -> {
             try {
-                LogUtils.i(TAG_NAME, "debut onClick addResultButton");
+                LogUtils.d(TAG_NAME, "debut onClick addResultButton");
                 LogUtils.d(TAG_NAME, "onClick addResultButton - desactivation bouton et changement label");
                 buttonAjouter.setEnabled(false);
                 buttonAjouter.setText(R.string.button_label_calcul_en_cours);
@@ -269,11 +270,11 @@ public class AddResultFragment extends Fragment {
                 LogUtils.e(TAG_NAME, "onClick addResultButton - probleme technique, envoi report ", e);
                 FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
             } finally {
-                LogUtils.i(TAG_NAME, "fin onClick sur bouton ajouter");
+                LogUtils.d(TAG_NAME, "fin onClick sur bouton ajouter");
             }
         });
         // FIN ECOUTEUR - BOUTON AJOUT RESULTAT
-        LogUtils.i(TAG_NAME, "fin appel de onViewCreated");
+        LogUtils.onViewCreatedEnd(TAG_NAME);
     }
 
     @Override

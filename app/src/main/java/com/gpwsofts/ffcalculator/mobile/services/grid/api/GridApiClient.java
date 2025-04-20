@@ -31,10 +31,10 @@ public class GridApiClient extends AbstractApiClient {
     private static final int JOB_TIMEOUT = 5000;
 
     private GridApiClient() {
-        LogUtils.i(TAG_NAME, "instanciation de GridApiClient");
+        LogUtils.d(TAG_NAME, "instanciation de GridApiClient");
         mGridChoices = new SingleLiveEvent<>();
         mPosChoices = new SingleLiveEvent<>();
-        LogUtils.i(TAG_NAME, "fin instanciation de GridApiClient");
+        LogUtils.d(TAG_NAME, "fin instanciation de GridApiClient");
     }
 
     public static GridApiClient getInstance() {
@@ -91,7 +91,7 @@ public class GridApiClient extends AbstractApiClient {
 
         @Override
         public void run() {
-            LogUtils.i(TAG_NAME, "debut du job asynchrone LoadClassesChoicesRunnable selon la vue <" + vue + ">");
+            LogUtils.d(TAG_NAME, "debut du job asynchrone LoadClassesChoicesRunnable selon la vue <" + vue + ">");
             List<IGrid> listGridsForMyVue = null;
             try {
                 List<IGrid> grids = FFCalculatorApplication.instance.getServicesManager().getGridService().getGrids();
@@ -104,7 +104,7 @@ public class GridApiClient extends AbstractApiClient {
                 sendErrorToBackEnd(TAG_NAME, e);
             } finally {
                 mGridChoices.postValue(listGridsForMyVue);
-                LogUtils.i(TAG_NAME, "fin  du job asynchrone LoadClassesChoicesRunnable selon la vue <" + vue + ">");
+                LogUtils.d(TAG_NAME, "fin  du job asynchrone LoadClassesChoicesRunnable selon la vue <" + vue + ">");
             }
         }
 
@@ -129,7 +129,7 @@ public class GridApiClient extends AbstractApiClient {
 
         @Override
         public void run() {
-            LogUtils.i(TAG_NAME, "debut du job asynchrone LoadPosChoicesRunnable selon le libelle <" + libelle + ">");
+            LogUtils.d(TAG_NAME, "debut du job asynchrone LoadPosChoicesRunnable selon le libelle <" + libelle + ">");
             List<Integer> posChoices = null;
             try{
                 final String idClasse = FFCalculatorApplication.instance.getServicesManager().getGridService().getIdClasseFromLibelle(libelle);
@@ -142,7 +142,7 @@ public class GridApiClient extends AbstractApiClient {
                 sendErrorToBackEnd(TAG_NAME, e);
             } finally {
                 mPosChoices.postValue(posChoices);
-                LogUtils.i(TAG_NAME, "fin du job asynchrone LoadPosChoicesRunnable selon le libelle <" + libelle + ">");
+                LogUtils.d(TAG_NAME, "fin du job asynchrone LoadPosChoicesRunnable selon le libelle <" + libelle + ">");
             }
         }
 

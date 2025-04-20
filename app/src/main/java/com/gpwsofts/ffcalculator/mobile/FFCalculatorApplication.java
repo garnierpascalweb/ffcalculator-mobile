@@ -21,7 +21,6 @@ public class FFCalculatorApplication extends Application {
      */
     public static FFCalculatorApplication instance;
 
-
     /**
      * Le service Manager pour gérer les services
      *

@@ -41,19 +41,17 @@ public class SimpleGridService extends AbstractGridService {
     private void loadGridsFromLocalResource() throws IOException {
         Type listGridType;
         Gson gson;
+        int nb = 0;
         try {
-            LogUtils.i(TAG_NAME, "debut de chargement des grilles");
-            LogUtils.d(TAG_NAME, "ouverture du flux sur <" + GRID_RELATIVE_PATH + ">");
+            LogUtils.d(TAG_NAME, "debut chargement des grilles depuis <" + GRID_RELATIVE_PATH + ">");
             // ici obligé de mettre le type concret Grid sinon Unable to invoke no-args constructor for interface com.gpwsofts.ffcalculator.mobile.model.grid.IGrid
             listGridType = new TypeToken<List<Grid>>() {}.getType();
-            LogUtils.v(TAG_NAME, "construction d'une instance de liste depuis Gson");
             gson = new Gson();
             grids = gson.fromJson(readerProvider.openReader(GRID_RELATIVE_PATH), listGridType);
-            LogUtils.v(TAG_NAME, "tri de la liste des grilles");
             Collections.sort(grids);
-            LogUtils.i(TAG_NAME, "fin du chargement des grilles - <" + grids.size() + "> grilles chargees");
+            nb = grids.size();
         } finally {
-            LogUtils.i(TAG_NAME, "fin de chargement des grilles");
+            LogUtils.i(TAG_NAME, "fin chargement des grilles - <" + nb + "> classes d'épreuve chargées");
         }
     }
 

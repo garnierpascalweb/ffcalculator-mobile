@@ -5,8 +5,6 @@ package com.gpwsofts.ffcalculator.mobile.model.vue;
  * Un model pour une vue
  */
 public class Vue implements IVue {
-
-    private static final String TAG_NAME = "Vue";
     /**
      * Le code de la vue tel qu'il apparait dans le csv et les shared prefs,
      * G, E, O1, O2, O3...

@@ -20,9 +20,9 @@ public class TownApiClient extends AbstractApiClient {
     private static final int JOB_TIMEOUT = 5000;
 
     private TownApiClient() {
-        LogUtils.i(TAG_NAME, "instanciation de TownApiClient");
+        LogUtils.d(TAG_NAME, "instanciation de TownApiClient");
         mTownChoices = new SingleLiveEvent<>();
-        LogUtils.i(TAG_NAME, "fin instanciation de TownApiClient");
+        LogUtils.d(TAG_NAME, "fin instanciation de TownApiClient");
     }
 
     public static TownApiClient getInstance() {
@@ -59,18 +59,19 @@ public class TownApiClient extends AbstractApiClient {
         }
         @Override
         public void run() {
-            LogUtils.i(TAG_NAME, "debut du job asynchrone LoadTownsChoicesRunnable");
             List<String> towns = null;
+            int nb = 0;
             try {
+                LogUtils.d(TAG_NAME, "debut du job asynchrone LoadTownsChoicesRunnable");
                 towns = FFCalculatorApplication.instance.getServicesManager().getTownService().getTowns();
-                LogUtils.d(TAG_NAME, "succes du chargement de la liste des villes - <" + towns.size() + "> villes chargées");
+                nb = towns.size();
             } catch (Exception e){
                 LogUtils.e(TAG_NAME, "echec du chargement de la liste des villes", e);
                 towns = null;
                 sendErrorToBackEnd(TAG_NAME, e);
             } finally {
                 mTownChoices.postValue(towns);
-                LogUtils.i(TAG_NAME, "fin du job asynchrone LoadTownsChoicesRunnable");
+                LogUtils.i(TAG_NAME, "fin du job asynchrone LoadTownsChoicesRunnable - <" + nb + "> towns chargees");
             }
         }
 

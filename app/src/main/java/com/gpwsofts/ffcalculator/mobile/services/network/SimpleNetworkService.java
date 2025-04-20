@@ -15,10 +15,14 @@ public class SimpleNetworkService implements INetworkService {
         Network network = FFCalculatorApplication.instance.getConnectivityManager().getActiveNetwork();
         if (network != null) {
             NetworkCapabilities networkCapabilities = FFCalculatorApplication.instance.getConnectivityManager().getNetworkCapabilities(network);
-            boolean wifi = networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI);
-            boolean datas = networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR);
-            LogUtils.d(TAG_NAME," wifi = <" + wifi + ">, datas = <" + datas + ">");
-            networkAvailable =  (wifi || datas);
+            if (networkCapabilities != null){
+                boolean wifi = networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI);
+                boolean datas = networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR);
+                LogUtils.d(TAG_NAME," wifi = <" + wifi + ">, datas = <" + datas + ">");
+                networkAvailable =  (wifi || datas);
+            } else {
+                LogUtils.d(TAG_NAME, "NetworkCapabilities null - pas de reseau");
+            }
         }
         LogUtils.d(TAG_NAME," reseau disponible = <" + networkAvailable + ">");
         return networkAvailable;

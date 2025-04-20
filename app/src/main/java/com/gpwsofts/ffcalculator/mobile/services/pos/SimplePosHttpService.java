@@ -22,13 +22,9 @@ public class SimplePosHttpService  implements IPosHttpService {
 
     @Override
     public Call<FFCPosResponse> calcPos(double pts, String classType) {
-        // cest du retrofit !
-        LogUtils.i(TAG_NAME, "demande de calcul du classement pour <" + pts + ">  points sur le classement <" + classType + ">");
-        LogUtils.d(TAG_NAME, "construction de la requete");
         FFCPosRequest request = new FFCPosRequest();
         request.pts = pts;
         request.classType = classType;
-        LogUtils.d(TAG_NAME, "veritable appel http et call en retour");
         return FFCalculatorWebApi.getInstance().getApiService().calcPos(FFCalculatorSharedPrefs.id(), BuildConfig.FLAVOR, request);
     }
 

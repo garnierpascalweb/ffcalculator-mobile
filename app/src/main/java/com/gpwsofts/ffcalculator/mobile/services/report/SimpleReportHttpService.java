@@ -8,7 +8,6 @@ import com.gpwsofts.ffcalculator.mobile.common.www.FFCalculatorWebApi;
 import com.gpwsofts.ffcalculator.mobile.services.report.pojo.FFCReportRequest;
 
 import retrofit2.Call;
-import retrofit2.Response;
 
 public class SimpleReportHttpService implements IReportHttpService {
     private static final String TAG_NAME = "SimpleReportHttpService";
@@ -23,7 +22,8 @@ public class SimpleReportHttpService implements IReportHttpService {
             LogUtils.d(TAG_NAME, "envoi de la cause au backend");
             if (FFCalculatorApplication.instance.getServicesManager().getNetworkService().isWwwConnected()) {
                 call = FFCalculatorWebApi.getInstance().getApiService().sendReport(FFCalculatorSharedPrefs.id(), BuildConfig.FLAVOR, request);
-                final Response<Void> response = call.execute();
+                // final Response<Void> response = call.execute();
+                call.execute();
             } else {
                 LogUtils.d(TAG_NAME, "pas de reseau");
             }

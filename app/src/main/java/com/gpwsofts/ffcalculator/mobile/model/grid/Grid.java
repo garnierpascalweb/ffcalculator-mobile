@@ -12,7 +12,7 @@ public class Grid implements IGrid {
     private int priority;
     private String logo;
     private String libelle;
-    private List<String> vues;
+    private final List<String> vues;
     private String type;
     private String cal;
     private int maxPos;

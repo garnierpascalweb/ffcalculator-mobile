@@ -30,25 +30,25 @@ public class SeasonFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        LogUtils.i(TAG_NAME, "appel de onCreate");
+        LogUtils.onCreateBegin(TAG_NAME);
         super.onCreate(savedInstanceState);
         seasonViewModel = new ViewModelProvider(requireActivity()).get(SeasonViewModel.class);
         vueViewModel = new ViewModelProvider(requireActivity()).get(VueViewModel.class);
-        LogUtils.i(TAG_NAME, "fin appel de onCreate");
+        LogUtils.onCreateEnd(TAG_NAME);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        LogUtils.i(TAG_NAME, "appel de onCreateView");
+        LogUtils.onCreateViewBegin(TAG_NAME);
         binding = FragmentSeasonBinding.inflate(inflater, container, false);
         LogUtils.d(TAG_NAME, "onCreateView - chargement asynchrone vue");
         vueViewModel.loadVueAsync();
-        LogUtils.i(TAG_NAME, "fin appel de onCreateView");
+        LogUtils.onCreateViewEnd(TAG_NAME);
         return binding.getRoot();
     }
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        LogUtils.d(TAG_NAME, "appel de onViewCreated");
+        LogUtils.onViewCreatedBegin(TAG_NAME);
         super.onViewCreated(view, savedInstanceState);
         // RECUPERATION DES ELEMENTS GRAPHIQUES
         final TextView textViewPts = binding.textAllpts;
@@ -89,7 +89,7 @@ public class SeasonFragment extends Fragment {
         // OBSERVATION DUN CHANGEMENT DE VUE
         vueViewModel.getVueLiveData().observe(getViewLifecycleOwner(), vue -> {
             try{
-                LogUtils.i(TAG_NAME, "debut observer vue");
+                LogUtils.d(TAG_NAME, "debut observer vue");
                 // si on a changé de type de classement, faut recalculer
                 final String vueClassType = vue.getMapClass();
                 if (vueClassType.equals(seasonViewModel.getCurrentClassType())){
@@ -103,14 +103,14 @@ public class SeasonFragment extends Fragment {
                 LogUtils.e(TAG_NAME, "observer vue - probleme sur observer vue, envoi report ", e);
                 FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
             } finally {
-                LogUtils.i(TAG_NAME, "fin observer vue");
+                LogUtils.d(TAG_NAME, "fin observer vue");
             }
         });
 
         // OBSERVATION DUN CHANGEMENT DANS LA LISTE DE RESULTATS
         seasonViewModel.getAllResultsLiveData().observe(getViewLifecycleOwner(), results -> {
             try {
-                LogUtils.i(TAG_NAME, "debut observer results");
+                LogUtils.d(TAG_NAME, "debut observer results");
                 if (results != null) {
                     LogUtils.d(TAG_NAME, "observer results - update liste resultats (désormais <" + results.size() + "> élements)");
                     resultListAdapter.submitList(results);
@@ -118,7 +118,7 @@ public class SeasonFragment extends Fragment {
             } catch (Exception e) {
                 FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
             } finally {
-                LogUtils.i(TAG_NAME, "fin observer results");
+                LogUtils.d(TAG_NAME, "fin observer results");
             }
         });
         // FIN OBSERVATION DUN CHANGEMENT DANS LA LISTE DE RESULTATS
@@ -126,16 +126,18 @@ public class SeasonFragment extends Fragment {
         // OBSERVATION DUN CHANGEMENT DANS LE NOMBRE DE POINTS
         seasonViewModel.getAllPtsLiveData().observe(getViewLifecycleOwner(), pts -> {
             try {
-                LogUtils.i(TAG_NAME, "debut observer allPts");
+                LogUtils.d(TAG_NAME, "debut observer allPts");
                 if (null != pts) {
                     if (Double.compare(pts, seasonViewModel.getCurrentPts()) != 0) {
-                        // valeur rendue differente de celle en cache, recalcul de la position au classement antional
-                        final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
-                        textViewPos.setText(getString(R.string.label_classement_national_loading));
-                        LogUtils.d(TAG_NAME, "observer allPts - envoi job asynchrone recherche position pour <" + pts + "> pts sur le classement <" + classType + ">");
-                        seasonViewModel.searchPosApi(pts, classType);
-                        seasonViewModel.setCurrentPts(pts);
-                        seasonViewModel.setCurrentClassType(classType);
+                        // valeur rendue differente de celle en cache, recalcul de la position au classement national si different de zero
+                        if (pts != 0){
+                            final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
+                            textViewPos.setText(getString(R.string.label_classement_national_loading));
+                            LogUtils.d(TAG_NAME, "observer allPts - envoi job asynchrone recherche position pour <" + pts + "> pts sur le classement <" + classType + ">");
+                            seasonViewModel.searchPosApi(pts, classType);
+                            seasonViewModel.setCurrentPts(pts);
+                            seasonViewModel.setCurrentClassType(classType);   
+                        }
                     } else {
                         LogUtils.d(TAG_NAME, "observer allPts - valeur identique au cache <" + pts + "> - pas de recalcul");
                         if (null == seasonViewModel.getCurrentPos()) {
@@ -156,7 +158,7 @@ public class SeasonFragment extends Fragment {
                 LogUtils.e(TAG_NAME, "observer allPts - probleme technique",e);
                 FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
             } finally {
-                LogUtils.i(TAG_NAME, "fin observer allPts");
+                LogUtils.d(TAG_NAME, "fin observer allPts");
             }
         });
         // FIN OBSERVATION DUN CHANGEMENT DANS LE NOMBRE DE POINTS
@@ -164,7 +166,7 @@ public class SeasonFragment extends Fragment {
         // OBSERVATION DUN CHANGEMENT DANS LA POSITION AU CLASSEMENT NATIONAL
         seasonViewModel.getOverAllPosLiveData().observe(getViewLifecycleOwner(), overAllPos -> {
             try {
-                LogUtils.i(TAG_NAME, "debut observer overAllPos");
+                LogUtils.d(TAG_NAME, "debut observer overAllPos");
                 final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
                 final String textFieldPosText;
                 if (overAllPos != null) {
@@ -183,11 +185,11 @@ public class SeasonFragment extends Fragment {
             } catch (Exception e) {
                 FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
             } finally {
-                LogUtils.i(TAG_NAME, "fin observer overAllPos");
+                LogUtils.d(TAG_NAME, "fin observer overAllPos");
             }
         });
         // FIN OBSERVATION DUN CHANGEMENT DANS LA POSITION AU CLASSEMENT NATIONAL
-        LogUtils.d(TAG_NAME, "fin appel de onViewCreated");
+        LogUtils.onViewCreatedEnd(TAG_NAME);
     }
 
     @Override

@@ -81,7 +81,7 @@ public class ServicesManager {
 
     public final ILogoService getLogoService(Resources res) {
         if (null == logoService) {
-            LogUtils.i(TAG_NAME, "creation dune nouvelle instance de ILogoService");
+            LogUtils.d(TAG_NAME, "creation dune nouvelle instance de ILogoService");
             logoService = new SimpleLogoService(res);
         } else {
             LogUtils.d(TAG_NAME, "recuperation dune instance existante de ILogoService");
@@ -91,7 +91,7 @@ public class ServicesManager {
 
     public final IPtsHttpService getPtsService() {
         if (null == ptsService) {
-            LogUtils.i(TAG_NAME, "creation dune nouvelle instance de IPtsService");
+            LogUtils.d(TAG_NAME, "creation dune nouvelle instance de IPtsService");
             ptsService = new SimplePtsHttpService();
         } else {
             LogUtils.d(TAG_NAME, "recuperation dune instance existante de IPtsService");
@@ -101,7 +101,7 @@ public class ServicesManager {
 
     public final IPosHttpService getPosService() {
         if (null == posService) {
-            LogUtils.i(TAG_NAME, "creation dune nouvelle instance de IPosService");
+            LogUtils.d(TAG_NAME, "creation dune nouvelle instance de IPosService");
             posService = new SimplePosHttpService();
         } else {
             LogUtils.d(TAG_NAME, "recuperation d'une instance existante de IPosService");
@@ -111,7 +111,7 @@ public class ServicesManager {
 
     public final INetworkService getNetworkService() {
         if (null == networkService) {
-            LogUtils.i(TAG_NAME, "creation dune nouvelle instance de INetworkService");
+            LogUtils.d(TAG_NAME, "creation dune nouvelle instance de INetworkService");
             networkService = new SimpleNetworkService();
         } else {
             LogUtils.d(TAG_NAME, "recuperation d'une instance existante de INetworkService");
@@ -121,7 +121,7 @@ public class ServicesManager {
 
     public final IGridService getGridService() {
         if (null == gridService) {
-            LogUtils.i(TAG_NAME, "creation dune nouvelle instance de IGridService");
+            LogUtils.d(TAG_NAME, "creation dune nouvelle instance de IGridService");
             gridService = new SimpleGridService(new AssetReaderProvider(FFCalculatorApplication.instance.getApplicationContext()));
         } else {
             LogUtils.d(TAG_NAME, "recuperation d'une instance existante de IGridService");
@@ -131,7 +131,7 @@ public class ServicesManager {
 
     public final ITownService getTownService() {
         if (null == townService) {
-            LogUtils.i(TAG_NAME, "creation dune nouvelle instance de ITownService");
+            LogUtils.d(TAG_NAME, "creation dune nouvelle instance de ITownService");
             townService = new SimpleTownService(new AssetReaderProvider(FFCalculatorApplication.instance.getApplicationContext()));
         } else {
             LogUtils.d(TAG_NAME, "recuperation d'une instance existante de ITownService");
@@ -145,7 +145,7 @@ public class ServicesManager {
      */
     public final IVueService getVueService(){
         if (null == vueService) {
-            LogUtils.i(TAG_NAME, "creation dune nouvelle instance de IVueService");
+            LogUtils.d(TAG_NAME, "creation dune nouvelle instance de IVueService");
             vueService = new VueService();
         } else {
             LogUtils.d(TAG_NAME, "recuperation d'une instance existante de IVueService");
@@ -155,7 +155,7 @@ public class ServicesManager {
 
     public final IDeviceService getDeviceService(){
         if (null == deviceService){
-            LogUtils.i(TAG_NAME, "creation dune nouvelle instance de IDeviceService");
+            LogUtils.d(TAG_NAME, "creation dune nouvelle instance de IDeviceService");
             deviceService = new SimpleDeviceService();
         } else {
             LogUtils.d(TAG_NAME, "recuperation d'une instance existante de IDeviceService");
@@ -165,7 +165,7 @@ public class ServicesManager {
 
     public final IReportHttpService getReportService(){
         if (null == reportService){
-            LogUtils.i(TAG_NAME, "creation dune nouvelle instance SimpleReportHttpService de IReportService");
+            LogUtils.d(TAG_NAME, "creation dune nouvelle instance SimpleReportHttpService de IReportService");
             reportService = new SimpleReportHttpService();
         } else {
             LogUtils.d(TAG_NAME, "recuperation d'une instance existante SimpleReportHttpService de IReportService");
@@ -175,7 +175,7 @@ public class ServicesManager {
 
     public final IReportHttpService getAsyncReportService(){
         if (null == asyncReportService){
-            LogUtils.i(TAG_NAME, "creation dune nouvelle instance asyncReportService de IReportService");
+            LogUtils.d(TAG_NAME, "creation dune nouvelle instance asyncReportService de IReportService");
             asyncReportService = new AsyncReportHttpService();
         } else {
             LogUtils.d(TAG_NAME, "recuperation d'une instance existante asyncReportService de IReportService");

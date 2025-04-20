@@ -5,7 +5,7 @@ package com.gpwsofts.ffcalculator.mobile.model.logo;
  */
 public class Logo implements ILogo {
     private int color;
-    private String text;
+    private final String text;
     public Logo(int color, String text) {
         this.color = color;
         this.text = text;

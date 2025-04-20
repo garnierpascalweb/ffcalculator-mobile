@@ -23,19 +23,13 @@ public class FFCalculatorWebApi {
     }
 
     private FFCalculatorWebApi(){
-        LogUtils.i(TAG_NAME, "creation du singleton = FFCalculatorWebApi");
         if (null == retrofit){
-            LogUtils.i(TAG_NAME, "constuction de l'instance de retrofit - base url = <"+ BuildConfig.API_BASE_URL + ">");
             retrofit = new Retrofit.Builder()
                     .baseUrl(BuildConfig.API_BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
-            LogUtils.i(TAG_NAME, "creation de l'instance IApiInterface");
             apiService = retrofit.create(IApiInterface.class);
-        } else {
-            LogUtils.d(TAG_NAME, "apiService deja initialisée");
         }
-        LogUtils.i(TAG_NAME, "fin creation du singleton = FFCalculatorWebApi");
     }
 
     public IApiInterface getApiService(){

@@ -2,8 +2,9 @@ package com.gpwsofts.ffcalculator.mobile;
 
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import android.content.Context;
 
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
@@ -11,25 +12,21 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.gpwsofts.ffcalculator.mobile.model.grid.Grid;
-import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
+import com.gpwsofts.ffcalculator.mobile.common.reader.AssetReaderProvider;
 import com.gpwsofts.ffcalculator.mobile.model.grid.IGrid;
+import com.gpwsofts.ffcalculator.mobile.services.grid.IGridService;
+import com.gpwsofts.ffcalculator.mobile.services.grid.SimpleGridService;
+import com.gpwsofts.ffcalculator.mobile.services.town.ITownService;
+import com.gpwsofts.ffcalculator.mobile.services.town.SimpleTownService;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import java.util.Scanner;
 
 /**
  * Tests instrumentalisés a base d'Espresso
@@ -46,12 +43,9 @@ public class ExampleInstrumentedTest {
      */
     @Rule
     public ActivityScenarioRule<MainActivity> activityScenarioRule = new ActivityScenarioRule<>(MainActivity.class);
-
-    /**
-     * La liste des communes de France (utilisees dans le cadre de la construction d'un resultat)
-     */
-    private List<String> communes;
-    /**
+    private ITownService townsService;
+    private IGridService gridService;
+    private List<String> towns;/**
      *
      */
     private List<IGrid> grids;
@@ -66,8 +60,12 @@ public class ExampleInstrumentedTest {
      */
     @Test
     public void setup() throws IOException {
-        loadGridsFromFile();
-        loadCommunesFromFile();
+        final Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        townsService = new SimpleTownService(new AssetReaderProvider(context));
+        towns = townsService.getTowns();
+        gridService = new SimpleGridService(new AssetReaderProvider(context));
+        grids = gridService.getGrids();
+
         Espresso.onView(withId(R.id.navigation_result)).perform(ViewActions.click());
         StringBuilder sb = new StringBuilder();
         int nbTests = 84;
@@ -110,11 +108,11 @@ public class ExampleInstrumentedTest {
      * @return une instance de RandomResult, résultat aléatoire
      */
     private RandomResult getRandomResult(int index) {
-        int communesSize = communes.size();
+        int communesSize = towns.size();
         Random rand = new Random();
         IGrid grid = grids.get(index);
         int maxPos = grid.getMaxPos();
-        String place = communes.get(rand.nextInt(communesSize - 1)) + " (" + index + ")";
+        String place = towns.get(rand.nextInt(communesSize - 1)) + " (" + index + ")";
         String spinnerItemValue = grid.getSpinnerItemValue();
         int pos = 1 + rand.nextInt(maxPos);
         int prts = pos + rand.nextInt(100);
@@ -127,61 +125,6 @@ public class ExampleInstrumentedTest {
     }
 
     /**
-     * chargement de la grille de points
-     *
-     * @throws IOException
-     */
-    protected void loadGridsFromFile() throws IOException {
-        InputStream is = null;
-        Type listGridType;
-        String jsonDatas;
-        Gson gson;
-        try {
-            is = InstrumentationRegistry.getInstrumentation().getContext().getResources().getAssets().open("grids/grilles.json");
-            //"grids/grilles.json"
-            int size = is.available();
-            LogUtils.v(TAG_NAME, "<" + size + "> octets lus - creation dun buffer de cette taille");
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            listGridType = new TypeToken<List<Grid>>() {
-            }.getType();
-            jsonDatas = new String(buffer, StandardCharsets.UTF_8);
-            LogUtils.v(TAG_NAME, "construction d'une instance de liste depuis Gson");
-            gson = new Gson();
-            grids = gson.fromJson(jsonDatas, listGridType);
-            LogUtils.v(TAG_NAME, "tri de la liste des grilles");
-            Collections.sort(grids);
-        } finally {
-            if (is != null)
-                is.close();
-        }
-    }
-
-    /**
-     * changement des communes francaises
-     *
-     * @throws IOException
-     */
-    protected void loadCommunesFromFile() throws IOException {
-        InputStream is = null;
-        Scanner scanner = null;
-        try {
-            communes = new ArrayList<String>();
-            is = InstrumentationRegistry.getInstrumentation().getContext().getResources().getAssets().open("grids/communes.txt");
-            scanner = new Scanner(is);
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                communes.add(line.trim());
-            }
-        } finally {
-            if (is != null)
-                is.close();
-            if (scanner != null)
-                scanner.close();
-        }
-    }
-
-    /**
      * inner class pour encapsuler les données d'un resultat
      */
     private static class RandomResult {
@@ -190,6 +133,7 @@ public class ExampleInstrumentedTest {
         int pos;
         int prts;
         Exception e;
+
         @Override
         public String toString(){
             StringBuilder sb = new StringBuilder();

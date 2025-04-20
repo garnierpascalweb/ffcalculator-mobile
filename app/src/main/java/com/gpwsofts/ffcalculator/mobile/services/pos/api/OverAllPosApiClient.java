@@ -29,9 +29,7 @@ public class OverAllPosApiClient extends AbstractApiClient {
     private static final int JOB_TIMEOUT = 5000;
 
     private OverAllPosApiClient() {
-        LogUtils.i(TAG_NAME, "instanciation de OverAllPosApiClient");
         mPos = new SingleLiveEvent<>();
-        LogUtils.i(TAG_NAME, "fin instanciation de OverAllPosApiClient");
     }
 
     public static OverAllPosApiClient getInstance() {
@@ -48,15 +46,11 @@ public class OverAllPosApiClient extends AbstractApiClient {
         if (getPosRunnable != null) {
             getPosRunnable = null;
         }
-        LogUtils.d(TAG_NAME, "instantaition dun GetPosRunnable");
         getPosRunnable = new GetPosRunnable(pts, classType);
-        LogUtils.d(TAG_NAME, "submit du runnable GetPosRunnable dans le pool de thread");
-        final Future<?> myHandler = AppExecutors.getInstance().networkIO().submit(getPosRunnable);
-        LogUtils.d(TAG_NAME, "appel de cancel dans <" + JOB_TIMEOUT + "> ");
+        final Future<?> getPosRunnableFuture = AppExecutors.getInstance().networkIO().submit(getPosRunnable);
         AppExecutors.getInstance().networkIO().schedule(() -> {
-            myHandler.cancel(true);
+            getPosRunnableFuture.cancel(true);
         }, JOB_TIMEOUT, TimeUnit.MILLISECONDS);
-        //TODO 1.0.0 revoir ce timeout
     }
 
     // Calcul de la position avec l'API
@@ -73,28 +67,21 @@ public class OverAllPosApiClient extends AbstractApiClient {
 
         @Override
         public void run() {
-            LogUtils.i(TAG_NAME, "debut du job asynchrone GetPosRunnable");
             Response response;
             Integer pos = null;
             try {
+                LogUtils.d(TAG_NAME, "debut du job asynchrone GetPosRunnable - pts = <" + pts + "> classType = <" + classType + ">");
                 boolean isWwwConnected = FFCalculatorApplication.instance.getServicesManager().getNetworkService().isWwwConnected();
                 if (isWwwConnected) {
-                    // reseau disponible
-                    LogUtils.d(TAG_NAME, "appel synchrone au service des positions et recuperation de la reponse");
-                    LogUtils.d(TAG_NAME, " arguments : pts = <" + pts + ">, type de classement = <" + classType + ">");
-
-                    response = getPos(pts, classType).execute();
+                    response = FFCalculatorApplication.instance.getServicesManager().getPosService().calcPos(pts, classType).execute();
                     if (cancelRequest) {
                         LogUtils.d(TAG_NAME, "cancelRequest true, retourne zboub");
                         return;
                     }
                     int responseCode = response.code();
-                    LogUtils.d(TAG_NAME, "responseCode du service des positions = <" + responseCode + ">");
                     if (responseCode == 200) {
                         if (response.body() != null) {
                             pos = ((FFCPosResponse) response.body()).pos;
-                            LogUtils.d(TAG_NAME, "succes du calcul de la position pour ce capital de points = <" + pos + ">");
-                            LogUtils.d(TAG_NAME, "post de la nouvelle position en livedata");
                         } else {
                             throw new UnreadableBodyException("impossible de lire le body de la reponse - code http " + responseCode);
                         }
@@ -104,9 +91,6 @@ public class OverAllPosApiClient extends AbstractApiClient {
                         String error;
                         if (response.errorBody() != null) {
                             error = response.errorBody().string();
-                            LogUtils.e(TAG_NAME, "echec du calcul de la position pour ce capital de points");
-                            LogUtils.e(TAG_NAME, "erreur " + error);
-                            LogUtils.d(TAG_NAME, "pos rendue et postee = <null>");
                         } else {
                             throw new UnreadableBodyException("impossible de lire le errorbody de la reponse - code http " + responseCode);
                         }
@@ -114,7 +98,6 @@ public class OverAllPosApiClient extends AbstractApiClient {
                 } else {
                     // pas de reseau
                     LogUtils.e(TAG_NAME, "echec du calcul de la position - pas de reseau");
-                    // already assigned to this value pos = null;
                     //TODO 1.0.0 peut etre dérouler une implementation locale ?
                 }
             }  catch (Exception e) {
@@ -123,12 +106,8 @@ public class OverAllPosApiClient extends AbstractApiClient {
                 sendErrorToBackEnd(TAG_NAME, e);
             } finally {
                 mPos.postValue(pos);
-                LogUtils.i(TAG_NAME, "fin du job asynchrone GetPosRunnable");
+                LogUtils.i(TAG_NAME, "fin du job asynchrone GetPosRunnable - pts = <" + pts + "> classType = <" + classType + "> - valeur rendue <" + pos + ">");
             }
-        }
-
-        private Call<FFCPosResponse> getPos(double pts, String classType) {
-            return FFCalculatorApplication.instance.getServicesManager().getPosService().calcPos(pts, classType);
         }
 
         private void cancelRequest() {

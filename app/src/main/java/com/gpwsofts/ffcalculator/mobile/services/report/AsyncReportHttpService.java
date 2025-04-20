@@ -13,7 +13,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
-import retrofit2.Response;
 
 public class AsyncReportHttpService implements IReportHttpService {
     private static final String TAG_NAME = "AsyncReportService";
@@ -35,13 +34,10 @@ public class AsyncReportHttpService implements IReportHttpService {
         if (sendReportRunnable != null) {
             sendReportRunnable = null;
         }
-        LogUtils.d(TAG_NAME, "instantaition dun SendReportRunnable");
         sendReportRunnable = new SendReportRunnable(tagName, e);
-        LogUtils.d(TAG_NAME, "submit du runnable SendReportRunnable dans le pool de thread");
-        final Future<?> myHandler = AppExecutors.getInstance().networkIO().submit(sendReportRunnable);
-        LogUtils.d(TAG_NAME, "appel de cancel dans <" + JOB_TIMEOUT + "> ");
+        final Future<?> sendReportRunnableFuture = AppExecutors.getInstance().networkIO().submit(sendReportRunnable);
         AppExecutors.getInstance().networkIO().schedule(() -> {
-            myHandler.cancel(true);
+            sendReportRunnableFuture.cancel(true);
         }, JOB_TIMEOUT, TimeUnit.MILLISECONDS);
     }
 
@@ -61,7 +57,7 @@ public class AsyncReportHttpService implements IReportHttpService {
             FFCReportRequest request;
             Call<Void> call;
             try {
-                LogUtils.d(TAG_NAME, "envoi de la cause au backend");
+                LogUtils.d(TAG_NAME, "envoi rapport erreur au backend");
                 request = FFCReportRequestFactory.createFFCReportRequest(initialTagName, exceptionToReport);
                 if (FFCalculatorApplication.instance.getServicesManager().getNetworkService().isWwwConnected()) {
                     call = FFCalculatorWebApi.getInstance().getApiService().sendReport(FFCalculatorSharedPrefs.id(), BuildConfig.FLAVOR, request);
@@ -73,7 +69,7 @@ public class AsyncReportHttpService implements IReportHttpService {
             } catch (Exception e) {
                 LogUtils.w(TAG_NAME, "erreur non critique sur l'envoi d'un rapport de crash ", e);
             } finally {
-                LogUtils.d(TAG_NAME, "fin d'envoi de la cause au backend");
+                LogUtils.i(TAG_NAME, "envoi rapport erreur au backend");
             }
         }
     }

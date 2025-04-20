@@ -18,8 +18,6 @@ public class SimplePtsHttpService  implements IPtsHttpService {
 
     @Override
     public Call<FFCPointsResponse> calcPts(FFCPointsRequest request) {
-        // cest du retrofit !
-        LogUtils.d(TAG_NAME, "veritable appel http et call en retour");
         return FFCalculatorWebApi.getInstance().getApiService().calcPts(FFCalculatorSharedPrefs.id(),BuildConfig.FLAVOR,request);
     }
 

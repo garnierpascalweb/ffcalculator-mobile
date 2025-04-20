@@ -34,19 +34,18 @@ public class SimpleTownService extends AbstractTownService {
      * @throws IOException
      */
     private void loadTownsFromLocalResource() throws IOException {
+        int nb = 0;
         try {
-            LogUtils.d(TAG_NAME, "debut chargement de la liste des villes");
             towns = new ArrayList<>();
-            LogUtils.v(TAG_NAME, "ouverture du flux sur <" + TOWN_RELATIVE_PATH + "> et lecture ligne par ligne pour construction de la liste des villes");
             try (BufferedReader reader = readerProvider.openReader(TOWN_RELATIVE_PATH)) {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     towns.add(line);
                 }
             }
-            LogUtils.v(TAG_NAME, "fin chargement de la liste des villes - <" + towns.size() + "> villes chargées");
+            nb = towns.size();
         } finally {
-            LogUtils.d(TAG_NAME, "fin chargement de la liste des villes");
+            LogUtils.i(TAG_NAME, "fin chargement des villes - <" + nb + "> villes chargées");
         }
     }
 

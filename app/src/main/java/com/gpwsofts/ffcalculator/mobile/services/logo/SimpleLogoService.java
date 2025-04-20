@@ -16,9 +16,7 @@ import java.util.Map;
 
 public class SimpleLogoService implements ILogoService {
     private static final String TAG_NAME = "SimpleLogoService";
-
     private static Map<String, Logo> logos;
-
     private final Resources res;
 
     public SimpleLogoService(Resources res) {
@@ -46,12 +44,12 @@ public class SimpleLogoService implements ILogoService {
     public ILogo getLogo(String idLogo) {
         ILogo logo;
         if (null == idLogo){
-            LogUtils.w(TAG_NAME, "idLogo null, renvoi du logo par defaut");
+            LogUtils.w(TAG_NAME, "logo null - renvoi du logo par defaut");
             logo = getUnknownLogo();
         } else {
             logo = logos.get(idLogo);
             if (null == logo){
-                LogUtils.w(TAG_NAME, "aucun logo pour " + idLogo + ", renvoi du logo par defaut");
+                LogUtils.w(TAG_NAME, "aucun logo <" + idLogo + "> - renvoi du logo par defaut");
                 logo = getUnknownLogo();
             }
         }

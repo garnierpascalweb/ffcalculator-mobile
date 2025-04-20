@@ -52,4 +52,36 @@ public class LogUtils {
             Log.v(tag, message);
         }
     }
+
+    public static void onCreateBegin(String tagName){
+        if (ENABLE_LOGS) {
+            Log.v(tagName, "debut onCreate");
+        }
+    }
+
+    public static void onCreateEnd(String tagName){
+        if (ENABLE_LOGS) {
+            Log.v(tagName, "fin onCreate");
+        }
+    }
+
+    public static void onCreateViewBegin(String tagName){
+        if (ENABLE_LOGS) {
+            Log.v(tagName, "debut onCreateView");
+        }
+    }
+
+    public static void onCreateViewEnd(String tagName){
+        if (ENABLE_LOGS) {
+            Log.v(tagName, "fin onCreateView");
+        }
+    }
+
+    public static void onViewCreatedBegin(String tagName) {
+        Log.v(tagName, "debut onViewCreated");
+    }
+
+    public static void onViewCreatedEnd(String tagName) {
+        Log.v(tagName, "fin onViewCreated");
+    }
 }

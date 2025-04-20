@@ -27,13 +27,13 @@ public class SeasonViewModel extends AndroidViewModel {
 
     public SeasonViewModel(Application application) {
         super(application);
-        LogUtils.i(TAG_NAME, "Instantiation de SeasonViewModel");
+        LogUtils.d(TAG_NAME, "Instantiation de SeasonViewModel");
         databaseResultRepository = DatabaseResultRepository.getInstance();
         posRepository = OverallPosRepository.getInstance();
         currentPts = 0.0;
         currentPos = 0;
         currentClassType = "";
-        LogUtils.i(TAG_NAME, "Fin instantiation de SeasonViewModel");
+        LogUtils.d(TAG_NAME, "Fin instantiation de SeasonViewModel");
     }
 
     public LiveData<Double> getAllPtsLiveData() {

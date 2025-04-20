@@ -7,7 +7,6 @@ import com.gpwsofts.ffcalculator.mobile.services.town.api.TownApiClient;
 import java.util.List;
 
 public class TownRepository {
-    private static final String TAG_NAME = "TownRepository";
     private static TownRepository instance;
     private final TownApiClient townApiClient;
     private TownRepository() {

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.R;
+import com.gpwsofts.ffcalculator.mobile.common.SingleLiveEvent;
 import com.gpwsofts.ffcalculator.mobile.common.api.AbstractApiClient;
 import com.gpwsofts.ffcalculator.mobile.common.exception.SwitchVueException;
 import com.gpwsofts.ffcalculator.mobile.common.executor.AppExecutors;
@@ -24,16 +25,16 @@ public class VueApiClient extends AbstractApiClient {
     private static final String KEY_VUE = "vue";
     private static final int JOB_TIMEOUT = 5000;
     private static VueApiClient instance;
-    // private final SingleLiveEvent<Vue> mVue;
-    private final MutableLiveData<IVue> mVue;
+    private final SingleLiveEvent<IVue> mVue;
+    //private final MutableLiveData<IVue> mVue;
     private SetVueRunnable setVueRunnable;
     private GetVueRunnable getVueRunnable;
 
 
     private VueApiClient() {
-        LogUtils.i(TAG_NAME, "instanciation de VueApiClient");
-        mVue = new MutableLiveData<>();
-        LogUtils.i(TAG_NAME, "fin instanciation de VueApiClient");
+        mVue = new SingleLiveEvent<IVue>();
+        // on initialise a G, on veut pas avoir a gérer de null sur getVueLiveData
+        mVue.setValue(FFCalculatorApplication.instance.getServicesManager().getVueService().getVueInstance("G"));
     }
 
     public static VueApiClient getInstance() {
@@ -51,9 +52,9 @@ public class VueApiClient extends AbstractApiClient {
            getVueRunnable = null;
        }
         getVueRunnable = new GetVueRunnable();
-        final Future<?> myHandler = AppExecutors.getInstance().networkIO().submit(getVueRunnable);
+        final Future<?> getVueRunnableFuture = AppExecutors.getInstance().networkIO().submit(getVueRunnable);
         AppExecutors.getInstance().networkIO().schedule(() -> {
-            myHandler.cancel(true);
+            getVueRunnableFuture.cancel(true);
         }, JOB_TIMEOUT, TimeUnit.MILLISECONDS);
     }
 
@@ -62,9 +63,9 @@ public class VueApiClient extends AbstractApiClient {
             setVueRunnable = null;
         }
         setVueRunnable = new SetVueRunnable(itemId);
-        final Future<?> myHandler = AppExecutors.getInstance().networkIO().submit(setVueRunnable);
+        final Future<?> setVueRunnableFuture = AppExecutors.getInstance().networkIO().submit(setVueRunnable);
         AppExecutors.getInstance().networkIO().schedule(() -> {
-            myHandler.cancel(true);
+            setVueRunnableFuture.cancel(true);
         }, JOB_TIMEOUT, TimeUnit.MILLISECONDS);
     }
 
@@ -84,9 +85,10 @@ public class VueApiClient extends AbstractApiClient {
         @Override
         public void run() {
             IVue newVue = null;
+            String codeVue = "";
             try {
-                LogUtils.d(TAG_NAME, "debut job asynchrone SetVueRunnable - itemId selectionne <" + itemId + ">");
-                final String codeVue = FFCalculatorApplication.instance.getServicesManager().getVueService().getCodeVueFromMenuItem(itemId);
+                LogUtils.d(TAG_NAME, "debut job asynchrone SetVueRunnable - itemId <" + itemId + ">");
+                codeVue = FFCalculatorApplication.instance.getServicesManager().getVueService().getCodeVueFromMenuItem(itemId);
                 LogUtils.d(TAG_NAME, "envoi en shared prefs du code vue associée au idemId <" + itemId + "> - <" + KEY_VUE + "> <" + codeVue + ">");
                 if (FFCalculatorApplication.instance.getSharedPrefs().setSharedPrefsVue(codeVue)){
                     newVue = FFCalculatorApplication.instance.getServicesManager().getVueService().getVueInstance(codeVue);
@@ -104,7 +106,7 @@ public class VueApiClient extends AbstractApiClient {
                 sendErrorToBackEnd(TAG_NAME, e);
             } finally {
                 mVue.postValue(newVue);
-                LogUtils.d(TAG_NAME, "fin du job asynchrone SetVueRunnable");
+                LogUtils.i(TAG_NAME, "fin du job asynchrone SetVueRunnable - itemId <" + itemId + "> - vue updatee vers <" + codeVue + ">");
             }
         }
 
@@ -121,12 +123,10 @@ public class VueApiClient extends AbstractApiClient {
         @Override
         public void run() {
             LogUtils.d(TAG_NAME, "debut du job asynchrone GetVueRunnable");
-            LogUtils.v(TAG_NAME, "recherche dans les shared prefs de la valeur de <" + KEY_VUE + ">");
             final String currentCodeVue = FFCalculatorApplication.instance.getSharedPrefs().getSharedPrefsVue();
-            LogUtils.v(TAG_NAME, "valeur = <" + currentCodeVue + "> - instanciation de la Vue correspondante et publication en livedata");
             final IVue currentVue = FFCalculatorApplication.instance.getServicesManager().getVueService().getVueInstance(currentCodeVue);
             mVue.postValue(currentVue);
-            LogUtils.d(TAG_NAME, "fin du job asynchrone GetVueRunnable");
+            LogUtils.i(TAG_NAME, "fin du job asynchrone GetVueRunnable - vue <" + currentVue + ">");
         }
     }
 }
