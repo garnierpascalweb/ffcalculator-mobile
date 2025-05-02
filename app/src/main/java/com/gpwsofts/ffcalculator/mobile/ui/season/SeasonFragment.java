@@ -89,21 +89,27 @@ public class SeasonFragment extends Fragment {
         // OBSERVATION DUN CHANGEMENT DE VUE
         vueViewModel.getVueLiveData().observe(getViewLifecycleOwner(), vue -> {
             try{
-                LogUtils.d(TAG_NAME, "debut observer vue");
-                // si on a changé de type de classement, faut recalculer
+                LogUtils.d(TAG_NAME, "debut observer vue = <" + vue + ">");
                 final String vueClassType = vue.getMapClass();
+                LogUtils.v(TAG_NAME, "  observer vue = <" + vue + "> - type de classement associé = <" + vueClassType + "> et valeur en cache = <" + seasonViewModel.getCurrentClassType() + ">");
                 if (vueClassType.equals(seasonViewModel.getCurrentClassType())){
-                    LogUtils.d(TAG_NAME, "type classement nouvelle vue <" + vue.getCode() + "> identique en cache <" + vueClassType + "> - pas de recalcul");
+                    LogUtils.v(TAG_NAME, "  observer vue = <" + vue + "> - type classement nouvelle vue identique en cache <" + vueClassType + "> - pas de recalcul");
                 } else {
-                    LogUtils.d(TAG_NAME, "type classement nouvelle vue <" + vue.getCode() + "> (" + vueClassType + ") different du cache <" + seasonViewModel.getCurrentClassType() + "> - recalcul");
-                    seasonViewModel.searchPosApi(seasonViewModel.getCurrentPts(), vueClassType);
+                    final boolean currentPtsDefined = seasonViewModel.isCurrentPtsDefined();
+                    LogUtils.v(TAG_NAME, "  observer vue = <" + vue + "> - currentPtsDefined <" + currentPtsDefined + ">");
+                    if (currentPtsDefined) {
+                        LogUtils.v(TAG_NAME, "  observer vue = <" + vue + "> - type classement nouvelle vue different du cache <" + seasonViewModel.getCurrentClassType() + "> - recalcul");
+                        seasonViewModel.searchPosApi(seasonViewModel.getCurrentPts(), vueClassType);
+                    } else {
+                        LogUtils.v(TAG_NAME, "  observer vue = <" + vue + "> - pas de calcul de la position");
+                    }
                     seasonViewModel.setCurrentClassType(vueClassType);
                 }
             } catch (Exception e) {
                 LogUtils.e(TAG_NAME, "observer vue - probleme sur observer vue, envoi report ", e);
                 FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
             } finally {
-                LogUtils.d(TAG_NAME, "fin observer vue");
+                LogUtils.d(TAG_NAME, "fin observer vue = <" + vue + ">");
             }
         });
 
@@ -126,22 +132,30 @@ public class SeasonFragment extends Fragment {
         // OBSERVATION DUN CHANGEMENT DANS LE NOMBRE DE POINTS
         seasonViewModel.getAllPtsLiveData().observe(getViewLifecycleOwner(), pts -> {
             try {
-                LogUtils.d(TAG_NAME, "debut observer allPts");
+                String textViewPtsText="";
+                String textViewPtsPos="";
+                LogUtils.d(TAG_NAME, "debut observer allPts = <" + pts + ">");
                 if (null != pts) {
                     // valeur des points différente du cache
                     if (Double.compare(pts, seasonViewModel.getCurrentPts()) != 0) {
-                        // valeur rendue differente de celle en cache, recalcul de la position au classement national si different de zero
+                        LogUtils.v(TAG_NAME, "  observer allPts = <" + pts + "> - valeur rendue = <" + pts + "> differente du cache = <" + seasonViewModel.getCurrentPts() + ">");
                         if (pts != 0){
                             final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
                             textViewPos.setText(getString(R.string.label_classement_national_loading));
-                            LogUtils.d(TAG_NAME, "observer allPts - envoi job asynchrone recherche position pour <" + pts + "> pts sur le classement <" + classType + ">");
+                            LogUtils.d(TAG_NAME, "  observer allPts = <" + pts + "> - envoi job recalcul position sur classement <" + classType + ">");
                             seasonViewModel.searchPosApi(pts, classType);
+                            LogUtils.d(TAG_NAME, "  observer allPts = <" + pts + "> - mise a jour du label pts");
+                            // textViewPts.setText(getString(R.string.label_total_pts_ok, pts));
+                            textViewPtsText = getString(R.string.label_total_pts_ok, pts);
+                            LogUtils.d(TAG_NAME, "  observer allPts = <" + pts + "> - mise en cache pts = <" + pts + "> et classType = <" + classType + ">");
                             seasonViewModel.setCurrentPts(pts);
-                            seasonViewModel.setCurrentClassType(classType);   
+                            seasonViewModel.setCurrentClassType(classType);
                         }
                     } else {
-                        // valeur des points différente du cache
-                        LogUtils.d(TAG_NAME, "observer allPts - valeur identique au cache <" + pts + "> - pas de recalcul");
+                        LogUtils.v(TAG_NAME, "  observer allPts = <" + pts + "> - valeur rendue = <" + pts + "> identique au cache = <" + seasonViewModel.getCurrentPts() + ">");
+                        textViewPtsText = getString(R.string.label_total_pts_ok, seasonViewModel.getCurrentPts());
+                        textViewPtsPos = getString(R.string.label_classement_national_ok, seasonViewModel.getCurrentClassType(), seasonViewModel.getCurrentPos());
+                        /*
                         if (null == seasonViewModel.getCurrentPos()) {
                             final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
                             LogUtils.d(TAG_NAME, "observer allPts - envoi job asynchrone recherche position pour <" + pts + "> pts sur le classeemnt <" + classType + ">");
@@ -150,17 +164,21 @@ public class SeasonFragment extends Fragment {
                             LogUtils.v(TAG_NAME, "observer allPts - conservation de la position en cache = <" + seasonViewModel.getCurrentPos() + ">");
                             textViewPos.setText(getString(R.string.label_classement_national_ok, seasonViewModel.getCurrentClassType(), seasonViewModel.getCurrentPos()));
                         }
+                        */
                     }
-                    textViewPts.setText(getString(R.string.label_total_pts_ok, pts));
+
                 } else {
-                    textViewPts.setText(getString(R.string.label_aucun_resultat));
-                    textViewPos.setText("");
+                    LogUtils.v(TAG_NAME, "  observer allPts = <" + pts + "> - setting aucun resultat" );
+                    textViewPtsText = getString(R.string.label_aucun_resultat);
+                    textViewPtsPos = getString(R.string.vide);
                 }
+                textViewPts.setText(textViewPtsText);
+                textViewPos.setText(textViewPtsPos);
             } catch (Exception e) {
                 LogUtils.e(TAG_NAME, "observer allPts - probleme technique",e);
                 FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
             } finally {
-                LogUtils.d(TAG_NAME, "fin observer allPts");
+                LogUtils.d(TAG_NAME, "fin observer allPts = <" + pts + ">");
             }
         });
         // FIN OBSERVATION DUN CHANGEMENT DANS LE NOMBRE DE POINTS

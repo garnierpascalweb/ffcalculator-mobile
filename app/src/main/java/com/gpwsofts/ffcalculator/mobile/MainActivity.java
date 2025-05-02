@@ -50,26 +50,26 @@ public class MainActivity extends AppCompatActivity {
 
             vueViewModel.getVueLiveData().observe(this, vue -> {
                 try {
-                    LogUtils.d(TAG_NAME, "debut observer vue");
+                    LogUtils.d(TAG_NAME, "debut observer vue = <" + vue + ">");
                     if (vue != null) {
                         final String newCodeVue = vue.getCode();
                         if (newCodeVue.equals(vueViewModel.getCurrentCodeVue())) {
-                            LogUtils.d(TAG_NAME, "vue selectionnee identique en cache");
+                            LogUtils.v(TAG_NAME, "  observer vue = <" + vue + "> - vue selectionnee identique en cache");
                         } else {
                             indexInComboMenuSelected = vue.getIndexInComboMenu();
-                            LogUtils.d(TAG_NAME, "nouvelle vue selectionnee <" + newCodeVue + "> - indexInComboMenuSelected correspondant <" + indexInComboMenuSelected + "> - appel invalidateOptionsMenu()");
+                            LogUtils.d(TAG_NAME, "  observer vue = <" + vue + "> nouvelle vue selectionnee <" + newCodeVue + "> - indexInComboMenuSelected correspondant <" + indexInComboMenuSelected + "> - appel invalidateOptionsMenu()");
                             vueViewModel.setCurrentCodeVue(newCodeVue);
                             invalidateOptionsMenu();
                             Toast.makeText(this, getString(R.string.toast_update_vue_ok, vue.getName()), Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        LogUtils.w(TAG_NAME, "vue null");
+                        LogUtils.w(TAG_NAME, "  observer vue = <" + vue + "> - vue null");
                     }
                 } catch (Exception e) {
                     LogUtils.e(TAG_NAME, "observer vue - probleme sur observer vue, envoi report ", e);
                     FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
                 } finally {
-                    LogUtils.d(TAG_NAME, "fin observer vue");
+                    LogUtils.d(TAG_NAME,   "fin observer vue = <" + vue + ">");
                 }
             });
         } finally {

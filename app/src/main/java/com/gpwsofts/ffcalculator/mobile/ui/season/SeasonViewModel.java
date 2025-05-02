@@ -79,4 +79,12 @@ public class SeasonViewModel extends AndroidViewModel {
     public void setCurrentClassType(String currentClassType) {
         this.currentClassType = currentClassType;
     }
+
+    public boolean isCurrentPosDefined(){
+        return currentPos != null && currentPos != 0;
+    }
+
+    public boolean isCurrentPtsDefined(){
+        return currentPts != null && currentPts != 0;
+    }
 }

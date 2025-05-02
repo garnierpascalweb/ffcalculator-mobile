@@ -25,14 +25,13 @@ public class VueApiClient extends AbstractApiClient {
     private static final String KEY_VUE = "vue";
     private static final int JOB_TIMEOUT = 5000;
     private static VueApiClient instance;
-    private final SingleLiveEvent<IVue> mVue;
-    //private final MutableLiveData<IVue> mVue;
+    private final MutableLiveData<IVue> mVue;
     private SetVueRunnable setVueRunnable;
     private GetVueRunnable getVueRunnable;
 
 
     private VueApiClient() {
-        mVue = new SingleLiveEvent<IVue>();
+        mVue = new MutableLiveData<IVue>();
         // on initialise a G, on veut pas avoir a gérer de null sur getVueLiveData
         mVue.setValue(FFCalculatorApplication.instance.getServicesManager().getVueService().getVueInstance("G"));
     }
