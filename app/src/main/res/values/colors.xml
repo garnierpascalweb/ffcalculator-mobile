@@ -22,4 +22,16 @@
     <color name="logo_cdfn2">#424949</color>
     <color name="logo_cdfn3">#626567</color>
     <color name="logo_unknown">#000000</color>
+
+    <!-- couleur de ma palette -->
+    <!-- Couleurs principales -->
+    <color name="fondBeige">#F9F0E1</color>
+    <color name="bleuFonce">#27414A</color>
+    <color name="bleuClair">#3FA4BB</color>
+    <color name="bleuClairVariant">#3EA3B9</color>
+
+    <!-- Autres couleurs utiles -->
+    <color name="accentOrange">#FB7E29</color>
+    <color name="blanc">#FFFFFF</color>
+    <color name="noir">#000000</color>
 </resources>

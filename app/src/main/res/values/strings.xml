@@ -65,6 +65,7 @@
     <string name="label_classement_national_ko">Classement National : Echec du calcul de la position</string>
     <string name="label_classement_national_loading">Classement National : calcul en cours …</string>
     <string name="label_resultat_detail">%1$d e sur %2$d prts</string>
+    <string name="label_liste_vide">Aucun résultat a afficher</string>
 
     <!-- tests -->
     <string name="test_place">Nervieux</string>

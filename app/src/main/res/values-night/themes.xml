@@ -1,16 +1,19 @@
 <resources>
     <!-- Base application theme. -->
     <style name="Theme.FFCalculatorMobile" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+        <item name="android:windowBackground">#1C1C1C</item>
+
+        <!-- Couleurs primaires -->
+        <item name="colorPrimary">#3FA4BB</item> <!-- inversé pour un effet lumineux sur fond sombre -->
+        <item name="colorPrimaryVariant">#3EA3B9</item>
+        <item name="colorOnPrimary">#000000</item>
+
+        <!-- Couleurs secondaires -->
+        <item name="colorSecondary">#FB7E29</item>
+        <item name="colorSecondaryVariant">#FFA04A</item>
+        <item name="colorOnSecondary">#000000</item>
+
+        <!-- Barre de statut -->
+        <item name="android:statusBarColor">#000000</item>
     </style>
 </resources>

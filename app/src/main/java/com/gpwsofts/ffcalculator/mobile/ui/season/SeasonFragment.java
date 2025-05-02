@@ -54,6 +54,7 @@ public class SeasonFragment extends Fragment {
         final TextView textViewPts = binding.textAllpts;
         final TextView textViewPos = binding.textMypos;
         final RecyclerView resultRV = binding.idRVCourse;
+        final TextView textEmptyList = binding.textEmptyList;
         // FIN RECUPERATION DES ELEMENTS GRAPHIQUES
 
         // INITIALISATION DES ADAPTERS
@@ -120,6 +121,16 @@ public class SeasonFragment extends Fragment {
                 if (results != null) {
                     LogUtils.d(TAG_NAME, "observer results - update liste resultats (désormais <" + results.size() + "> élements)");
                     resultListAdapter.submitList(results);
+                    if (results.isEmpty()){
+                        resultRV.setVisibility(View.GONE);
+                        textEmptyList.setVisibility(View.VISIBLE);
+                    } else {
+                        resultRV.setVisibility(View.VISIBLE);
+                        textEmptyList.setVisibility(View.GONE);
+                    }
+                } else {
+                    resultRV.setVisibility(View.GONE);
+                    textEmptyList.setVisibility(View.VISIBLE);
                 }
             } catch (Exception e) {
                 FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
