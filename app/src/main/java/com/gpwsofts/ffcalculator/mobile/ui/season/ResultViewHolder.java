@@ -16,7 +16,7 @@ import com.gpwsofts.ffcalculator.mobile.R;
  *
  * @since 1.0.0
  */
-public class ResultViewHolder extends RecyclerView.ViewHolder {
+public class ResultViewHolder extends RecyclerView.ViewHolder  {
     private final TextView logoTextView;
     // @+id/idTVResultPlace
     private final TextView placeTextView;

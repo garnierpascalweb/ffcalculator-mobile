@@ -128,6 +128,7 @@ public class SeasonFragment extends Fragment {
             try {
                 LogUtils.d(TAG_NAME, "debut observer allPts");
                 if (null != pts) {
+                    // valeur des points différente du cache
                     if (Double.compare(pts, seasonViewModel.getCurrentPts()) != 0) {
                         // valeur rendue differente de celle en cache, recalcul de la position au classement national si different de zero
                         if (pts != 0){
@@ -139,6 +140,7 @@ public class SeasonFragment extends Fragment {
                             seasonViewModel.setCurrentClassType(classType);   
                         }
                     } else {
+                        // valeur des points différente du cache
                         LogUtils.d(TAG_NAME, "observer allPts - valeur identique au cache <" + pts + "> - pas de recalcul");
                         if (null == seasonViewModel.getCurrentPos()) {
                             final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
