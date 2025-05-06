@@ -91,6 +91,7 @@
     <string name="label_classement_national_loading">Classement National : calcul en cours …</string>
     <string name="label_resultat_detail">%1$d e sur %2$d prts</string>
     <string name="label_liste_vide">Aucun résultat a afficher</string>
+    <string name="label_version">FFCalculator - Version %1$s (%2$d)</string>
     <string name="label_annuler">Annuler</string>
 
     <!-- tests -->
@@ -102,4 +103,6 @@
     <!-- menus -->
     <string name="menu_title_vues">Vues</string>
     <string name="menu_title_aide">A Propos</string>
+    <string name="title_dialog_about">A Propos</string>
+    <string name="label_fermer">Fermer</string>
 </resources>

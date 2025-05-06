@@ -1,13 +1,17 @@
 package com.gpwsofts.ffcalculator.mobile;
 
+import static com.gpwsofts.ffcalculator.mobile.BuildConfig.VERSION_CODE;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -100,12 +104,17 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         if (menuMainItemId == R.id.idMenuAide){
-            LogUtils.v(TAG_NAME, "onOptionsItemSelected - selection du menu aide");
-            //TODO 1.0.0 fait qqch
+            showAboutDialog();
+            return true;
         }
         return true;
     }
 
+    /**
+     * Le dialog pour le choix de la vue
+     * Très simple, il ne donne pas lieu a un layout XML
+     * @since 1.0.0
+     */
     private void showVueDialog() {
         final String[] vuesLibelles = getResources().getStringArray(R.array.vues_libelles_array);
         final String[] vuesIds = getResources().getStringArray(R.array.vues_ids_array);
@@ -129,29 +138,21 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * Le dialog pour le menu "A propos"
+     * Affiche juste versionName et versionCode
+     * @since 1.0.0
+     */
     private void showAboutDialog() {
-        final String[] vuesLibelles = getResources().getStringArray(R.array.vues_libelles_array);
-        final String[] vuesIds = getResources().getStringArray(R.array.vues_ids_array);
-        LogUtils.d(TAG_NAME, "affichage dialog choix vue avec choix courant sur <" + vueViewModel.getCurrentCodeVue() + ">");
-        int checkedItem = Arrays.asList(vuesIds).indexOf(vueViewModel.getCurrentCodeVue());
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View dialogAboutView = inflater.inflate(R.layout.dialog_about, null);
+        TextView textView = dialogAboutView.findViewById(R.id.vueTexte);
+        textView.setText(getString(R.string.label_version, BuildConfig.VERSION_NAME, VERSION_CODE));
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(getResources().getString(R.string.title_dialog_vue))
-                .setSingleChoiceItems(vuesLibelles, checkedItem, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Action sur sélection
-                        final String vueLibelleChoisie = vuesLibelles[which];
-                        final String vueidChoisie = vuesIds[which];
-                        LogUtils.v(TAG_NAME, " dialog choix vue - selection item <" + which + "> soit <" + vueLibelleChoisie + "> (" + vueidChoisie + ") - envoi job update en background");
-                        vueViewModel.updateVueAsync(vueidChoisie);
-                        dialog.dismiss(); // Fermer le dialog après choix
-                    }
-                })
-                .setNegativeButton(R.string.label_annuler, null);
+        builder.setTitle(getResources().getString(R.string.title_dialog_about))
+                .setView(dialogAboutView)
+                .setNegativeButton(R.string.label_fermer, null);
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
-
-
 }
