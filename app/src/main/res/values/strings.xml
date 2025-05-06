@@ -21,6 +21,31 @@
     <string name="label_vue_u17">Vue U17</string>
     <string name="label_vue_access">Vue Access</string>
 
+    <string name="title_dialog_vue">Choisir une vue</string>
+    <string-array name="vues_libelles_array">
+        <item>Vue Générale</item>
+        <item>Vue Open 3</item>
+        <item>Vue Open 2</item>
+        <item>Vue Open 1</item>
+        <item>Vue Elite</item>
+        <item>Vue U23</item>
+        <item>Vue U19</item>
+        <item>Vue U17</item>
+        <item>Vue Access</item>
+    </string-array>
+    <string-array name="vues_ids_array">
+        <item>G</item>
+        <item>O3</item>
+        <item>O2</item>
+        <item>O1</item>
+        <item>E</item>
+        <item>U23</item>
+        <item>U19</item>
+        <item>U17</item>
+        <item>A</item>
+    </string-array>
+
+
 
     <string name="sample_logo_open_2">Open 2/3</string>
 
@@ -66,10 +91,15 @@
     <string name="label_classement_national_loading">Classement National : calcul en cours …</string>
     <string name="label_resultat_detail">%1$d e sur %2$d prts</string>
     <string name="label_liste_vide">Aucun résultat a afficher</string>
+    <string name="label_annuler">Annuler</string>
 
     <!-- tests -->
     <string name="test_place">Nervieux</string>
     <string name="test_libelle">Open 3 Access (1.25.1)</string>
     <string name="test_label_resultat_detail">12 e sur 123 prts</string>
     <string name="test_label_pts">123.27</string>
+
+    <!-- menus -->
+    <string name="menu_title_vues">Vues</string>
+    <string name="menu_title_aide">A Propos</string>
 </resources>

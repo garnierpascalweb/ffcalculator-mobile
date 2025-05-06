@@ -1,16 +1,19 @@
 package com.gpwsofts.ffcalculator.mobile;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -19,6 +22,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
 import com.gpwsofts.ffcalculator.mobile.databinding.ActivityMainBinding;
 import com.gpwsofts.ffcalculator.mobile.ui.view.VueViewModel;
+
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG_NAME = "MainActivity";
@@ -81,9 +86,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         LogUtils.d(TAG_NAME, "debut onCreateOptionsMenu");
         MenuInflater menuInflater = this.getMenuInflater();
-        menuInflater.inflate(R.menu.vues_menu, menu);
-        LogUtils.d(TAG_NAME, "onCreateOptionsMenu - cochage indexInComboMenuSelected <" + indexInComboMenuSelected + ">");
-        menu.getItem(indexInComboMenuSelected).setChecked(true);
+        menuInflater.inflate(R.menu.main_menu, menu);
         LogUtils.d(TAG_NAME, "fin onCreateOptionsMenu");
         return true;
     }
@@ -91,10 +94,64 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         LogUtils.d(TAG_NAME, "debut onOptionsItemSelected");
-        int itemId = item.getItemId();
-        LogUtils.d(TAG_NAME, "onOptionsItemSelected - update asynchrone de la vue selon itenId selectionne = <" + itemId + ">");
-        vueViewModel.updateVueFromMenuAsync(itemId);
-        LogUtils.d(TAG_NAME, "fin onOptionsItemSelected");
+        int menuMainItemId = item.getItemId();
+        if (menuMainItemId == R.id.idMenuVue){
+            showVueDialog(); // Ouvre le menu déroulant central
+            return true;
+        }
+        if (menuMainItemId == R.id.idMenuAide){
+            LogUtils.v(TAG_NAME, "onOptionsItemSelected - selection du menu aide");
+            //TODO 1.0.0 fait qqch
+        }
         return true;
     }
+
+    private void showVueDialog() {
+        final String[] vuesLibelles = getResources().getStringArray(R.array.vues_libelles_array);
+        final String[] vuesIds = getResources().getStringArray(R.array.vues_ids_array);
+        LogUtils.d(TAG_NAME, "affichage dialog choix vue avec choix courant sur <" + vueViewModel.getCurrentCodeVue() + ">");
+        int checkedItem = Arrays.asList(vuesIds).indexOf(vueViewModel.getCurrentCodeVue());
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getResources().getString(R.string.title_dialog_vue))
+                .setSingleChoiceItems(vuesLibelles, checkedItem, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Action sur sélection
+                        final String vueLibelleChoisie = vuesLibelles[which];
+                        final String vueidChoisie = vuesIds[which];
+                        LogUtils.v(TAG_NAME, " dialog choix vue - selection item <" + which + "> soit <" + vueLibelleChoisie + "> (" + vueidChoisie + ") - envoi job update en background");
+                        vueViewModel.updateVueAsync(vueidChoisie);
+                        dialog.dismiss(); // Fermer le dialog après choix
+                    }
+                })
+                .setNegativeButton(R.string.label_annuler, null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void showAboutDialog() {
+        final String[] vuesLibelles = getResources().getStringArray(R.array.vues_libelles_array);
+        final String[] vuesIds = getResources().getStringArray(R.array.vues_ids_array);
+        LogUtils.d(TAG_NAME, "affichage dialog choix vue avec choix courant sur <" + vueViewModel.getCurrentCodeVue() + ">");
+        int checkedItem = Arrays.asList(vuesIds).indexOf(vueViewModel.getCurrentCodeVue());
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getResources().getString(R.string.title_dialog_vue))
+                .setSingleChoiceItems(vuesLibelles, checkedItem, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Action sur sélection
+                        final String vueLibelleChoisie = vuesLibelles[which];
+                        final String vueidChoisie = vuesIds[which];
+                        LogUtils.v(TAG_NAME, " dialog choix vue - selection item <" + which + "> soit <" + vueLibelleChoisie + "> (" + vueidChoisie + ") - envoi job update en background");
+                        vueViewModel.updateVueAsync(vueidChoisie);
+                        dialog.dismiss(); // Fermer le dialog après choix
+                    }
+                })
+                .setNegativeButton(R.string.label_annuler, null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+
+
 }

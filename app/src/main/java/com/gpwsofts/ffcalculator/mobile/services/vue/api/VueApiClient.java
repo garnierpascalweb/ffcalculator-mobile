@@ -57,11 +57,11 @@ public class VueApiClient extends AbstractApiClient {
         }, JOB_TIMEOUT, TimeUnit.MILLISECONDS);
     }
 
-    public void updateVueFromMenuAsync(int itemId) {
+    public void updateVueAsync(String codeVue) {
         if (setVueRunnable != null) {
             setVueRunnable = null;
         }
-        setVueRunnable = new SetVueRunnable(itemId);
+        setVueRunnable = new SetVueRunnable(codeVue);
         final Future<?> setVueRunnableFuture = AppExecutors.getInstance().networkIO().submit(setVueRunnable);
         AppExecutors.getInstance().networkIO().schedule(() -> {
             setVueRunnableFuture.cancel(true);
@@ -74,21 +74,19 @@ public class VueApiClient extends AbstractApiClient {
      * Job permettant de mettre a jour la vue en shared preferences
      */
     private class SetVueRunnable implements Runnable {
-        private final int itemId;
+        private final String codeVue;
         boolean cancelRequest;
 
-        public SetVueRunnable(int itemId) {
-            this.itemId = itemId;
+        public SetVueRunnable(String codeVue) {
+            this.codeVue = codeVue;
         }
 
         @Override
         public void run() {
             IVue newVue = null;
-            String codeVue = "";
             try {
-                LogUtils.d(TAG_NAME, "debut job asynchrone SetVueRunnable - itemId <" + itemId + ">");
-                codeVue = FFCalculatorApplication.instance.getServicesManager().getVueService().getCodeVueFromMenuItem(itemId);
-                LogUtils.d(TAG_NAME, "envoi en shared prefs du code vue associée au idemId <" + itemId + "> - <" + KEY_VUE + "> <" + codeVue + ">");
+                LogUtils.d(TAG_NAME, "debut job asynchrone SetVueRunnable - codeVue <" + codeVue + ">");
+                LogUtils.d(TAG_NAME, "envoi en shared prefs - <" + KEY_VUE + "> <" + codeVue + ">");
                 if (FFCalculatorApplication.instance.getSharedPrefs().setSharedPrefsVue(codeVue)){
                     newVue = FFCalculatorApplication.instance.getServicesManager().getVueService().getVueInstance(codeVue);
                     mVue.postValue(newVue);
@@ -105,7 +103,7 @@ public class VueApiClient extends AbstractApiClient {
                 sendErrorToBackEnd(TAG_NAME, e);
             } finally {
                 mVue.postValue(newVue);
-                LogUtils.i(TAG_NAME, "fin du job asynchrone SetVueRunnable - itemId <" + itemId + "> - vue updatee vers <" + codeVue + ">");
+                LogUtils.i(TAG_NAME, "fin du job asynchrone SetVueRunnable - vue updatee vers <" + codeVue + ">");
             }
         }
 
