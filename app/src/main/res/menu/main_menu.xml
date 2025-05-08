@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!-- le menu principal permettant d'afficher deux icones : vue (un oeil) et a propors -->
     <item
         android:id="@+id/idMenuVue"
         android:title="@string/menu_title_vues"

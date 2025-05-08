@@ -99,6 +99,7 @@
     <string name="test_libelle">Open 3 Access (1.25.1)</string>
     <string name="test_label_resultat_detail">12 e sur 123 prts</string>
     <string name="test_label_pts">123.27</string>
+    <string name="test_exemple">Test exemple</string>
 
     <!-- menus -->
     <string name="menu_title_vues">Vues</string>

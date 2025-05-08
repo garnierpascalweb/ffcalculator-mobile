@@ -16,7 +16,7 @@
         android:id="@+id/vueTexte"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Texte personnalisé"
+        android:text="@string/test_exemple"
         android:textSize="16sp"
         android:layout_marginTop="16dp"
         android:gravity="center" />
