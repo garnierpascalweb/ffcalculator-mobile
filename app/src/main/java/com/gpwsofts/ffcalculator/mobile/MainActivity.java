@@ -1,7 +1,5 @@
 package com.gpwsofts.ffcalculator.mobile;
 
-import static com.gpwsofts.ffcalculator.mobile.BuildConfig.VERSION_CODE;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -10,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,15 +22,13 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
 import com.gpwsofts.ffcalculator.mobile.databinding.ActivityMainBinding;
+import com.gpwsofts.ffcalculator.mobile.services.vue.IVueService;
 import com.gpwsofts.ffcalculator.mobile.ui.view.VueViewModel;
-
-import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG_NAME = "MainActivity";
     private ActivityMainBinding binding;
     private VueViewModel vueViewModel;
-    private int indexInComboMenuSelected = 0;
 
 
     @Override
@@ -55,30 +50,28 @@ public class MainActivity extends AppCompatActivity {
             NavigationUI.setupWithNavController(binding.navView, navController);
 
             if (vueViewModel.getCurrentCodeVue() == null)
-                vueViewModel.loadVueAsync();
+                vueViewModel.loadCodeVueAsync();
 
-            vueViewModel.getVueLiveData().observe(this, vue -> {
+            vueViewModel.getCodeVueLiveData().observe(this, codeVue -> {
                 try {
-                    LogUtils.d(TAG_NAME, "debut observer vue = <" + vue + ">");
-                    if (vue != null) {
-                        final String newCodeVue = vue.getCode();
-                        if (newCodeVue.equals(vueViewModel.getCurrentCodeVue())) {
-                            LogUtils.v(TAG_NAME, "  observer vue = <" + vue + "> - vue selectionnee identique en cache");
+                    final IVueService vueService = FFCalculatorApplication.instance.getServicesManager().getVueService(getResources().getStringArray(R.array.vues_libelles_array),getResources().getStringArray(R.array.vues_ids_array));
+                    LogUtils.d(TAG_NAME, "debut observer vue = <" + codeVue + ">");
+                    if (codeVue != null) {
+                        if (codeVue.equals(vueViewModel.getCurrentCodeVue())) {
+                            LogUtils.v(TAG_NAME, "  observer vue = <" + codeVue + "> - vue selectionnee identique en cache");
                         } else {
-                            indexInComboMenuSelected = vue.getIndexInComboMenu();
-                            LogUtils.d(TAG_NAME, "  observer vue = <" + vue + "> nouvelle vue selectionnee <" + newCodeVue + "> - indexInComboMenuSelected correspondant <" + indexInComboMenuSelected + "> - appel invalidateOptionsMenu()");
-                            vueViewModel.setCurrentCodeVue(newCodeVue);
-                            invalidateOptionsMenu();
-                            Toast.makeText(this, getString(R.string.toast_update_vue_ok, vue.getName()), Toast.LENGTH_SHORT).show();
+                            LogUtils.d(TAG_NAME, "  observer vue = <" + codeVue + "> nouvelle vue selectionnee <" + codeVue + ">");
+                            vueViewModel.setCurrentCodeVue(codeVue);
+                            Toast.makeText(this, getString(R.string.toast_update_vue_ok, vueService.getLibelleFromCodeVue(codeVue)), Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        LogUtils.w(TAG_NAME, "  observer vue = <" + vue + "> - vue null");
+                        LogUtils.w(TAG_NAME, "  observer vue - vue null");
                     }
                 } catch (Exception e) {
                     LogUtils.e(TAG_NAME, "observer vue - probleme sur observer vue, envoi report ", e);
                     FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
                 } finally {
-                    LogUtils.d(TAG_NAME,   "fin observer vue = <" + vue + ">");
+                    LogUtils.d(TAG_NAME,   "fin observer vue = <" + codeVue + ">");
                 }
             });
         } finally {
@@ -116,20 +109,19 @@ public class MainActivity extends AppCompatActivity {
      * @since 1.0.0
      */
     private void showVueDialog() {
-        final String[] vuesLibelles = getResources().getStringArray(R.array.vues_libelles_array);
-        final String[] vuesIds = getResources().getStringArray(R.array.vues_ids_array);
+        IVueService vueService = FFCalculatorApplication.instance.getServicesManager().getVueService(getResources().getStringArray(R.array.vues_libelles_array),getResources().getStringArray(R.array.vues_ids_array));
         LogUtils.d(TAG_NAME, "affichage dialog choix vue avec choix courant sur <" + vueViewModel.getCurrentCodeVue() + ">");
-        int checkedItem = Arrays.asList(vuesIds).indexOf(vueViewModel.getCurrentCodeVue());
+        int checkedItem = vueService.getIndexFromCodeVue(vueViewModel.getCurrentCodeVue());
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getResources().getString(R.string.title_dialog_vue))
-                .setSingleChoiceItems(vuesLibelles, checkedItem, new DialogInterface.OnClickListener() {
+                .setSingleChoiceItems(vueService.getVuesLibelles(), checkedItem, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // Action sur sélection
-                        final String vueLibelleChoisie = vuesLibelles[which];
-                        final String vueidChoisie = vuesIds[which];
-                        LogUtils.v(TAG_NAME, " dialog choix vue - selection item <" + which + "> soit <" + vueLibelleChoisie + "> (" + vueidChoisie + ") - envoi job update en background");
-                        vueViewModel.updateVueAsync(vueidChoisie);
+                        final String vueLibelleSelected = vueService.getVuesLibelles()[which];
+                        final String vueCodeSelected = vueService.getVuesCodes()[which];
+                        LogUtils.v(TAG_NAME, " dialog choix vue - selection item <" + which + "> soit <" + vueLibelleSelected + "> (" + vueCodeSelected + ") - envoi job update en background");
+                        vueViewModel.updateCodeVueAsync(vueCodeSelected);
                         dialog.dismiss(); // Fermer le dialog après choix
                     }
                 })
@@ -147,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
         LayoutInflater inflater = LayoutInflater.from(this);
         View dialogAboutView = inflater.inflate(R.layout.dialog_about, null);
         TextView textView = dialogAboutView.findViewById(R.id.vueTexte);
-        textView.setText(getString(R.string.label_version, BuildConfig.VERSION_NAME, VERSION_CODE));
+        textView.setText(getString(R.string.label_version, BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE));
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getResources().getString(R.string.title_dialog_about))
                 .setView(dialogAboutView)

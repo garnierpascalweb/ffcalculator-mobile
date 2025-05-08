@@ -51,11 +51,11 @@ public class GridApiClient extends AbstractApiClient {
         return mPosChoices;
     }
 
-    public void loadGridChoicesAsync(String vue) {
+    public void loadGridChoicesAsync(String codeVue) {
         if (loadClassesChoicesRunnable != null) {
             loadClassesChoicesRunnable = null;
         }
-        loadClassesChoicesRunnable = new LoadClassesChoicesRunnable(vue);
+        loadClassesChoicesRunnable = new LoadClassesChoicesRunnable(codeVue);
         final Future<?> myHandler = AppExecutors.getInstance().networkIO().submit(loadClassesChoicesRunnable);
         AppExecutors.getInstance().networkIO().schedule(() -> {
             myHandler.cancel(true);
@@ -82,29 +82,26 @@ public class GridApiClient extends AbstractApiClient {
      * à partir d'une vue
      */
     private class LoadClassesChoicesRunnable implements Runnable {
-        private final String vue;
+        private final String codeVue;
         boolean cancelRequest;
 
-        public LoadClassesChoicesRunnable(String vue) {
-            this.vue = vue;
+        public LoadClassesChoicesRunnable(String codeVue) {
+            this.codeVue = codeVue;
         }
 
         @Override
         public void run() {
-            LogUtils.d(TAG_NAME, "debut du job asynchrone LoadClassesChoicesRunnable selon la vue <" + vue + ">");
-            List<IGrid> listGridsForMyVue = null;
+            LogUtils.d(TAG_NAME, "debut du job asynchrone LoadClassesChoicesRunnable selon la vue <" + codeVue + ">");
+            List<IGrid> listGridsForCodeVue = null;
             try {
-                List<IGrid> grids = FFCalculatorApplication.instance.getServicesManager().getGridService().getGrids();
-                LogUtils.d(TAG_NAME, " nombre de grilles <" + grids.size() + ">");
-                listGridsForMyVue = FFCalculatorApplication.instance.getServicesManager().getGridService().getGrids().stream().filter(grid -> grid.getVues().contains(vue)).collect(Collectors.toList());
-                LogUtils.d(TAG_NAME, " <" + listGridsForMyVue.size() + "> vues chargees pour la vue <" + vue + ">");
+                listGridsForCodeVue = FFCalculatorApplication.instance.getServicesManager().getGridService().getGrids(codeVue);
+                LogUtils.v(TAG_NAME, " <" + listGridsForCodeVue.size() + "> vues chargees pour codeVue <" + codeVue + ">");
             } catch (Exception e){
                 LogUtils.e(TAG_NAME, "echec du chargement de la liste des classes de courses par rapport a la vue", e);
-                listGridsForMyVue = null;
                 sendErrorToBackEnd(TAG_NAME, e);
             } finally {
-                mGridChoices.postValue(listGridsForMyVue);
-                LogUtils.d(TAG_NAME, "fin  du job asynchrone LoadClassesChoicesRunnable selon la vue <" + vue + ">");
+                mGridChoices.postValue(listGridsForCodeVue);
+                LogUtils.d(TAG_NAME, "fin du job asynchrone LoadClassesChoicesRunnable pour codeVue <" + codeVue + ">");
             }
         }
 

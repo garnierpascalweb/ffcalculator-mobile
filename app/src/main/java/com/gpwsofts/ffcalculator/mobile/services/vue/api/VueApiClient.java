@@ -5,12 +5,10 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.R;
-import com.gpwsofts.ffcalculator.mobile.common.SingleLiveEvent;
 import com.gpwsofts.ffcalculator.mobile.common.api.AbstractApiClient;
 import com.gpwsofts.ffcalculator.mobile.common.exception.SwitchVueException;
 import com.gpwsofts.ffcalculator.mobile.common.executor.AppExecutors;
 import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
-import com.gpwsofts.ffcalculator.mobile.model.vue.IVue;
 
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -25,15 +23,16 @@ public class VueApiClient extends AbstractApiClient {
     private static final String KEY_VUE = "vue";
     private static final int JOB_TIMEOUT = 5000;
     private static VueApiClient instance;
-    private final MutableLiveData<IVue> mVue;
+    private final MutableLiveData<String> mCodeVue;
     private SetVueRunnable setVueRunnable;
     private GetVueRunnable getVueRunnable;
 
 
     private VueApiClient() {
-        mVue = new MutableLiveData<IVue>();
+        mCodeVue = new MutableLiveData<String>();
         // on initialise a G, on veut pas avoir a gérer de null sur getVueLiveData
-        mVue.setValue(FFCalculatorApplication.instance.getServicesManager().getVueService().getVueInstance("G"));
+        mCodeVue.setValue("G");
+        //TODO 1.0.0 pas G en dur
     }
 
     public static VueApiClient getInstance() {
@@ -42,11 +41,11 @@ public class VueApiClient extends AbstractApiClient {
         return instance;
     }
 
-    public LiveData<IVue> getVueLiveData() {
-        return mVue;
+    public LiveData<String> getCodeVueLiveData() {
+        return mCodeVue;
     }
 
-    public void loadVueAsync(){
+    public void loadCodeVueAsync(){
        if (getVueRunnable != null){
            getVueRunnable = null;
        }
@@ -57,7 +56,7 @@ public class VueApiClient extends AbstractApiClient {
         }, JOB_TIMEOUT, TimeUnit.MILLISECONDS);
     }
 
-    public void updateVueAsync(String codeVue) {
+    public void updateCodeVueAsync(String codeVue) {
         if (setVueRunnable != null) {
             setVueRunnable = null;
         }
@@ -83,13 +82,11 @@ public class VueApiClient extends AbstractApiClient {
 
         @Override
         public void run() {
-            IVue newVue = null;
             try {
                 LogUtils.d(TAG_NAME, "debut job asynchrone SetVueRunnable - codeVue <" + codeVue + ">");
                 LogUtils.d(TAG_NAME, "envoi en shared prefs - <" + KEY_VUE + "> <" + codeVue + ">");
                 if (FFCalculatorApplication.instance.getSharedPrefs().setSharedPrefsVue(codeVue)){
-                    newVue = FFCalculatorApplication.instance.getServicesManager().getVueService().getVueInstance(codeVue);
-                    mVue.postValue(newVue);
+                    mCodeVue.postValue(codeVue);
                 } else {
                     SwitchVueException sve = new SwitchVueException(FFCalculatorApplication.instance.getResources().getString(R.string.toast_update_vue_ko));
                     sve.setToastMessage(FFCalculatorApplication.instance.getResources().getString(R.string.toast_update_vue_ko));
@@ -102,7 +99,7 @@ public class VueApiClient extends AbstractApiClient {
                 LogUtils.e(TAG_NAME, "probleme sur le job SetVueRunnable", e);
                 sendErrorToBackEnd(TAG_NAME, e);
             } finally {
-                mVue.postValue(newVue);
+                mCodeVue.postValue(codeVue);
                 LogUtils.i(TAG_NAME, "fin du job asynchrone SetVueRunnable - vue updatee vers <" + codeVue + ">");
             }
         }
@@ -121,9 +118,8 @@ public class VueApiClient extends AbstractApiClient {
         public void run() {
             LogUtils.d(TAG_NAME, "debut du job asynchrone GetVueRunnable");
             final String currentCodeVue = FFCalculatorApplication.instance.getSharedPrefs().getSharedPrefsVue();
-            final IVue currentVue = FFCalculatorApplication.instance.getServicesManager().getVueService().getVueInstance(currentCodeVue);
-            mVue.postValue(currentVue);
-            LogUtils.i(TAG_NAME, "fin du job asynchrone GetVueRunnable - vue <" + currentVue + ">");
+            mCodeVue.postValue(currentCodeVue);
+            LogUtils.i(TAG_NAME, "fin du job asynchrone GetVueRunnable - vue <" + currentCodeVue + ">");
         }
     }
 }

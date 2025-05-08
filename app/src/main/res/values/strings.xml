@@ -65,7 +65,7 @@
     <string name="logo_unknown">\?</string>
 
     <!-- fragment ajouter resultat -->
-    <string name="combo_classes_helper_text_ok">Vue %1$s - %2$d types d\'épreuves disponibles</string>
+    <string name="combo_classes_helper_text_ok">%1$s - %2$d types d\'épreuves disponibles</string>
     <string name="combo_classes_helper_text_ko">Problème technique - Aucun type d\'épreuve disponible</string>
     <string name="combo_pos_helper_text_ok">Points attribués aux %1$d premiers pour une épreuve de type %2$s</string>
     <string name="combo_pos_helper_text_ko">Problème sur le chargement d\'une donnée - defaut %1$d (épreuve de type %2$s)</string>
@@ -89,7 +89,7 @@
     <string name="label_classement_national_ok">Classement National %1$s : %2$d eme</string>
     <string name="label_classement_national_ko">Classement National : Echec du calcul de la position</string>
     <string name="label_classement_national_loading">Classement National : calcul en cours …</string>
-    <string name="label_resultat_detail">%1$d e sur %2$d prts</string>
+    <string name="label_resultat_detail">P%1$d sur %2$d prts</string>
     <string name="label_liste_vide">Aucun résultat a afficher</string>
     <string name="label_version">FFCalculator - Version %1$s (%2$d)</string>
     <string name="label_annuler">Annuler</string>

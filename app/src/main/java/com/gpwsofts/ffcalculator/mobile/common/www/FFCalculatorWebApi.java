@@ -1,7 +1,6 @@
 package com.gpwsofts.ffcalculator.mobile.common.www;
 
 import com.gpwsofts.ffcalculator.mobile.BuildConfig;
-import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

@@ -143,10 +143,10 @@ public class ServicesManager {
      * @since 1.0.0
      * @return un singleton de service de vue
      */
-    public final IVueService getVueService(){
+    public final IVueService getVueService(String[] vuesLibelles, String[] vuesCodes){
         if (null == vueService) {
             LogUtils.d(TAG_NAME, "creation dune nouvelle instance de IVueService");
-            vueService = new VueService();
+            vueService = new VueService(vuesLibelles, vuesCodes);
         } else {
             LogUtils.d(TAG_NAME, "recuperation d'une instance existante de IVueService");
         }

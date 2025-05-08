@@ -9,5 +9,6 @@ import java.util.List;
 
 public interface IGridService extends ICleanableService {
     List<IGrid> getGrids() throws IOException;
+    List<IGrid> getGrids(String codeVue) throws IOException;
     String getIdClasseFromLibelle(String libelle) throws InputLibelleFormatException;
 }

@@ -18,6 +18,7 @@ import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentSeasonBinding;
+import com.gpwsofts.ffcalculator.mobile.services.vue.IVueService;
 import com.gpwsofts.ffcalculator.mobile.ui.view.VueViewModel;
 
 public class SeasonFragment extends Fragment {
@@ -41,8 +42,8 @@ public class SeasonFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         LogUtils.onCreateViewBegin(TAG_NAME);
         binding = FragmentSeasonBinding.inflate(inflater, container, false);
-        LogUtils.d(TAG_NAME, "onCreateView - chargement asynchrone vue");
-        vueViewModel.loadVueAsync();
+        LogUtils.d(TAG_NAME, "onCreateView - chargement asynchrone codeVue");
+        vueViewModel.loadCodeVueAsync();
         LogUtils.onCreateViewEnd(TAG_NAME);
         return binding.getRoot();
     }
@@ -63,6 +64,9 @@ public class SeasonFragment extends Fragment {
         resultRV.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
         resultRV.setHasFixedSize(true);
         // FIN INITIALISATION DES ADAPTERS
+
+        // SERVICE DES VUES
+        final IVueService vueService = FFCalculatorApplication.instance.getServicesManager().getVueService(getResources().getStringArray(R.array.vues_libelles_array),getResources().getStringArray(R.array.vues_ids_array));
 
         // DEFINITION DE ItemTouchHelper POUR LE SWITCH SUPPRESSION
         final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -88,21 +92,21 @@ public class SeasonFragment extends Fragment {
         // FIN DEFINITION DE ItemTouchHelper POUR LE SWITCH SUPPRESSION
 
         // OBSERVATION DUN CHANGEMENT DE VUE
-        vueViewModel.getVueLiveData().observe(getViewLifecycleOwner(), vue -> {
+        vueViewModel.getCodeVueLiveData().observe(getViewLifecycleOwner(), codeVue -> {
             try{
-                LogUtils.d(TAG_NAME, "debut observer vue = <" + vue + ">");
-                final String vueClassType = vue.getMapClass();
-                LogUtils.v(TAG_NAME, "  observer vue = <" + vue + "> - type de classement associé = <" + vueClassType + "> et valeur en cache = <" + seasonViewModel.getCurrentClassType() + ">");
+                LogUtils.d(TAG_NAME, "debut observer codeVue = <" + codeVue + ">");
+                final String vueClassType = vueService.getClassTypeForCodeVue(codeVue);
+                LogUtils.v(TAG_NAME, "  observer codeVue = <" + codeVue + "> - type de classement associé = <" + vueClassType + "> - valeur en cache = <" + seasonViewModel.getCurrentClassType() + ">");
                 if (vueClassType.equals(seasonViewModel.getCurrentClassType())){
-                    LogUtils.v(TAG_NAME, "  observer vue = <" + vue + "> - type classement nouvelle vue identique en cache <" + vueClassType + "> - pas de recalcul");
+                    LogUtils.v(TAG_NAME, "  observer codeVue = <" + codeVue + "> - type classement nouvelle codeVue identique en cache <" + vueClassType + "> - pas de recalcul");
                 } else {
                     final boolean currentPtsDefined = seasonViewModel.isCurrentPtsDefined();
-                    LogUtils.v(TAG_NAME, "  observer vue = <" + vue + "> - currentPtsDefined <" + currentPtsDefined + ">");
+                    LogUtils.v(TAG_NAME, "  observer codeVue = <" + codeVue + "> - currentPtsDefined <" + currentPtsDefined + ">");
                     if (currentPtsDefined) {
-                        LogUtils.v(TAG_NAME, "  observer vue = <" + vue + "> - type classement nouvelle vue different du cache <" + seasonViewModel.getCurrentClassType() + "> - recalcul");
+                        LogUtils.v(TAG_NAME, "  observer codeVue = <" + codeVue + "> - type classement nouvelle codeVue different du cache <" + seasonViewModel.getCurrentClassType() + "> - recalcul");
                         seasonViewModel.searchPosApi(seasonViewModel.getCurrentPts(), vueClassType);
                     } else {
-                        LogUtils.v(TAG_NAME, "  observer vue = <" + vue + "> - pas de calcul de la position");
+                        LogUtils.v(TAG_NAME, "  observer codeVue = <" + codeVue + "> - pas de calcul de la position");
                     }
                     seasonViewModel.setCurrentClassType(vueClassType);
                 }
@@ -110,7 +114,7 @@ public class SeasonFragment extends Fragment {
                 LogUtils.e(TAG_NAME, "observer vue - probleme sur observer vue, envoi report ", e);
                 FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
             } finally {
-                LogUtils.d(TAG_NAME, "fin observer vue = <" + vue + ">");
+                LogUtils.d(TAG_NAME, "fin observer codeVue = <" + codeVue + ">");
             }
         });
 
@@ -151,7 +155,7 @@ public class SeasonFragment extends Fragment {
                     if (Double.compare(pts, seasonViewModel.getCurrentPts()) != 0) {
                         LogUtils.v(TAG_NAME, "  observer allPts = <" + pts + "> - valeur rendue = <" + pts + "> differente du cache = <" + seasonViewModel.getCurrentPts() + ">");
                         if (pts != 0){
-                            final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
+                            final String classType = "H";
                             textViewPos.setText(getString(R.string.label_classement_national_loading));
                             LogUtils.d(TAG_NAME, "  observer allPts = <" + pts + "> - envoi job recalcul position sur classement <" + classType + ">");
                             seasonViewModel.searchPosApi(pts, classType);
@@ -198,7 +202,7 @@ public class SeasonFragment extends Fragment {
         seasonViewModel.getOverAllPosLiveData().observe(getViewLifecycleOwner(), overAllPos -> {
             try {
                 LogUtils.d(TAG_NAME, "debut observer overAllPos");
-                final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
+                final String classType = vueService.getClassTypeForCodeVue(vueViewModel.getCurrentCodeVue());
                 final String textFieldPosText;
                 if (overAllPos != null) {
                     LogUtils.d(TAG_NAME, "observer allPts - la position rendue n'est pas null = <" + overAllPos + ">");

@@ -23,6 +23,7 @@ import com.gpwsofts.ffcalculator.mobile.R;
 import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentResultBinding;
+import com.gpwsofts.ffcalculator.mobile.services.vue.IVueService;
 import com.gpwsofts.ffcalculator.mobile.ui.view.VueViewModel;
 
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ public class AddResultFragment extends Fragment {
         // initialisation de la vue
         if (vueViewModel.getCurrentCodeVue() == null) {
             LogUtils.d(TAG_NAME, "onCreateView - chargement asynchrone vue");
-            vueViewModel.loadVueAsync();
+            vueViewModel.loadCodeVueAsync();
         }
         // initialisation de la liste des villes
         LogUtils.d(TAG_NAME, "onCreateView - chargement asynchrone towns");
@@ -74,6 +75,8 @@ public class AddResultFragment extends Fragment {
         final AutoCompleteTextView autoCompleteTextViewPrts = binding.idTVAutoPrts;
         final Button buttonAjouter = binding.idBTAjouter;
 
+        // SERVICE DES VUES
+        final IVueService vueService = FFCalculatorApplication.instance.getServicesManager().getVueService(getResources().getStringArray(R.array.vues_libelles_array),getResources().getStringArray(R.array.vues_ids_array));
 
         // INITIALISATION DES ADAPTERS
         // Adapter towns
@@ -101,22 +104,22 @@ public class AddResultFragment extends Fragment {
         // FIN INITIALISATION DES ADAPTERS
 
         // OBSERVATION DUN CHANGEMENT DE VUE
-        vueViewModel.getVueLiveData().observe(getViewLifecycleOwner(), vue -> {
+        vueViewModel.getCodeVueLiveData().observe(getViewLifecycleOwner(), codeVue -> {
             try{
-                LogUtils.d(TAG_NAME, "debut observer vue = <" + vue + ">");
-                if (vue != null) {
-                    LogUtils.v(TAG_NAME, "  observer vue = <" + vue + "> - suppression saisie en cours");
+                LogUtils.d(TAG_NAME, "debut observer codeVue = <" + codeVue + ">");
+                if (codeVue != null) {
+                    LogUtils.v(TAG_NAME, "  observer codeVue = <" + codeVue + "> - suppression saisie en cours");
                     autoCompleteTextViewClasses.setText(R.string.vide);
-                    LogUtils.v(TAG_NAME, "  observer vue = <" + vue + "> - clear selection des positions");
+                    LogUtils.v(TAG_NAME, "  observer codeVue = <" + codeVue + "> - clear selection des positions");
                     autoCompleteTextViewPos.clearListSelection();
-                    LogUtils.v(TAG_NAME, "  observer vue = <" + vue + "> - rechargement asynchrone liste des classe selon vue");
-                    addResultViewModel.loadGridChoicesAsync(vue);
+                    LogUtils.v(TAG_NAME, "  observer codeVue = <" + codeVue + "> - rechargement asynchrone liste des classe selon vue");
+                    addResultViewModel.loadGridChoicesAsync(codeVue);
                 }
             } catch (Exception e) {
-                LogUtils.e(TAG_NAME, "observer vue = <" + vue + "> - probleme sur observer vue, envoi report ", e);
+                LogUtils.e(TAG_NAME, "observer codeVue = <" + codeVue + "> - probleme sur observer codeVue, envoi report ", e);
                 FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
             } finally {
-                LogUtils.d(TAG_NAME, "fin observer vue = <" + vue + ">");
+                LogUtils.d(TAG_NAME, "fin observer codeVue = <" + codeVue + ">");
             }
         });
         // FIN OBSERVATION DUN CHANGEMENT DE VUE
@@ -184,7 +187,7 @@ public class AddResultFragment extends Fragment {
                 LogUtils.d(TAG_NAME, "debut observer gridsList");
                 final String helperText;
                 if (gridsList != null) {
-                    helperText = getString(R.string.combo_classes_helper_text_ok, vueViewModel.getVueLiveData().getValue().getName(), gridsList.size());
+                    helperText = getString(R.string.combo_classes_helper_text_ok, vueService.getLibelleFromCodeVue(vueViewModel.getCodeVueLiveData().getValue()), gridsList.size());
                 } else {
                     gridsList = new ArrayList<>();
                     textInputLayoutClasse.setHelperText(getString(R.string.combo_classes_helper_text_ko));

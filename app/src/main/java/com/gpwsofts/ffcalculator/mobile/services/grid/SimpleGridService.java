@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @since 1.0.0
@@ -24,13 +25,17 @@ public class SimpleGridService extends AbstractGridService {
         super(readerProvider);
     }
 
+    @Override
     public List<IGrid> getGrids() throws IOException {
         if (null == grids || grids.isEmpty())
             loadGridsFromLocalResource();
         return grids;
     }
 
-
+    @Override
+    public List<IGrid> getGrids(String codeVue) throws IOException {
+        return getGrids().stream().filter(grid -> grid.getVues().contains(codeVue)).collect(Collectors.toList());
+    }
 
     /**
      * Chargement des grilles

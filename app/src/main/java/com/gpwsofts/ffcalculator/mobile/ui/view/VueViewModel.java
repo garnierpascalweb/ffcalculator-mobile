@@ -3,7 +3,6 @@ package com.gpwsofts.ffcalculator.mobile.ui.view;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.gpwsofts.ffcalculator.mobile.model.vue.IVue;
 import com.gpwsofts.ffcalculator.mobile.repository.VueRepository;
 
 public class VueViewModel extends ViewModel {
@@ -14,16 +13,16 @@ public class VueViewModel extends ViewModel {
         vueRepository = VueRepository.getInstance();
     }
 
-    public LiveData<IVue> getVueLiveData() {
-        return vueRepository.getVueLiveData();
+    public LiveData<String> getCodeVueLiveData() {
+        return vueRepository.getCodeVueLiveData();
     }
 
-    public void loadVueAsync(){
-        vueRepository.loadVueAsync();
+    public void loadCodeVueAsync(){
+        vueRepository.loadCodeVueAsync();
     }
 
-    public void updateVueAsync(String codeVue){
-        vueRepository.updateVueAsync(codeVue);
+    public void updateCodeVueAsync(String codeVue){
+        vueRepository.updateCodeVueAsync(codeVue);
     }
 
     public String getCurrentCodeVue() {

@@ -13,7 +13,6 @@ import com.gpwsofts.ffcalculator.mobile.services.pos.pojo.FFCPosResponse;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import retrofit2.Call;
 import retrofit2.Response;
 
 /**
