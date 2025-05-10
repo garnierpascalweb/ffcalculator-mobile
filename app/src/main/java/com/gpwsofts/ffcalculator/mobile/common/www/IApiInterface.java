@@ -20,7 +20,6 @@ public interface IApiInterface {
     String URI_PTS = BuildConfig.API_URI_PTS;
     String URI_CLASSEMENT = BuildConfig.API_URI_CLASS;
     String URI_CRASH_REPORT = BuildConfig.API_URI_REPORT;
-    String URI_LATEST_VERSION = BuildConfig.API_URI_LATEST_VERSION;
 
     @POST(URI_PTS)
     Call<FFCPointsResponse> calcPts(@Header("uuid") String uuid, @Header("env") String env, @Body FFCPointsRequest request);

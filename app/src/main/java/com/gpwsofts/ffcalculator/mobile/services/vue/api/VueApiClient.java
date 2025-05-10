@@ -26,13 +26,13 @@ public class VueApiClient extends AbstractApiClient {
     private final MutableLiveData<String> mCodeVue;
     private SetVueRunnable setVueRunnable;
     private GetVueRunnable getVueRunnable;
+    private static final String DEFAULT_CODE_VUE = "G";
 
 
     private VueApiClient() {
-        mCodeVue = new MutableLiveData<String>();
+        mCodeVue = new MutableLiveData<>();
         // on initialise a G, on veut pas avoir a gérer de null sur getVueLiveData
-        mCodeVue.setValue("G");
-        //TODO 1.0.0 pas G en dur
+        mCodeVue.setValue(DEFAULT_CODE_VUE);
     }
 
     public static VueApiClient getInstance() {
@@ -92,10 +92,7 @@ public class VueApiClient extends AbstractApiClient {
                     sve.setToastMessage(FFCalculatorApplication.instance.getResources().getString(R.string.toast_update_vue_ko));
                     throw sve;
                 }
-            } catch (SwitchVueException sve) {
-                LogUtils.e(TAG_NAME, "probleme sur le job SetVueRunnable", sve);
-                sendErrorToBackEnd(TAG_NAME, sve);
-            } catch (Exception e) {
+            }  catch (Exception e) {
                 LogUtils.e(TAG_NAME, "probleme sur le job SetVueRunnable", e);
                 sendErrorToBackEnd(TAG_NAME, e);
             } finally {

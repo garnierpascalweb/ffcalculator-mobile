@@ -5,14 +5,17 @@ import androidx.lifecycle.LiveData;
 import com.gpwsofts.ffcalculator.mobile.FFCalculatorApplication;
 import com.gpwsofts.ffcalculator.mobile.common.SingleLiveEvent;
 import com.gpwsofts.ffcalculator.mobile.common.api.AbstractApiClient;
+import com.gpwsofts.ffcalculator.mobile.common.exception.OverAllPosException;
 import com.gpwsofts.ffcalculator.mobile.common.exception.UnreadableBodyException;
 import com.gpwsofts.ffcalculator.mobile.common.executor.AppExecutors;
 import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
 import com.gpwsofts.ffcalculator.mobile.services.pos.pojo.FFCPosResponse;
+import com.gpwsofts.ffcalculator.mobile.services.pts.pojo.FFCPointsResponse;
 
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.ResponseBody;
 import retrofit2.Response;
 
 /**
@@ -66,30 +69,30 @@ public class OverAllPosApiClient extends AbstractApiClient {
 
         @Override
         public void run() {
-            Response response;
             Integer pos = null;
             try {
                 LogUtils.d(TAG_NAME, "debut du job asynchrone GetPosRunnable - pts = <" + pts + "> classType = <" + classType + ">");
                 boolean isWwwConnected = FFCalculatorApplication.instance.getServicesManager().getNetworkService().isWwwConnected();
                 if (isWwwConnected) {
-                    response = FFCalculatorApplication.instance.getServicesManager().getPosService().calcPos(pts, classType).execute();
+                    final Response<FFCPosResponse> response = FFCalculatorApplication.instance.getServicesManager().getPosService().calcPos(pts, classType).execute();
                     if (cancelRequest) {
                         LogUtils.d(TAG_NAME, "cancelRequest true, retourne zboub");
                         return;
                     }
-                    int responseCode = response.code();
-                    if (responseCode == 200) {
-                        if (response.body() != null) {
-                            pos = ((FFCPosResponse) response.body()).pos;
+                    final boolean isSuccessful = response.isSuccessful();
+                    final int responseCode = response.code();
+                    if (isSuccessful) {
+                        final FFCPosResponse body = response.body();
+                        if (body != null) {
+                            pos = body.pos;
                         } else {
                             throw new UnreadableBodyException("impossible de lire le body de la reponse - code http " + responseCode);
                         }
-
                     } else {
-                        // reponse pas 200
-                        String error;
-                        if (response.errorBody() != null) {
-                            error = response.errorBody().string();
+                        final ResponseBody body = response.errorBody();
+                        if (body != null) {
+                            final String errorBodyContent = body.string();
+                            throw new OverAllPosException("probleme sur le calcul de la position sur le classement " + classType + " pour le capital " + pts + " - " + errorBodyContent);
                         } else {
                             throw new UnreadableBodyException("impossible de lire le errorbody de la reponse - code http " + responseCode);
                         }

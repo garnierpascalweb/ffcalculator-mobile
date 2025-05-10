@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Couche Web : singleton permettant la récupération d'une instance de IApiInterface qui permet de faire des appels Http vers l'API Web
  */
 public class FFCalculatorWebApi {
-    private static final String TAG_NAME = "FFCalculatorWebApi";
+
     private static FFCalculatorWebApi instance = null;
     private static Retrofit retrofit = null;
     private static IApiInterface apiService;

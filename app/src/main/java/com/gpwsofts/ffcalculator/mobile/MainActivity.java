@@ -27,7 +27,6 @@ import com.gpwsofts.ffcalculator.mobile.ui.view.VueViewModel;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG_NAME = "MainActivity";
-    private ActivityMainBinding binding;
     private VueViewModel vueViewModel;
 
 
@@ -36,10 +35,10 @@ public class MainActivity extends AppCompatActivity {
         try {
             LogUtils.onCreateBegin(TAG_NAME);
             super.onCreate(savedInstanceState);
-            binding = ActivityMainBinding.inflate(getLayoutInflater());
+            com.gpwsofts.ffcalculator.mobile.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
             setContentView(binding.getRoot());
             vueViewModel = new ViewModelProvider(this).get(VueViewModel.class);
-            BottomNavigationView navView = findViewById(R.id.nav_view);
+
             // Passing each menu ID as a set of Ids because each
             // menu should be considered as top level destinations.
             AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.navigation_result, R.id.navigation_season, R.id.navigation_help).build();
@@ -114,16 +113,13 @@ public class MainActivity extends AppCompatActivity {
         int checkedItem = vueService.getIndexFromCodeVue(vueViewModel.getCurrentCodeVue());
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getResources().getString(R.string.title_dialog_vue))
-                .setSingleChoiceItems(vueService.getVuesLibelles(), checkedItem, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Action sur sélection
-                        final String vueLibelleSelected = vueService.getVuesLibelles()[which];
-                        final String vueCodeSelected = vueService.getVuesCodes()[which];
-                        LogUtils.v(TAG_NAME, " dialog choix vue - selection item <" + which + "> soit <" + vueLibelleSelected + "> (" + vueCodeSelected + ") - envoi job update en background");
-                        vueViewModel.updateCodeVueAsync(vueCodeSelected);
-                        dialog.dismiss(); // Fermer le dialog après choix
-                    }
+                .setSingleChoiceItems(vueService.getVuesLibelles(), checkedItem, (dialog, which) -> {
+                    // Action sur sélection
+                    final String vueLibelleSelected = vueService.getVuesLibelles()[which];
+                    final String vueCodeSelected = vueService.getVuesCodes()[which];
+                    LogUtils.v(TAG_NAME, " dialog choix vue - selection item <" + which + "> soit <" + vueLibelleSelected + "> (" + vueCodeSelected + ") - envoi job update en background");
+                    vueViewModel.updateCodeVueAsync(vueCodeSelected);
+                    dialog.dismiss(); // Fermer le dialog après choix
                 })
                 .setNegativeButton(R.string.label_annuler, null);
         AlertDialog dialog = builder.create();

@@ -13,7 +13,7 @@ import com.gpwsofts.ffcalculator.mobile.services.ServicesManager;
  * @since 1.0.0
  */
 public class FFCalculatorApplication extends Application {
-    private static final String TAG_NAME = "FFCalculatorApplication";
+
     /**
      * Singleton application
      *

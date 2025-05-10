@@ -1,13 +1,17 @@
 package com.gpwsofts.ffcalculator.mobile.ui.season;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -20,6 +24,11 @@ import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
 import com.gpwsofts.ffcalculator.mobile.databinding.FragmentSeasonBinding;
 import com.gpwsofts.ffcalculator.mobile.services.vue.IVueService;
 import com.gpwsofts.ffcalculator.mobile.ui.view.VueViewModel;
+
+import android.graphics.drawable.Drawable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ImageSpan;
 
 public class SeasonFragment extends Fragment {
 
@@ -55,7 +64,8 @@ public class SeasonFragment extends Fragment {
         final TextView textViewPts = binding.textAllpts;
         final TextView textViewPos = binding.textMypos;
         final RecyclerView resultRV = binding.idRVCourse;
-        final TextView textEmptyList = binding.textEmptyList;
+        final LinearLayout emptyGroup = view.findViewById(R.id.empty_view_group);
+        //final TextView textEmptyList = binding.textEmptyList;
         // FIN RECUPERATION DES ELEMENTS GRAPHIQUES
 
         // INITIALISATION DES ADAPTERS
@@ -127,14 +137,14 @@ public class SeasonFragment extends Fragment {
                     resultListAdapter.submitList(results);
                     if (results.isEmpty()){
                         resultRV.setVisibility(View.GONE);
-                        textEmptyList.setVisibility(View.VISIBLE);
+                        emptyGroup.setVisibility(View.VISIBLE);
                     } else {
                         resultRV.setVisibility(View.VISIBLE);
-                        textEmptyList.setVisibility(View.GONE);
+                        emptyGroup.setVisibility(View.GONE);
                     }
                 } else {
                     resultRV.setVisibility(View.GONE);
-                    textEmptyList.setVisibility(View.VISIBLE);
+                    emptyGroup.setVisibility(View.VISIBLE);
                 }
             } catch (Exception e) {
                 FFCalculatorApplication.instance.getServicesManager().getAsyncReportService().sendReportAsync(TAG_NAME, e);
@@ -170,20 +180,8 @@ public class SeasonFragment extends Fragment {
                         LogUtils.v(TAG_NAME, "  observer allPts = <" + pts + "> - valeur rendue = <" + pts + "> identique au cache = <" + seasonViewModel.getCurrentPts() + ">");
                         textViewPtsText = getString(R.string.label_total_pts_ok, seasonViewModel.getCurrentPts());
                         textViewPtsPos = getString(R.string.label_classement_national_ok, seasonViewModel.getCurrentClassType(), seasonViewModel.getCurrentPos());
-                        /*
-                        if (null == seasonViewModel.getCurrentPos()) {
-                            final String classType = vueViewModel.getVueLiveData().getValue().getMapClass();
-                            LogUtils.d(TAG_NAME, "observer allPts - envoi job asynchrone recherche position pour <" + pts + "> pts sur le classeemnt <" + classType + ">");
-                            seasonViewModel.searchPosApi(pts, classType);
-                        } else {
-                            LogUtils.v(TAG_NAME, "observer allPts - conservation de la position en cache = <" + seasonViewModel.getCurrentPos() + ">");
-                            textViewPos.setText(getString(R.string.label_classement_national_ok, seasonViewModel.getCurrentClassType(), seasonViewModel.getCurrentPos()));
-                        }
-                        */
                     }
-
                 } else {
-                    LogUtils.v(TAG_NAME, "  observer allPts = <" + pts + "> - setting aucun resultat" );
                     textViewPtsText = getString(R.string.label_aucun_resultat);
                     textViewPtsPos = getString(R.string.vide);
                 }

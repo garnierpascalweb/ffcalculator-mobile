@@ -10,6 +10,7 @@ import com.gpwsofts.ffcalculator.mobile.common.SingleLiveEvent;
 import com.gpwsofts.ffcalculator.mobile.common.api.AbstractApiClient;
 import com.gpwsofts.ffcalculator.mobile.common.exception.AddResultException;
 import com.gpwsofts.ffcalculator.mobile.common.exception.InputLibelleFormatException;
+import com.gpwsofts.ffcalculator.mobile.common.exception.UnreadableBodyException;
 import com.gpwsofts.ffcalculator.mobile.common.executor.AppExecutors;
 import com.gpwsofts.ffcalculator.mobile.common.log.LogUtils;
 import com.gpwsofts.ffcalculator.mobile.dao.Result;
@@ -108,51 +109,54 @@ public class AddResultApiClient extends AbstractApiClient {
                 request = createRequestFromInput(place,libelle,pos,prts);
                 boolean isWwwConnected = FFCalculatorApplication.instance.getServicesManager().getNetworkService().isWwwConnected();
                 if (isWwwConnected) {
-                    Response<FFCPointsResponse> response = FFCalculatorApplication.instance.getServicesManager().getPtsService().calcPts(request).execute();
+                    final Response<FFCPointsResponse> response = FFCalculatorApplication.instance.getServicesManager().getPtsService().calcPts(request).execute();
                     if (cancelRequest) {
                         LogUtils.d(TAG_NAME, "cancelRequest true");
                         return;
                     }
-                    int responseCode = response.code();
-                    if (responseCode == 200) {
-                        FFCPointsResponse body = response.body();
+                    final boolean isSuccessful = response.isSuccessful();
+                    final int responseCode = response.code();
+                    if (isSuccessful) {
+                        final FFCPointsResponse body = response.body();
                         if (body != null) {
                             Double pts = body.pts;
                             newResult = createResultFromDatas(request.code, request.place, libelle, request.pos, request.prts, pts);
                             message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_add_result_ok);
                             isOk = true;
                         } else {
-                            AddResultException ade = new AddResultException("probleme sur le calcul des points - reponse serveur non exploitable - null");
+                            AddResultException ade = new AddResultException("probleme sur le calcul des points - reponse serveur non exploitable (http " + responseCode + ")");
                             ade.setToastMessage(FFCalculatorApplication.instance.getResources().getString(R.string.toast_technical_problem));
                             throw ade;
                         }
                     } else {
-                        ResponseBody responseBody = response.errorBody();
-                        if (responseBody != null){
-                            final String errorBodyContent = responseBody.string();
+                        final ResponseBody body = response.errorBody();
+                        if (body != null){
+                            final String errorBodyContent = body.string();
                             AddResultException ade = new AddResultException(errorBodyContent);
                             ade.setToastMessage(FFCalculatorApplication.instance.getResources().getString(R.string.toast_add_result_ko));
                             throw ade;
                         } else {
-                            ;
+                            throw new UnreadableBodyException("impossible de lire errorBody");
                         }
                     }
                 } else {
                     // pas de reseau
                     LogUtils.e(TAG_NAME, "echec du calcul du resultat - pas de reseau");
-                    // already null newResult = null;
                     message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_no_network);
                     //TODO 1.0.0 Mettre en place une implementation locale de calcul
                 }
             } catch (AddResultException e) {
                 LogUtils.e(TAG_NAME, "AddResultException ", e);
-                // already null newResult = null;
                 message = e.getToastMessage();
                 sendErrorToBackEnd(TAG_NAME, e);
             } catch (IOException ioe) {
                 LogUtils.e(TAG_NAME, "IOException ", ioe);
                 message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_technical_problem);
                 sendErrorToBackEnd(TAG_NAME, ioe);
+            } catch (UnreadableBodyException ube) {
+                LogUtils.e(TAG_NAME, "UnreadableBodyException ", ube);
+                message = FFCalculatorApplication.instance.getResources().getString(R.string.toast_technical_problem);
+                sendErrorToBackEnd(TAG_NAME, ube);
             } finally {
                 runnableResponse = new AddResultRunnableResponse();
                 runnableResponse.setResult(newResult);
