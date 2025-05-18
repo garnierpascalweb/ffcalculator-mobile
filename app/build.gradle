@@ -16,7 +16,7 @@ android {
         // 34 est Android 14
         targetSdk 34
         // Entier qui augmente à chaque mise à jour (nouvelle release). Utilisé par Google Play pour savoir si une version est plus récente.
-        versionCode 1
+        versionCode 4
         // Chaîne lisible par les humains, ex : "1.0.3" ou "2.0-beta"
         versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
